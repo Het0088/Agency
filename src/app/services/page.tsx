@@ -7,7 +7,10 @@ import BigCta from '@/components/BigCta'
 import ServiceFaq from './ServiceFaq'
 import { ArrowRight } from '@/components/Icons'
 
-export const metadata: Metadata = { title: 'SEO Services — We Strive Design' }
+export const metadata: Metadata = {
+  title: 'SEO Services — We Strive Design',
+  description: 'Full-service SEO retainers that bring buyers, not browsers. Technical SEO, AI search optimization, editorial content, and digital PR — all in one retainer.',
+}
 
 const deliverables = [
   { num: '01', title: 'Forensic site audit', desc: 'A 60-90 page deep audit covering crawlability, indexation, on-page, content, links, technical health, and competitive positioning. Delivered in week 3.', items: ['Technical SEO audit (200+ checks)', 'Content gap analysis vs. top 10 competitors', 'Backlink profile health check', 'Core Web Vitals + speed audit'] },
@@ -21,30 +24,63 @@ const deliverables = [
 ]
 
 const compareRows = [
-  { lab: 'Senior strategist on every call', us: '✓ Always', them: 'Account manager, sometimes' },
-  { lab: 'Month-to-month after onboarding', us: '✓ After 90 days', them: '12-month minimums' },
-  { lab: 'Live dashboard with revenue attribution', us: '✓ Day one', them: 'Monthly PDFs' },
-  { lab: 'AI Search & GEO included', us: '✓ Standard', them: 'Premium add-on or unavailable' },
-  { lab: 'Content written by industry experts', us: '✓ Ex-journalists, in-house', them: 'Offshored generalists' },
-  { lab: 'You own all the work + access', us: '✓ Always yours', them: 'Proprietary tools you lose access to' },
-  { lab: 'Average retainer size (small business)', us: '$4–8k / month', them: '$8–20k / month + setup', plain: true },
+  { lab: 'Senior strategist on every call', us: 'Always', them: 'Account manager, sometimes' },
+  { lab: 'Month-to-month after onboarding', us: 'After 90 days', them: '12-month minimums' },
+  { lab: 'Live dashboard with revenue attribution', us: 'Day one', them: 'Monthly PDFs' },
+  { lab: 'AI Search & GEO included', us: 'Standard', them: 'Premium add-on or unavailable' },
+  { lab: 'Content written by industry experts', us: 'Ex-journalists, in-house', them: 'Offshored generalists' },
+  { lab: 'You own all the work + access', us: 'Always yours', them: 'Proprietary tools you lose access to' },
 ]
 
 const industries = [
-  { icon: '⌁', title: 'E-commerce & DTC', desc: 'Shopify, WooCommerce, Magento. Faceted nav, schema, programmatic category pages.' },
-  { icon: '◐', title: 'B2B SaaS', desc: 'From bootstrapped to Series C. Comparison content, programmatic landing pages, integration SEO.' },
-  { icon: '▲', title: 'Local services', desc: 'Plumbers, dentists, lawyers, gyms. Multi-location 3-pack domination at scale.' },
-  { icon: '◇', title: 'Hospitality', desc: 'Hotels, restaurants, bookings. Schema for menus, events, rooms — plus AI-answer optimization.' },
-  { icon: '✦', title: 'Health & wellness', desc: 'YMYL-grade E-E-A-T building. Author profiles, citations, medical-review workflows.' },
-  { icon: '◈', title: 'Finance & legal', desc: 'Compliance-aware content, jurisdictional landing pages, expert-author entity building.' },
-  { icon: '⌬', title: 'Education & courses', desc: 'Course schema, programmatic syllabus pages, AI Overview citations for "how to learn X."' },
-  { icon: '⊕', title: 'Specialty retail', desc: 'Independent shops, makers, niche brands. The category we cut our teeth on in 2014.' },
+  { icon: '\u2301', title: 'E-commerce & DTC', desc: 'Shopify, WooCommerce, Magento. Faceted nav, schema, programmatic category pages.' },
+  { icon: '\u25D0', title: 'B2B SaaS', desc: 'From bootstrapped to Series C. Comparison content, programmatic landing pages, integration SEO.' },
+  { icon: '\u25B2', title: 'Local services', desc: 'Plumbers, dentists, lawyers, gyms. Multi-location 3-pack domination at scale.' },
+  { icon: '\u25C7', title: 'Hospitality', desc: 'Hotels, restaurants, bookings. Schema for menus, events, rooms \u2014 plus AI-answer optimization.' },
+  { icon: '\u2726', title: 'Health & wellness', desc: 'YMYL-grade E-E-A-T building. Author profiles, citations, medical-review workflows.' },
+  { icon: '\u25C8', title: 'Finance & legal', desc: 'Compliance-aware content, jurisdictional landing pages, expert-author entity building.' },
+  { icon: '\u232C', title: 'Education & courses', desc: 'Course schema, programmatic syllabus pages, AI Overview citations for "how to learn X."' },
+  { icon: '\u2295', title: 'Specialty retail', desc: 'Independent shops, makers, niche brands. The category we cut our teeth on in 2014.' },
+]
+
+const engagementModels = [
+  {
+    tag: 'Most popular',
+    title: 'Monthly retainer',
+    price: 'From $4,000/mo',
+    desc: 'Ongoing, full-service SEO with a dedicated strategist. All 8 workstreams running in parallel. Month-to-month after 90-day onboarding.',
+    features: ['Dedicated senior strategist', 'All 8 deliverables included', 'Live dashboard & monthly calls', 'Month-to-month after onboarding'],
+    primary: true,
+  },
+  {
+    tag: 'One-time',
+    title: 'SEO audit',
+    price: 'From $2,500',
+    desc: 'A comprehensive 60-90 page audit with prioritized findings and a 90-minute walkthrough. Perfect before committing to a retainer.',
+    features: ['200+ point technical audit', 'Content gap analysis', 'Competitive positioning report', '90-minute strategy call'],
+    primary: false,
+  },
+  {
+    tag: 'Consulting',
+    title: 'Strategy sprint',
+    price: 'From $6,000',
+    desc: 'A focused 4-week engagement. We build your SEO roadmap, train your team, and hand over a 12-month execution plan.',
+    features: ['4-week intensive engagement', 'Full keyword & content strategy', 'Team training sessions', '12-month execution plan'],
+    primary: false,
+  },
+]
+
+const trustBadges = [
+  { label: 'Google Partner', sub: 'Certified' },
+  { label: 'Clutch', sub: '4.9 / 5.0' },
+  { label: 'Semrush', sub: 'Agency Partner' },
+  { label: 'HubSpot', sub: 'Certified' },
 ]
 
 export default function ServicesPage() {
   return (
     <>
-      <Topbar text="Free SEO audit · 30 minutes · No obligation." linkText="Book →" linkHref="/contact" />
+      <Topbar text="Free SEO audit \u00B7 30 minutes \u00B7 No obligation." linkText="Book \u2192" linkHref="/contact" />
       <Nav active="services" />
 
       <header className="page-hero">
@@ -53,7 +89,7 @@ export default function ServicesPage() {
           <div className="hero-grid" style={{ alignItems: 'end', gap: 60 }}>
             <div className="reveal in">
               <h1 style={{ maxWidth: 'none' }}>Search engine<br />optimization that<br />brings <em>buyers,</em> not browsers.</h1>
-              <p style={{ maxWidth: 540 }}>Our flagship service. Every other service we offer — local, technical, content, links, AI search — is built on the foundations we lay here.</p>
+              <p style={{ maxWidth: 540 }}>Our flagship service. Every other service we offer &mdash; local, technical, content, links, AI search &mdash; is built on the foundations we lay here.</p>
               <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 32 }}>
                 <Link href="/contact" className="btn btn-primary">Get a free SEO audit <span className="arr"><ArrowRight /></span></Link>
                 <a href="#deliverables" className="btn btn-ghost">See what&apos;s included</a>
@@ -62,16 +98,16 @@ export default function ServicesPage() {
             <div className="svc-hero-visual reveal in" aria-hidden="true">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                 <div>
-                  <div className="hv-tag">SERP movement · last 90 days</div>
+                  <div className="hv-tag">SERP movement &middot; last 90 days</div>
                   <div className="hv-title" style={{ fontSize: 18, marginTop: 4 }}>&quot;specialty coffee subscription&quot;</div>
                 </div>
                 <span className="hv-pill"><span className="dot"></span>Climbing</span>
               </div>
               {[
-                { num: 1, kw: 'maple-oak.com', delta: '↑ 14', top: true },
-                { num: 2, kw: 'competitor-a.com', delta: '↓ 1', down: true },
-                { num: 3, kw: 'competitor-b.com', delta: '↓ 2', down: true },
-                { num: 4, kw: 'competitor-c.com', delta: '—', neutral: true },
+                { num: 1, kw: 'maple-oak.com', delta: '\u2191 14', top: true },
+                { num: 2, kw: 'competitor-a.com', delta: '\u2193 1', down: true },
+                { num: 3, kw: 'competitor-b.com', delta: '\u2193 2', down: true },
+                { num: 4, kw: 'competitor-c.com', delta: '\u2014', neutral: true },
               ].map((r) => (
                 <div className={`svc-rank${r.top ? ' top' : ''}`} key={r.num}>
                   <div className="svc-rank-num">{r.num}</div>
@@ -85,12 +121,25 @@ export default function ServicesPage() {
         </div>
       </header>
 
+      <section className="trust-strip">
+        <div className="wrap">
+          <div className="trust-grid">
+            {trustBadges.map((b) => (
+              <div className="trust-badge reveal" key={b.label}>
+                <span className="trust-badge-label">{b.label}</span>
+                <span className="trust-badge-sub">{b.sub}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="stats">
         <div className="wrap">
           <div className="stats-grid">
             <div className="stat reveal"><div className="stat-num">90<span className="unit">days</span></div><div className="stat-label">Until you see meaningful ranking movement on most sites</div></div>
             <div className="stat reveal"><div className="stat-num">412<span className="unit">%</span></div><div className="stat-label">Average organic traffic growth in the first 12 months</div></div>
-            <div className="stat reveal"><div className="stat-num">8.5<span className="unit">×</span></div><div className="stat-label">Average return on retainer for small business clients</div></div>
+            <div className="stat reveal"><div className="stat-num">8.5<span className="unit">&times;</span></div><div className="stat-label">Average return on retainer for small business clients</div></div>
             <div className="stat reveal"><div className="stat-num">94<span className="unit">%</span></div><div className="stat-label">Annual client retention rate</div></div>
           </div>
         </div>
@@ -117,11 +166,25 @@ export default function ServicesPage() {
         </div>
       </section>
 
+      <section className="mid-cta">
+        <div className="wrap">
+          <div className="mid-cta-inner reveal">
+            <div className="mid-cta-text">
+              <h3>Ready to grow your business with SEO?</h3>
+              <p>We&apos;ll help create an SEO plan that suits your specific needs.</p>
+            </div>
+            <Link href="/contact" className="btn btn-primary">
+              Let&apos;s talk <span className="arr"><ArrowRight /></span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="section process">
         <div className="wrap">
           <div className="sec-head reveal">
             <h2>The first 90 days, <em>day by day.</em></h2>
-            <p className="sub">A typical retainer onboarding. You&apos;ll know what&apos;s happening every week — because you&apos;re in the shared folder watching it happen.</p>
+            <p className="sub">A typical retainer onboarding. You&apos;ll know what&apos;s happening every week &mdash; because you&apos;re in the shared folder watching it happen.</p>
           </div>
           <div className="process-grid">
             {[
@@ -136,21 +199,60 @@ export default function ServicesPage() {
         </div>
       </section>
 
+      <section className="section" id="models">
+        <div className="wrap">
+          <div className="sec-head reveal">
+            <h2>Choose your <em>engagement.</em></h2>
+            <p className="sub">Three ways to work with us. Pick the model that fits your stage and budget.</p>
+          </div>
+          <div className="engage-grid">
+            {engagementModels.map((m) => (
+              <div className={`engage-card reveal${m.primary ? ' engage-primary' : ''}`} key={m.title}>
+                <span className="engage-tag">{m.tag}</span>
+                <h3>{m.title}</h3>
+                <div className="engage-price">{m.price}</div>
+                <p>{m.desc}</p>
+                <ul className="engage-features">
+                  {m.features.map((f) => <li key={f}>{f}</li>)}
+                </ul>
+                <Link href="/contact" className={`btn ${m.primary ? 'btn-primary' : 'btn-ghost'} btn-sm`} style={{ width: '100%', justifyContent: 'center', marginTop: 'auto' }}>
+                  {m.primary ? 'Start a retainer' : 'Learn more'} <span className="arr"><ArrowRight /></span>
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="section">
         <div className="wrap">
           <div className="sec-head reveal">
             <h2>Us vs. <em>typical agencies.</em></h2>
-            <p className="sub">Not throwing shade. Just being clear about how we&apos;re built differently — so you can decide if it&apos;s the right fit.</p>
+            <p className="sub">Not throwing shade. Just being clear about how we&apos;re built differently &mdash; so you can decide if it&apos;s the right fit.</p>
           </div>
           <div className="compare reveal">
             <div className="compare-row head"><div>What you get</div><div className="col-us">We Strive Design</div><div>Most agencies</div></div>
             {compareRows.map((r) => (
-              <div className="compare-row" key={r.lab} style={r.plain ? { borderBottom: 0, paddingBottom: 0 } : undefined}>
+              <div className="compare-row" key={r.lab}>
                 <div className="lab">{r.lab}</div>
-                <div className="col-us">{r.plain ? r.us : <span className="yes">{r.us}</span>}</div>
-                <div className={r.plain ? '' : 'no'}>{r.them}</div>
+                <div className="col-us"><span className="yes">{r.us}</span></div>
+                <div className="no">{r.them}</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mid-cta">
+        <div className="wrap">
+          <div className="mid-cta-inner mid-cta-dark reveal">
+            <div className="mid-cta-text">
+              <h3>Not sure which service you need?</h3>
+              <p>Book a 30-minute call with a senior strategist. No sales pitch &mdash; just honest advice.</p>
+            </div>
+            <Link href="/contact" className="btn btn-primary">
+              Book a free call <span className="arr"><ArrowRight /></span>
+            </Link>
           </div>
         </div>
       </section>

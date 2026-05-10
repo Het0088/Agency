@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
-import { getAllCitySlugs } from '@/data/cities'
+import { getAllSlugs } from '@/lib/cities'
 
-const BASE = 'https://westrivedesign.com'
+const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://westrivedesign.com'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = ['', '/about', '/services', '/insights', '/contact'].map(path => ({
@@ -11,8 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === '' ? 1.0 : 0.8,
   }))
 
-  const cityPages = getAllCitySlugs().map(slug => ({
-    url: `${BASE}/seo/${slug}`,
+  const cityPages = getAllSlugs().map(slug => ({
+    url: `${BASE}/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
