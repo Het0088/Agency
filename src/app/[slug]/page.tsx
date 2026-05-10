@@ -136,6 +136,16 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         </div>
       </section>
 
+      <div className="wrap">
+        <div className="city-trust-strip reveal">
+          <div className="city-trust-badge"><span className="badge-icon">G</span> Google Partner</div>
+          <div className="city-trust-badge"><span className="badge-icon">C</span> Clutch Top Agency</div>
+          <div className="city-trust-badge"><span className="badge-icon">S</span> Semrush Certified</div>
+          <div className="city-trust-badge"><span className="badge-icon">H</span> HubSpot Partner</div>
+          <div className="city-trust-badge"><span className="badge-icon">★</span> 4.9/5 (412 reviews)</div>
+        </div>
+      </div>
+
       <section className="section" style={{ background: 'var(--surface)' }}>
         <div className="wrap">
           <div className="sec-head reveal">
@@ -150,6 +160,23 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                 <p>{s.desc}</p>
                 <span className="service-arrow"><ArrowRight /></span>
               </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
+          <div className="sec-head reveal">
+            <h2>Industries we serve in <em>{c.city}.</em></h2>
+            <p className="sub">Deep SERP knowledge in verticals that matter.</p>
+          </div>
+          <div className="city-industries reveal">
+            {['E-commerce & Retail', 'B2B SaaS', 'Health & Wellness', 'Local Services', 'Hospitality & Travel', 'Finance & Insurance', 'Education & EdTech', 'Real Estate', 'Food & Beverage', 'Legal Services', 'Manufacturing', 'Specialty Retail'].map(ind => (
+              <div className="city-industry" key={ind}>
+                <span className="city-industry-dot" />
+                {ind}
+              </div>
             ))}
           </div>
         </div>

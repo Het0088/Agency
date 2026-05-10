@@ -1,6 +1,17 @@
 import Link from 'next/link'
 import { LinkedInIcon, XIcon, InstagramIcon, YouTubeIcon } from './Icons'
 
+const cityLinks = [
+  { label: 'SEO Services Mumbai', href: '/seo-services-mumbai' },
+  { label: 'SEO Services Delhi', href: '/seo-services-delhi' },
+  { label: 'SEO Services Ahmedabad', href: '/seo-services-ahmedabad' },
+  { label: 'SEO Services Vadodara', href: '/seo-services-vadodara' },
+  { label: 'SEO Services Surat', href: '/seo-services-surat' },
+  { label: 'SEO Services Bangalore', href: '/seo-services-bangalore' },
+  { label: 'SEO Services Pune', href: '/seo-services-pune' },
+  { label: 'SEO Services Hyderabad', href: '/seo-services-hyderabad' },
+]
+
 export default function Footer() {
   return (
     <footer className="footer">
@@ -20,12 +31,14 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Services</h4>
             <ul>
-              <li><Link href="/services">SEO foundations</Link></li>
-              <li><Link href="/services">Local &amp; Maps</Link></li>
-              <li><Link href="/services">Technical SEO</Link></li>
-              <li><Link href="/services">Editorial content</Link></li>
-              <li><Link href="/services">Digital PR &amp; links</Link></li>
-              <li><Link href="/services">AI Search &amp; GEO</Link></li>
+              <li><Link href="/services/seo">SEO Services</Link></li>
+              <li><Link href="/services/ai-search">AI Search &amp; GEO</Link></li>
+              <li><Link href="/services/content-marketing">Content Marketing</Link></li>
+              <li><Link href="/services/ppc">PPC &amp; Paid Ads</Link></li>
+              <li><Link href="/services/social-media">Social Media</Link></li>
+              <li><Link href="/services/web-design">Web Design</Link></li>
+              <li><Link href="/services/link-building">Link Building</Link></li>
+              <li><Link href="/services/analytics">Analytics &amp; CRO</Link></li>
             </ul>
           </div>
           <div className="footer-col">
@@ -48,6 +61,16 @@ export default function Footer() {
             </ul>
           </div>
         </div>
+
+        <div className="footer-cities">
+          <h4>SEO Services by City</h4>
+          <div className="footer-city-grid">
+            {cityLinks.map(c => (
+              <Link key={c.href} href={c.href}>{c.label}</Link>
+            ))}
+          </div>
+        </div>
+
         <div className="footer-bottom">
           <div>&copy; 2026 We Strive Design Pty Ltd &middot; ABN 12 345 678 901</div>
           <div className="socials">

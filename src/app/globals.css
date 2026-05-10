@@ -1392,6 +1392,82 @@ h1, h2, h3, h4 { margin: 0; font-weight: 500; letter-spacing: -0.02em; line-heig
   .footer-top { grid-template-columns: 1fr; }
 }
 
+.footer-cities {
+  border-top: 1px solid var(--border);
+  padding: 28px 0;
+}
+.footer-cities h4 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+}
+.footer-city-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.footer-city-grid a {
+  font-size: 13px;
+  color: var(--ink-soft);
+  transition: color 0.15s;
+}
+.footer-city-grid a:hover { color: var(--accent); }
+
+.city-trust-strip {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.city-trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+.city-trust-badge .badge-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.city-industries {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+.city-industry {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.city-industry-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
 /* ============================================
    Reveal animations
    ============================================ */
@@ -2241,6 +2317,16 @@ h1, h2, h3, h4 { margin: 0; font-weight: 500; letter-spacing: -0.02em; line-heig
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px 24px;
+}
+.post-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.blog-feature-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
 }
 .post {
   display: flex;
