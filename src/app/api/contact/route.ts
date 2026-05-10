@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+let _resend: Resend | null = null
+function getResend() {
+  if (!_resend) {
+    const key = process.env.RESEND_API_KEY
+    if (!key) return null
+    _resend = new Resend(key)
+  }
+  return _resend
+}
 const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'hello@westrivedesign.com'
 
 const RATE_LIMIT = new Map<string, number>()
@@ -70,6 +78,10 @@ export async function POST(req: NextRequest) {
   const timestamp = new Date().toISOString()
 
   try {
+    const resend = getResend()
+    if (!resend) {
+      return NextResponse.json({ error: 'Email service not configured. Please email us directly.' }, { status: 503 })
+    }
     await resend.emails.send({
       from: 'We Strive Design <onboarding@resend.dev>',
       to: NOTIFY_EMAIL,
