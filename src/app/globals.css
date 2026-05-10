@@ -2649,3 +2649,195 @@ h1, h2, h3, h4 { margin: 0; font-weight: 500; letter-spacing: -0.02em; line-heig
   font-size: 15px;
   margin: 0 0 20px;
 }
+
+/* ============================================
+   Individual service pages
+   ============================================ */
+.svc-page-hero {
+  padding: 80px 0 64px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.svc-page-hero .crumb {
+  margin-bottom: 24px;
+}
+.svc-page-hero .crumb a {
+  color: var(--ink-soft);
+  transition: color 0.15s;
+}
+.svc-page-hero .crumb a:hover { color: var(--accent); }
+.svc-page-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.svc-page-hero h1 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 12px 0 20px;
+}
+.svc-page-hero h1 em { color: var(--accent); font-style: italic; }
+.svc-page-hero-desc {
+  font-size: 17px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 0 32px;
+}
+.svc-page-hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.svc-page-hero-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.svc-page-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.svc-page-stat-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 36px;
+  color: var(--ink);
+  line-height: 1;
+}
+.svc-page-stat-label {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.35;
+}
+
+.svc-detail-block {
+  padding: 48px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.svc-detail-block:last-of-type { border-bottom: none; }
+.svc-detail-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.svc-detail-num {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  background: rgba(255,90,31,0.08);
+  padding: 6px 10px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.svc-detail-head h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.15;
+  margin: 0;
+}
+.svc-detail-tagline {
+  font-size: 16px;
+  color: var(--accent);
+  font-style: italic;
+  margin: 4px 0 0;
+}
+.svc-detail-desc {
+  font-size: 16px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  max-width: 720px;
+  margin: 0 0 24px;
+}
+.svc-detail-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 32px;
+  margin-bottom: 24px;
+}
+.svc-detail-feature {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.svc-detail-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  transform: translateY(-2px);
+}
+.svc-detail-result {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 20px;
+}
+.svc-detail-result-icon {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.faq-list {
+  max-width: 720px;
+}
+.faq {
+  border-bottom: 1px solid var(--border-soft);
+}
+.faq summary {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  padding: 20px 0;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.15s;
+}
+.faq summary:hover { color: var(--accent); }
+.faq summary::after {
+  content: "+";
+  font-size: 22px;
+  color: var(--ink-soft);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.faq[open] summary::after {
+  content: "\2212";
+  transform: rotate(180deg);
+}
+.faq p {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  padding: 0 0 20px;
+  margin: 0;
+}
+.faq summary::-webkit-details-marker { display: none; }
+
+@media (max-width: 920px) {
+  .svc-page-hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .svc-detail-features { grid-template-columns: 1fr; }
+}
