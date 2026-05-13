@@ -65,10 +65,11 @@ export async function POST(req: NextRequest) {
   const service = sanitize(body.service)
   const budget = sanitize(body.budget)
   const message = sanitize(body.message)
-  const honeypot = sanitize(body.website_url_confirm_hp)
+  const formLoadTime = typeof body._t === 'number' ? body._t : 0
+  const elapsed = Date.now() - formLoadTime
 
-  if (honeypot) {
-    console.log('[CONTACT] Blocked by honeypot:', honeypot)
+  if (!formLoadTime || elapsed < 2000) {
+    console.log('[CONTACT] Blocked bot: submitted too fast', elapsed, 'ms')
     return NextResponse.json({ ok: true })
   }
 
