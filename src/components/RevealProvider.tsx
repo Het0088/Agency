@@ -1,8 +1,11 @@
 'use client'
 
 import { useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function RevealProvider() {
+  const pathname = usePathname()
+
   useEffect(() => {
     const io = new IntersectionObserver(
       (entries) => {
@@ -21,6 +24,8 @@ export default function RevealProvider() {
     }
 
     observeAll()
+    requestAnimationFrame(observeAll)
+    const t = setTimeout(observeAll, 150)
 
     const mo = new MutationObserver((mutations) => {
       let hasNewNodes = false
@@ -32,10 +37,11 @@ export default function RevealProvider() {
     mo.observe(document.body, { childList: true, subtree: true })
 
     return () => {
+      clearTimeout(t)
       io.disconnect()
       mo.disconnect()
     }
-  }, [])
+  }, [pathname])
 
   useEffect(() => {
     const counted = new WeakSet<Element>()
@@ -87,7 +93,7 @@ export default function RevealProvider() {
       co.disconnect()
       mo.disconnect()
     }
-  }, [])
+  }, [pathname])
 
   return null
 }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 
-type Heading = { id: string; text: string; level: number }
+type Heading = { id: string; text: string; level: number; label: string }
 
 export default function TableOfContents() {
   const [headings, setHeadings] = useState<Heading[]>([])
@@ -16,12 +16,28 @@ export default function TableOfContents() {
 
     const elements = article.querySelectorAll('h2, h3')
     const items: Heading[] = []
+    let counter2 = 0
+    let counter3 = 0
+    
     elements.forEach((el, i) => {
       if (!el.id) el.id = `heading-${i}`
+      const level = el.tagName === 'H2' ? 2 : 3
+      let label = ''
+      
+      if (level === 2) {
+        counter2++
+        counter3 = 0
+        label = `${counter2}`
+      } else {
+        counter3++
+        label = `${counter2}.${counter3}`
+      }
+      
       items.push({
         id: el.id,
         text: el.textContent || '',
-        level: el.tagName === 'H2' ? 2 : 3,
+        level,
+        label,
       })
     })
     setHeadings(items)
@@ -60,9 +76,6 @@ export default function TableOfContents() {
 
   if (headings.length === 0) return null
 
-  let counter2 = 0
-  let counter3 = 0
-
   return (
     <div className="toc-wrap">
       <button
@@ -76,28 +89,17 @@ export default function TableOfContents() {
       </button>
       <nav className={`toc-list${expanded ? ' open' : ''}`} aria-label="Table of contents">
         <ol>
-          {headings.map(h => {
-            let label = ''
-            if (h.level === 2) {
-              counter2++
-              counter3 = 0
-              label = `${counter2}`
-            } else {
-              counter3++
-              label = `${counter2}.${counter3}`
-            }
-            return (
-              <li
-                key={h.id}
-                className={`toc-item${h.level === 3 ? ' toc-sub' : ''}${activeId === h.id ? ' active' : ''}`}
-              >
-                <button onClick={() => scrollTo(h.id)}>
-                  <span className="toc-num">{label}</span>
-                  {h.text}
-                </button>
-              </li>
-            )
-          })}
+          {headings.map(h => (
+            <li
+              key={h.id}
+              className={`toc-item${h.level === 3 ? ' toc-sub' : ''}${activeId === h.id ? ' active' : ''}`}
+            >
+              <button onClick={() => scrollTo(h.id)}>
+                <span className="toc-num">{h.label}</span>
+                {h.text}
+              </button>
+            </li>
+          ))}
         </ol>
       </nav>
     </div>
