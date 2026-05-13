@@ -1,16 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Resend } from 'resend'
+import nodemailer from 'nodemailer'
 
-let _resend: Resend | null = null
-function getResend() {
-  if (!_resend) {
-    const key = process.env.RESEND_API_KEY
-    if (!key) return null
-    _resend = new Resend(key)
-  }
-  return _resend
-}
 const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'hello@westrivedesign.com'
+
+function getTransporter() {
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT) || 587,
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  })
+}
 
 const RATE_LIMIT = new Map<string, number>()
 const RATE_WINDOW = 60_000
@@ -78,12 +81,12 @@ export async function POST(req: NextRequest) {
   const timestamp = new Date().toISOString()
 
   try {
-    const resend = getResend()
-    if (!resend) {
+    if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
       return NextResponse.json({ error: 'Email service not configured. Please email us directly.' }, { status: 503 })
     }
-    await resend.emails.send({
-      from: 'We Strive Design <onboarding@resend.dev>',
+    const transporter = getTransporter()
+    await transporter.sendMail({
+      from: `"We Strive Design" <${process.env.SMTP_USER}>`,
       to: NOTIFY_EMAIL,
       replyTo: email,
       subject: `New enquiry from ${name} — ${company || 'No company'}`,
@@ -104,7 +107,7 @@ export async function POST(req: NextRequest) {
       `,
     })
   } catch (err) {
-    console.error('[CONTACT] Resend error:', err)
+    console.error('[CONTACT] Nodemailer error:', err)
     return NextResponse.json({ error: 'Failed to send. Please try again or email us directly.' }, { status: 500 })
   }
 
