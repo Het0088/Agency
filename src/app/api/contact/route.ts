@@ -65,9 +65,10 @@ export async function POST(req: NextRequest) {
   const service = sanitize(body.service)
   const budget = sanitize(body.budget)
   const message = sanitize(body.message)
-  const honeypot = sanitize(body.fax_number)
+  const honeypot = sanitize(body.website_url_confirm_hp)
 
   if (honeypot) {
+    console.log('[CONTACT] Blocked by honeypot:', honeypot)
     return NextResponse.json({ ok: true })
   }
 
@@ -79,13 +80,15 @@ export async function POST(req: NextRequest) {
   }
 
   const timestamp = new Date().toISOString()
+  console.log('[CONTACT] Sending to:', NOTIFY_EMAIL, 'from:', name, email)
 
   try {
     if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.log('[CONTACT] SMTP not configured')
       return NextResponse.json({ error: 'Email service not configured. Please email us directly.' }, { status: 503 })
     }
     const transporter = getTransporter()
-    await transporter.sendMail({
+    const result = await transporter.sendMail({
       from: `"We Strive Design" <${process.env.SMTP_USER}>`,
       to: NOTIFY_EMAIL,
       replyTo: email,
@@ -106,6 +109,7 @@ export async function POST(req: NextRequest) {
         </div>
       `,
     })
+    console.log('[CONTACT] Sent:', result.messageId, 'to:', NOTIFY_EMAIL, 'response:', result.response)
   } catch (err) {
     console.error('[CONTACT] Nodemailer error:', err)
     return NextResponse.json({ error: 'Failed to send. Please try again or email us directly.' }, { status: 500 })
