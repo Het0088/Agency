@@ -1,21 +1,32 @@
 import Link from 'next/link'
 import { ArrowRight } from '@/components/Icons'
 
-export default function HeroSection() {
+export default function HeroSection({ 
+  title, 
+  eyebrow = "Global SEO Studio · 2014→2026", 
+  lede 
+}: { 
+  title?: React.ReactNode, 
+  eyebrow?: string, 
+  lede?: string 
+}) {
   return (
     <header className="hero">
       <div className="wrap">
         <div className="hero-grid">
           <div className="reveal in">
-            <span className="eyebrow">Global SEO Studio · 2014→2026</span>
+            <span className="eyebrow">{eyebrow}</span>
             <h1>
-              Small businesses<br />
-              deserve to be<br />
-              <em>unmissable.</em>
+              {title || (
+                <>
+                  Small businesses<br />
+                  deserve to be<br />
+                  <em>unmissable.</em>
+                </>
+              )}
             </h1>
             <p className="lede">
-              We&apos;re a 38-person SEO studio that helps independent shops, founders, and challenger brands win the
-              search results that matter — across Google, ChatGPT, Perplexity, and whatever comes next.
+              {lede || "We're a 38-person SEO studio that helps independent shops, founders, and challenger brands win the search results that matter — across Google, ChatGPT, Perplexity, and whatever comes next."}
             </p>
             <div className="hero-ctas">
               <Link href="/contact" className="btn btn-primary">
