@@ -5,6 +5,6 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       { userAgent: '*', allow: '/' },
     ],
-    sitemap: 'https://westrivedesign.com/sitemap.xml',
+    sitemap: 'https://omniranq.com/sitemap.xml',
   }
 }

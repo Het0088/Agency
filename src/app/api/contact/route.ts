@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 
-const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'hello@westrivedesign.com'
+const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'hello@omniranq.com'
 
 function getTransporter() {
   return nodemailer.createTransport({
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
     }
     const transporter = getTransporter()
     const result = await transporter.sendMail({
-      from: `"We Strive Design" <${process.env.SMTP_USER}>`,
+      from: `"Omniranq" <${process.env.SMTP_USER}>`,
       to: NOTIFY_EMAIL,
       replyTo: email,
       subject: `New enquiry from ${name} — ${company || 'No company'}`,

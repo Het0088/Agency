@@ -68,7 +68,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = posts[slug]
   if (!post) return { title: 'Post Not Found' }
   return {
-    title: `${post.title} \u2014 We Strive Design`,
+    title: `${post.title} \u2014 Omniranq`,
     description: post.meta,
   }
 }

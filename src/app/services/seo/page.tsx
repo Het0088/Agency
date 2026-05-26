@@ -7,7 +7,7 @@ import BigCta from '@/components/BigCta'
 import { ArrowRight } from '@/components/Icons'
 
 export const metadata: Metadata = {
-  title: 'SEO Services — Technical, Local, E-commerce & Enterprise SEO | We Strive Design',
+  title: 'SEO Services — Technical, Local, E-commerce & Enterprise SEO | Omniranq',
   description: 'Full-service SEO that drives revenue. Technical audits, local 3-pack domination, e-commerce indexation, and enterprise-scale keyword strategy. 412% avg. traffic growth in 12 months.',
 }
 

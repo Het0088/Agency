@@ -7,7 +7,7 @@ import BigCta from '@/components/BigCta'
 import { ArrowRight } from '@/components/Icons'
 
 export const metadata: Metadata = {
-  title: 'PPC & Paid Advertising — Google Ads, Meta Ads, YouTube | We Strive Design',
+  title: 'PPC & Paid Advertising — Google Ads, Meta Ads, YouTube | Omniranq',
   description: 'Data-driven paid advertising that maximizes ROAS. Google Ads, Meta Ads, YouTube campaigns, and programmatic advertising managed by certified specialists.',
 }
 

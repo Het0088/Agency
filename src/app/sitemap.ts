@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { getAllSlugs } from '@/lib/cities'
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://westrivedesign.com'
+const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [

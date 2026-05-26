@@ -7,7 +7,7 @@ import BigCta from '@/components/BigCta'
 import { ArrowRight } from '@/components/Icons'
 
 export const metadata: Metadata = {
-  title: 'Social Media Marketing — Management, Advertising & Brand Strategy | We Strive Design',
+  title: 'Social Media Marketing — Management, Advertising & Brand Strategy | Omniranq',
   description: 'Strategic social media management and paid social advertising. Build brand authority, engage audiences, and drive conversions across all major platforms.',
 }
 

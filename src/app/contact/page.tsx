@@ -6,7 +6,7 @@ import BigCta from '@/components/BigCta'
 import ContactForm from './ContactForm'
 import { ArrowRight } from '@/components/Icons'
 
-export const metadata: Metadata = { title: 'Contact — We Strive Design' }
+export const metadata: Metadata = { title: 'Contact — Omniranq' }
 
 const faqs = [
   { q: 'How fast will I hear back?', a: "Within 4 business hours, Mon–Fri. The reply will come from the strategist who'd actually lead your account, not an SDR. We sometimes batch over weekends." },
@@ -46,9 +46,9 @@ export default function ContactPage() {
                 <h3>Or reach out directly.</h3>
                 <p>The fastest way to get a real answer is the form on the left. But these all go to humans, too.</p>
                 {[
-                  { lab: 'Email', val: <a href="mailto:hello@westrivedesign.com">hello@westrivedesign.com</a> },
-                  { lab: 'Press', val: <a href="mailto:press@westrivedesign.com">press@westrivedesign.com</a> },
-                  { lab: 'Careers', val: <a href="mailto:join@westrivedesign.com">join@westrivedesign.com</a> },
+                  { lab: 'Email', val: <a href="mailto:hello@omniranq.com">hello@omniranq.com</a> },
+                  { lab: 'Press', val: <a href="mailto:press@omniranq.com">press@omniranq.com</a> },
+                  { lab: 'Careers', val: <a href="mailto:join@omniranq.com">join@omniranq.com</a> },
                   { lab: 'Phone (AU)', val: '+61 3 9000 4242' },
                   { lab: 'Phone (UK)', val: '+44 20 4525 4242' },
                   { lab: 'Phone (IN)', val: '+91 80 4567 4242' },
@@ -120,10 +120,10 @@ export default function ContactPage() {
         <div className="wrap">
           <div className="big-cta reveal">
             <h2>Or just <em>email us.</em></h2>
-            <p>If forms aren&apos;t your thing, hello@westrivedesign.com lands in the same inbox and gets the same reply. We don&apos;t mind.</p>
+            <p>If forms aren&apos;t your thing, hello@omniranq.com lands in the same inbox and gets the same reply. We don&apos;t mind.</p>
             <div className="ctas">
-              <a href="mailto:hello@westrivedesign.com" className="btn btn-primary">
-                hello@westrivedesign.com
+              <a href="mailto:hello@omniranq.com" className="btn btn-primary">
+                hello@omniranq.com
                 <span className="arr"><ArrowRight /></span>
               </a>
             </div>

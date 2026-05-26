@@ -7,7 +7,7 @@ import BigCta from '@/components/BigCta'
 import { ArrowRight } from '@/components/Icons'
 
 export const metadata: Metadata = {
-  title: 'Web Design Services — Custom, WordPress & E-commerce Design | We Strive Design',
+  title: 'Web Design Services — Custom, WordPress & E-commerce Design | Omniranq',
   description: 'SEO-first web design that converts. Custom websites, WordPress development, e-commerce stores, and website redesigns built for performance and search visibility.',
 }
 

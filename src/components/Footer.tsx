@@ -19,10 +19,13 @@ export default function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             <Link href="/" className="logo">
-              <span className="logo-mark">W</span>
-              <span className="logo-text">
-                <span>We Strive Design</span>
-                <small>SEO Studio · Est. 2014</small>
+              <img src="/logo.png" alt="" className="logo-icon" />
+              <span className="logo-wordmark">
+                <span className="logo-name">
+                  <span className="logo-omni">OMNI</span><span className="logo-space"> </span><span className="logo-ranq">RANQ</span>
+                </span>
+                <span className="logo-rule"></span>
+                <span className="logo-tagline">SEO <span className="logo-dot">&bull;</span> GROWTH <span className="logo-dot">&bull;</span> PERFORMANCE</span>
               </span>
             </Link>
             <p>A 38-person SEO studio for ambitious small businesses. Global team, monthly retainers, no long contracts, no agency BS.</p>
@@ -42,7 +45,7 @@ export default function Footer() {
             </ul>
           </div>
           <div className="footer-col">
-            <h4>Studio</h4>
+            <h4>Company</h4>
             <ul>
               <li><Link href="/about">About</Link></li>
               <li><Link href="/#work">Case studies</Link></li>
@@ -57,7 +60,7 @@ export default function Footer() {
               <li><Link href="/contact">Melbourne</Link></li>
               <li><Link href="/contact">London</Link></li>
               <li><Link href="/contact">Bangalore</Link></li>
-              <li><a href="mailto:hello@westrivedesign.com">hello@westrivedesign.com</a></li>
+              <li><a href="mailto:hello@omniranq.com">hello@omniranq.com</a></li>
             </ul>
           </div>
         </div>
@@ -72,7 +75,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <div>&copy; 2026 We Strive Design Pty Ltd &middot; ABN 12 345 678 901</div>
+          <div>&copy; 2026 Omniranq &middot; All rights reserved</div>
           <div className="socials">
             <a href="#" aria-label="LinkedIn"><LinkedInIcon /></a>
             <a href="#" aria-label="Twitter"><XIcon /></a>

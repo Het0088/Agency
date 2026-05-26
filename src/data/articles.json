@@ -1,0 +1,42 @@
+[
+  {
+    "id": "ai-search-playbook-2026",
+    "tag": "AI Search",
+    "title": "How LLMs choose which brands to cite — and how to be one of them.",
+    "desc": "A teardown of 4,200 AI answers across ChatGPT, Perplexity, and Gemini.",
+    "author": "Tomás Beltrán",
+    "date": "2026-04-28",
+    "read": "14 min",
+    "slug": "/insights/ai-search-playbook-2026"
+  },
+  {
+    "id": "core-web-vitals-2026",
+    "tag": "Technical SEO",
+    "title": "The Core Web Vitals checklist most agencies still get wrong in 2026.",
+    "desc": "INP replaced FID a year ago. Half the audits we see still measure the wrong thing.",
+    "author": "Daniel Whitford",
+    "date": "2026-04-22",
+    "read": "11 min",
+    "slug": "/insights/core-web-vitals-2026"
+  },
+  {
+    "id": "multi-location-seo",
+    "tag": "Local SEO",
+    "title": "Multi-location SEO at scale: lessons from 22 yoga studios.",
+    "desc": "How we built a programmatic local system that turned 4 studios into 22.",
+    "author": "Farah Khoury",
+    "date": "2026-04-17",
+    "read": "9 min",
+    "slug": "/insights/multi-location-seo"
+  },
+  {
+    "id": "brand-entity-seo",
+    "tag": "AI Search",
+    "title": "Brand entity SEO: the Wikipedia-Wikidata-Crunchbase loop that LLMs train on.",
+    "desc": "If your brand isn't a recognized entity in the open web, LLMs won't reliably cite you.",
+    "author": "Tomás Beltrán",
+    "date": "2026-03-21",
+    "read": "13 min",
+    "slug": "/insights/brand-entity-seo"
+  }
+]

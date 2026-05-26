@@ -7,7 +7,7 @@ import BigCta from '@/components/BigCta'
 import { ArrowRight } from '@/components/Icons'
 
 export const metadata: Metadata = {
-  title: 'Analytics & CRO Services — Conversion Optimization, A/B Testing & Dashboards | We Strive Design',
+  title: 'Analytics & CRO Services — Conversion Optimization, A/B Testing & Dashboards | Omniranq',
   description: 'Turn traffic into revenue. CRO audits, A/B testing, and custom reporting dashboards that show you exactly where money is being left on the table.',
 }
 

@@ -8,7 +8,7 @@ import ServiceFaq from './ServiceFaq'
 import { ArrowRight } from '@/components/Icons'
 
 export const metadata: Metadata = {
-  title: 'SEO Services — We Strive Design',
+  title: 'SEO Services — Omniranq',
   description: 'Full-service SEO retainers that bring buyers, not browsers. Technical SEO, AI search optimization, editorial content, and digital PR — all in one retainer.',
 }
 
@@ -231,7 +231,7 @@ export default function ServicesPage() {
             <p className="sub">Not throwing shade. Just being clear about how we&apos;re built differently &mdash; so you can decide if it&apos;s the right fit.</p>
           </div>
           <div className="compare reveal">
-            <div className="compare-row head"><div>What you get</div><div className="col-us">We Strive Design</div><div>Most agencies</div></div>
+            <div className="compare-row head"><div>What you get</div><div className="col-us">Omniranq</div><div>Most agencies</div></div>
             {compareRows.map((r) => (
               <div className="compare-row" key={r.lab}>
                 <div className="lab">{r.lab}</div>

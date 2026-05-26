@@ -1,0 +1,42 @@
+[
+  {
+    "id": "ai-content-workflows",
+    "tag": "Editorial",
+    "title": "Why \"AI-written content\" tanks — and what hybrid workflows look like.",
+    "desc": "We tested four content workflows across 80 articles. The winner was surprising.",
+    "author": "Marisol Acevedo",
+    "date": "2026-04-11",
+    "read": "16 min",
+    "slug": "/insights/ai-content-workflows"
+  },
+  {
+    "id": "death-of-guest-post",
+    "tag": "Digital PR",
+    "title": "The death of the guest post (and what replaced it for our clients).",
+    "desc": "Earned editorial mentions are now 4x more valuable than guest posts.",
+    "author": "Kemi Adeyemi",
+    "date": "2026-04-04",
+    "read": "8 min",
+    "slug": "/insights/death-of-guest-post"
+  },
+  {
+    "id": "maple-oak-case-study",
+    "tag": "Case study",
+    "title": "How we got Maple & Oak from local-only to a national brand.",
+    "desc": "The full 18-month playbook: audit, fixes, content, digital PR, AI-search.",
+    "author": "Anaya Sharma",
+    "date": "2026-03-28",
+    "read": "22 min",
+    "slug": "/insights/maple-oak-case-study"
+  },
+  {
+    "id": "state-of-seo-2026",
+    "tag": "Industry report",
+    "title": "The State of Small Business SEO 2026 — full report, 412 brands surveyed.",
+    "desc": "Our annual research drop. What's working, what's not, where AI search is reshaping outcomes.",
+    "author": "Anaya Sharma",
+    "date": "2026-03-08",
+    "read": "Industry report",
+    "slug": "/insights/state-of-seo-2026"
+  }
+]

@@ -4,7 +4,7 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import BigCta from '@/components/BigCta'
 
-export const metadata: Metadata = { title: 'About — We Strive Design' }
+export const metadata: Metadata = { title: 'About — Omniranq' }
 
 const timeline = [
   { yr: '2014 · Melbourne', title: 'Founded in a garage', desc: 'Two ex-in-house SEOs and a shared frustration with how agencies were treating small businesses. First retainer signed: a local pottery studio for $400/month.' },
@@ -51,7 +51,7 @@ export default function AboutPage() {
         <div className="wrap">
           <div className="crumb">Home / About</div>
           <h1>We&apos;re 38 people who genuinely care if your <em>phone rings.</em></h1>
-          <p>We Strive Design is a global SEO studio for ambitious small businesses. We started in a Melbourne garage in 2014, picked up offices in London and Bangalore, and have shipped SEO strategy for 600+ brands across 42 countries since.</p>
+          <p>Omniranq is a global SEO studio for ambitious small businesses. We started in a Melbourne garage in 2014, picked up offices in London and Bangalore, and have shipped SEO strategy for 600+ brands across 42 countries since.</p>
         </div>
       </header>
 
@@ -138,7 +138,7 @@ export default function AboutPage() {
               <div className="avatar" style={{ width: 48, height: 48, fontSize: 22, background: 'var(--dark-ink)', color: 'var(--ink)' }}>D</div>
               <div style={{ marginLeft: 8 }}>
                 <div style={{ fontWeight: 600 }}>Anaya &amp; Daniel</div>
-                <div style={{ fontSize: 13, color: 'var(--dark-ink-soft)' }}>Founders, We Strive Design</div>
+                <div style={{ fontSize: 13, color: 'var(--dark-ink-soft)' }}>Founders, Omniranq</div>
               </div>
             </div>
           </div>

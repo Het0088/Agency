@@ -7,7 +7,7 @@ import BigCta from '@/components/BigCta'
 import { ArrowRight } from '@/components/Icons'
 
 export const metadata: Metadata = {
-  title: 'Content Marketing Services — SEO Writing, Blog Management, Copywriting | We Strive Design',
+  title: 'Content Marketing Services — SEO Writing, Blog Management, Copywriting | Omniranq',
   description: 'Content that ranks and converts. SEO content writing, blog strategy, conversion copywriting, and email marketing from industry-expert writers.',
 }
 

@@ -7,7 +7,7 @@ import BigCta from '@/components/BigCta'
 import { ArrowRight } from '@/components/Icons'
 
 export const metadata: Metadata = {
-  title: 'AI Search & GEO Services — ChatGPT, Gemini, Perplexity Optimization | We Strive Design',
+  title: 'AI Search & GEO Services — ChatGPT, Gemini, Perplexity Optimization | Omniranq',
   description: 'Get your brand cited in ChatGPT, Google AI Overviews, Gemini, and Perplexity. Generative Engine Optimization (GEO) is the new frontier of visibility.',
 }
 

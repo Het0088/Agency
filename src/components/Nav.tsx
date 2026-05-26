@@ -132,10 +132,13 @@ export default function Nav({ active }: { active?: string }) {
     <nav className="nav" role="navigation" aria-label="Main navigation">
       <div className="nav-inner">
         <Link href="/" className="logo">
-          <span className="logo-mark">W</span>
-          <span className="logo-text">
-            <span>We Strive Design</span>
-            <small>SEO Studio &middot; Est. 2014</small>
+          <img src="/logo.png" alt="" className="logo-icon" />
+          <span className="logo-wordmark">
+            <span className="logo-name">
+              <span className="logo-omni">OMNI</span><span className="logo-space"> </span><span className="logo-ranq">RANQ</span>
+            </span>
+            <span className="logo-rule"></span>
+            <span className="logo-tagline">SEO <span className="logo-dot">&bull;</span> GROWTH <span className="logo-dot">&bull;</span> PERFORMANCE</span>
           </span>
         </Link>
 

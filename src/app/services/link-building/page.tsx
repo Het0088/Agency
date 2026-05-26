@@ -7,7 +7,7 @@ import BigCta from '@/components/BigCta'
 import { ArrowRight } from '@/components/Icons'
 
 export const metadata: Metadata = {
-  title: 'Link Building Services — Digital PR, Guest Posting & Outreach | We Strive Design',
+  title: 'Link Building Services — Digital PR, Guest Posting & Outreach | Omniranq',
   description: 'Editorial backlinks from publications your customers read. Digital PR, strategic guest posting, and outreach campaigns that build real authority.',
 }
 

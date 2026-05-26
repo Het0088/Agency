@@ -1,12 +1,12 @@
 import { CityRow } from './cities'
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://westrivedesign.com'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
 
 export function buildLocalBusinessSchema(city: CityRow) {
   return {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
-    name: `We Strive Design — ${city.service} ${city.city}`,
+    name: `Omniranq — ${city.service} ${city.city}`,
     description: city.metaDescription || city.description,
     url: `${BASE_URL}/${city.slug}`,
     telephone: city.phone,

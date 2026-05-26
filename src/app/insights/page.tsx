@@ -4,7 +4,7 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import InsightsContent from './InsightsContent'
 
-export const metadata: Metadata = { title: 'Insights — We Strive Design' }
+export const metadata: Metadata = { title: 'Insights — Omniranq' }
 
 const posts = [
   { slug: 'ai-search-playbook-2026', gradient: 'g1', label: 'A', tag: 'AI Search', title: 'How LLMs choose which brands to cite — and how to be one of them.', desc: 'A teardown of 4,200 AI answers across ChatGPT, Perplexity, and Gemini, looking for the patterns in which sources get cited and which don\'t.', author: 'Tomás Beltrán', date: 'Apr 28 · 14 min read' },

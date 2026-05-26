@@ -6,7 +6,7 @@ import Footer from '@/components/Footer'
 import RevealProvider from '@/components/RevealProvider'
 
 export const metadata: Metadata = {
-  title: 'We Strive Design — SEO that drives real revenue',
+  title: 'Omniranq — SEO that drives real revenue',
   description: 'A global SEO agency for ambitious small businesses. We use AI-augmented strategy, technical depth, and editorial craft to climb rankings and grow revenue.',
 }
 

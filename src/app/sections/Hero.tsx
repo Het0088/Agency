@@ -1,14 +1,109 @@
+'use client'
+
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import { ArrowRight } from '@/components/Icons'
 
-export default function HeroSection({ 
-  title, 
-  eyebrow = "Global SEO Studio · 2014→2026", 
-  lede 
-}: { 
-  title?: React.ReactNode, 
-  eyebrow?: string, 
-  lede?: string 
+type CardState = 'idle' | 'sending' | 'sent' | 'error'
+
+function HeroContactCard() {
+  const [state, setState] = useState<CardState>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
+  const formRef = useRef<HTMLFormElement>(null)
+  const loadedAt = useRef(Date.now())
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (state === 'sending') return
+    setState('sending')
+    setErrorMsg('')
+
+    const fd = new FormData(formRef.current!)
+    const payload = {
+      name: fd.get('name'),
+      email: fd.get('email'),
+      website: fd.get('website'),
+      service: fd.get('service'),
+      message: fd.get('message'),
+      _t: loadedAt.current,
+    }
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Something went wrong.')
+      }
+      setState('sent')
+      formRef.current?.reset()
+    } catch (err) {
+      setState('error')
+      setErrorMsg(err instanceof Error ? err.message : 'Network error.')
+    }
+  }
+
+  if (state === 'sent') {
+    return (
+      <div className="hero-card hero-card-done">
+        <div className="hero-card-check">
+          <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M5 13l4 4L19 7" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </div>
+        <h3 className="serif">We&apos;ll be in touch <em className="serif-i" style={{ color: 'var(--accent)' }}>soon.</em></h3>
+        <p>A strategist will reply within 4 business hours.</p>
+        <button type="button" className="btn btn-ghost btn-sm" onClick={() => setState('idle')}>Send another</button>
+      </div>
+    )
+  }
+
+  return (
+    <form className="hero-card" ref={formRef} onSubmit={handleSubmit}>
+      <div className="hero-card-head">
+        <span className="hero-card-tag">Get a free audit</span>
+        <span className="hero-card-pill"><span className="dot"></span>Reply in 4h</span>
+      </div>
+
+      <div className="hero-card-fields">
+        <input name="name" type="text" placeholder="Your name" required />
+        <input name="email" type="email" placeholder="Work email" required />
+        <input name="website" type="url" placeholder="https://yoursite.com" />
+        <select name="service" defaultValue="">
+          <option value="" disabled>What do you need?</option>
+          <option>Free SEO audit</option>
+          <option>Full SEO retainer</option>
+          <option>Technical SEO</option>
+          <option>Local / Maps SEO</option>
+          <option>AI Search &amp; GEO</option>
+          <option>Not sure yet</option>
+        </select>
+        <textarea name="message" placeholder="Tell us briefly about your project..." rows={3} />
+      </div>
+
+      {errorMsg && (
+        <div className="hero-card-error">{errorMsg}</div>
+      )}
+
+      <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }} disabled={state === 'sending'}>
+        {state === 'sending' ? 'Sending...' : 'Get my free audit'}
+        <span className="arr"><ArrowRight /></span>
+      </button>
+
+      <p className="hero-card-legal">No spam. No obligation. Your data stays private.</p>
+    </form>
+  )
+}
+
+export default function HeroSection({
+  title,
+  eyebrow = "Global SEO Studio · 2014→2026",
+  lede
+}: {
+  title?: React.ReactNode,
+  eyebrow?: string,
+  lede?: string
 }) {
   return (
     <header className="hero">
@@ -41,56 +136,8 @@ export default function HeroSection({
             </div>
           </div>
 
-          <div className="hero-visual reveal in" aria-hidden="true">
-            <div className="hero-visual-inner">
-              <div className="hv-header">
-                <div>
-                  <div className="hv-tag">Rank tracker · live</div>
-                  <div className="hv-title">Maple &amp; Oak<br />Coffee Roasters</div>
-                </div>
-                <span className="hv-pill"><span className="dot"></span>Trending up</span>
-              </div>
-              <div className="hv-chart">
-                <svg viewBox="0 0 400 180" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#ff5a1f" stopOpacity="0.25" />
-                      <stop offset="100%" stopColor="#ff5a1f" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                  <line x1="0" y1="40" x2="400" y2="40" stroke="#e8e3d6" strokeDasharray="2 4" />
-                  <line x1="0" y1="90" x2="400" y2="90" stroke="#e8e3d6" strokeDasharray="2 4" />
-                  <line x1="0" y1="140" x2="400" y2="140" stroke="#e8e3d6" strokeDasharray="2 4" />
-                  <path d="M0,150 C40,140 70,135 100,118 C140,98 170,84 210,68 C250,52 290,44 330,32 L400,22 L400,180 L0,180 Z" fill="url(#g1)" />
-                  <path d="M0,150 C40,140 70,135 100,118 C140,98 170,84 210,68 C250,52 290,44 330,32 L400,22" fill="none" stroke="#ff5a1f" strokeWidth="2.5" strokeLinecap="round" />
-                  <circle cx="0" cy="150" r="3" fill="#ff5a1f" />
-                  <circle cx="100" cy="118" r="3" fill="#ff5a1f" />
-                  <circle cx="210" cy="68" r="3" fill="#ff5a1f" />
-                  <circle cx="330" cy="32" r="3" fill="#ff5a1f" />
-                  <circle cx="400" cy="22" r="4" fill="#ff5a1f" stroke="#fff" strokeWidth="2" />
-                  <text x="0" y="172" fontFamily="Geist Mono, monospace" fontSize="9" fill="#8b9097">Jan</text>
-                  <text x="195" y="172" fontFamily="Geist Mono, monospace" fontSize="9" fill="#8b9097">Apr</text>
-                  <text x="385" y="172" fontFamily="Geist Mono, monospace" fontSize="9" fill="#8b9097">Jul</text>
-                </svg>
-              </div>
-              <div className="hv-rows">
-                <div className="hv-row">
-                  <span className="kw">&quot;specialty coffee near me&quot;</span>
-                  <span className="pos">#1</span>
-                  <span className="delta">↑ 14</span>
-                </div>
-                <div className="hv-row">
-                  <span className="kw">&quot;single origin roasters&quot;</span>
-                  <span className="pos">#3</span>
-                  <span className="delta">↑ 22</span>
-                </div>
-                <div className="hv-row">
-                  <span className="kw">&quot;ethical coffee subscription&quot;</span>
-                  <span className="pos">#2</span>
-                  <span className="delta">↑ 31</span>
-                </div>
-              </div>
-            </div>
+          <div className="reveal in">
+            <HeroContactCard />
           </div>
         </div>
       </div>

@@ -18,9 +18,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const c = getCityBySlug(slug)
   if (!c) return {}
   const loc = c.state ? `${c.city}, ${c.state}` : c.city
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://westrivedesign.com'
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
   return {
-    title: c.metaTitle || `${c.service} in ${loc} — We Strive Design`,
+    title: c.metaTitle || `${c.service} in ${loc} — Omniranq`,
     description: c.metaDescription || `Expert ${c.service} in ${c.city}. Free audit available.`,
     keywords: c.localKeywords?.split(',').map(k => k.trim()),
     alternates: { canonical: `${base}/${c.slug}` },

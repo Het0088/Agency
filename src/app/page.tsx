@@ -12,6 +12,11 @@ import ProcessSection from './sections/Process'
 import CasesSection from './sections/Cases'
 import TestimonialsSection from './sections/Testimonials'
 import WhyUsSection from './sections/WhyUs'
+import ArticlesBlogsSection from './sections/ArticlesBlog'
+import WhyNeedSeo from './sections/WhyNeedSeo'
+import SeoProcess from './sections/SeoProcess'
+import OldVsNewSeo from './sections/OldVsNewSeo'
+import HomeFaq from './sections/HomeFaq'
 
 export default function Home() {
   return (
@@ -21,13 +26,18 @@ export default function Home() {
       <HeroSection />
       <LogosSection />
       <StatsSection />
+      <WhyNeedSeo />
       <ServicesSection />
+      <OldVsNewSeo />
+      <SeoProcess />
       <AiBlock />
       <MarqueeSection />
       <ProcessSection />
       <CasesSection />
       <TestimonialsSection />
       <WhyUsSection />
+      <ArticlesBlogsSection />
+      <HomeFaq />
       <BigCta
         heading="Ready to be"
         em="unmissable?"

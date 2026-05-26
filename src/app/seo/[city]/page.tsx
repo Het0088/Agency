@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getCities, getCityBySlug } from '@/lib/excel'
 import { notFound } from 'next/navigation'
 import Topbar from '@/components/Topbar'
@@ -14,14 +15,22 @@ import ProcessSection from '@/app/sections/Process'
 import CasesSection from '@/app/sections/Cases'
 import TestimonialsSection from '@/app/sections/Testimonials'
 import WhyUsSection from '@/app/sections/WhyUs'
+import ArticlesBlogsSection from '@/app/sections/ArticlesBlog'
 
 export async function generateStaticParams() {
   const cities = getCities()
   if (!cities.length) return []
-  
-  return cities.map((city) => ({
-    city: city.slug,
-  }))
+  return cities.map((city) => ({ city: city.slug }))
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ city: string }> }): Promise<Metadata> {
+  const { city: slug } = await params
+  const city = getCityBySlug(slug)
+  if (!city) return {}
+  return {
+    title: `SEO Agency in ${city.cityName}, ${city.state} | Omniranq`,
+    description: `Top-rated SEO agency serving ${city.cityName}, ${city.state}. Get more traffic, leads, and revenue with proven local SEO strategies. Free audit available.`,
+  }
 }
 
 export default async function CitySeoPage({ params }: { params: Promise<{ city: string }> }) {
@@ -36,7 +45,7 @@ export default async function CitySeoPage({ params }: { params: Promise<{ city: 
     <>
       <Topbar text={`SEO specialized for businesses in ${city.cityName}.`} linkText="Get a local audit →" linkHref="/contact" />
       <Nav />
-      <HeroSection 
+      <HeroSection
         eyebrow={`SEO Agency in ${city.cityName}, ${city.state}`}
         title={city.heroTitle ? <div dangerouslySetInnerHTML={{ __html: city.heroTitle }} /> : (
           <>
@@ -56,6 +65,7 @@ export default async function CitySeoPage({ params }: { params: Promise<{ city: 
       <CasesSection />
       <TestimonialsSection />
       <WhyUsSection />
+      <ArticlesBlogsSection />
       <BigCta
         heading={`Ready to win in`}
         em={city.cityName + '?'}
