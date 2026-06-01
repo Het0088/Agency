@@ -5,45 +5,52 @@ import Link from 'next/link'
 import { ArrowDown } from '@/components/Icons'
 
 type Post = { slug: string; gradient: string; label: string; tag: string; title: string; desc: string; author: string; date: string }
+type Featured = { slug: string; tag: string; title: string; desc: string; author: string; date: string; readTime: string } | null
 
 const categories = [
-  { name: 'All posts', ct: 142 }, { name: 'AI Search & GEO', ct: 38 }, { name: 'Technical SEO', ct: 29 },
-  { name: 'Content & editorial', ct: 24 }, { name: 'Local SEO', ct: 18 }, { name: 'Digital PR & links', ct: 14 },
-  { name: 'Case studies', ct: 12 }, { name: 'Industry reports', ct: 7 },
+  { name: 'All posts' }, { name: 'AI Search' }, { name: 'Technical SEO' },
+  { name: 'Editorial' }, { name: 'Local SEO' }, { name: 'Digital PR' },
+  { name: 'Case study' }, { name: 'Industry report' },
 ]
 
-export default function InsightsContent({ posts }: { posts: Post[] }) {
+export default function InsightsContent({ posts, featured }: { posts: Post[]; featured?: Featured }) {
   const [activeCat, setActiveCat] = useState('All posts')
+  const [showAll, setShowAll] = useState(false)
+
+  const filtered = activeCat === 'All posts' ? posts : posts.filter(p => p.tag === activeCat)
+  const visible = showAll ? filtered : filtered.slice(0, 9)
 
   return (
     <section className="section">
       <div className="wrap">
-        <Link href="/insights/ai-search-playbook-2026" className="blog-feature-link">
-          <article className="blog-feature reveal">
-            <div className="img" aria-hidden="true"></div>
-            <div>
-              <span className="feature-tag">★ Featured &middot; 18 min read</span>
-              <h2>The 2026 AI Search Playbook: how to get cited inside ChatGPT, Perplexity, and Google AIO.</h2>
-              <p>An 84-page deep-dive on Generative Engine Optimization &mdash; what works in 2026, what&apos;s already obsolete, and the exact 12-step audit we run for every client. Co-authored by our Head of AI Search, ex-Google.</p>
-              <div className="meta">
-                <span className="author" style={{ color: 'var(--ink)', fontWeight: 500 }}>Tom&aacute;s Beltr&aacute;n</span>
-                <span className="dot"></span><span>May 4, 2026</span>
-                <span className="dot"></span><span>AI Search &middot; GEO</span>
+        {featured && (
+          <Link href={`/insights/${featured.slug}`} className="blog-feature-link">
+            <article className="blog-feature reveal">
+              <div className="img" aria-hidden="true"></div>
+              <div>
+                <span className="feature-tag">Featured &middot; {featured.readTime} read</span>
+                <h2>{featured.title}</h2>
+                <p>{featured.desc}</p>
+                <div className="meta">
+                  <span className="author" style={{ color: 'var(--ink)', fontWeight: 500 }}>{featured.author}</span>
+                  <span className="dot"></span><span>{featured.date}</span>
+                  <span className="dot"></span><span>{featured.tag}</span>
+                </div>
               </div>
-            </div>
-          </article>
-        </Link>
+            </article>
+          </Link>
+        )}
 
         <div className="cat-pills reveal">
           {categories.map((c) => (
-            <button key={c.name} className={`cat-pill${activeCat === c.name ? ' active' : ''}`} onClick={() => setActiveCat(c.name)}>
-              {c.name} <span className="ct">{c.ct}</span>
+            <button key={c.name} className={`cat-pill${activeCat === c.name ? ' active' : ''}`} onClick={() => { setActiveCat(c.name); setShowAll(false) }}>
+              {c.name}
             </button>
           ))}
         </div>
 
         <div className="posts-grid">
-          {posts.map((p) => (
+          {visible.map((p) => (
             <Link href={`/insights/${p.slug}`} key={p.slug} className="post-link">
               <article className="post reveal">
                 <div className={`img ${p.gradient}`}><span className="label">{p.label}</span></div>
@@ -59,19 +66,21 @@ export default function InsightsContent({ posts }: { posts: Post[] }) {
           ))}
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: 48 }}>
-          <a href="#" className="btn btn-ghost">Load more posts <span className="arr"><ArrowDown /></span></a>
-        </div>
+        {!showAll && filtered.length > 9 && (
+          <div style={{ textAlign: 'center', marginTop: 48 }}>
+            <button className="btn btn-ghost" onClick={() => setShowAll(true)}>Load more posts <span className="arr"><ArrowDown /></span></button>
+          </div>
+        )}
       </div>
 
       <div className="wrap" style={{ marginTop: 96 }}>
         <div className="newsletter reveal" id="newsletter">
           <div>
-            <span className="eyebrow" style={{ color: 'var(--dark-ink-soft)' }}>Newsletter &middot; 14,200 readers</span>
+            <span className="eyebrow" style={{ color: 'var(--dark-ink-soft)' }}>Newsletter</span>
             <h2>One email, <em>every Tuesday.</em></h2>
             <p>Field notes from our strategists, the week&apos;s most interesting SERP shifts, and one new playbook every issue. No fluff, no unsubscribe traps.</p>
           </div>
-          <form onSubmit={(e) => { e.preventDefault(); const btn = (e.target as HTMLFormElement).querySelector('button'); if (btn) btn.textContent = 'Subscribed \u2713' }}>
+          <form onSubmit={(e) => { e.preventDefault(); const btn = (e.target as HTMLFormElement).querySelector('button'); if (btn) btn.textContent = 'Subscribed' }}>
             <input type="email" placeholder="you@yourcompany.com" required />
             <button type="submit">Subscribe</button>
           </form>

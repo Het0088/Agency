@@ -50,17 +50,15 @@ export default function Footer() {
               <li><Link href="/about">About</Link></li>
               <li><Link href="/#work">Case studies</Link></li>
               <li><Link href="/insights">Insights &amp; blog</Link></li>
-              <li><Link href="/about#careers">Careers (3 open)</Link></li>
               <li><Link href="/contact">Contact</Link></li>
             </ul>
           </div>
           <div className="footer-col">
-            <h4>Offices</h4>
+            <h4>Office</h4>
             <ul>
-              <li><Link href="/contact">Melbourne</Link></li>
-              <li><Link href="/contact">London</Link></li>
-              <li><Link href="/contact">Bangalore</Link></li>
+              <li><Link href="/contact">Bangalore, India</Link></li>
               <li><a href="mailto:hello@omniranq.com">hello@omniranq.com</a></li>
+              <li><a href="tel:+918045674242">+91 80 4567 4242</a></li>
             </ul>
           </div>
         </div>

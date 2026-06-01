@@ -1,43 +1,35 @@
 import Link from 'next/link'
 import { ArrowRight } from '@/components/Icons'
-import articlesData from '@/data/articles.json'
-import blogsData from '@/data/blogs.json'
+import { query } from '@/lib/db'
 
 type Entry = {
   id: string
   tag: string
   title: string
-  desc: string
+  description: string
   author: string
-  date: string
-  read: string
+  created_at: string
+  read_time: string
   slug: string
 }
 
-function formatDate(iso: string): string {
-  const d = new Date(iso)
+function formatDate(raw: string): string {
+  const d = new Date(raw)
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
 
-function getLatest(items: Entry[], count: number): (Entry & { num: string })[] {
-  return [...items]
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, count)
-    .map((item, i) => ({ ...item, num: String(i + 1).padStart(2, '0') }))
-}
-
-function EntryCard({ item }: { item: Entry & { num: string } }) {
+function EntryCard({ item, num }: { item: Entry; num: string }) {
   return (
     <Link href={item.slug} className="ab-entry">
-      <span className="ab-entry-num">{item.num}</span>
+      <span className="ab-entry-num">{num}</span>
       <div className="ab-entry-content">
         <span className="ab-entry-tag">{item.tag}</span>
         <h4>{item.title}</h4>
-        <p>{item.desc}</p>
+        <p>{item.description}</p>
         <div className="ab-entry-foot">
           <span className="ab-entry-author">{item.author}</span>
           <span className="ab-entry-sep"></span>
-          <span>{formatDate(item.date)} · {item.read}</span>
+          <span>{formatDate(item.created_at)} · {item.read_time}</span>
         </div>
       </div>
       <span className="ab-entry-arrow">
@@ -47,9 +39,24 @@ function EntryCard({ item }: { item: Entry & { num: string } }) {
   )
 }
 
-export default function ArticlesBlogsSection() {
-  const articles = getLatest(articlesData as Entry[], 3)
-  const blogs = getLatest(blogsData as Entry[], 3)
+export default async function ArticlesBlogsSection() {
+  let articles: Entry[] = []
+  let blogs: Entry[] = []
+
+  try {
+    articles = await query<Entry>(
+      'SELECT id, tag, title, description, author, created_at, read_time, slug FROM posts WHERE type = ? AND published = 1 ORDER BY created_at DESC LIMIT 3',
+      ['article']
+    )
+    blogs = await query<Entry>(
+      'SELECT id, tag, title, description, author, created_at, read_time, slug FROM posts WHERE type = ? AND published = 1 ORDER BY created_at DESC LIMIT 3',
+      ['blog']
+    )
+  } catch {
+    return null
+  }
+
+  if (!articles.length && !blogs.length) return null
 
   return (
     <section className="section ab-section">
@@ -69,7 +76,7 @@ export default function ArticlesBlogsSection() {
               </Link>
             </div>
             <div className="ab-col-list">
-              {articles.map((a) => <EntryCard key={a.id} item={a} />)}
+              {articles.map((a, i) => <EntryCard key={a.id} item={a} num={String(i + 1).padStart(2, '0')} />)}
             </div>
           </div>
 
@@ -82,7 +89,7 @@ export default function ArticlesBlogsSection() {
               </Link>
             </div>
             <div className="ab-col-list">
-              {blogs.map((b) => <EntryCard key={b.id} item={b} />)}
+              {blogs.map((b, i) => <EntryCard key={b.id} item={b} num={String(i + 1).padStart(2, '0')} />)}
             </div>
           </div>
         </div>

@@ -3,25 +3,61 @@ import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import InsightsContent from './InsightsContent'
+import { query } from '@/lib/db'
 
 export const metadata: Metadata = { title: 'Insights — Omniranq' }
 
-const posts = [
-  { slug: 'ai-search-playbook-2026', gradient: 'g1', label: 'A', tag: 'AI Search', title: 'How LLMs choose which brands to cite — and how to be one of them.', desc: 'A teardown of 4,200 AI answers across ChatGPT, Perplexity, and Gemini, looking for the patterns in which sources get cited and which don\'t.', author: 'Tomás Beltrán', date: 'Apr 28 · 14 min read' },
-  { slug: 'core-web-vitals-2026', gradient: 'g2', label: 'T', tag: 'Technical SEO', title: 'The Core Web Vitals checklist most agencies are still getting wrong in 2026.', desc: 'INP replaced FID a year ago. Half the audits we see still measure the wrong thing. Here\'s the corrected playbook.', author: 'Daniel Whitford', date: 'Apr 22 · 11 min read' },
-  { slug: 'multi-location-seo', gradient: 'g3', label: 'L', tag: 'Local SEO', title: 'Multi-location SEO at scale: lessons from 22 yoga studios in 3 years.', desc: 'How we built a programmatic local SEO system that turned a 4-studio brand into a 22-location category leader without diluting any single location.', author: 'Farah Khoury', date: 'Apr 17 · 9 min read' },
-  { slug: 'ai-content-workflows', gradient: 'g4', label: 'E', tag: 'Editorial', title: 'Why "AI-written content" tanks — and what hybrid workflows actually look like.', desc: 'We tested four content workflows across 80 articles. Pure AI lost. Pure human won, but slowly. The middle ground that won most was surprising.', author: 'Marisol Acevedo', date: 'Apr 11 · 16 min read' },
-  { slug: 'death-of-guest-post', gradient: 'g5', label: 'P', tag: 'Digital PR', title: 'The death of the guest post (and what replaced it for our clients).', desc: 'Earned editorial mentions are now 4x more valuable than guest posts and 12x harder to fake. Why we shifted the entire link practice in 2024.', author: 'Kemi Adeyemi', date: 'Apr 4 · 8 min read' },
-  { slug: 'maple-oak-case-study', gradient: 'g6', label: 'C', tag: 'Case study', title: 'How we got Maple & Oak from local-only to a national subscription brand.', desc: 'The full 18-month playbook: audit, technical fixes, programmatic content, digital PR, AI-search optimization. Numbers, screenshots, mistakes.', author: 'Anaya Sharma', date: 'Mar 28 · 22 min read' },
-  { slug: 'brand-entity-seo', gradient: 'g2', label: 'G', tag: 'AI Search', title: 'Brand entity SEO: the Wikipedia-Wikidata-Crunchbase loop that LLMs train on.', desc: "If your brand isn't a recognized entity in the open web, LLMs won't reliably cite you. Here's the 7-step entity-building protocol.", author: 'Tomás Beltrán', date: 'Mar 21 · 13 min read' },
-  { slug: 'javascript-seo-2026', gradient: 'g3', label: 'S', tag: 'Technical SEO', title: 'JavaScript SEO in 2026: what Googlebot and GPTBot do differently.', desc: "Most SPA frameworks ship fine for Google now. But LLM crawlers behave differently. We tested every major framework so you don't have to.", author: 'Rohan Iyer', date: 'Mar 15 · 12 min read' },
-  { slug: 'state-of-seo-2026', gradient: 'g1', label: 'R', tag: 'Industry report', title: 'The State of Small Business SEO 2026 — full report, 412 brands surveyed.', desc: "Our annual research drop. What's working, what's not, what budgets look like, and where AI search is reshaping outcomes for SMBs.", author: 'Anaya Sharma', date: 'Mar 8 · Industry report' },
-]
+export const dynamic = 'force-dynamic'
 
-export default function InsightsPage() {
+type PostRow = {
+  slug: string
+  cover_gradient: string
+  tag: string
+  title: string
+  description: string
+  author: string
+  created_at: string
+  read_time: string
+  featured: number
+}
+
+export default async function InsightsPage() {
+  let posts: PostRow[] = []
+  let featuredPost: PostRow | null = null
+
+  try {
+    posts = await query<PostRow>(
+      'SELECT slug, cover_gradient, tag, title, description, author, created_at, read_time, featured FROM posts WHERE published = 1 ORDER BY created_at DESC LIMIT 50'
+    )
+    featuredPost = posts.find(p => p.featured) || posts[0] || null
+  } catch {
+    posts = []
+  }
+
+  const mapped = posts.map(p => ({
+    slug: p.slug.replace('/insights/', ''),
+    gradient: p.cover_gradient || 'g1',
+    label: p.tag.charAt(0).toUpperCase(),
+    tag: p.tag,
+    title: p.title,
+    desc: p.description || '',
+    author: p.author,
+    date: formatReadable(p.created_at, p.read_time),
+  }))
+
+  const feat = featuredPost ? {
+    slug: featuredPost.slug.replace('/insights/', ''),
+    tag: featuredPost.tag,
+    title: featuredPost.title,
+    desc: featuredPost.description || '',
+    author: featuredPost.author,
+    date: formatReadable(featuredPost.created_at, featuredPost.read_time),
+    readTime: featuredPost.read_time,
+  } : null
+
   return (
     <>
-      <Topbar text="New: The 2026 AI Search Playbook — free 84-page PDF." linkText="Get it →" linkHref="#newsletter" />
+      <Topbar text="New insights published weekly." linkText="Subscribe →" linkHref="#newsletter" />
       <Nav active="insights" />
 
       <header className="page-hero">
@@ -32,8 +68,15 @@ export default function InsightsPage() {
         </div>
       </header>
 
-      <InsightsContent posts={posts} />
+      <InsightsContent posts={mapped} featured={feat} />
       <Footer />
     </>
   )
+}
+
+function formatReadable(dateStr: string, readTime: string): string {
+  const d = new Date(dateStr)
+  const month = d.toLocaleDateString('en-US', { month: 'short' })
+  const day = d.getDate()
+  return `${month} ${day} · ${readTime} read`
 }

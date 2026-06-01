@@ -4,147 +4,58 @@ import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import BigCta from '@/components/BigCta'
+import ServiceCards from '@/components/ServiceCards'
 import { ArrowRight } from '@/components/Icons'
 
 export const metadata: Metadata = {
-  title: 'PPC & Paid Advertising — Google Ads, Meta Ads, YouTube | Omniranq',
-  description: 'Data-driven paid advertising that maximizes ROAS. Google Ads, Meta Ads, YouTube campaigns, and programmatic advertising managed by certified specialists.',
+  title: 'PPC & Paid Ads — Google Ads, Meta Ads, YouTube, Programmatic | Omniranq',
+  description: 'Performance-driven paid media management. Google Ads, Meta Ads, YouTube, and programmatic campaigns built to maximize ROAS.',
 }
 
-const subServices = [
-  {
-    id: 'google-ads',
-    num: '01',
-    title: 'Google Ads',
-    tagline: 'Capture demand at the moment of intent.',
-    desc: 'Search, Shopping, Display, and Performance Max campaigns managed by Google-certified specialists. We build campaigns that prioritize revenue, not just clicks.',
-    features: [
-      'Search campaign architecture with SKAG and STAG structures',
-      'Google Shopping feed optimization and bid strategy',
-      'Performance Max campaign setup and creative asset management',
-      'Negative keyword mining and match type optimization',
-      'Landing page alignment with ad messaging',
-      'Conversion tracking setup (GA4, GTM, enhanced conversions)',
-      'Competitor auction insights analysis',
-      'Weekly optimization with monthly strategy reviews',
-    ],
-    result: 'Average ROAS improvement of 3.2x within 90 days.',
-  },
-  {
-    id: 'meta-ads',
-    num: '02',
-    title: 'Meta Ads',
-    tagline: 'Reach audiences before they search.',
-    desc: 'Facebook and Instagram advertising for awareness, consideration, and conversion. We build full-funnel campaigns that move prospects from scroll to sale.',
-    features: [
-      'Full-funnel campaign architecture (TOFU, MOFU, BOFU)',
-      'Audience building with lookalikes, interests, and custom audiences',
-      'Creative strategy with ad copy and visual direction',
-      'Advantage+ campaign optimization',
-      'Retargeting sequences for cart abandoners and page visitors',
-      'CAPI integration for accurate conversion tracking',
-      'A/B testing for creatives, audiences, and placements',
-      'Monthly reporting with creative performance analysis',
-    ],
-    result: 'Average cost-per-acquisition reduction of 41%.',
-  },
-  {
-    id: 'youtube-ads',
-    num: '03',
-    title: 'YouTube Ads',
-    tagline: 'Video ads that drive action, not just views.',
-    desc: 'YouTube is the second largest search engine. We run skippable in-stream, bumper, and discovery campaigns that drive measurable business outcomes, not vanity metrics.',
-    features: [
-      'In-stream, bumper, and discovery ad campaign setup',
-      'Audience targeting with custom intent and affinity segments',
-      'Video creative strategy and script frameworks',
-      'YouTube Search ad campaigns for high-intent queries',
-      'Remarketing sequences from YouTube to search and display',
-      'View-through and click-through conversion tracking',
-    ],
-    result: 'Average view-through rate 40% above industry benchmarks.',
-  },
-  {
-    id: 'programmatic',
-    num: '04',
-    title: 'Programmatic Advertising',
-    tagline: 'Precision targeting at scale.',
-    desc: 'For brands that need reach beyond Google and Meta. We run programmatic display, native, and CTV campaigns through demand-side platforms with granular audience targeting.',
-    features: [
-      'DSP campaign management (DV360, The Trade Desk, Amazon DSP)',
-      'Contextual and behavioral targeting strategies',
-      'Connected TV (CTV) and over-the-top (OTT) campaigns',
-      'Native advertising on premium publisher networks',
-      'Brand safety and viewability optimization',
-      'Cross-channel attribution and incremental lift measurement',
-    ],
-    result: 'Average brand awareness lift of 28% in controlled studies.',
-  },
-]
-
-const faqItems = [
-  { q: 'What is your minimum ad spend requirement?', a: 'We recommend a minimum monthly ad spend of $3,000 for Google Ads and $2,000 for Meta Ads to generate statistically significant data for optimization. Our management fees are separate from ad spend.' },
-  { q: 'How do you measure PPC success?', a: 'We track revenue-based metrics: ROAS, cost per acquisition, customer lifetime value, and revenue attribution. We set up proper conversion tracking before launching any campaign.' },
-  { q: 'Do you create the ad creative?', a: 'We provide ad copy, creative direction, and performance-tested frameworks. For video and graphic assets, we partner with design studios or work with your existing creative team.' },
-  { q: 'Can you work with our existing campaigns?', a: 'Yes. We start with a full audit of your existing account, identify quick wins, and restructure campaigns over the first 30 days. No scorched-earth rebuilds unless warranted.' },
+const cards = [
+  { num: '01', slug: 'google-ads', title: 'Google Ads', tagline: 'ROAS-driven, not spend-driven.', desc: 'Search, Shopping, Display, and Performance Max campaigns built to maximize return on ad spend.', highlights: ['Campaign architecture', 'Negative keywords', 'Quality score', 'Attribution modeling'], result: '3.2x avg. ROAS improvement' },
+  { num: '02', slug: 'meta-ads', title: 'Meta Ads', tagline: 'Full-funnel Facebook & Instagram.', desc: 'Awareness to conversion across Meta platforms with creative strategy and Conversion API setup included.', highlights: ['Lookalike audiences', 'Creative strategy', 'Retargeting', 'iOS 14+ tracking'], result: '2.8x avg. ROAS' },
+  { num: '03', slug: 'youtube-ads', title: 'YouTube Ads', tagline: 'Video that drives action.', desc: 'TrueView, Bumper, and In-Feed campaigns with precise intent-based targeting on the second-largest search engine.', highlights: ['TrueView & Bumper', 'Intent targeting', 'Brand lift', 'Video remarketing'], result: '65% lower CPV vs. benchmarks' },
+  { num: '04', slug: 'programmatic', title: 'Programmatic Advertising', tagline: 'Automated, data-driven media buying.', desc: 'Cross-channel campaigns across display, video, native, and connected TV using DV360 and The Trade Desk.', highlights: ['DSP management', 'Cross-channel', 'Brand safety', 'Incrementality testing'], result: '40% avg. media efficiency gain' },
 ]
 
 export default function PpcPage() {
   return (
     <>
-      <Topbar text="Paid ads that pay for themselves." linkText="Get a free audit \u2192" linkHref="/contact" />
+      <Topbar text="Maximize your ad spend. Free PPC audit available." linkText="Book →" linkHref="/contact" />
       <Nav active="services" />
-
       <header className="svc-page-hero">
         <div className="wrap">
-          <div className="crumb"><Link href="/">Home</Link> / <Link href="/services">Services</Link> / PPC &amp; Paid Ads</div>
+          <div className="crumb"><Link href="/">Home</Link> / <Link href="/services">Services</Link> / PPC</div>
           <div className="svc-page-hero-grid">
             <div className="reveal in">
-              <span className="eyebrow">PPC &amp; Paid Ads</span>
-              <h1>Paid advertising that <em>pays</em> for itself.</h1>
-              <p className="svc-page-hero-desc">Google Ads, Meta Ads, YouTube, and programmatic campaigns managed by certified specialists who optimize for revenue, not vanity metrics.</p>
+              <span className="eyebrow">PPC & Paid Ads</span>
+              <h1>Paid media that <em>pays back.</em></h1>
+              <p className="svc-page-hero-desc">Performance-driven campaigns across Google, Meta, YouTube, and programmatic. Every dollar tracked, every campaign optimized for revenue.</p>
               <div className="svc-page-hero-actions">
                 <Link href="/contact" className="btn btn-primary">Get a free PPC audit <span className="arr"><ArrowRight /></span></Link>
-                <a href="#google-ads" className="btn btn-ghost">See our services</a>
+                <a href="#services" className="btn btn-ghost">See all services</a>
               </div>
             </div>
             <div className="svc-page-hero-stats reveal in">
               <div className="svc-page-stat"><span className="svc-page-stat-num">3.2x</span><span className="svc-page-stat-label">Avg. ROAS improvement</span></div>
-              <div className="svc-page-stat"><span className="svc-page-stat-num">41%</span><span className="svc-page-stat-label">Avg. CPA reduction</span></div>
-              <div className="svc-page-stat"><span className="svc-page-stat-num">$14M+</span><span className="svc-page-stat-label">Ad spend managed annually</span></div>
-              <div className="svc-page-stat"><span className="svc-page-stat-num">200+</span><span className="svc-page-stat-label">Campaigns launched</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">$2M+</span><span className="svc-page-stat-label">Monthly ad spend managed</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">90</span><span className="svc-page-stat-label">Days to measurable ROAS lift</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">94%</span><span className="svc-page-stat-label">Client retention rate</span></div>
             </div>
           </div>
         </div>
       </header>
-
-      <section className="section" id="services">
+      <section className="section" id="services" style={{ background: 'var(--surface)' }}>
         <div className="wrap">
           <div className="sec-head reveal">
             <h2>Four channels, <em>one dashboard.</em></h2>
-            <p className="sub">Every campaign is managed with revenue attribution from day one. No black boxes.</p>
+            <p className="sub">Every campaign tracked in real-time with revenue attribution.</p>
           </div>
-          {subServices.map((svc) => (
-            <div className="svc-detail-block reveal" key={svc.id} id={svc.id}>
-              <div className="svc-detail-head">
-                <span className="svc-detail-num">{svc.num}</span>
-                <div><h3>{svc.title}</h3><p className="svc-detail-tagline">{svc.tagline}</p></div>
-              </div>
-              <p className="svc-detail-desc">{svc.desc}</p>
-              <div className="svc-detail-features">
-                {svc.features.map((f) => (<div className="svc-detail-feature" key={f}><span className="svc-detail-dot" />{f}</div>))}
-              </div>
-              <div className="svc-detail-result"><span className="svc-detail-result-icon">&uarr;</span> {svc.result}</div>
-            </div>
-          ))}
+          <ServiceCards category="ppc" items={cards} />
         </div>
       </section>
-
-      <section className="mid-cta"><div className="wrap"><div className="mid-cta-inner mid-cta-dark reveal"><div className="mid-cta-text"><h3>Spending on ads but not sure what is working?</h3><p>Get a free account audit. We will show you exactly where your budget is being wasted.</p></div><Link href="/contact" className="btn btn-primary">Book an audit <span className="arr"><ArrowRight /></span></Link></div></div></section>
-
-      <section className="section"><div className="wrap"><div className="sec-head reveal"><h2>Common <em>questions.</em></h2></div><div className="faq-list">{faqItems.map((item) => (<details className="faq reveal" key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>))}</div></div></section>
-
-      <BigCta heading="Free PPC audit." em="Find the waste." text="We will review your existing ad accounts and show you 3 things to fix immediately. 30 minutes, no pitch." btnText="Book your audit" btnHref="/contact" />
+      <BigCta heading="Free PPC audit." em="Find the waste." text="We will analyze your current campaigns and show you exactly where budget is being wasted and where to scale." btnText="Book your PPC audit" btnHref="/contact" />
       <Footer />
     </>
   )

@@ -1,42 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
+import { query, queryOne } from '@/lib/db'
 
 const API_KEY = process.env.CONTENT_API_KEY || 'omniranq-n8n-secret'
-
-const DATA_DIR = path.join(process.cwd(), 'src', 'data')
 
 function authenticate(req: NextRequest): boolean {
   const key = req.headers.get('x-api-key') || req.headers.get('authorization')?.replace('Bearer ', '')
   return key === API_KEY
 }
 
-function sanitize(val: unknown): string {
+function sanitize(val: unknown, maxLen = 2000): string {
   if (typeof val !== 'string') return ''
-  return val.trim().slice(0, 2000).replace(/[<>]/g, '')
+  return val.trim().slice(0, maxLen).replace(/[<>]/g, '')
 }
 
-function readFile(name: string) {
-  const filePath = path.join(DATA_DIR, name)
-  if (!fs.existsSync(filePath)) return []
-  return JSON.parse(fs.readFileSync(filePath, 'utf-8'))
-}
-
-function writeFile(name: string, data: unknown[]) {
-  const filePath = path.join(DATA_DIR, name)
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8')
+function makeId(title: string): string {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80)
 }
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
-  const type = searchParams.get('type') || 'articles'
+  const type = searchParams.get('type') === 'blogs' ? 'blog' : 'article'
   const limit = Math.min(Number(searchParams.get('limit') || 10), 50)
 
-  const fileName = type === 'blogs' ? 'blogs.json' : 'articles.json'
-  const items = readFile(fileName)
-  const sorted = items.sort((a: { date: string }, b: { date: string }) => b.date.localeCompare(a.date))
+  const items = await query(
+    'SELECT id, tag, title, description AS `desc`, author, created_at AS date, read_time AS `read`, slug FROM posts WHERE type = ? AND published = 1 ORDER BY created_at DESC LIMIT ?',
+    [type, limit]
+  )
 
-  return NextResponse.json({ items: sorted.slice(0, limit), total: sorted.length })
+  return NextResponse.json({ items, total: items.length })
 }
 
 export async function POST(req: NextRequest) {
@@ -51,36 +42,37 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
   }
 
-  const type = (body.type as string) || 'articles'
-  const fileName = type === 'blogs' ? 'blogs.json' : 'articles.json'
-
-  const id = sanitize(body.id) || sanitize(body.title)?.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 80)
-  const title = sanitize(body.title)
-  const tag = sanitize(body.tag)
-  const desc = sanitize(body.desc)
-  const author = sanitize(body.author)
-  const read = sanitize(body.read)
-  const slug = sanitize(body.slug) || `/insights/${id}`
-  const date = sanitize(body.date) || new Date().toISOString().slice(0, 10)
-
+  const type = (body.type as string) === 'blogs' ? 'blog' : 'article'
+  const title = sanitize(body.title, 500)
   if (!title) {
     return NextResponse.json({ error: 'Title is required' }, { status: 422 })
   }
 
-  const entry = { id, tag, title, desc, author, date, read, slug }
+  const id = sanitize(body.id, 100) || makeId(title)
+  const tag = sanitize(body.tag, 100)
+  const description = sanitize(body.desc || body.description, 5000)
+  const content = typeof body.content === 'string' ? body.content.slice(0, 500000) : ''
+  const author = sanitize(body.author, 200)
+  const readTime = sanitize(body.read || body.read_time, 50)
+  const slug = sanitize(body.slug, 200) || `/insights/${id}`
+  const date = sanitize(body.date, 30) || new Date().toISOString().slice(0, 10)
 
-  const items = readFile(fileName)
-  const existingIdx = items.findIndex((i: { id: string }) => i.id === id)
+  const existing = await queryOne('SELECT id FROM posts WHERE id = ?', [id])
 
-  if (existingIdx >= 0) {
-    items[existingIdx] = { ...items[existingIdx], ...entry }
+  if (existing) {
+    await query(
+      'UPDATE posts SET type=?, tag=?, title=?, description=?, content=?, author=?, read_time=?, slug=?, created_at=? WHERE id=?',
+      [type, tag, title, description, content, author, readTime, slug, date, id]
+    )
   } else {
-    items.unshift(entry)
+    await query(
+      'INSERT INTO posts (id, type, tag, title, description, content, author, read_time, slug, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [id, type, tag, title, description, content, author, readTime, slug, date]
+    )
   }
 
-  writeFile(fileName, items)
-
-  return NextResponse.json({ ok: true, entry, total: items.length })
+  const total = await query('SELECT COUNT(*) as cnt FROM posts WHERE type = ?', [type])
+  return NextResponse.json({ ok: true, entry: { id, tag, title, description, author, date, read: readTime, slug }, total: (total[0] as { cnt: number }).cnt })
 }
 
 export async function DELETE(req: NextRequest) {
@@ -95,21 +87,16 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
   }
 
-  const type = (body.type as string) || 'articles'
-  const id = sanitize(body.id)
+  const id = sanitize(body.id, 100)
   if (!id) {
     return NextResponse.json({ error: 'ID is required' }, { status: 422 })
   }
 
-  const fileName = type === 'blogs' ? 'blogs.json' : 'articles.json'
-  const items = readFile(fileName)
-  const filtered = items.filter((i: { id: string }) => i.id !== id)
-
-  if (filtered.length === items.length) {
+  const result = await query('DELETE FROM posts WHERE id = ?', [id])
+  const affected = (result as unknown as { affectedRows?: number })?.affectedRows
+  if (!affected) {
     return NextResponse.json({ error: 'Entry not found' }, { status: 404 })
   }
 
-  writeFile(fileName, filtered)
-
-  return NextResponse.json({ ok: true, removed: id, total: filtered.length })
+  return NextResponse.json({ ok: true, removed: id })
 }

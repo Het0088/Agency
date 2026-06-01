@@ -13,94 +13,49 @@ export const metadata: Metadata = {
 
 const subServices = [
   {
-    id: 'technical-seo',
     num: '01',
+    slug: 'technical-seo',
     title: 'Technical SEO',
     tagline: 'The foundation everything else is built on.',
-    desc: 'Most SEO campaigns fail because the technical foundation is broken. We fix crawl issues, indexation gaps, rendering problems, and Core Web Vitals before a single piece of content gets written.',
-    features: [
-      'Full crawl audit using Screaming Frog, Sitebulb, and log file analysis',
-      'Core Web Vitals optimization (LCP, INP, CLS) with real-user data',
-      'JavaScript rendering audit for SPAs and frameworks',
-      'Crawl budget optimization for large sites (50k+ pages)',
-      'XML sitemap architecture and robots.txt configuration',
-      'Canonicalization, hreflang, and duplicate content resolution',
-      'Structured data implementation (FAQ, HowTo, Product, LocalBusiness)',
-      'Site speed optimization including image formats, lazy loading, and CDN config',
-    ],
-    result: 'Average 40% improvement in crawl efficiency within 60 days.',
+    desc: 'We fix crawl issues, indexation gaps, rendering problems, and Core Web Vitals before a single piece of content gets written.',
+    highlights: ['Crawl & indexation audits', 'Core Web Vitals', 'Schema markup', 'Site speed'],
+    result: '40% avg. crawl efficiency gain',
   },
   {
-    id: 'local-seo',
     num: '02',
+    slug: 'local-seo',
     title: 'Local SEO',
     tagline: 'Win the 3-pack. Own the "near me" queries.',
-    desc: 'For businesses that serve specific geographic areas, local SEO is the highest-ROI channel available. We build multi-location SEO systems that scale from 1 storefront to 200+ locations without diluting any single listing.',
-    features: [
-      'Google Business Profile optimization and ongoing management',
-      'Local citation building and NAP consistency audit',
-      'Review generation strategy and reputation monitoring',
-      'Local link building from chambers, directories, and community sites',
-      'Geo-targeted landing pages with LocalBusiness schema',
-      'Google Maps ranking optimization and category strategy',
-      'Competitor proximity analysis and market gap identification',
-      'Multi-location dashboard with per-location KPI tracking',
-    ],
-    result: 'Average 3-pack visibility increase of 280% within 90 days.',
+    desc: 'Multi-location SEO systems that scale from 1 storefront to 200+ locations without diluting any single listing.',
+    highlights: ['Google Business Profile', 'Citation building', 'Review strategy', 'Maps ranking'],
+    result: '280% avg. 3-pack visibility',
   },
   {
-    id: 'ecommerce-seo',
     num: '03',
+    slug: 'ecommerce-seo',
     title: 'E-commerce SEO',
     tagline: 'Turn product pages into revenue machines.',
-    desc: 'E-commerce SEO is a different discipline. Faceted navigation, product schema, category architecture, and inventory-driven indexation require specialized knowledge that most generalist agencies lack.',
-    features: [
-      'Product and category page optimization at scale',
-      'Faceted navigation management (filters, sorts, pagination)',
-      'Product schema markup (price, availability, reviews, brand)',
-      'Programmatic content for long-tail product queries',
-      'Internal linking architecture for category authority',
-      'Inventory-aware indexation (noindex out-of-stock handling)',
-      'Shopify, WooCommerce, Magento, and BigCommerce optimization',
-      'Shopping feed optimization for Google Merchant Center',
-    ],
-    result: 'Average 67% increase in organic revenue within 6 months.',
+    desc: 'Faceted navigation, product schema, category architecture, and inventory-driven indexation for online stores.',
+    highlights: ['Product page optimization', 'Faceted nav', 'Shopping feeds', 'Platform-specific'],
+    result: '67% avg. organic revenue lift',
   },
   {
-    id: 'enterprise-seo',
     num: '04',
+    slug: 'enterprise-seo',
     title: 'Enterprise SEO',
     tagline: 'SEO at scale, without the chaos.',
-    desc: 'Enterprise sites have enterprise problems: thousands of stakeholders, legacy CMSs, dev queues measured in quarters, and SEO recommendations that die in Jira. We know how to navigate the politics and ship the work.',
-    features: [
-      'Cross-functional SEO roadmapping with dev, product, and content teams',
-      'Large-scale migration planning and execution (domain, CMS, redesign)',
-      'International SEO with hreflang, subdomain, and ccTLD strategy',
-      'Programmatic page generation for thousands of location or product pages',
-      'Executive reporting with revenue attribution and board-ready dashboards',
-      'SEO governance frameworks and publishing workflows',
-      'Competitor intelligence monitoring at the portfolio level',
-      'Integration with enterprise tools (Conductor, BrightEdge, seoClarity)',
-    ],
-    result: 'Managed migrations for 12 enterprise clients with zero traffic loss.',
+    desc: 'Cross-functional roadmapping, migration planning, and programmatic page generation for large organizations.',
+    highlights: ['Migration planning', 'International SEO', 'Executive reporting', 'Dev integration'],
+    result: '12 migrations, zero traffic loss',
   },
   {
-    id: 'seo-audits',
     num: '05',
+    slug: 'seo-audits',
     title: 'SEO Audits',
-    tagline: 'Know exactly where you stand before you spend a dollar.',
-    desc: 'A standalone, one-time deliverable. Our forensic SEO audit is a 60-90 page document covering every dimension of your search presence. No retainer required. Walk away with a prioritized roadmap your team can execute.',
-    features: [
-      '200+ point technical audit with severity scoring',
-      'Content gap analysis against your top 10 SERP competitors',
-      'Backlink profile audit with toxic link identification',
-      'Keyword opportunity mapping with difficulty and volume data',
-      'Core Web Vitals assessment with specific remediation steps',
-      'Information architecture review and internal linking analysis',
-      'AI search readiness score (ChatGPT, Gemini, Perplexity visibility)',
-      '90-minute strategy call to walk through findings and priorities',
-    ],
-    result: 'Delivered 400+ audits. 78% of audit clients convert to retainers.',
+    tagline: 'Know exactly where you stand.',
+    desc: 'A forensic 60-90 page audit covering every dimension of your search presence. Standalone deliverable, no retainer required.',
+    highlights: ['200+ point audit', 'Content gap analysis', 'Backlink review', 'AI readiness score'],
+    result: '400+ audits delivered',
   },
 ]
 
@@ -122,7 +77,7 @@ const faqItems = [
 export default function SeoServicesPage() {
   return (
     <>
-      <Topbar text="Free SEO audit \u00B7 200+ checks \u00B7 No obligation." linkText="Book \u2192" linkHref="/contact" />
+      <Topbar text="Free SEO audit · 200+ checks · No obligation." linkText="Book →" linkHref="/contact" />
       <Nav active="services" />
 
       <header className="svc-page-hero">
@@ -160,36 +115,33 @@ export default function SeoServicesPage() {
         </div>
       </header>
 
-      <section className="section" id="services">
+      <section className="section" id="services" style={{ background: 'var(--surface)' }}>
         <div className="wrap">
           <div className="sec-head reveal">
             <h2>Five disciplines, <em>one retainer.</em></h2>
-            <p className="sub">Every SEO engagement we run covers technical, local, content, links, and measurement. No upsells, no tiers. Pick the depth you need.</p>
+            <p className="sub">Every SEO engagement we run covers technical, local, content, links, and measurement. No upsells, no tiers.</p>
           </div>
-
-          {subServices.map((svc) => (
-            <div className="svc-detail-block reveal" key={svc.id} id={svc.id}>
-              <div className="svc-detail-head">
-                <span className="svc-detail-num">{svc.num}</span>
-                <div>
-                  <h3>{svc.title}</h3>
-                  <p className="svc-detail-tagline">{svc.tagline}</p>
+          <div className="svc-cards-grid">
+            {subServices.map((svc) => (
+              <Link key={svc.slug} href={`/services/seo/${svc.slug}`} className="svc-card reveal">
+                <div className="svc-card-top">
+                  <span className="svc-card-num">{svc.num}</span>
+                  <span className="svc-card-arrow"><ArrowRight /></span>
                 </div>
-              </div>
-              <p className="svc-detail-desc">{svc.desc}</p>
-              <div className="svc-detail-features">
-                {svc.features.map((f) => (
-                  <div className="svc-detail-feature" key={f}>
-                    <span className="svc-detail-dot" />
-                    {f}
-                  </div>
-                ))}
-              </div>
-              <div className="svc-detail-result">
-                <span className="svc-detail-result-icon">&uarr;</span> {svc.result}
-              </div>
-            </div>
-          ))}
+                <h3>{svc.title}</h3>
+                <p className="svc-card-tagline">{svc.tagline}</p>
+                <p className="svc-card-desc">{svc.desc}</p>
+                <div className="svc-card-highlights">
+                  {svc.highlights.map(h => (
+                    <span className="svc-card-tag" key={h}>{h}</span>
+                  ))}
+                </div>
+                <div className="svc-card-result">
+                  <span className="svc-card-result-icon">&uarr;</span> {svc.result}
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

@@ -63,7 +63,7 @@ function HeroContactCard() {
     <form className="hero-card" ref={formRef} onSubmit={handleSubmit}>
       <div className="hero-card-head">
         <span className="hero-card-tag">Get a free audit</span>
-        <span className="hero-card-pill"><span className="dot"></span>Reply in 4h</span>
+        <span className="hero-card-pill">Reply in 4h</span>
       </div>
 
       <div className="hero-card-fields">

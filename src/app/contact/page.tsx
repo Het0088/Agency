@@ -16,12 +16,6 @@ const faqs = [
   { q: 'Can I just call?', a: "Of course. Numbers above. If we don't pick up, we're on a client call — leave a message and we'll ring back same business day." },
 ]
 
-const offices = [
-  { city: 'Melbourne', country: 'Australia · HQ', address: 'Level 4, 22 Brunswick St\nFitzroy VIC 3065\nAustralia', ph: '+61 3 9000 4242', hours: 'Mon–Fri · 09:00–18:00 AEDT' },
-  { city: 'London', country: 'United Kingdom', address: '17 Curtain Road\nShoreditch, EC2A 3LT\nUnited Kingdom', ph: '+44 20 4525 4242', hours: 'Mon–Fri · 09:00–18:00 GMT' },
-  { city: 'Bangalore', country: 'India', address: '1st Floor, Indiqube Alpha\nOuter Ring Road, Bellandur\nBangalore 560103, India', ph: '+91 80 4567 4242', hours: 'Mon–Fri · 09:30–18:30 IST' },
-]
-
 export default function ContactPage() {
   return (
     <>
@@ -44,13 +38,9 @@ export default function ContactPage() {
             <div className="reveal">
               <div className="contact-info">
                 <h3>Or reach out directly.</h3>
-                <p>The fastest way to get a real answer is the form on the left. But these all go to humans, too.</p>
+                <p>The fastest way to get a real answer is the form on the left. But these go to humans, too.</p>
                 {[
                   { lab: 'Email', val: <a href="mailto:hello@omniranq.com">hello@omniranq.com</a> },
-                  { lab: 'Press', val: <a href="mailto:press@omniranq.com">press@omniranq.com</a> },
-                  { lab: 'Careers', val: <a href="mailto:join@omniranq.com">join@omniranq.com</a> },
-                  { lab: 'Phone (AU)', val: '+61 3 9000 4242' },
-                  { lab: 'Phone (UK)', val: '+44 20 4525 4242' },
                   { lab: 'Phone (IN)', val: '+91 80 4567 4242' },
                 ].map((r) => (
                   <div className="contact-row" key={r.lab}>
@@ -77,19 +67,17 @@ export default function ContactPage() {
       <section className="section" style={{ background: 'var(--surface)' }}>
         <div className="wrap">
           <div className="sec-head reveal">
-            <h2>Three studios, <em>one team.</em></h2>
-            <p className="sub">We follow the sun across Australia, the UK, and India — so work ships continuously. Visit any of them; we&apos;ll buy the coffee.</p>
+            <h2>Our <em>studio.</em></h2>
+            <p className="sub">Based in India, working with businesses worldwide. Drop by or call — we&apos;ll buy the coffee.</p>
           </div>
           <div className="offices">
-            {offices.map((o) => (
-              <div className="office reveal" key={o.city}>
-                <div className="city">{o.city}</div>
-                <div className="country">{o.country}</div>
-                <address>{o.address.split('\n').map((line, i) => <span key={i}>{line}<br /></span>)}</address>
-                <div className="ph">{o.ph}</div>
-                <div style={{ fontSize: 13, color: 'var(--ink-soft)', marginTop: 4 }}>{o.hours}</div>
-              </div>
-            ))}
+            <div className="office reveal">
+              <div className="city">Bangalore</div>
+              <div className="country">India</div>
+              <address><span>1st Floor, Indiqube Alpha<br /></span><span>Outer Ring Road, Bellandur<br /></span><span>Bangalore 560103, India<br /></span></address>
+              <div className="ph">+91 80 4567 4242</div>
+              <div style={{ fontSize: 13, color: 'var(--ink-soft)', marginTop: 4 }}>Mon–Fri · 09:30–18:30 IST</div>
+            </div>
           </div>
         </div>
       </section>
