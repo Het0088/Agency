@@ -1,30 +1,51 @@
 import Link from 'next/link'
 import { ArrowRight, CheckIcon } from '@/components/Icons'
 
-export default function AiBlock() {
+function splitPoint(pt: string) {
+  const prefixes = ['GEO audits', 'Answer-first content', 'Brand entity building', 'Monthly mention reports']
+  for (const prefix of prefixes) {
+    if (pt.startsWith(prefix)) {
+      return { bold: prefix, rest: pt.slice(prefix.length) }
+    }
+  }
+  const words = pt.split(' ')
+  return { bold: words.slice(0, 2).join(' '), rest: ' ' + words.slice(2).join(' ') }
+}
+
+export default function AiBlock({ content }: { content?: Record<string, string> }) {
+  const eyebrow = content?.ai_eyebrow || 'The new search era'
+  const heading = content?.ai_heading || "AI didn't kill SEO. It raised the stakes."
+  const subtext = content?.ai_subtext || "Half of search journeys now start in ChatGPT, Perplexity, or Google's AI Overviews. The brands cited inside those answers are the brands that win the next decade. We optimize for both — the blue links and the AI answers."
+  const cta = content?.ai_cta || 'Read the AI SEO playbook'
+
+  const points = [
+    content?.ai_point_1 || "GEO audits across ChatGPT, Perplexity, Claude, Gemini, and Google AIO — see exactly where you're cited (and where you're invisible).",
+    content?.ai_point_2 || 'Answer-first content structured for LLM retrieval — semantic markup, claim-evidence pairs, citation hooks.',
+    content?.ai_point_3 || 'Brand entity building across Wikipedia, Wikidata, Crunchbase, and the open web LLMs train on.',
+    content?.ai_point_4 || 'Monthly mention reports showing your share of voice in AI answers vs. competitors — the metric that will matter in 2027.',
+  ]
+
   return (
     <section className="ai-block" id="ai">
       <div className="wrap">
         <div className="ai-grid">
           <div className="reveal">
-            <span className="eyebrow">The new search era</span>
-            <h2>AI didn&apos;t kill SEO. It <em>raised the stakes.</em></h2>
-            <p className="lede">Half of search journeys now start in ChatGPT, Perplexity, or Google&apos;s AI Overviews. The brands cited inside those answers are the brands that win the next decade. We optimize for both — the blue links and the AI answers.</p>
+            <span className="eyebrow">{eyebrow}</span>
+            <h2 dangerouslySetInnerHTML={{ __html: heading.replace('raised the stakes.', '<em>raised the stakes.</em>') }} />
+            <p className="lede">{subtext}</p>
             <ul className="ai-points">
-              {[
-                { bold: 'GEO audits', rest: ' across ChatGPT, Perplexity, Claude, Gemini, and Google AIO — see exactly where you\'re cited (and where you\'re invisible).' },
-                { bold: 'Answer-first content', rest: ' structured for LLM retrieval — semantic markup, claim-evidence pairs, citation hooks.' },
-                { bold: 'Brand entity building', rest: ' across Wikipedia, Wikidata, Crunchbase, and the open web LLMs train on.' },
-                { bold: 'Monthly mention reports', rest: ' showing your share of voice in AI answers vs. competitors — the metric that will matter in 2027.' },
-              ].map((item) => (
-                <li key={item.bold}>
-                  <span className="check"><CheckIcon /></span>
-                  <span><strong style={{ color: 'var(--dark-ink)' }}>{item.bold}</strong>{item.rest}</span>
-                </li>
-              ))}
+              {points.map((pt, i) => {
+                const item = splitPoint(pt)
+                return (
+                  <li key={i}>
+                    <span className="check"><CheckIcon /></span>
+                    <span><strong style={{ color: 'var(--dark-ink)' }}>{item.bold}</strong>{item.rest}</span>
+                  </li>
+                )
+              })}
             </ul>
             <Link href="/services" className="btn btn-primary">
-              Read the AI SEO playbook
+              {cta}
               <span className="arr"><ArrowRight /></span>
             </Link>
           </div>

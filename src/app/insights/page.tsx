@@ -1,13 +1,21 @@
 import type { Metadata } from 'next'
+import { getPageMeta } from '@/lib/get-meta'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const m = await getPageMeta('/insights')
+  return {
+    title: m.title,
+    description: m.description,
+    alternates: { canonical: m.canonical },
+    openGraph: { title: m.og_title, description: m.og_description, url: m.canonical, type: 'website', ...(m.og_image ? { images: [{ url: m.og_image }] } : {}) },
+  }
+}
+
 import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import InsightsContent from './InsightsContent'
 import { query } from '@/lib/db'
-
-export const metadata: Metadata = { title: 'Insights — Omniranq' }
-
-export const dynamic = 'force-dynamic'
 
 type PostRow = {
   slug: string
@@ -20,6 +28,7 @@ type PostRow = {
   read_time: string
   featured: number
 }
+
 
 export default async function InsightsPage() {
   let posts: PostRow[] = []

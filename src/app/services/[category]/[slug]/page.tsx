@@ -7,6 +7,7 @@ import Footer from '@/components/Footer'
 import BigCta from '@/components/BigCta'
 import { ArrowRight } from '@/components/Icons'
 import { getSubService, getSubServiceSlugs, getSubServicesByCategory } from '@/lib/services-data'
+import OldVsNewSeo from '@/app/sections/OldVsNewSeo'
 
 export function generateStaticParams() {
   return getSubServiceSlugs().map(([category, slug]) => ({ category, slug }))
@@ -16,9 +17,11 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const { category, slug } = await params
   const svc = getSubService(category, slug)
   if (!svc) return {}
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
   return {
     title: `${svc.title} Services — Omniranq`,
     description: svc.metaDescription || `${svc.desc.slice(0, 155)}...`,
+    alternates: { canonical: `${base}/services/${category}/${slug}` },
   }
 }
 
@@ -155,6 +158,8 @@ export default async function SubServicePage({ params }: { params: Promise<{ cat
           </div>
         </section>
       )}
+
+      {category === 'seo' && <OldVsNewSeo />}
 
       <BigCta
         heading={`Free ${svc.title.toLowerCase()} audit.`}

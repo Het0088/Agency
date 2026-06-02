@@ -1,4 +1,16 @@
 import type { Metadata } from 'next'
+import { getPageMeta } from '@/lib/get-meta'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const m = await getPageMeta('/services')
+  return {
+    title: m.title,
+    description: m.description,
+    alternates: { canonical: m.canonical },
+    openGraph: { title: m.og_title, description: m.og_description, url: m.canonical, type: 'website', ...(m.og_image ? { images: [{ url: m.og_image }] } : {}) },
+  }
+}
+import { getContent } from '@/lib/get-content'
 import Link from 'next/link'
 import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
@@ -7,10 +19,6 @@ import BigCta from '@/components/BigCta'
 import ServiceFaq from './ServiceFaq'
 import { ArrowRight } from '@/components/Icons'
 
-export const metadata: Metadata = {
-  title: 'All Services — SEO, AI Search, Content, PPC, Web Design & More | Omniranq',
-  description: 'Full-service digital growth. SEO, AI search optimization, content marketing, PPC, social media, web design, link building, and analytics — all under one roof.',
-}
 
 const categories = [
   {
@@ -101,42 +109,6 @@ const categories = [
   },
 ]
 
-const compareRows = [
-  { lab: 'Senior strategist on every call', us: 'Always', them: 'Account manager, sometimes' },
-  { lab: 'Month-to-month after onboarding', us: 'After 90 days', them: '12-month minimums' },
-  { lab: 'Live dashboard with revenue attribution', us: 'Day one', them: 'Monthly PDFs' },
-  { lab: 'AI Search & GEO included', us: 'Standard', them: 'Premium add-on or unavailable' },
-  { lab: 'Content written by industry experts', us: 'Ex-journalists, in-house', them: 'Offshored generalists' },
-  { lab: 'You own all the work + access', us: 'Always yours', them: 'Proprietary tools you lose access to' },
-]
-
-const engagementModels = [
-  {
-    tag: 'Most popular',
-    title: 'Monthly retainer',
-    price: 'From $4,000/mo',
-    desc: 'Ongoing, full-service SEO with a dedicated strategist. All workstreams running in parallel. Month-to-month after 90-day onboarding.',
-    features: ['Dedicated senior strategist', 'All deliverables included', 'Live dashboard & monthly calls', 'Month-to-month after onboarding'],
-    primary: true,
-  },
-  {
-    tag: 'One-time',
-    title: 'SEO audit',
-    price: 'From $2,500',
-    desc: 'A comprehensive 60-90 page audit with prioritized findings and a 90-minute walkthrough.',
-    features: ['200+ point technical audit', 'Content gap analysis', 'Competitive positioning report', '90-minute strategy call'],
-    primary: false,
-  },
-  {
-    tag: 'Consulting',
-    title: 'Strategy sprint',
-    price: 'From $6,000',
-    desc: 'A focused 4-week engagement. We build your roadmap, train your team, and hand over a 12-month execution plan.',
-    features: ['4-week intensive engagement', 'Full keyword & content strategy', 'Team training sessions', '12-month execution plan'],
-    primary: false,
-  },
-]
-
 const trustBadges = [
   { label: 'Google Partner', sub: 'Certified' },
   { label: 'Clutch', sub: '4.9 / 5.0' },
@@ -144,7 +116,58 @@ const trustBadges = [
   { label: 'HubSpot', sub: 'Certified' },
 ]
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const content = await getContent('/services')
+
+  const compareRows = [
+    { lab: content.compare_1_lab || 'Senior strategist on every call', us: content.compare_1_us || 'Always', them: content.compare_1_them || 'Account manager, sometimes' },
+    { lab: content.compare_2_lab || 'Month-to-month after onboarding', us: content.compare_2_us || 'After 90 days', them: content.compare_2_them || '12-month minimums' },
+    { lab: content.compare_3_lab || 'Live dashboard with revenue attribution', us: content.compare_3_us || 'Day one', them: content.compare_3_them || 'Monthly PDFs' },
+    { lab: content.compare_4_lab || 'AI Search & GEO included', us: content.compare_4_us || 'Standard', them: content.compare_4_them || 'Premium add-on or unavailable' },
+    { lab: content.compare_5_lab || 'Content written by industry experts', us: content.compare_5_us || 'Ex-journalists, in-house', them: content.compare_5_them || 'Offshored generalists' },
+    { lab: content.compare_6_lab || 'You own all the work + access', us: content.compare_6_us || 'Always yours', them: content.compare_6_them || 'Proprietary tools you lose access to' },
+  ]
+
+  const engagementModels = [
+    {
+      tag: content.engage_1_tag || 'Most popular',
+      title: content.engage_1_title || 'Monthly retainer',
+      price: content.engage_1_price || 'From $4,000/mo',
+      desc: content.engage_1_desc || 'Ongoing, full-service SEO with a dedicated strategist. All workstreams running in parallel. Month-to-month after 90-day onboarding.',
+      features: (content.engage_1_features || 'Dedicated senior strategist, All deliverables included, Live dashboard & monthly calls, Month-to-month after onboarding').split(',').map(f => f.trim()),
+      primary: true,
+    },
+    {
+      tag: content.engage_2_tag || 'One-time',
+      title: content.engage_2_title || 'SEO audit',
+      price: content.engage_2_price || 'From $2,500',
+      desc: content.engage_2_desc || 'A comprehensive 60-90 page audit with prioritized findings and a 90-minute walkthrough.',
+      features: (content.engage_2_features || '200+ point technical audit, Content gap analysis, Competitive positioning report, 90-minute strategy call').split(',').map(f => f.trim()),
+      primary: false,
+    },
+    {
+      tag: content.engage_3_tag || 'Consulting',
+      title: content.engage_3_title || 'Strategy sprint',
+      price: content.engage_3_price || 'From $6,000',
+      desc: content.engage_3_desc || 'A focused 4-week engagement. We build your roadmap, train your team, and hand over a 12-month execution plan.',
+      features: (content.engage_3_features || '4-week intensive engagement, Full keyword & content strategy, Team training sessions, 12-month execution plan').split(',').map(f => f.trim()),
+      primary: false,
+    },
+  ]
+
+  const heroHeading = content.hero_heading || 'Everything you need to dominate search.'
+  const heroSubtext = content.hero_subtext || 'Eight disciplines, one studio. We handle SEO, AI search, content, paid media, web design, link building, social, and analytics — so you don\'t need eight agencies.'
+
+  const midCtaHeading = content.mid_cta_heading || 'Not sure which service you need?'
+  const midCtaSubtext = content.mid_cta_subtext || 'Book a 30-minute call with a senior strategist. No sales pitch — just honest advice.'
+  const midCtaBtn = content.mid_cta_btn || 'Book a free call'
+
+  const engageHeading = content.engage_heading || 'Choose your engagement.'
+  const engageSubtext = content.engage_subtext || 'Three ways to work with us. Pick the model that fits your stage and budget.'
+
+  const compareHeading = content.compare_heading || 'Us vs. typical agencies.'
+  const compareSubtext = content.compare_subtext || 'Not throwing shade. Just being clear about how we\'re built differently.'
+
   return (
     <>
       <Topbar text="Free SEO audit · 30 minutes · No obligation." linkText="Book →" linkHref="/contact" />
@@ -154,8 +177,8 @@ export default function ServicesPage() {
         <div className="wrap">
           <div className="crumb">Home / Services</div>
           <div className="reveal in">
-            <h1 style={{ maxWidth: 'none' }}>Everything you need<br />to <em>dominate</em> search.</h1>
-            <p style={{ maxWidth: 600 }}>Eight disciplines, one studio. We handle SEO, AI search, content, paid media, web design, link building, social, and analytics — so you don&apos;t need eight agencies.</p>
+            <h1 style={{ maxWidth: 'none' }} dangerouslySetInnerHTML={{ __html: heroHeading.replace('dominate search.', '<em>dominate</em> search.') }} />
+            <p style={{ maxWidth: 600 }}>{heroSubtext}</p>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 32 }}>
               <Link href="/contact" className="btn btn-primary">Get a free audit <span className="arr"><ArrowRight /></span></Link>
               <a href="#all-services" className="btn btn-ghost">Explore all services</a>
@@ -180,10 +203,10 @@ export default function ServicesPage() {
       <section className="stats">
         <div className="wrap">
           <div className="stats-grid">
-            <div className="stat reveal"><div className="stat-num">8<span className="unit">services</span></div><div className="stat-label">Full disciplines under one roof</div></div>
-            <div className="stat reveal"><div className="stat-num">30<span className="unit">+</span></div><div className="stat-label">Specialized sub-services</div></div>
-            <div className="stat reveal"><div className="stat-num">412<span className="unit">%</span></div><div className="stat-label">Average organic traffic growth</div></div>
-            <div className="stat reveal"><div className="stat-num">94<span className="unit">%</span></div><div className="stat-label">Annual client retention rate</div></div>
+            <div className="stat reveal"><div className="stat-num">{content.stats_1_num || '8'}<span className="unit">{content.stats_1_unit || 'services'}</span></div><div className="stat-label">{content.stats_1_label || 'Full disciplines under one roof'}</div></div>
+            <div className="stat reveal"><div className="stat-num">{content.stats_2_num || '30'}<span className="unit">{content.stats_2_unit || '+'}</span></div><div className="stat-label">{content.stats_2_label || 'Specialized sub-services'}</div></div>
+            <div className="stat reveal"><div className="stat-num">{content.stats_3_num || '412'}<span className="unit">{content.stats_3_unit || '%'}</span></div><div className="stat-label">{content.stats_3_label || 'Average organic traffic growth'}</div></div>
+            <div className="stat reveal"><div className="stat-num">{content.stats_4_num || '94'}<span className="unit">{content.stats_4_unit || '%'}</span></div><div className="stat-label">{content.stats_4_label || 'Annual client retention rate'}</div></div>
           </div>
         </div>
       </section>
@@ -216,11 +239,11 @@ export default function ServicesPage() {
         <div className="wrap">
           <div className="mid-cta-inner reveal">
             <div className="mid-cta-text">
-              <h3>Not sure which service you need?</h3>
-              <p>Book a 30-minute call with a senior strategist. No sales pitch &mdash; just honest advice.</p>
+              <h3>{midCtaHeading}</h3>
+              <p>{midCtaSubtext}</p>
             </div>
             <Link href="/contact" className="btn btn-primary">
-              Book a free call <span className="arr"><ArrowRight /></span>
+              {midCtaBtn} <span className="arr"><ArrowRight /></span>
             </Link>
           </div>
         </div>
@@ -229,8 +252,8 @@ export default function ServicesPage() {
       <section className="section" id="models">
         <div className="wrap">
           <div className="sec-head reveal">
-            <h2>Choose your <em>engagement.</em></h2>
-            <p className="sub">Three ways to work with us. Pick the model that fits your stage and budget.</p>
+            <h2 dangerouslySetInnerHTML={{ __html: engageHeading.replace('engagement.', '<em>engagement.</em>') }} />
+            <p className="sub">{engageSubtext}</p>
           </div>
           <div className="engage-grid">
             {engagementModels.map((m) => (
@@ -254,8 +277,8 @@ export default function ServicesPage() {
       <section className="section">
         <div className="wrap">
           <div className="sec-head reveal">
-            <h2>Us vs. <em>typical agencies.</em></h2>
-            <p className="sub">Not throwing shade. Just being clear about how we&apos;re built differently.</p>
+            <h2 dangerouslySetInnerHTML={{ __html: compareHeading.replace('typical agencies.', '<em>typical agencies.</em>') }} />
+            <p className="sub">{compareSubtext}</p>
           </div>
           <div className="compare reveal">
             <div className="compare-row head"><div>What you get</div><div className="col-us">Omniranq</div><div>Most agencies</div></div>

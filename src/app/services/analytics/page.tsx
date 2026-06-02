@@ -1,4 +1,15 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
+import { getPageMeta } from '@/lib/get-meta'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const m = await getPageMeta('/services/analytics')
+  return {
+    title: m.title,
+    description: m.description,
+    alternates: { canonical: m.canonical },
+    openGraph: { title: m.og_title, description: m.og_description, url: m.canonical, type: 'website', ...(m.og_image ? { images: [{ url: m.og_image }] } : {}) },
+  }
+}
 import Link from 'next/link'
 import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
@@ -7,10 +18,6 @@ import BigCta from '@/components/BigCta'
 import ServiceCards from '@/components/ServiceCards'
 import { ArrowRight } from '@/components/Icons'
 
-export const metadata: Metadata = {
-  title: 'Analytics & CRO Services — Conversion Audits, A/B Testing & Dashboards | Omniranq',
-  description: 'Turn traffic into revenue. CRO audits, rigorous A/B testing, and live reporting dashboards with revenue attribution.',
-}
 
 const cards = [
   { num: '01', slug: 'cro-audits', title: 'CRO Audits', tagline: 'Find out why visitors leave.', desc: 'Systematic conversion audits that identify exactly why visitors are not converting and what to fix first. Data-driven, not opinion-driven.', highlights: ['Heatmap analysis', 'Funnel drop-offs', 'Form analytics', 'UX benchmarking'], result: '28% avg. conversion lift' },

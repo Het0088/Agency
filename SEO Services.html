@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI SEO Services — OmniRanq</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal:       #0ABBC8;
+    --teal-dark:  #0896A1;
+    --teal-light: #C8F0F4;
+    --navy:       #1B2B6E;
+    --navy-dark:  #141F52;
+    --orange:     #F97316;
+    --orange-dark:#E06010;
+    --mint-bg:    #7DD8D4;
+    --mint-card:  #EAF9F9;
+    --mint-card2: #D0F4F4;
+    --white:      #FFFFFF;
+    --off-white:  #F7FBFC;
+    --gray-light: #F0F4F8;
+    --text-dark:  #111827;
+    --text-mid:   #374151;
+    --text-muted: #6B7280;
+    --border:     #E5E7EB;
+    --hero-grad: linear-gradient(135deg, #C5EEF5 0%, #E8F8FA 40%, #FFF8EE 100%);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--white); color: var(--text-dark); }
+
+  /* ── NAV ── */
+  .nav {
+    background: var(--navy);
+    padding: 0 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--teal); }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-cta {
+    background: var(--orange);
+    color: var(--white);
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--orange-dark); }
+
+  /* ── HERO BANNER ── */
+  .hero {
+    background: var(--hero-grad);
+    padding: 90px 80px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(10,187,200,0.12) 0%, transparent 70%);
+  }
+  .hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    background: rgba(10,187,200,0.15);
+    color: var(--teal-dark);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--navy);
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--teal);
+  }
+  .hero-sub {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text-mid);
+    margin-bottom: 32px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .btn-primary {
+    background: var(--orange);
+    color: var(--white);
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--orange-dark); transform: translateY(-1px); }
+  .btn-outline {
+    border: 2px solid var(--navy);
+    color: var(--navy);
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { background: var(--navy); color: var(--white); }
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(10,187,200,0.25);
+  }
+  .hero-stat { }
+  .hero-stat-num {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* Hero image stack */
+  .hero-images {
+    position: relative;
+    height: 420px;
+  }
+  .hero-img-main {
+    position: absolute;
+    top: 0; left: 0;
+    width: 78%;
+    height: 280px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #1B2B6E 0%, #0ABBC8 100%);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-img-sub {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 60%;
+    height: 200px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #0896A1 0%, #7DD8D4 100%);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .img-placeholder-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 20px;
+  }
+  .hero-badge {
+    position: absolute;
+    top: 200px; left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--white);
+    border-radius: 50%;
+    width: 52px; height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    font-size: 22px;
+    z-index: 2;
+  }
+
+  /* ── CONTACT FORM BANNER ── */
+  .contact-banner {
+    background: var(--navy);
+    padding: 56px 80px;
+  }
+  .contact-banner-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .contact-banner-copy h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .contact-banner-copy h2 span { color: var(--teal); }
+  .contact-banner-copy p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+  .contact-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .contact-form input,
+  .contact-form textarea,
+  .contact-form select {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 8px;
+    padding: 13px 16px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--white);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: rgba(255,255,255,0.45); }
+  .contact-form input:focus,
+  .contact-form textarea:focus { border-color: var(--teal); }
+  .contact-form textarea {
+    grid-column: 1 / -1;
+    resize: none;
+    height: 90px;
+  }
+  .contact-form .form-submit {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .contact-form button {
+    background: var(--orange);
+    color: var(--white);
+    border: none;
+    padding: 13px 32px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .contact-form button:hover { background: var(--orange-dark); }
+
+  /* ── SECTION WRAPPER ── */
+  .section { padding: 80px 80px; }
+  .section-inner { max-width: 1280px; margin: 0 auto; }
+  .section-alt { background: var(--off-white); }
+  .section-dark { background: var(--navy); }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal-dark);
+    margin-bottom: 14px;
+  }
+  .eyebrow-light { color: rgba(10,187,200,0.9); }
+
+  .section-title {
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+  }
+  .section-title-light { color: var(--white); }
+  .section-title em { font-style: normal; color: var(--teal); }
+  .section-sub {
+    font-size: 17px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin-top: 12px;
+  }
+  .section-sub-light { color: rgba(255,255,255,0.65); }
+
+  /* ── AI SEO INTRO (Two-col) ── */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 0;
+  }
+  .intro-text .eyebrow { margin-bottom: 10px; }
+  .intro-text h2 { font-size: 40px; font-weight: 800; color: var(--navy); line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 20px; }
+  .intro-text h2 span { color: var(--teal); }
+  .intro-text p { font-size: 16px; color: var(--text-mid); line-height: 1.75; margin-bottom: 16px; }
+  .intro-text a { color: var(--teal); font-weight: 600; text-decoration: underline; }
+  .intro-text .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 15px;
+    margin-top: 8px;
+    text-decoration: none;
+    border-bottom: 2px solid var(--teal);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+  .intro-text .cta-link:hover { color: var(--teal); }
+  .intro-images {
+    position: relative;
+    height: 400px;
+  }
+  .intro-img-large {
+    position: absolute;
+    top: 0; left: 0;
+    width: 80%;
+    height: 260px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #1B2B6E 20%, #0ABBC8 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    font-weight: 500;
+    overflow: hidden;
+  }
+  .intro-img-small {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 55%;
+    height: 200px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #0896A1 0%, #7DD8D4 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .intro-float {
+    position: absolute;
+    width: 52px; height: 52px;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    font-size: 22px;
+    z-index: 3;
+  }
+  .intro-float-1 { top: 205px; left: 58%; }
+  .intro-float-2 { bottom: 140px; left: 18px; }
+
+  /* ── PROCESS BOXES (dark bg 6-col) ── */
+  .process-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .process-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 14px;
+    padding: 28px 24px;
+    position: relative;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .process-card:hover {
+    background: rgba(10,187,200,0.15);
+    transform: translateY(-3px);
+  }
+  .process-num {
+    position: absolute;
+    top: 20px; right: 20px;
+    font-size: 36px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.1);
+    line-height: 1;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .process-icon {
+    width: 48px; height: 48px;
+    background: rgba(10,187,200,0.18);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 18px;
+  }
+  .process-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .process-card p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.65;
+  }
+
+  /* ── FEATURES BOXES (white bg 3-col) ── */
+  .features-header {
+    margin-bottom: 44px;
+  }
+  .features-header p { max-width: 680px; }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .feature-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 24px;
+    transition: box-shadow 0.25s, transform 0.2s, border-color 0.2s;
+  }
+  .feature-card:hover {
+    border-color: var(--teal);
+    box-shadow: 0 8px 28px rgba(10,187,200,0.12);
+    transform: translateY(-3px);
+  }
+  .feature-icon {
+    width: 52px; height: 52px;
+    background: var(--mint-card);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  .feature-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+  .feature-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ── ADVANTAGES (mint/teal bg 3-col) ── */
+  .advantages-section {
+    background: linear-gradient(135deg, #EAF9FA 0%, #F0FBFC 100%);
+  }
+  .adv-card {
+    background: var(--white);
+    border: 1px solid rgba(10,187,200,0.2);
+    border-radius: 14px;
+    padding: 28px 24px;
+    transition: box-shadow 0.25s, transform 0.2s;
+  }
+  .adv-card:hover {
+    box-shadow: 0 8px 28px rgba(10,187,200,0.15);
+    transform: translateY(-3px);
+  }
+  .adv-icon {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, var(--teal-light) 0%, var(--mint-card2) 100%);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  .adv-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .adv-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ── CTA STRIP ── */
+  .cta-strip {
+    background: linear-gradient(135deg, var(--teal) 0%, #0896A1 100%);
+    padding: 64px 80px;
+    text-align: center;
+  }
+  .cta-strip h2 {
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 14px;
+    letter-spacing: -0.5px;
+  }
+  .cta-strip p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 32px;
+  }
+  .cta-strip-btns {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+  }
+  .btn-white {
+    background: var(--white);
+    color: var(--navy);
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.2s;
+  }
+  .btn-white:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+  .btn-outline-white {
+    border: 2px solid rgba(255,255,255,0.6);
+    color: var(--white);
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-outline-white:hover { border-color: var(--white); background: rgba(255,255,255,0.1); }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--navy-dark);
+    padding: 48px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-logo {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--teal); }
+  .footer-copy {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    color: rgba(255,255,255,0.55);
+    font-size: 13px;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--teal); }
+
+  /* ── RULES CHANGED TABLE ── */
+  .rules-section { background: var(--white); }
+  .rules-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+    margin-bottom: 48px;
+  }
+  .rules-header h2 {
+    font-size: 52px;
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    font-style: italic;
+  }
+  .rules-header h2 em {
+    font-style: italic;
+    color: var(--orange);
+  }
+  .rules-header p {
+    font-size: 16px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    align-self: end;
+    padding-bottom: 4px;
+  }
+  .rules-table {
+    border: 1px solid #E8E4DC;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .rules-table-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #F8F5EF;
+  }
+  .rules-col-label {
+    padding: 14px 24px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rules-col-label.old { color: #C0392B; border-right: 1px solid #E8E4DC; }
+  .rules-col-label.new { color: #1B6E3F; }
+  .rules-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .rules-dot.old { background: #C0392B; }
+  .rules-dot.new { background: #27AE60; }
+  .rules-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid #E8E4DC;
+  }
+  .rules-row:hover { background: #FAFAF8; }
+  .rules-cell {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--text-mid);
+  }
+  .rules-cell.old-cell { border-right: 1px solid #E8E4DC; }
+  .rules-cell-num {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+    min-width: 24px;
+    font-variant-numeric: tabular-nums;
+  }
+  .rules-cell-icon {
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .rules-cell-icon.x { color: #C0392B; }
+  .rules-cell-icon.check { color: #27AE60; }
+
+  /* ── OUR AI SEO SERVICES (6 cards with arrow) ── */
+  .services-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 24px 22px;
+    transition: box-shadow 0.25s, transform 0.2s, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .services-card:hover {
+    border-color: var(--teal);
+    box-shadow: 0 8px 28px rgba(10,187,200,0.12);
+    transform: translateY(-3px);
+  }
+  .services-icon {
+    width: 52px; height: 52px;
+    background: var(--mint-card);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  .services-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .services-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    flex: 1;
+  }
+  .services-card-arrow {
+    margin-top: 18px;
+    color: var(--teal);
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+  .services-card:hover .services-card-arrow { transform: translateX(4px); }
+
+  /* ── INDUSTRIES GRID ── */
+  .industries-section { background: #EFF4F6; }
+  .industries-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+    margin-bottom: 48px;
+  }
+  .industries-header .eyebrow { display: block; margin-bottom: 12px; }
+  .industries-header h2 {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .industries-header p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    align-self: end;
+  }
+  .industries-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .industry-tile {
+    background: linear-gradient(135deg, #8EE3DF 0%, #6DD4D0 100%);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+  }
+  .industry-tile:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(10,187,200,0.2);
+  }
+  .industry-icon-wrap {
+    width: 44px; height: 44px;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  .industry-tile span {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy-dark);
+    line-height: 1.3;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-section { background: var(--white); }
+  .testimonials-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+    margin-bottom: 48px;
+  }
+  .testimonials-header h2 {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.25;
+  }
+  .testimonials-header p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    align-self: end;
+  }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .reviews-panel { }
+  .google-rating-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .google-g {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, #4285F4, #EA4335, #FBBC04, #34A853);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: white;
+    flex-shrink: 0;
+  }
+  .google-rating-info h4 {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+  .stars {
+    display: flex;
+    gap: 2px;
+    margin-top: 3px;
+  }
+  .star { color: #FBBC04; font-size: 16px; }
+  .review-card {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .review-card:last-child { border-bottom: none; }
+  .reviewer-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .reviewer-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: white;
+    flex-shrink: 0;
+  }
+  .reviewer-info h5 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .reviewer-info .review-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+  .review-text {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.65;
+  }
+  .video-panel {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #1A1A2E;
+    position: relative;
+  }
+  .video-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #1B2B6E 0%, #0ABBC8 60%, #1B2B6E 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+  }
+  .video-play-btn {
+    width: 64px; height: 64px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+  }
+  .video-thumb:hover .video-play-btn { transform: scale(1.1); }
+  .video-label {
+    position: absolute;
+    bottom: 12px;
+    left: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+  }
+  .video-thumbs-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 12px;
+    background: #111827;
+  }
+  .video-thumb-mini {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #1B2B6E 0%, #0ABBC8 100%);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .video-thumb-mini:hover { opacity: 0.8; }
+
+  /* ── FAQ ── */
+  .faq-section { background: var(--off-white); }
+  .faq-box {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .faq-header-row {
+    padding: 32px 36px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .faq-header-row h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 36px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+    transition: color 0.2s;
+    user-select: none;
+  }
+  .faq-item.open .faq-question { color: var(--teal-dark); }
+  .faq-toggle {
+    width: 28px; height: 28px;
+    border: 2px solid var(--teal);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--teal);
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s;
+  }
+  .faq-item.open .faq-toggle {
+    background: var(--teal);
+    color: white;
+  }
+  .faq-answer {
+    padding: 0 36px;
+    font-size: 14px;
+    color: var(--teal-dark);
+    line-height: 1.75;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.3s;
+  }
+  .faq-item.open .faq-answer {
+    max-height: 300px;
+    padding: 0 36px 24px;
+  }
+  .faq-load-more {
+    display: flex;
+    justify-content: center;
+    padding: 32px;
+  }
+  .btn-orange-pill {
+    background: var(--orange);
+    color: var(--white);
+    padding: 14px 32px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .btn-orange-pill:hover { background: var(--orange-dark); }
+
+  /* ── BLOG POSTS ── */
+  .blog-section { background: var(--white); }
+  .blog-header { margin-bottom: 36px; }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .blog-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: box-shadow 0.25s, transform 0.2s;
+    text-decoration: none;
+  }
+  .blog-card:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+    transform: translateY(-3px);
+  }
+  .blog-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #1B2B6E 0%, #0ABBC8 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+  }
+  .blog-body { padding: 20px; }
+  .blog-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal-dark);
+    margin-bottom: 10px;
+  }
+  .blog-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+  .blog-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .blog-arrow { color: var(--teal); font-size: 16px; }
+
+  /* SVG icon helpers */
+  .svg-icon {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke: var(--teal);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .svg-icon-white {
+    stroke: rgba(255,255,255,0.9);
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ NAV ═══════════════════════════ -->
+<nav class="nav">
+  <div class="nav-logo">Omni<span>Ranq</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Services</a></li>
+    <li><a href="#">AI SEO</a></li>
+    <li><a href="#">Case Studies</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Blog</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get Free Audit →</a>
+</nav>
+
+<!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="hero-eyebrow">AI-Powered SEO Studio · Est. 2014</span>
+      <h1>Search rankings driven by <em>artificial intelligence.</em></h1>
+      <p class="hero-sub">OmniRanq combines deep SEO expertise with AI tools to grow your organic traffic, authority, and revenue — faster than traditional methods alone.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Get a Free SEO Audit</a>
+        <a href="#process" class="btn-outline">See How It Works</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">412%</div>
+          <div class="hero-stat-label">Avg. traffic growth</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">600+</div>
+          <div class="hero-stat-label">Brands grown</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">94%</div>
+          <div class="hero-stat-label">Client retention</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">8.5×</div>
+          <div class="hero-stat-label">Avg. retainer ROI</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-images">
+      <div class="hero-img-main">
+        <div class="img-placeholder-text">AI SEO Strategy &amp; Analysis</div>
+      </div>
+      <div class="hero-img-sub">
+        <div class="img-placeholder-text">Team Collaboration</div>
+      </div>
+      <div class="hero-badge">🎯</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ CONTACT FORM BANNER ═══════════════════════════ -->
+<section class="contact-banner" id="contact">
+  <div class="contact-banner-inner">
+    <div class="contact-banner-copy">
+      <h2>Get your <span>free SEO audit</span> today.</h2>
+      <p>200+ checks. No obligation. Our team reviews your site and delivers a custom AI SEO growth plan within 48 hours.</p>
+    </div>
+    <form class="contact-form" onsubmit="return false;">
+      <input type="text" placeholder="Your Name" />
+      <input type="email" placeholder="Email Address" />
+      <input type="tel" placeholder="Phone Number" />
+      <input type="text" placeholder="Website URL" />
+      <textarea placeholder="Tell us about your SEO goals…"></textarea>
+      <div class="form-submit">
+        <button type="submit">Send My Free Audit Request →</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ AI SEO INTRO ═══════════════════════════ -->
+<section class="section">
+  <div class="section-inner">
+    <div class="intro-grid">
+      <div class="intro-images">
+        <div class="intro-img-large"><span style="color:rgba(255,255,255,0.5);font-size:13px;text-align:center;padding:20px;">AI Strategy &amp; Team<br>Photo Placeholder</span></div>
+        <div class="intro-img-small"><span style="color:rgba(255,255,255,0.5);font-size:13px;text-align:center;padding:16px;">Office / Work<br>Photo Placeholder</span></div>
+        <div class="intro-float intro-float-1">🔍</div>
+        <div class="intro-float intro-float-2">💡</div>
+      </div>
+      <div class="intro-text">
+        <span class="eyebrow">Artificial Intelligence SEO</span>
+        <h2>AI <span>SEO Services</span> built for the modern search landscape.</h2>
+        <p>Over the past few years, one force has reshaped every business landscape — artificial intelligence. The kind of AI-driven applications emerging in SEO and digital marketing are unprecedented.</p>
+        <p>When Google's AI Overviews, ChatGPT citations, and Perplexity search changed the rules, we were ready. OmniRanq deploys proven AI-powered tools and strategies to put your brand in front of buyers — not just browsers.</p>
+        <p>If you want to stay ahead by investing in emerging technologies and revolutionary strategies, it is time to look at AI SEO.</p>
+        <a href="#process" class="cta-link">See our AI SEO process →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ PROCESS (6 BOXES — DARK) ═══════════════════════════ -->
+<section class="section section-dark" id="process">
+  <div class="section-inner">
+    <div class="process-header">
+      <span class="eyebrow eyebrow-light">Our Method</span>
+      <h2 class="section-title section-title-light">OmniRanq's <em>AI SEO Process</em></h2>
+      <p class="section-sub section-sub-light" style="max-width:620px;margin:12px auto 0;">Our AI-driven SEO process is well-defined, structured in industry best practices, and tailored to the unique needs of each client.</p>
+    </div>
+    <div class="process-grid">
+      <!-- 1 -->
+      <div class="process-card">
+        <div class="process-num">1</div>
+        <div class="process-icon">
+          <svg class="svg-icon svg-icon-white" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3>Understanding Your Business</h3>
+        <p>We begin by gaining a clear understanding of your business, industry, and objectives to ensure the strategy aligns with your growth goals.</p>
+      </div>
+      <!-- 2 -->
+      <div class="process-card">
+        <div class="process-num">2</div>
+        <div class="process-icon">
+          <svg class="svg-icon svg-icon-white" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3>AI-Powered Audits &amp; Keyword Research</h3>
+        <p>AI tools conduct detailed audits of your website and perform keyword research, identifying key opportunities for improvement and growth.</p>
+      </div>
+      <!-- 3 -->
+      <div class="process-card">
+        <div class="process-num">3</div>
+        <div class="process-icon">
+          <svg class="svg-icon svg-icon-white" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <h3>Personalised Content &amp; SEO Recommendations</h3>
+        <p>Based on findings, we develop tailored content strategies and provide SEO recommendations to enhance both content and site performance.</p>
+      </div>
+      <!-- 4 -->
+      <div class="process-card">
+        <div class="process-num">4</div>
+        <div class="process-icon">
+          <svg class="svg-icon svg-icon-white" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h3>LLM Optimisation</h3>
+        <p>We research and optimise your brand to boost visibility in LLM searches — ChatGPT, Gemini, Perplexity — driving higher discoverability across AI platforms.</p>
+      </div>
+      <!-- 5 -->
+      <div class="process-card">
+        <div class="process-num">5</div>
+        <div class="process-icon">
+          <svg class="svg-icon svg-icon-white" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>Continuous Monitoring &amp; Optimisation</h3>
+        <p>The strategy is regularly monitored using AI tools, ensuring it remains effective and adapts to industry changes and algorithm updates.</p>
+      </div>
+      <!-- 6 -->
+      <div class="process-card">
+        <div class="process-num">6</div>
+        <div class="process-icon">
+          <svg class="svg-icon svg-icon-white" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>Measuring ROI &amp; Refining the Strategy</h3>
+        <p>We track your performance and refine the strategy as necessary, optimising results and achieving business goals systematically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ WHY OMNIRANQ (6 BOXES — LIGHT) ═══════════════════════════ -->
+<section class="section section-alt">
+  <div class="section-inner">
+    <div class="features-header">
+      <span class="eyebrow">Why OmniRanq</span>
+      <h2 class="section-title">World-class AI SEO.<br>Real competitive advantage.</h2>
+      <p class="section-sub">OmniRanq is a natural choice for ambitious brands looking for an AI marketing partner that manages the complexity of modern search without compromising on performance or precision.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>Genuine Enterprise Capabilities</h3>
+        <p>We have built in-house AI capabilities that allow us to work on websites with thousands of pages and scale up our efforts as your business grows.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+        <h3>Expertise Across the Entire Search Landscape</h3>
+        <p>From technical SEO to video, local, e-commerce, and AI search optimisation — our team covers the full spectrum to deliver the best growth for your business.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Portfolio of Marquee Brands</h3>
+        <p>Our client portfolio includes some of the leading brands across industries including Healthcare, Finance, E-commerce, Education, and more.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>38-Person Specialist Studio</h3>
+        <p>Our global team across Melbourne, London, and Bangalore works exclusively on SEO and AI search — not as a side offering within a generalist agency.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>10+ Years of Search Expertise</h3>
+        <p>Founded in 2014, we have guided 600+ brands through every major search algorithm shift — from Panda and Penguin to AI Overviews and GEO.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>Data-Driven, No Long Contracts</h3>
+        <p>Monthly retainers with full transparency. We earn your business every month with measurable results — 8.5× average return on retainer spend.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ AI ADVANTAGES (6 BOXES — TEAL/MINT) ═══════════════════════════ -->
+<section class="section advantages-section">
+  <div class="section-inner">
+    <div class="features-header">
+      <span class="eyebrow">AI Advantage</span>
+      <h2 class="section-title">AI makes SEO <em>faster and more effective.</em></h2>
+      <p class="section-sub">AI SEO services bring measurable advantages over traditional methods — here is what you gain when you partner with OmniRanq.</p>
+    </div>
+    <div class="features-grid">
+      <div class="adv-card">
+        <div class="adv-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3>Accelerated Keyword Research</h3>
+        <p>AI quickly identifies the best keyword opportunities, streamlining the research process and improving accuracy well beyond manual analysis.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>Optimised Content Recommendations</h3>
+        <p>AI enhances content relevance and structure, making it more engaging for both users and search engines — including AI answer engines.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h3>Trend Prediction for SEO</h3>
+        <p>AI helps your business stay ahead by forecasting SEO and search trends before they peak — so you capture traffic before competitors react.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>Continuous SEO Optimisation</h3>
+        <p>AI monitors and adjusts your SEO performance in real time, enabling ongoing improvements without waiting for quarterly reviews.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>Scalable &amp; Cost-Effective SEO</h3>
+        <p>AI automates many SEO tasks, making it easier to scale your efforts while reducing per-unit cost — ideal for multi-location and enterprise brands.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>GEO &amp; LLM Visibility</h3>
+        <p>We optimise your brand to appear in ChatGPT, Google AI Overviews, Gemini, and Perplexity — the new frontier of AI-powered search.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ THE RULES HAVE CHANGED ═══════════════════════════ -->
+<section class="section rules-section">
+  <div class="section-inner">
+    <div class="rules-header">
+      <h2>The rules have <em>changed.</em></h2>
+      <p>SEO in 2026 looks nothing like it did three years ago. Here's what's shifted — and why AI-first optimisation is now non-negotiable.</p>
+    </div>
+    <div class="rules-table">
+      <div class="rules-table-head">
+        <div class="rules-col-label old"><span class="rules-dot old"></span> OLD SEO</div>
+        <div class="rules-col-label new"><span class="rules-dot new"></span> NEW SEO</div>
+      </div>
+      <div class="rules-row">
+        <div class="rules-cell old-cell"><span class="rules-cell-num">01</span><span class="rules-cell-icon x">✕</span>Ranking in Google was the only game</div>
+        <div class="rules-cell"><span class="rules-cell-num">01</span><span class="rules-cell-icon check">✓</span>Being retrieved, cited, and trusted across Google and AI</div>
+      </div>
+      <div class="rules-row">
+        <div class="rules-cell old-cell"><span class="rules-cell-num">02</span><span class="rules-cell-icon x">✕</span>Keyword stuffing</div>
+        <div class="rules-cell"><span class="rules-cell-num">02</span><span class="rules-cell-icon check">✓</span>Content meets Google's E-E-A-T criteria</div>
+      </div>
+      <div class="rules-row">
+        <div class="rules-cell old-cell"><span class="rules-cell-num">03</span><span class="rules-cell-icon x">✕</span>Every link counted (quantity over quality)</div>
+        <div class="rules-cell"><span class="rules-cell-num">03</span><span class="rules-cell-icon check">✓</span>GEO — cited in ChatGPT, Gemini, Perplexity</div>
+      </div>
+      <div class="rules-row">
+        <div class="rules-cell old-cell"><span class="rules-cell-num">04</span><span class="rules-cell-icon x">✕</span>Optimised mainly for bots</div>
+        <div class="rules-cell"><span class="rules-cell-num">04</span><span class="rules-cell-icon check">✓</span>AEO — appear in AI answers and voice search</div>
+      </div>
+      <div class="rules-row">
+        <div class="rules-cell old-cell"><span class="rules-cell-num">05</span><span class="rules-cell-icon x">✕</span>Quick traffic hacks</div>
+        <div class="rules-cell"><span class="rules-cell-num">05</span><span class="rules-cell-icon check">✓</span>AIO — structure content for AI workflows</div>
+      </div>
+      <div class="rules-row">
+        <div class="rules-cell old-cell"><span class="rules-cell-num">06</span><span class="rules-cell-icon x">✕</span>Gaming algorithms</div>
+        <div class="rules-cell"><span class="rules-cell-num">06</span><span class="rules-cell-icon check">✓</span>SXO — align content with UX and conversions</div>
+      </div>
+      <div class="rules-row">
+        <div class="rules-cell old-cell"><span class="rules-cell-num">07</span><span class="rules-cell-icon x">✕</span>Clicks equal victory</div>
+        <div class="rules-cell"><span class="rules-cell-num">07</span><span class="rules-cell-icon check">✓</span>Long-term authority building</div>
+      </div>
+      <div class="rules-row">
+        <div class="rules-cell old-cell"><span class="rules-cell-num">08</span><span class="rules-cell-icon x">✕</span>Page-one rankings were the goal</div>
+        <div class="rules-cell"><span class="rules-cell-num">08</span><span class="rules-cell-icon check">✓</span>Visibility across Google, AI, and voice</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ OUR AI SEO SERVICES (6 BOXES) ═══════════════════════════ -->
+<section class="section section-alt">
+  <div class="section-inner">
+    <div class="features-header">
+      <span class="eyebrow">Our AI SEO Services</span>
+      <h2 class="section-title">Full-spectrum AI search <em>optimisation.</em></h2>
+      <p class="section-sub">The following AI SEO services from OmniRanq help businesses rank higher, get cited more, and reach buyers across every modern search platform.</p>
+    </div>
+    <div class="features-grid">
+      <div class="services-card">
+        <div class="services-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h3>LLM Optimisation</h3>
+        <p>Our AI SEO professionals help your brand stand out in LLM searches by delivering trusted, preferred content. We ensure your brand is visible, relevant, and engaging across modern AI platforms.</p>
+        <a href="#" class="services-card-arrow">→</a>
+      </div>
+      <div class="services-card">
+        <div class="services-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <h3>Answer Engine Optimisation (AEO)</h3>
+        <p>People seek answers. We help your brand show up in the AI-generated responses they actually trust — so your content doesn't just exist, it provides the solution. Includes Google AI Overview visibility.</p>
+        <a href="#" class="services-card-arrow">→</a>
+      </div>
+      <div class="services-card">
+        <div class="services-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3>Generative Engine Optimisation (GEO)</h3>
+        <p>Our GEO strategies make your brand stand out with clarity, context, and relevance. We focus on relevance and context so AI-generated results showcase your brand effectively to the right audience.</p>
+        <a href="#" class="services-card-arrow">→</a>
+      </div>
+      <div class="services-card">
+        <div class="services-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>ChatGPT Optimisation</h3>
+        <p>We make your content helpful for ChatGPT to read and understand. When people ask questions, AI shows your brand in the right way — so more people can find you through the world's most used AI assistant.</p>
+        <a href="#" class="services-card-arrow">→</a>
+      </div>
+      <div class="services-card">
+        <div class="services-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3>Perplexity Optimisation</h3>
+        <p>Perplexity is all about insight. We get your content ready to appear in answers that actually help users, putting your brand in front of the right audience at precisely the right time.</p>
+        <a href="#" class="services-card-arrow">→</a>
+      </div>
+      <div class="services-card">
+        <div class="services-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Gemini Optimisation</h3>
+        <p>Our experts help your brand become visible in Google Gemini — a platform growing rapidly in use. Higher visibility in Gemini means reaching a broader audience and driving profitable growth for your business.</p>
+        <a href="#" class="services-card-arrow">→</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ INDUSTRIES WE WORK WITH ═══════════════════════════ -->
+<section class="section industries-section">
+  <div class="section-inner">
+    <div class="industries-header">
+      <div>
+        <span class="eyebrow">Industries We Work With</span>
+        <h2>OmniRanq delivers tailored SEO for businesses just like yours.</h2>
+      </div>
+      <p>We work with clients from over 300 different industries. Here are just some of the sectors we serve — if yours isn't listed, get in touch.</p>
+    </div>
+    <div class="industries-grid">
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">🏦</div><span>Accountants SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">🏗️</div><span>Construction SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">🛒</div><span>E-commerce SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">💊</div><span>Healthcare SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">🏠</div><span>Real Estate SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">⚖️</div><span>Legal &amp; Law Firm SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">🍽️</div><span>Restaurant &amp; Hospitality SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">🎓</div><span>Education SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">🔧</div><span>HVAC &amp; Trade SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">💰</div><span>Financial Services SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">🏨</div><span>Hotel &amp; Accommodation SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">🚗</div><span>Automotive SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">👨‍⚕️</div><span>Doctors &amp; Medical SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">🔒</div><span>Security Companies SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">🏋️</div><span>Fitness &amp; Wellness SEO</span></a>
+      <a href="#" class="industry-tile"><div class="industry-icon-wrap">📦</div><span>Logistics &amp; Freight SEO</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ CLIENT TESTIMONIALS ═══════════════════════════ -->
+<section class="section testimonials-section">
+  <div class="section-inner">
+    <div class="testimonials-header">
+      <div>
+        <span class="eyebrow">Client Testimonials</span>
+        <h2>What our clients say about OmniRanq.</h2>
+      </div>
+      <p>With hundreds of 5-star reviews, OmniRanq can create a tailored plan to meet your company's online marketing goals — and deliver on it.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="reviews-panel">
+        <div class="google-rating-bar">
+          <div class="google-g">G</div>
+          <div class="google-rating-info">
+            <h4>480 Google Reviews</h4>
+            <div class="stars">
+              <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+              <span style="font-size:14px;font-weight:700;color:#374151;margin-left:6px;">4.9</span>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="reviewer-row">
+            <div class="reviewer-avatar" style="background: #1B2B6E;">N</div>
+            <div class="reviewer-info">
+              <h5>Nazir Mohammadi</h5>
+              <div class="review-meta">
+                <span class="stars"><span class="star">★★★★★</span></span>
+                &nbsp;· 7 months ago
+              </div>
+            </div>
+          </div>
+          <p class="review-text">Extremely reliable and super friendly staff. The team helped us with our digital strategy. Would recommend to everyone who wants to get their SEO done properly.</p>
+        </div>
+        <div class="review-card">
+          <div class="reviewer-row">
+            <div class="reviewer-avatar" style="background: #0896A1;">H</div>
+            <div class="reviewer-info">
+              <h5>Hunter D'Angelis</h5>
+              <div class="review-meta">
+                <span class="stars"><span class="star">★★★★★</span></span>
+                &nbsp;· 10 months ago
+              </div>
+            </div>
+          </div>
+          <p class="review-text">The OmniRanq team have been incredible to work with. From the very beginning they crafted a clear SEO strategy and have delivered measurable results month after month.</p>
+        </div>
+        <div class="review-card">
+          <div class="reviewer-row">
+            <div class="reviewer-avatar" style="background: #F97316;">S</div>
+            <div class="reviewer-info">
+              <h5>Sarah Mitchell</h5>
+              <div class="review-meta">
+                <span class="stars"><span class="star">★★★★★</span></span>
+                &nbsp;· 3 months ago
+              </div>
+            </div>
+          </div>
+          <p class="review-text">Our organic traffic grew by 280% in the first 90 days. The AI SEO approach is genuinely different — we're now appearing in ChatGPT and Google AI Overviews too.</p>
+        </div>
+      </div>
+      <div class="video-panel">
+        <div class="video-thumb">
+          <div class="video-play-btn">▶</div>
+          <div class="video-label">Client Success Story — Watch Now</div>
+        </div>
+        <div class="video-thumbs-row">
+          <div class="video-thumb-mini">▶</div>
+          <div class="video-thumb-mini">▶</div>
+          <div class="video-thumb-mini">▶</div>
+          <div class="video-thumb-mini">▶</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FAQ ═══════════════════════════ -->
+<section class="section faq-section">
+  <div class="section-inner">
+    <div class="faq-box">
+      <div class="faq-header-row">
+        <h2>Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-item open" onclick="toggleFaq(this)">
+        <div class="faq-question">How can an AI SEO agency help my business grow faster?<span class="faq-toggle">✕</span></div>
+        <div class="faq-answer">An AI SEO agency utilises advanced keyword research, content optimisation, and predictive insights to enhance search rankings and drive organic traffic. It also helps your business gain visibility in AI-generated search results, driving growth with strategies backed by data.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">What should I look for when choosing the best AI SEO company?<span class="faq-toggle">+</span></div>
+        <div class="faq-answer">Look for a proven track record with measurable results, transparency in reporting, expertise in both traditional SEO and AI search optimisation (GEO, AEO, LLM), and a flexible engagement model — month-to-month retainers are a strong signal of confidence in their work.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">How do I measure the ROI of AI SEO services over time?<span class="faq-toggle">+</span></div>
+        <div class="faq-answer">ROI is tracked through organic traffic growth, keyword ranking improvements, lead volume from organic channels, and revenue attribution. OmniRanq provides monthly dashboard reports that connect search visibility directly to business outcomes — not just vanity metrics.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">What results can I realistically expect from an AI SEO agency?<span class="faq-toggle">+</span></div>
+        <div class="faq-answer">Most clients see measurable ranking improvements within 90 days. Significant traffic growth typically emerges over months 3–6, with compounding returns from month 7 onwards. Our average client achieves 412% traffic growth and an 8.5× return on their retainer investment.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">Which AI tools and technologies do top AI SEO companies use?<span class="faq-toggle">+</span></div>
+        <div class="faq-answer">Leading AI SEO companies use tools like Ahrefs, SEMrush, Screaming Frog, Clearscope, and Surfer SEO — combined with proprietary AI-powered workflows for content gap analysis, SERP prediction, and LLM citation tracking. OmniRanq combines the best of both worlds.</div>
+      </div>
+      <div class="faq-load-more">
+        <a href="#" class="btn-orange-pill">Load More →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ RELATED BLOG POSTS ═══════════════════════════ -->
+<section class="section blog-section">
+  <div class="section-inner">
+    <div class="blog-header">
+      <span class="eyebrow">Related Blog Posts</span>
+      <h2 class="section-title">Insights on AI SEO &amp; search.</h2>
+    </div>
+    <div class="blog-grid">
+      <a href="#" class="blog-card">
+        <div class="blog-thumb">Blog Image Placeholder</div>
+        <div class="blog-body">
+          <div class="blog-tag">AI &amp; LLM SEO</div>
+          <h3>Brand Mentions vs Citations in AI Search: Key Differences</h3>
+          <div class="blog-meta">
+            <span>May 15, 2026</span>
+            <span class="blog-arrow">→</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="blog-card">
+        <div class="blog-thumb">Blog Image Placeholder</div>
+        <div class="blog-body">
+          <div class="blog-tag">AI &amp; LLM SEO</div>
+          <h3>From SEO to GEO: The 2026 Roadmap for Brands That Want AI to Recommend Them</h3>
+          <div class="blog-meta">
+            <span>May 07, 2026</span>
+            <span class="blog-arrow">→</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="blog-card">
+        <div class="blog-thumb">Blog Image Placeholder</div>
+        <div class="blog-body">
+          <div class="blog-tag">Technical SEO</div>
+          <h3>How to Prepare Your Website for AI-Generated Search Results in 2026</h3>
+          <div class="blog-meta">
+            <span>Apr 28, 2026</span>
+            <span class="blog-arrow">→</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FINAL CTA STRIP ═══════════════════════════ -->
+<section class="cta-strip">
+  <h2>Ready to grow with AI SEO?</h2>
+  <p>Join 600+ brands that trust OmniRanq to drive organic growth, authority, and revenue.</p>
+  <div class="cta-strip-btns">
+    <a href="#contact" class="btn-white">Get a Free SEO Audit →</a>
+    <a href="#process" class="btn-outline-white">View our process</a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+<footer class="footer">
+  <div class="footer-logo">Omni<span>Ranq</span></div>
+  <ul class="footer-links">
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Case Studies</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 OmniRanq. All rights reserved.</p>
+</footer>
+
+<script>
+  function toggleFaq(item) {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(el => {
+      el.classList.remove('open');
+      el.querySelector('.faq-toggle').textContent = '+';
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      item.querySelector('.faq-toggle').textContent = '✕';
+    }
+  }
+</script>
+</body>
+</html>

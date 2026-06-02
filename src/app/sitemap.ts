@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
-import { getAllSlugs } from '@/lib/cities'
+import { getCities } from '@/lib/excel'
+import { getSubServiceSlugs } from '@/lib/services-data'
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
 
@@ -25,12 +26,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === '' ? 1.0 : path.startsWith('/services/') ? 0.85 : 0.8,
   }))
 
-  const cityPages = getAllSlugs().map(slug => ({
-    url: `${BASE}/${slug}`,
+  const subServicePages = getSubServiceSlugs().map(([category, slug]) => ({
+    url: `${BASE}/services/${category}/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }))
+
+  const cityPages = getCities().map(city => ({
+    url: `${BASE}/seo/${city.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }))
 
-  return [...staticPages, ...cityPages]
+  return [...staticPages, ...subServicePages, ...cityPages]
 }

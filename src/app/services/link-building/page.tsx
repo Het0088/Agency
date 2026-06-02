@@ -1,4 +1,15 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
+import { getPageMeta } from '@/lib/get-meta'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const m = await getPageMeta('/services/link-building')
+  return {
+    title: m.title,
+    description: m.description,
+    alternates: { canonical: m.canonical },
+    openGraph: { title: m.og_title, description: m.og_description, url: m.canonical, type: 'website', ...(m.og_image ? { images: [{ url: m.og_image }] } : {}) },
+  }
+}
 import Link from 'next/link'
 import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
@@ -7,10 +18,6 @@ import BigCta from '@/components/BigCta'
 import ServiceCards from '@/components/ServiceCards'
 import { ArrowRight } from '@/components/Icons'
 
-export const metadata: Metadata = {
-  title: 'Link Building Services — Digital PR, Guest Posting & Outreach | Omniranq',
-  description: 'Editorial backlinks from publications your customers actually read. Digital PR, guest posting, and targeted outreach campaigns. Zero spam links. Ever.',
-}
 
 const cards = [
   { num: '01', slug: 'digital-pr', title: 'Digital PR', tagline: 'Coverage that builds authority.', desc: 'Data-driven PR campaigns that generate editorial coverage, high-authority backlinks, and brand awareness simultaneously.', highlights: ['Data-driven campaigns', 'Journalist outreach', 'Original research', 'Coverage tracking'], result: '15 avg. placements per campaign' },

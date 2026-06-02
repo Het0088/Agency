@@ -27,9 +27,11 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
   const { city: slug } = await params
   const city = getCityBySlug(slug)
   if (!city) return {}
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
   return {
     title: `SEO Agency in ${city.cityName}, ${city.state} | Omniranq`,
     description: `Top-rated SEO agency serving ${city.cityName}, ${city.state}. Get more traffic, leads, and revenue with proven local SEO strategies. Free audit available.`,
+    alternates: { canonical: `${base}/seo/${slug}` },
   }
 }
 

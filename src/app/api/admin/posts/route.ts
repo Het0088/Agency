@@ -17,6 +17,15 @@ function makeId(title: string): string {
 
 const GRADIENTS = ['g1', 'g2', 'g3', 'g4', 'g5', 'g6']
 
+function dbError(e: unknown) {
+  const msg = e instanceof Error ? e.message : 'Database error'
+  const isConn = msg.includes('ECONNREFUSED') || msg.includes('ENOTFOUND')
+  return NextResponse.json(
+    { error: isConn ? 'Database not connected. Set DB_HOST in .env.local to your Hostinger MySQL host.' : msg, items: [], total: 0 },
+    { status: 503 }
+  )
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const type = searchParams.get('type')
@@ -43,8 +52,12 @@ export async function GET(req: NextRequest) {
   sql += ' ORDER BY created_at DESC LIMIT ?'
   params.push(limit)
 
-  const rows = await query(sql, params)
-  return NextResponse.json({ items: rows, total: rows.length })
+  try {
+    const rows = await query(sql, params)
+    return NextResponse.json({ items: rows, total: rows.length })
+  } catch (e) {
+    return dbError(e)
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -76,21 +89,23 @@ export async function POST(req: NextRequest) {
   const featured = body.featured ? 1 : 0
   const published = body.published === false ? 0 : 1
 
-  const existing = await queryOne('SELECT id FROM posts WHERE id = ?', [id])
-
-  if (existing) {
-    await query(
-      `UPDATE posts SET type=?, tag=?, title=?, description=?, content=?, author=?, read_time=?, slug=?, cover_gradient=?, featured=?, published=? WHERE id=?`,
-      [type, tag, title, description, content, author, readTime, slug, coverGradient, featured, published, id]
-    )
-  } else {
-    await query(
-      `INSERT INTO posts (id, type, tag, title, description, content, author, read_time, slug, cover_gradient, featured, published) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [id, type, tag, title, description, content, author, readTime, slug, coverGradient, featured, published]
-    )
+  try {
+    const existing = await queryOne('SELECT id FROM posts WHERE id = ?', [id])
+    if (existing) {
+      await query(
+        `UPDATE posts SET type=?, tag=?, title=?, description=?, content=?, author=?, read_time=?, slug=?, cover_gradient=?, featured=?, published=? WHERE id=?`,
+        [type, tag, title, description, content, author, readTime, slug, coverGradient, featured, published, id]
+      )
+    } else {
+      await query(
+        `INSERT INTO posts (id, type, tag, title, description, content, author, read_time, slug, cover_gradient, featured, published) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [id, type, tag, title, description, content, author, readTime, slug, coverGradient, featured, published]
+      )
+    }
+    return NextResponse.json({ ok: true, id })
+  } catch (e) {
+    return dbError(e)
   }
-
-  return NextResponse.json({ ok: true, id })
 }
 
 export async function PUT(req: NextRequest) {
@@ -110,55 +125,59 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: 'ID is required' }, { status: 422 })
   }
 
-  const existing = await queryOne('SELECT * FROM posts WHERE id = ?', [id])
-  if (!existing) {
-    return NextResponse.json({ error: 'Post not found' }, { status: 404 })
-  }
-
-  const fields: string[] = []
-  const params: (string | number | boolean | null)[] = []
-
-  const allowed: [string, string, number][] = [
-    ['type', 'type', 10],
-    ['tag', 'tag', 100],
-    ['title', 'title', 500],
-    ['description', 'description', 5000],
-    ['author', 'author', 200],
-    ['read_time', 'read_time', 50],
-    ['slug', 'slug', 200],
-    ['cover_gradient', 'cover_gradient', 10],
-  ]
-
-  for (const [bodyKey, col, maxLen] of allowed) {
-    if (body[bodyKey] !== undefined) {
-      fields.push(`${col} = ?`)
-      params.push(sanitize(body[bodyKey], maxLen))
+  try {
+    const existing = await queryOne('SELECT * FROM posts WHERE id = ?', [id])
+    if (!existing) {
+      return NextResponse.json({ error: 'Post not found' }, { status: 404 })
     }
+
+    const fields: string[] = []
+    const params: (string | number | boolean | null)[] = []
+
+    const allowed: [string, string, number][] = [
+      ['type', 'type', 10],
+      ['tag', 'tag', 100],
+      ['title', 'title', 500],
+      ['description', 'description', 5000],
+      ['author', 'author', 200],
+      ['read_time', 'read_time', 50],
+      ['slug', 'slug', 200],
+      ['cover_gradient', 'cover_gradient', 10],
+    ]
+
+    for (const [bodyKey, col, maxLen] of allowed) {
+      if (body[bodyKey] !== undefined) {
+        fields.push(`${col} = ?`)
+        params.push(sanitize(body[bodyKey], maxLen))
+      }
+    }
+
+    if (body.content !== undefined) {
+      fields.push('content = ?')
+      params.push(typeof body.content === 'string' ? body.content.slice(0, 500000) : '')
+    }
+
+    if (body.featured !== undefined) {
+      fields.push('featured = ?')
+      params.push(body.featured ? 1 : 0)
+    }
+
+    if (body.published !== undefined) {
+      fields.push('published = ?')
+      params.push(body.published ? 1 : 0)
+    }
+
+    if (!fields.length) {
+      return NextResponse.json({ error: 'Nothing to update' }, { status: 422 })
+    }
+
+    params.push(id)
+    await query(`UPDATE posts SET ${fields.join(', ')} WHERE id = ?`, params)
+
+    return NextResponse.json({ ok: true, id })
+  } catch (e) {
+    return dbError(e)
   }
-
-  if (body.content !== undefined) {
-    fields.push('content = ?')
-    params.push(typeof body.content === 'string' ? body.content.slice(0, 500000) : '')
-  }
-
-  if (body.featured !== undefined) {
-    fields.push('featured = ?')
-    params.push(body.featured ? 1 : 0)
-  }
-
-  if (body.published !== undefined) {
-    fields.push('published = ?')
-    params.push(body.published ? 1 : 0)
-  }
-
-  if (!fields.length) {
-    return NextResponse.json({ error: 'Nothing to update' }, { status: 422 })
-  }
-
-  params.push(id)
-  await query(`UPDATE posts SET ${fields.join(', ')} WHERE id = ?`, params)
-
-  return NextResponse.json({ ok: true, id })
 }
 
 export async function DELETE(req: NextRequest) {
@@ -178,11 +197,14 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: 'ID is required' }, { status: 422 })
   }
 
-  const result = await query('DELETE FROM posts WHERE id = ?', [id])
-  const affected = (result as unknown as { affectedRows?: number })?.affectedRows
-  if (!affected) {
-    return NextResponse.json({ error: 'Post not found' }, { status: 404 })
+  try {
+    const result = await query('DELETE FROM posts WHERE id = ?', [id])
+    const affected = (result as unknown as { affectedRows?: number })?.affectedRows
+    if (!affected) {
+      return NextResponse.json({ error: 'Post not found' }, { status: 404 })
+    }
+    return NextResponse.json({ ok: true, removed: id })
+  } catch (e) {
+    return dbError(e)
   }
-
-  return NextResponse.json({ ok: true, removed: id })
 }

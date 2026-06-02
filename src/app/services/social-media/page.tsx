@@ -1,4 +1,15 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
+import { getPageMeta } from '@/lib/get-meta'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const m = await getPageMeta('/services/social-media')
+  return {
+    title: m.title,
+    description: m.description,
+    alternates: { canonical: m.canonical },
+    openGraph: { title: m.og_title, description: m.og_description, url: m.canonical, type: 'website', ...(m.og_image ? { images: [{ url: m.og_image }] } : {}) },
+  }
+}
 import Link from 'next/link'
 import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
@@ -7,10 +18,6 @@ import BigCta from '@/components/BigCta'
 import ServiceCards from '@/components/ServiceCards'
 import { ArrowRight } from '@/components/Icons'
 
-export const metadata: Metadata = {
-  title: 'Social Media Services — Management, Advertising & Brand | Omniranq',
-  description: 'Full-service social media: organic content, paid campaigns, and brand management across Instagram, LinkedIn, TikTok, and X.',
-}
 
 const cards = [
   { num: '01', slug: 'management', title: 'Social Media Management', tagline: 'Your brand, always on.', desc: 'Content creation, scheduling, community engagement, and performance reporting across all major platforms.', highlights: ['Content creation', 'Community management', 'Multi-platform', 'Monthly analytics'], result: '156% avg. follower growth' },

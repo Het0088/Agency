@@ -1,4 +1,15 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
+import { getPageMeta } from '@/lib/get-meta'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const m = await getPageMeta('/services/web-design')
+  return {
+    title: m.title,
+    description: m.description,
+    alternates: { canonical: m.canonical },
+    openGraph: { title: m.og_title, description: m.og_description, url: m.canonical, type: 'website', ...(m.og_image ? { images: [{ url: m.og_image }] } : {}) },
+  }
+}
 import Link from 'next/link'
 import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
@@ -7,10 +18,6 @@ import BigCta from '@/components/BigCta'
 import ServiceCards from '@/components/ServiceCards'
 import { ArrowRight } from '@/components/Icons'
 
-export const metadata: Metadata = {
-  title: 'Web Design Services — Custom, WordPress, E-commerce & Redesign | Omniranq',
-  description: 'Custom websites built for speed, conversion, and SEO. No templates, no themes — every pixel is purposeful. Average 52% conversion lift on redesigned sites.',
-}
 
 const cards = [
   { num: '01', slug: 'custom', title: 'Custom Web Design', tagline: 'Every pixel is purposeful.', desc: 'Bespoke website design built for performance, conversion, and SEO from the ground up. No templates, no themes.', highlights: ['Figma prototyping', 'Mobile-first', 'SEO architecture', 'CMS integration'], result: '52% avg. conversion lift' },

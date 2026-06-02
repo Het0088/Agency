@@ -6,7 +6,7 @@ import { ArrowRight } from '@/components/Icons'
 
 type CardState = 'idle' | 'sending' | 'sent' | 'error'
 
-function HeroContactCard() {
+function HeroContactCard({ cardTag, cardPill }: { cardTag?: string; cardPill?: string }) {
   const [state, setState] = useState<CardState>('idle')
   const [errorMsg, setErrorMsg] = useState('')
   const formRef = useRef<HTMLFormElement>(null)
@@ -62,8 +62,8 @@ function HeroContactCard() {
   return (
     <form className="hero-card" ref={formRef} onSubmit={handleSubmit}>
       <div className="hero-card-head">
-        <span className="hero-card-tag">Get a free audit</span>
-        <span className="hero-card-pill">Reply in 4h</span>
+        <span className="hero-card-tag">{cardTag || 'Get a free audit'}</span>
+        <span className="hero-card-pill">{cardPill || 'Reply in 4h'}</span>
       </div>
 
       <div className="hero-card-fields">
@@ -97,47 +97,53 @@ function HeroContactCard() {
 }
 
 export default function HeroSection({
+  content,
+  eyebrow,
   title,
-  eyebrow = "Global SEO Studio · 2014→2026",
   lede
 }: {
-  title?: React.ReactNode,
-  eyebrow?: string,
+  content?: Record<string, string>
+  eyebrow?: string
+  title?: React.ReactNode
   lede?: string
 }) {
+  const finalEyebrow = eyebrow || content?.hero_eyebrow || "Global SEO Studio · 2014→2026"
+  const heading = content?.hero_heading || "Small businesses deserve to be unmissable."
+  const subtext = lede || content?.hero_subtext || "We're a 38-person SEO studio that helps independent shops, founders, and challenger brands win the search results that matter — across Google, ChatGPT, Perplexity, and whatever comes next."
+  const ctaPrimary = content?.hero_cta_primary || "Get a free SEO audit"
+  const ctaSecondary = content?.hero_cta_secondary || "See how we work"
+  const ratingScore = content?.hero_rating_score || "4.9 / 5"
+  const ratingText = content?.hero_rating_text || "across 412 reviews · Clutch · Trustpilot · Google"
+  const cardTag = content?.hero_card_tag || "Get a free audit"
+  const cardPill = content?.hero_card_pill || "Reply in 4h"
+
   return (
     <header className="hero">
       <div className="wrap">
         <div className="hero-grid">
           <div className="reveal in">
-            <span className="eyebrow">{eyebrow}</span>
-            <h1>
-              {title || (
-                <>
-                  Small businesses<br />
-                  deserve to be<br />
-                  <em>unmissable.</em>
-                </>
-              )}
-            </h1>
-            <p className="lede">
-              {lede || "We're a 38-person SEO studio that helps independent shops, founders, and challenger brands win the search results that matter — across Google, ChatGPT, Perplexity, and whatever comes next."}
-            </p>
+            <span className="eyebrow">{finalEyebrow}</span>
+            {title ? (
+              title
+            ) : (
+              <h1 dangerouslySetInnerHTML={{ __html: heading.replace('unmissable.', '<em>unmissable.</em>') }} />
+            )}
+            <p className="lede">{subtext}</p>
             <div className="hero-ctas">
               <Link href="/contact" className="btn btn-primary">
-                Get a free SEO audit
+                {ctaPrimary}
                 <span className="arr"><ArrowRight /></span>
               </Link>
-              <Link href="/services" className="btn btn-ghost">See how we work</Link>
+              <Link href="/services" className="btn btn-ghost">{ctaSecondary}</Link>
             </div>
             <div className="hero-rating">
               <div className="stars">★★★★★</div>
-              <div className="meta"><strong>4.9 / 5</strong> across 412 reviews · Clutch · Trustpilot · Google</div>
+              <div className="meta"><strong>{ratingScore}</strong> {ratingText}</div>
             </div>
           </div>
 
           <div className="reveal in">
-            <HeroContactCard />
+            <HeroContactCard cardTag={cardTag} cardPill={cardPill} />
           </div>
         </div>
       </div>

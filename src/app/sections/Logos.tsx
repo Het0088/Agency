@@ -1,8 +1,8 @@
-export default function LogosSection() {
+export default function LogosSection({ content }: { content?: Record<string, string> }) {
   return (
     <section className="logos">
       <div className="wrap">
-        <div className="logos-label">Trusted by 600+ small businesses worldwide</div>
+        <div className="logos-label">{content?.logos_label || 'Trusted by 600+ small businesses worldwide'}</div>
         <div className="logos-row">
           <span className="logo-item">Maple <span className="sub">&amp; Oak</span></span>
           <span className="logo-item serif-i">Northbound</span>

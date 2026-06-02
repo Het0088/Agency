@@ -1,3 +1,17 @@
+import type { Metadata } from 'next'
+import { getPageMeta } from '@/lib/get-meta'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const m = await getPageMeta('/')
+  return {
+    title: m.title,
+    description: m.description,
+    alternates: { canonical: m.canonical },
+    openGraph: { title: m.og_title, description: m.og_description, url: m.canonical, type: 'website', ...(m.og_image ? { images: [{ url: m.og_image }] } : {}) },
+  }
+}
+
+import { getContent } from '@/lib/get-content'
 import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
@@ -15,36 +29,40 @@ import WhyUsSection from './sections/WhyUs'
 import ArticlesBlogsSection from './sections/ArticlesBlog'
 import WhyNeedSeo from './sections/WhyNeedSeo'
 import SeoProcess from './sections/SeoProcess'
-import OldVsNewSeo from './sections/OldVsNewSeo'
 import HomeFaq from './sections/HomeFaq'
 
-export default function Home() {
+export default async function Home() {
+  const content = await getContent('/')
+
   return (
     <>
-      <Topbar text="Now offering AI Search &amp; GEO optimization." linkText="Learn more →" linkHref="/services" />
+      <Topbar
+        text={content.topbar_text || 'Now offering AI Search & GEO optimization.'}
+        linkText={content.topbar_link_text || 'Learn more →'}
+        linkHref="/services"
+      />
       <Nav />
-      <HeroSection />
-      <LogosSection />
-      <StatsSection />
-      <WhyNeedSeo />
-      <ServicesSection />
-      <OldVsNewSeo />
-      <SeoProcess />
-      <AiBlock />
-      <MarqueeSection />
-      <ProcessSection />
-      <CasesSection />
-      <TestimonialsSection />
-      <WhyUsSection />
+      <HeroSection content={content} />
+      <LogosSection content={content} />
+      <StatsSection content={content} />
+      <WhyNeedSeo content={content} />
+      <ServicesSection content={content} />
+      <SeoProcess content={content} />
+      <AiBlock content={content} />
+      <MarqueeSection content={content} />
+      <ProcessSection content={content} />
+      <CasesSection content={content} />
+      <TestimonialsSection content={content} />
+      <WhyUsSection content={content} />
       <ArticlesBlogsSection />
-      <HomeFaq />
+      <HomeFaq content={content} />
       <BigCta
-        heading="Ready to be"
-        em="unmissable?"
-        text="Get a free 30-minute SEO audit. No deck, no fluff — a real strategist, looking at your real site, telling you the three things to fix first."
-        btnText="Book your free audit"
+        heading={content.cta_heading?.includes('unmissable?') ? content.cta_heading.replace('unmissable?', '').trim() : (content.cta_heading || 'Ready to be')}
+        em={content.cta_heading?.includes('unmissable?') ? 'unmissable?' : 'unmissable?'}
+        text={content.cta_text || 'Get a free 30-minute SEO audit. No deck, no fluff — a real strategist, looking at your real site, telling you the three things to fix first.'}
+        btnText={content.cta_btn || 'Book your free audit'}
         btnHref="/contact"
-        secondBtn={{ text: 'See our process', href: '/services' }}
+        secondBtn={{ text: content.cta_btn2 || 'See our process', href: '/services' }}
       />
       <Footer />
     </>

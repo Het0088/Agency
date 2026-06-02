@@ -1,4 +1,15 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
+import { getPageMeta } from '@/lib/get-meta'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const m = await getPageMeta('/services/ppc')
+  return {
+    title: m.title,
+    description: m.description,
+    alternates: { canonical: m.canonical },
+    openGraph: { title: m.og_title, description: m.og_description, url: m.canonical, type: 'website', ...(m.og_image ? { images: [{ url: m.og_image }] } : {}) },
+  }
+}
 import Link from 'next/link'
 import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
@@ -7,10 +18,6 @@ import BigCta from '@/components/BigCta'
 import ServiceCards from '@/components/ServiceCards'
 import { ArrowRight } from '@/components/Icons'
 
-export const metadata: Metadata = {
-  title: 'PPC & Paid Ads — Google Ads, Meta Ads, YouTube, Programmatic | Omniranq',
-  description: 'Performance-driven paid media management. Google Ads, Meta Ads, YouTube, and programmatic campaigns built to maximize ROAS.',
-}
 
 const cards = [
   { num: '01', slug: 'google-ads', title: 'Google Ads', tagline: 'ROAS-driven, not spend-driven.', desc: 'Search, Shopping, Display, and Performance Max campaigns built to maximize return on ad spend.', highlights: ['Campaign architecture', 'Negative keywords', 'Quality score', 'Attribution modeling'], result: '3.2x avg. ROAS improvement' },

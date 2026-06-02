@@ -1,13 +1,13 @@
-export default function MarqueeSection() {
+export default function MarqueeSection({ content }: { content?: Record<string, string> }) {
   const items = [
-    { text: 'Technical SEO', hasDot: true },
-    { text: 'AI Overviews', hasDot: true },
-    { text: 'GEO & LLMs', hasDot: true },
-    { text: 'Editorial content', serif: true },
-    { text: 'Local Maps', hasDot: true },
-    { text: 'Digital PR', hasDot: true },
-    { text: 'Schema & structured data', serif: true },
-    { text: 'CRO & conversion', hasDot: true },
+    { text: content?.marquee_1 || 'Technical SEO', hasDot: true },
+    { text: content?.marquee_2 || 'AI Overviews', hasDot: true },
+    { text: content?.marquee_3 || 'GEO & LLMs', hasDot: true },
+    { text: content?.marquee_4 || 'Editorial content', serif: true },
+    { text: content?.marquee_5 || 'Local Maps', hasDot: true },
+    { text: content?.marquee_6 || 'Digital PR', hasDot: true },
+    { text: content?.marquee_7 || 'Schema & structured data', serif: true },
+    { text: content?.marquee_8 || 'CRO & conversion', hasDot: true },
   ]
 
   return (

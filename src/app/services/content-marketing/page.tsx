@@ -1,4 +1,15 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
+import { getPageMeta } from '@/lib/get-meta'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const m = await getPageMeta('/services/content-marketing')
+  return {
+    title: m.title,
+    description: m.description,
+    alternates: { canonical: m.canonical },
+    openGraph: { title: m.og_title, description: m.og_description, url: m.canonical, type: 'website', ...(m.og_image ? { images: [{ url: m.og_image }] } : {}) },
+  }
+}
 import Link from 'next/link'
 import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
@@ -7,10 +18,6 @@ import BigCta from '@/components/BigCta'
 import ServiceCards from '@/components/ServiceCards'
 import { ArrowRight } from '@/components/Icons'
 
-export const metadata: Metadata = {
-  title: 'Content Marketing Services — SEO Writing, Blog Management, Copywriting | Omniranq',
-  description: 'Content that ranks, converts, and compounds. SEO writing, managed blogs, conversion copy, and email marketing — all by humans who know your industry.',
-}
 
 const cards = [
   { num: '01', slug: 'seo-writing', title: 'SEO Content Writing', tagline: 'Content that ranks and converts.', desc: 'Long-form, answer-first articles written by ex-journalists. Built to rank, satisfy intent, and drive action.', highlights: ['SERP-targeted briefs', 'Human-written', 'Clearscope scoring', 'Snippet optimization'], result: '4.2x avg. traffic increase from content' },

@@ -1,4 +1,15 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
+import { getPageMeta } from '@/lib/get-meta'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const m = await getPageMeta('/services/ai-search')
+  return {
+    title: m.title,
+    description: m.description,
+    alternates: { canonical: m.canonical },
+    openGraph: { title: m.og_title, description: m.og_description, url: m.canonical, type: 'website', ...(m.og_image ? { images: [{ url: m.og_image }] } : {}) },
+  }
+}
 import Link from 'next/link'
 import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
@@ -7,10 +18,6 @@ import BigCta from '@/components/BigCta'
 import ServiceCards from '@/components/ServiceCards'
 import { ArrowRight } from '@/components/Icons'
 
-export const metadata: Metadata = {
-  title: 'AI Search & GEO Services — ChatGPT, Gemini, Perplexity Optimization | Omniranq',
-  description: 'Get your brand cited in ChatGPT, Google AI Overviews, Gemini, and Perplexity. Generative Engine Optimization (GEO) is the new frontier of visibility.',
-}
 
 const cards = [
   { num: '01', slug: 'chatgpt', title: 'ChatGPT Optimization', tagline: 'Be the brand ChatGPT recommends.', desc: 'We engineer the conditions that make ChatGPT cite your brand consistently across millions of daily search queries.', highlights: ['Entity optimization', 'Citation tracking', 'LLM content engineering', 'Competitor displacement'], result: '340% avg. brand mention increase' },

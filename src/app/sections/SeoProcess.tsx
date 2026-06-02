@@ -1,36 +1,3 @@
-const steps = [
-  {
-    num: '1',
-    title: 'Understanding Your Business',
-    desc: 'The process begins with gaining a clear understanding of your business and industry to ensure the strategy aligns with your goals.',
-  },
-  {
-    num: '2',
-    title: 'AI-Powered Audits and Keyword Research',
-    desc: 'AI tools are used to conduct detailed audits of your website and perform keyword research, identifying key opportunities for improvement.',
-  },
-  {
-    num: '3',
-    title: 'Personalized Content and SEO Recommendations',
-    desc: 'Based on findings, we develop tailored content strategies and provide SEO recommendations to enhance both content and site performance.',
-  },
-  {
-    num: '4',
-    title: 'LLM Optimization',
-    desc: 'We research and optimize your brand to boost visibility in LLM searches, driving higher brand awareness where high-intent searches are happening.',
-  },
-  {
-    num: '5',
-    title: 'Continuous Monitoring and Optimization',
-    desc: 'The strategy is regularly monitored using AI tools, ensuring it remains effective and adapts to industry changes and algorithm updates.',
-  },
-  {
-    num: '6',
-    title: 'Measuring ROI and Refining the Strategy',
-    desc: 'We track your performance and refine the strategy as necessary, optimizing results and achieving business goals with every action.',
-  },
-]
-
 const icons = [
   <svg key="1" viewBox="0 0 24 24" fill="none"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>,
   <svg key="2" viewBox="0 0 24 24" fill="none"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
@@ -40,16 +7,53 @@ const icons = [
   <svg key="6" viewBox="0 0 24 24" fill="none"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
 ]
 
-export default function SeoProcess() {
+export default function SeoProcess({ content }: { content?: Record<string, string> }) {
+  const steps = [
+    {
+      num: '1',
+      title: content?.seoproc_1_title || 'Understanding Your Business',
+      desc: content?.seoproc_1_desc || 'The process begins with gaining a clear understanding of your business and industry to ensure the strategy aligns with your goals.',
+    },
+    {
+      num: '2',
+      title: content?.seoproc_2_title || 'AI-Powered Audits and Keyword Research',
+      desc: content?.seoproc_2_desc || 'AI tools are used to conduct detailed audits of your website and perform keyword research, identifying key opportunities for improvement.',
+    },
+    {
+      num: '3',
+      title: content?.seoproc_3_title || 'Personalized Content and SEO Recommendations',
+      desc: content?.seoproc_3_desc || 'Based on findings, we develop tailored content strategies and provide SEO recommendations to enhance both content and site performance.',
+    },
+    {
+      num: '4',
+      title: content?.seoproc_4_title || 'LLM Optimization',
+      desc: content?.seoproc_4_desc || 'We research and optimize your brand to boost visibility in LLM searches, driving higher brand awareness where high-intent searches are happening.',
+    },
+    {
+      num: '5',
+      title: content?.seoproc_5_title || 'Continuous Monitoring and Optimization',
+      desc: content?.seoproc_5_desc || 'The strategy is regularly monitored using AI tools, ensuring it remains effective and adapts to industry changes and algorithm updates.',
+    },
+    {
+      num: '6',
+      title: content?.seoproc_6_title || 'Measuring ROI and Refining the Strategy',
+      desc: content?.seoproc_6_desc || 'We track your performance and refine the strategy as necessary, optimizing results and achieving business goals with every action.',
+    },
+  ]
+
+  const eyebrow = content?.seoproc_eyebrow || 'How we work'
+  const heading = content?.seoproc_heading || 'Our AI SEO Process'
+  const subtext = content?.seoproc_subtext || 'A well-defined, structured process built on industry best practices to address the unique needs of each client.'
+
   return (
     <section className="section seo-proc">
       <div className="wrap">
         <div className="sec-head reveal">
           <div>
-            <span className="eyebrow">How we work</span>
-            <h2>Our <em>AI SEO Process</em></h2>
+            <span className="eyebrow">{eyebrow}</span>
+            <h2 dangerouslySetInnerHTML={{ __html: heading.replace('AI SEO Process', '<em>AI SEO Process</em>') }} />
           </div>
-          <p className="sub">A well-defined, structured process built on industry best practices to address the unique needs of each client.</p>
+          <p className="sub">{subtext}</p>
         </div>
         <div className="seo-proc-grid">
           {steps.map((s, i) => (
