@@ -7,9 +7,9 @@ const cityLinks = [
   { label: 'SEO Services Ahmedabad', href: '/seo-services-ahmedabad' },
   { label: 'SEO Services Vadodara', href: '/seo-services-vadodara' },
   { label: 'SEO Services Surat', href: '/seo-services-surat' },
-  { label: 'SEO Services Bangalore', href: '/seo-services-bangalore' },
-  { label: 'SEO Services Pune', href: '/seo-services-pune' },
-  { label: 'SEO Services Hyderabad', href: '/seo-services-hyderabad' },
+  { label: 'SEO Services Melbourne', href: '/seo-services-melbourne' },
+  { label: 'SEO Services London', href: '/seo-services-london' },
+  { label: 'SEO Services Dubai', href: '/seo-services-dubai' },
 ]
 
 export default function Footer() {
@@ -19,7 +19,7 @@ export default function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             <Link href="/" className="logo">
-              <img src="/logo.png" alt="" className="logo-icon" />
+              <img src="/logo.png" alt="Omniranq" className="logo-icon" />
               <span className="logo-wordmark">
                 <span className="logo-name">
                   <span className="logo-omni">OMNI</span><span className="logo-space"> </span><span className="logo-ranq">RANQ</span>
@@ -75,10 +75,10 @@ export default function Footer() {
         <div className="footer-bottom">
           <div>&copy; 2026 Omniranq &middot; All rights reserved</div>
           <div className="socials">
-            <a href="#" aria-label="LinkedIn"><LinkedInIcon /></a>
-            <a href="#" aria-label="Twitter"><XIcon /></a>
-            <a href="#" aria-label="Instagram"><InstagramIcon /></a>
-            <a href="#" aria-label="YouTube"><YouTubeIcon /></a>
+            <a href="https://linkedin.com/company/omniranq" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><LinkedInIcon /></a>
+            <a href="https://x.com/omniranq" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><XIcon /></a>
+            <a href="https://instagram.com/omniranq" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
+            <a href="https://youtube.com/@omniranq" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><YouTubeIcon /></a>
           </div>
         </div>
       </div>

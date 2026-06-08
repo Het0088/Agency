@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getAllSlugs, getCityBySlug, getAllCities } from '@/lib/cities'
+import { getAllSlugs, getCityBySlugAsync, getAllCities } from '@/lib/cities'
 import { buildLocalBusinessSchema, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/schema'
 import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
@@ -15,7 +15,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const c = getCityBySlug(slug)
+  const c = await getCityBySlugAsync(slug)
   if (!c) return {}
   const loc = c.state ? `${c.city}, ${c.state}` : c.city
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
@@ -51,7 +51,7 @@ const processSteps = [
 
 export default async function CityPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const c = getCityBySlug(slug)
+  const c = await getCityBySlugAsync(slug)
   if (!c) notFound()
 
   const loc = c.state ? `${c.city}, ${c.state}` : c.city

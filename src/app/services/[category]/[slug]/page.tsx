@@ -18,10 +18,19 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const svc = getSubService(category, slug)
   if (!svc) return {}
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
+  const title = `${svc.title} Services — Omniranq`
+  const description = svc.metaDescription || `${svc.desc.slice(0, 155)}...`
   return {
-    title: `${svc.title} Services — Omniranq`,
-    description: svc.metaDescription || `${svc.desc.slice(0, 155)}...`,
+    title,
+    description,
     alternates: { canonical: `${base}/services/${category}/${slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `${base}/services/${category}/${slug}`,
+      type: 'website',
+      siteName: 'Omniranq',
+    },
   }
 }
 

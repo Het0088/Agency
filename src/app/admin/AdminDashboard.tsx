@@ -555,10 +555,296 @@ function ContentTab() {
   )
 }
 
+type CityRecord = {
+  slug: string
+  city_name: string
+  state: string
+  country: string
+  service: string
+  hero_heading: string
+  hero_subheading: string
+  description: string
+  meta_title: string
+  meta_description: string
+  phone: string
+  address: string
+  population: string
+  local_keywords: string
+  testimonial_name: string
+  testimonial_role: string
+  testimonial_quote: string
+  active: number
+}
+
+function CityEditModal({ city, onClose, onSaved }: { city: CityRecord | null; onClose: () => void; onSaved: () => void }) {
+  const blank: CityRecord = {
+    slug: '', city_name: '', state: '', country: '', service: 'SEO Services',
+    hero_heading: '', hero_subheading: '', description: '', meta_title: '', meta_description: '',
+    phone: '', address: '', population: '', local_keywords: '',
+    testimonial_name: '', testimonial_role: '', testimonial_quote: '', active: 1,
+  }
+  const [form, setForm] = useState<CityRecord>(city || blank)
+  const [saving, setSaving] = useState(false)
+  const [err, setErr] = useState('')
+
+  function upd<K extends keyof CityRecord>(k: K, v: CityRecord[K]) {
+    setForm(f => ({ ...f, [k]: v }))
+  }
+
+  function autoSlug(name: string) {
+    return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 200)
+  }
+
+  async function save(e: React.FormEvent) {
+    e.preventDefault()
+    setSaving(true)
+    setErr('')
+    const method = city ? 'PUT' : 'POST'
+    const payload = { ...form, slug: form.slug || autoSlug(form.city_name + (form.state ? '-' + form.state : '')) }
+    const res = await fetch('/api/admin/cities', {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    const data = await res.json().catch(() => ({}))
+    if (res.ok) {
+      onSaved()
+    } else {
+      setErr(data.error || 'Failed to save')
+    }
+    setSaving(false)
+  }
+
+  const rows: [string, keyof CityRecord, 'text' | 'textarea'][] = [
+    ['City Name', 'city_name', 'text'],
+    ['Slug', 'slug', 'text'],
+    ['State', 'state', 'text'],
+    ['Country', 'country', 'text'],
+    ['Service', 'service', 'text'],
+    ['Hero Heading', 'hero_heading', 'textarea'],
+    ['Hero Subheading', 'hero_subheading', 'textarea'],
+    ['Description', 'description', 'textarea'],
+    ['Meta Title', 'meta_title', 'text'],
+    ['Meta Description', 'meta_description', 'textarea'],
+    ['Phone', 'phone', 'text'],
+    ['Address', 'address', 'text'],
+    ['Population', 'population', 'text'],
+    ['Local Keywords', 'local_keywords', 'text'],
+    ['Testimonial Name', 'testimonial_name', 'text'],
+    ['Testimonial Role', 'testimonial_role', 'text'],
+    ['Testimonial Quote', 'testimonial_quote', 'textarea'],
+  ]
+
+  return (
+    <div className="adm-modal-overlay" onClick={onClose}>
+      <div className="adm-modal" onClick={e => e.stopPropagation()}>
+        <div className="adm-form-header" style={{ marginBottom: 16 }}>
+          <h2>{city ? 'Edit City' : 'Add City'}</h2>
+          <button className="adm-btn-ghost adm-btn-sm" onClick={onClose} style={{ marginLeft: 'auto' }}>Close</button>
+        </div>
+        {err && <div className="seo-toast seo-toast-err" style={{ marginBottom: 12 }}>{err}</div>}
+        <form onSubmit={save} style={{ maxHeight: '70vh', overflowY: 'auto', padding: '0 4px' }}>
+          {rows.map(([label, key, type]) => (
+            <div key={key} className="seo-edit-field">
+              <label className="seo-meta-label">{label}</label>
+              {type === 'textarea' ? (
+                <textarea
+                  className="seo-edit-textarea"
+                  value={String(form[key] || '')}
+                  onChange={e => upd(key, e.target.value as never)}
+                  rows={3}
+                />
+              ) : (
+                <input
+                  className="seo-edit-input"
+                  value={String(form[key] || '')}
+                  onChange={e => {
+                    upd(key, e.target.value as never)
+                    if (key === 'city_name' && !city) upd('slug', autoSlug(e.target.value + (form.state ? '-' + form.state : '')) as never)
+                  }}
+                  required={key === 'city_name'}
+                />
+              )}
+            </div>
+          ))}
+          <div className="seo-edit-actions" style={{ position: 'sticky', bottom: 0, background: '#fff', paddingTop: 12 }}>
+            <button type="button" className="seo-reset-btn" onClick={onClose}>Cancel</button>
+            <button type="submit" className="seo-save-btn" disabled={saving}>
+              {saving ? 'Saving...' : city ? 'Update City' : 'Create City'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+function CitiesTab() {
+  const [cities, setCities] = useState<CityRecord[]>([])
+  const [loading, setLoading] = useState(true)
+  const [dbWarn, setDbWarn] = useState('')
+  const [uploading, setUploading] = useState(false)
+  const [uploadResult, setUploadResult] = useState('')
+  const [editCity, setEditCity] = useState<CityRecord | null | 'new'>(null)
+  const [search, setSearch] = useState('')
+
+  const fetchCities = useCallback(async () => {
+    setLoading(true)
+    try {
+      const res = await fetch('/api/admin/cities')
+      const data = await res.json()
+      if (data.dbWarning) setDbWarn(data.dbWarning)
+      setCities(data.cities || [])
+    } catch {
+      setDbWarn('Could not reach server')
+    }
+    setLoading(false)
+  }, [])
+
+  useEffect(() => { fetchCities() }, [fetchCities])
+
+  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    setUploadResult('')
+    const fd = new FormData()
+    fd.append('file', file)
+    try {
+      const res = await fetch('/api/admin/cities', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (res.ok) {
+        setUploadResult(`Uploaded: ${data.inserted} new, ${data.updated} updated, ${data.skipped} skipped`)
+        fetchCities()
+      } else {
+        setUploadResult(`Error: ${data.error}`)
+      }
+    } catch {
+      setUploadResult('Upload failed')
+    }
+    setUploading(false)
+    e.target.value = ''
+  }
+
+  async function handleDelete(slug: string) {
+    if (!confirm(`Delete city '${slug}' permanently?`)) return
+    await fetch('/api/admin/cities', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug }),
+    })
+    fetchCities()
+  }
+
+  async function toggleActive(city: CityRecord) {
+    await fetch('/api/admin/cities', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug: city.slug, active: !city.active }),
+    })
+    fetchCities()
+  }
+
+  const filtered = search
+    ? cities.filter(c =>
+        c.city_name.toLowerCase().includes(search.toLowerCase()) ||
+        c.country.toLowerCase().includes(search.toLowerCase()) ||
+        c.slug.toLowerCase().includes(search.toLowerCase())
+      )
+    : cities
+
+  const activeCount = cities.filter(c => c.active).length
+  const countries = [...new Set(cities.map(c => c.country).filter(Boolean))]
+
+  return (
+    <div className="seo-tab">
+      <div className="seo-tab-intro">
+        <h2>City Pages</h2>
+        <p>Manage city-based SEO landing pages. Upload an Excel/CSV file to bulk import, or add cities one at a time. Changes go live <strong>immediately</strong>.</p>
+      </div>
+
+      {dbWarn && (
+        <div className="seo-db-warning">
+          <span className="seo-db-warning-icon">\u26A0</span>
+          <div><strong>Database not connected.</strong> {dbWarn}</div>
+        </div>
+      )}
+
+      <div className="adm-stats" style={{ marginBottom: 20 }}>
+        <div className="adm-stat"><span className="adm-stat-val">{cities.length}</span><span className="adm-stat-lab">Total Cities</span></div>
+        <div className="adm-stat"><span className="adm-stat-val">{activeCount}</span><span className="adm-stat-lab">Active</span></div>
+        <div className="adm-stat"><span className="adm-stat-val">{countries.length}</span><span className="adm-stat-lab">Countries</span></div>
+      </div>
+
+      <div className="adm-toolbar">
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flex: 1 }}>
+          <input
+            className="seo-edit-input"
+            placeholder="Search cities..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            style={{ maxWidth: 260 }}
+          />
+          <label className="adm-btn-ghost" style={{ cursor: 'pointer', padding: '8px 16px', fontSize: 13 }}>
+            {uploading ? 'Uploading...' : 'Upload Excel/CSV'}
+            <input type="file" accept=".xlsx,.xls,.csv" onChange={handleUpload} style={{ display: 'none' }} disabled={uploading} />
+          </label>
+          {uploadResult && <span style={{ fontSize: 13, color: uploadResult.startsWith('Error') ? '#dc2626' : '#16a34a' }}>{uploadResult}</span>}
+        </div>
+        <button className="adm-btn-primary" onClick={() => setEditCity('new')}>Add City</button>
+      </div>
+
+      {loading ? (
+        <div style={{ padding: 32, color: '#9ca3af', fontSize: 14 }}>Loading cities...</div>
+      ) : filtered.length === 0 ? (
+        <div className="adm-empty">{search ? 'No cities match your search.' : 'No cities yet. Upload an Excel file or add one manually.'}</div>
+      ) : (
+        <div className="adm-table-wrap">
+          <table className="adm-table">
+            <thead>
+              <tr>
+                <th>City</th><th>State</th><th>Country</th><th>Service</th><th>Slug</th><th>Status</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map(city => (
+                <tr key={city.slug} className={!city.active ? 'adm-row-draft' : ''}>
+                  <td className="adm-cell-title"><span>{city.city_name}</span></td>
+                  <td>{city.state}</td>
+                  <td>{city.country}</td>
+                  <td>{city.service}</td>
+                  <td style={{ fontSize: 12, fontFamily: 'monospace', color: '#6b7280' }}>/{city.slug}</td>
+                  <td>
+                    <button className={`adm-status ${city.active ? 'published' : 'draft'}`} onClick={() => toggleActive(city)}>
+                      {city.active ? 'Active' : 'Inactive'}
+                    </button>
+                  </td>
+                  <td className="adm-cell-actions">
+                    <button className="adm-act-btn" onClick={() => setEditCity(city)}>Edit</button>
+                    <button className="adm-act-btn adm-act-del" onClick={() => handleDelete(city.slug)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {editCity && (
+        <CityEditModal
+          city={editCity === 'new' ? null : editCity}
+          onClose={() => setEditCity(null)}
+          onSaved={() => { setEditCity(null); fetchCities() }}
+        />
+      )}
+    </div>
+  )
+}
+
 export default function AdminDashboard({ authenticated }: { authenticated: boolean }) {
   const [posts, setPosts] = useState<Post[]>([])
   const [dbError, setDbError] = useState('')
-  const [tab, setTab] = useState<'posts' | 'seo' | 'content'>('posts')
+  const [tab, setTab] = useState<'posts' | 'seo' | 'content' | 'cities'>('posts')
   const [view, setView] = useState<'list' | 'form'>('list')
   const [editTarget, setEditTarget] = useState<FormData>(emptyForm)
   const [filter, setFilter] = useState<'all' | 'article' | 'blog'>('all')
@@ -666,10 +952,11 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
         <button className={`adm-tab${tab === 'posts' ? ' active' : ''}`} onClick={() => { setTab('posts'); setView('list') }}>Posts</button>
         <button className={`adm-tab${tab === 'seo' ? ' active' : ''}`} onClick={() => setTab('seo')}>Page SEO</button>
         <button className={`adm-tab${tab === 'content' ? ' active' : ''}`} onClick={() => setTab('content')}>Content</button>
+        <button className={`adm-tab${tab === 'cities' ? ' active' : ''}`} onClick={() => setTab('cities')}>Cities</button>
       </div>
 
       <main className="adm-main">
-        {tab === 'seo' ? <SeoTab /> : tab === 'content' ? <ContentTab /> : view === 'list' ? (
+        {tab === 'seo' ? <SeoTab /> : tab === 'content' ? <ContentTab /> : tab === 'cities' ? <CitiesTab /> : view === 'list' ? (
           <>
             {dbError && (
               <div style={{ margin: '0 0 20px', padding: '14px 18px', background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, fontSize: 14, color: '#b91c1c', lineHeight: 1.6 }}>

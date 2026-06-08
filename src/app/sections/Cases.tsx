@@ -59,7 +59,7 @@ export default function CasesSection({ content }: { content?: Record<string, str
                   </div>
                 ))}
               </div>
-              <a href="#" className="case-link">Read case study <span>→</span></a>
+              <a href="/contact" className="case-link">Read case study <span>&rarr;</span></a>
             </article>
           ))}
         </div>

@@ -28,10 +28,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     'SELECT title, description FROM posts WHERE slug = ? AND published = 1',
     ['/insights/' + slug]
   )
-  if (!post) return { title: 'Post Not Found' }
+  if (!post) return { title: 'Post Not Found', robots: { index: false } }
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
   return {
     title: `${post.title} — Omniranq`,
     description: post.description,
+    alternates: { canonical: `${base}/insights/${slug}` },
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      url: `${base}/insights/${slug}`,
+      type: 'article',
+      siteName: 'Omniranq',
+    },
   }
 }
 

@@ -132,7 +132,7 @@ export default function Nav({ active }: { active?: string }) {
     <nav className="nav" role="navigation" aria-label="Main navigation">
       <div className="nav-inner">
         <Link href="/" className="logo">
-          <img src="/logo.png" alt="" className="logo-icon" />
+          <img src="/logo.png" alt="Omniranq" className="logo-icon" />
           <span className="logo-wordmark">
             <span className="logo-name">
               <span className="logo-omni">OMNI</span><span className="logo-space"> </span><span className="logo-ranq">RANQ</span>

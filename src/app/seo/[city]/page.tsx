@@ -28,10 +28,19 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
   const city = getCityBySlug(slug)
   if (!city) return {}
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
+  const title = `SEO Agency in ${city.cityName}, ${city.state} | Omniranq`
+  const description = `Top-rated SEO agency serving ${city.cityName}, ${city.state}. Get more traffic, leads, and revenue with proven local SEO strategies. Free audit available.`
   return {
-    title: `SEO Agency in ${city.cityName}, ${city.state} | Omniranq`,
-    description: `Top-rated SEO agency serving ${city.cityName}, ${city.state}. Get more traffic, leads, and revenue with proven local SEO strategies. Free audit available.`,
+    title,
+    description,
     alternates: { canonical: `${base}/seo/${slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `${base}/seo/${slug}`,
+      type: 'website',
+      siteName: 'Omniranq',
+    },
   }
 }
 

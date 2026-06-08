@@ -30,7 +30,8 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const type = searchParams.get('type')
   const limit = Math.min(Number(searchParams.get('limit') || 50), 100)
-  const drafts = searchParams.get('drafts') === '1'
+  const authed = isAuthenticated(req.headers.get('cookie'))
+  const drafts = searchParams.get('drafts') === '1' && authed
 
   let sql = 'SELECT * FROM posts'
   const params: (string | number | boolean | null)[] = []

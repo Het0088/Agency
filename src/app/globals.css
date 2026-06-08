@@ -6005,6 +6005,50 @@ h4 {
   font-size: 11px;
 }
 
+/* ── Admin modal ── */
+.adm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.adm-modal {
+  background: #fff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  padding: 28px 28px 20px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.adm-modal .adm-form-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.adm-modal .adm-form-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+@media (max-width: 640px) {
+  .adm-modal {
+    max-width: 100%;
+    border-radius: 10px;
+    padding: 20px;
+  }
+}
+
 /* ============================================
    Reference-format service pages (ref-)
    ============================================ */
