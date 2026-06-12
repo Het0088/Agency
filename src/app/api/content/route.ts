@@ -22,12 +22,16 @@ export async function GET(req: NextRequest) {
   const type = searchParams.get('type') === 'blogs' ? 'blog' : 'article'
   const limit = Math.min(Number(searchParams.get('limit') || 10), 50)
 
-  const items = await query(
-    'SELECT id, tag, title, description AS `desc`, author, created_at AS date, read_time AS `read`, slug FROM posts WHERE type = ? AND published = 1 ORDER BY created_at DESC LIMIT ?',
-    [type, limit]
-  )
-
-  return NextResponse.json({ items, total: items.length })
+  try {
+    const items = await query(
+      'SELECT id, tag, title, description AS `desc`, author, created_at AS date, read_time AS `read`, slug FROM posts WHERE type = ? AND published = 1 ORDER BY created_at DESC LIMIT ?',
+      [type, limit]
+    )
+    return NextResponse.json({ items, total: items.length })
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : 'Database error'
+    return NextResponse.json({ error: msg, items: [], total: 0 }, { status: 503 })
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -57,22 +61,27 @@ export async function POST(req: NextRequest) {
   const slug = sanitize(body.slug, 200) || `/insights/${id}`
   const date = sanitize(body.date, 30) || new Date().toISOString().slice(0, 10)
 
-  const existing = await queryOne('SELECT id FROM posts WHERE id = ?', [id])
+  try {
+    const existing = await queryOne('SELECT id FROM posts WHERE id = ?', [id])
 
-  if (existing) {
-    await query(
-      'UPDATE posts SET type=?, tag=?, title=?, description=?, content=?, author=?, read_time=?, slug=?, created_at=? WHERE id=?',
-      [type, tag, title, description, content, author, readTime, slug, date, id]
-    )
-  } else {
-    await query(
-      'INSERT INTO posts (id, type, tag, title, description, content, author, read_time, slug, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [id, type, tag, title, description, content, author, readTime, slug, date]
-    )
+    if (existing) {
+      await query(
+        'UPDATE posts SET type=?, tag=?, title=?, description=?, content=?, author=?, read_time=?, slug=?, created_at=? WHERE id=?',
+        [type, tag, title, description, content, author, readTime, slug, date, id]
+      )
+    } else {
+      await query(
+        'INSERT INTO posts (id, type, tag, title, description, content, author, read_time, slug, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [id, type, tag, title, description, content, author, readTime, slug, date]
+      )
+    }
+
+    const total = await query('SELECT COUNT(*) as cnt FROM posts WHERE type = ?', [type])
+    return NextResponse.json({ ok: true, entry: { id, tag, title, description, author, date, read: readTime, slug }, total: (total[0] as { cnt: number }).cnt })
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : 'Database error'
+    return NextResponse.json({ error: msg }, { status: 503 })
   }
-
-  const total = await query('SELECT COUNT(*) as cnt FROM posts WHERE type = ?', [type])
-  return NextResponse.json({ ok: true, entry: { id, tag, title, description, author, date, read: readTime, slug }, total: (total[0] as { cnt: number }).cnt })
 }
 
 export async function DELETE(req: NextRequest) {
@@ -92,11 +101,15 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: 'ID is required' }, { status: 422 })
   }
 
-  const result = await query('DELETE FROM posts WHERE id = ?', [id])
-  const affected = (result as unknown as { affectedRows?: number })?.affectedRows
-  if (!affected) {
-    return NextResponse.json({ error: 'Entry not found' }, { status: 404 })
+  try {
+    const result = await query('DELETE FROM posts WHERE id = ?', [id])
+    const affected = (result as unknown as { affectedRows?: number })?.affectedRows
+    if (!affected) {
+      return NextResponse.json({ error: 'Entry not found' }, { status: 404 })
+    }
+    return NextResponse.json({ ok: true, removed: id })
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : 'Database error'
+    return NextResponse.json({ error: msg }, { status: 503 })
   }
-
-  return NextResponse.json({ ok: true, removed: id })
 }
