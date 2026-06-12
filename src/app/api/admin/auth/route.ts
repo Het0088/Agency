@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   const jar = await cookies()
   jar.set(getCookieName(), getTokenValue(), {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: req.headers.get('x-forwarded-proto') === 'https',
     sameSite: 'lax',
     maxAge: MAX_AGE,
     path: '/',
