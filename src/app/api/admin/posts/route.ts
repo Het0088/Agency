@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { query, queryOne } from '@/lib/db'
 import { isAuthenticated } from '@/lib/auth'
 
@@ -103,6 +104,8 @@ export async function POST(req: NextRequest) {
         [id, type, tag, title, description, content, author, readTime, slug, coverGradient, featured, published]
       )
     }
+    revalidatePath('/insights')
+    revalidatePath(slug)
     return NextResponse.json({ ok: true, id })
   } catch (e) {
     return dbError(e)
@@ -175,6 +178,7 @@ export async function PUT(req: NextRequest) {
     params.push(id)
     await query(`UPDATE posts SET ${fields.join(', ')} WHERE id = ?`, params)
 
+    revalidatePath('/insights')
     return NextResponse.json({ ok: true, id })
   } catch (e) {
     return dbError(e)
@@ -204,6 +208,7 @@ export async function DELETE(req: NextRequest) {
     if (!affected) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 })
     }
+    revalidatePath('/insights')
     return NextResponse.json({ ok: true, removed: id })
   } catch (e) {
     return dbError(e)

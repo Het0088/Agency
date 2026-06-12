@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { query, queryOne } from '@/lib/db'
 import { isAuthenticated } from '@/lib/auth'
 import { pageMetas } from '@/lib/page-metas'
@@ -89,6 +90,7 @@ export async function PUT(req: NextRequest) {
          updated_at=CURRENT_TIMESTAMP`,
       [route, title, description || '', canonical || '', og_title || title, og_description || description || '', og_image || '']
     )
+    revalidatePath(route)
     return NextResponse.json({ ok: true })
   } catch (e) {
     return dbErr(e)
@@ -106,6 +108,7 @@ export async function DELETE(req: NextRequest) {
 
   try {
     await query('DELETE FROM page_meta WHERE route = ?', [body.route])
+    revalidatePath(body.route)
     return NextResponse.json({ ok: true })
   } catch (e) {
     return dbErr(e)

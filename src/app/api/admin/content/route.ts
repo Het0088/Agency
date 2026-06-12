@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { query } from '@/lib/db'
 import { isAuthenticated } from '@/lib/auth'
 import { defaultContent } from '@/lib/content-blocks'
+
+const pageRoutes: Record<string, string[]> = {
+  home: ['/', '/sitemap.xml'],
+  about: ['/about'],
+  contact: ['/contact'],
+  services: ['/services'],
+}
 
 const CREATE_TABLE = `
   CREATE TABLE IF NOT EXISTS page_content (
@@ -58,6 +66,8 @@ export async function PUT(req: NextRequest) {
        ON DUPLICATE KEY UPDATE content = VALUES(content), updated_at = CURRENT_TIMESTAMP`,
       [body.page, body.key, body.content || '']
     )
+    const paths = pageRoutes[body.page] || [`/${body.page}`]
+    for (const p of paths) revalidatePath(p)
     return NextResponse.json({ ok: true })
   } catch (e) {
     return NextResponse.json({ error: e instanceof Error ? e.message : 'Database error' }, { status: 503 })
