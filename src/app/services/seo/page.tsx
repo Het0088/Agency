@@ -1,5 +1,6 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { getPageMeta } from '@/lib/get-meta'
+import { getContent } from '@/lib/get-content'
 
 export async function generateMetadata(): Promise<Metadata> {
   const m = await getPageMeta('/services/seo')
@@ -22,120 +23,76 @@ import {
   IconTrendingUp, IconTarget
 } from '@/components/Icons'
 
+const procIcons = [<IconBuilding key={0}/>, <IconSearch key={1}/>, <IconDocument key={2}/>, <IconZap key={3}/>, <IconActivity key={4}/>, <IconDollarSign key={5}/>]
+const whyIcons = [<IconMonitor key={0}/>, <IconGlobe key={1}/>, <IconUsers key={2}/>, <IconLayers key={3}/>, <IconClock key={4}/>, <IconBarChart key={5}/>]
+const advIcons = [<IconSearch key={0}/>, <IconDocument key={1}/>, <IconTrendingUp key={2}/>, <IconActivity key={3}/>, <IconDollarSign key={4}/>, <IconShield key={5}/>]
+const svcIcons = [<IconZap key={0}/>, <IconMapPin key={1}/>, <IconShoppingCart key={2}/>, <IconBuilding key={3}/>, <IconSearch key={4}/>, <IconTarget key={5}/>]
+const svcSlugs = ['technical-seo', 'local-seo', 'ecommerce-seo', 'enterprise-seo', 'seo-audits', 'chatgpt']
+const svcHrefs = [null, null, null, null, null, '/services/ai-search']
+const indIcons = [<IconDollarSign key={0}/>, <IconBuilding key={1}/>, <IconShoppingCart key={2}/>, <IconShield key={3}/>, <IconMapPin key={4}/>, <IconDocument key={5}/>, <IconUsers key={6}/>, <IconLayers key={7}/>, <IconZap key={8}/>, <IconBarChart key={9}/>, <IconGlobe key={10}/>, <IconActivity key={11}/>, <IconClock key={12}/>, <IconMonitor key={13}/>, <IconTrendingUp key={14}/>, <IconMessageSquare key={15}/>]
 
-const processSteps = [
-  { icon: <IconBuilding />, num: '1', title: 'Understanding Your Business', desc: 'We begin by gaining a clear understanding of your business, industry, and objectives to ensure the strategy aligns with your growth goals.' },
-  { icon: <IconSearch />, num: '2', title: 'AI-Powered Audits & Keyword Research', desc: 'AI tools conduct detailed audits of your website and perform keyword research, identifying key opportunities for improvement and growth.' },
-  { icon: <IconDocument />, num: '3', title: 'Personalised Content & SEO Recommendations', desc: 'Based on findings, we develop tailored content strategies and provide SEO recommendations to enhance both content and site performance.' },
-  { icon: <IconZap />, num: '4', title: 'LLM Optimisation', desc: 'We research and optimise your brand to boost visibility in LLM searches — ChatGPT, Gemini, Perplexity — driving higher discoverability across AI platforms.' },
-  { icon: <IconActivity />, num: '5', title: 'Continuous Monitoring & Optimisation', desc: 'The strategy is regularly monitored using AI tools, ensuring it remains effective and adapts to industry changes and algorithm updates.' },
-  { icon: <IconDollarSign />, num: '6', title: 'Measuring ROI & Refining the Strategy', desc: 'We track your performance and refine the strategy as necessary, optimising results and achieving business goals systematically.' },
-]
+export default async function SeoServicesPage() {
+  const c = await getContent('/services/seo')
 
-const whyUs = [
-  { icon: <IconMonitor />, title: 'Genuine Enterprise Capabilities', desc: 'We have built in-house AI capabilities that allow us to work on websites with thousands of pages and scale up our efforts as your business grows.' },
-  { icon: <IconGlobe />, title: 'Expertise Across the Entire Search Landscape', desc: 'From technical SEO to video, local, e-commerce, and AI search optimisation — our team covers the full spectrum to deliver the best growth for your business.' },
-  { icon: <IconUsers />, title: 'Portfolio of Marquee Brands', desc: 'Our client portfolio includes some of the leading brands across industries including Healthcare, Finance, E-commerce, Education, and more.' },
-  { icon: <IconLayers />, title: '38-Person Specialist Studio', desc: 'Our global team across Melbourne, London, and Bangalore works exclusively on SEO and AI search — not as a side offering within a generalist agency.' },
-  { icon: <IconClock />, title: '10+ Years of Search Expertise', desc: 'Founded in 2014, we have guided 600+ brands through every major search algorithm shift — from Panda and Penguin to AI Overviews and GEO.' },
-  { icon: <IconBarChart />, title: 'Data-Driven, No Long Contracts', desc: 'Monthly retainers with full transparency. We earn your business every month with measurable results — 8.5× average return on retainer spend.' },
-]
+  const processSteps = Array.from({length: 6}, (_, i) => ({
+    icon: procIcons[i], num: String(i + 1),
+    title: c[`proc_${i+1}_title`], desc: c[`proc_${i+1}_desc`],
+  }))
 
-const advantages = [
-  { icon: <IconSearch />, title: 'Accelerated Keyword Research', desc: 'AI quickly identifies the best keyword opportunities, streamlining the research process and improving accuracy well beyond manual analysis.' },
-  { icon: <IconDocument />, title: 'Optimised Content Recommendations', desc: 'AI enhances content relevance and structure, making it more engaging for both users and search engines — including AI answer engines.' },
-  { icon: <IconTrendingUp />, title: 'Trend Prediction for SEO', desc: 'AI helps your business stay ahead by forecasting SEO and search trends before they peak — so you capture traffic before competitors react.' },
-  { icon: <IconActivity />, title: 'Continuous SEO Optimisation', desc: 'AI monitors and adjusts your SEO performance in real time, enabling ongoing improvements without waiting for quarterly reviews.' },
-  { icon: <IconDollarSign />, title: 'Scalable & Cost-Effective SEO', desc: 'AI automates many SEO tasks, making it easier to scale your efforts while reducing per-unit cost — ideal for multi-location and enterprise brands.' },
-  { icon: <IconShield />, title: 'GEO & LLM Visibility', desc: 'We optimise your brand to appear in ChatGPT, Google AI Overviews, Gemini, and Perplexity — the new frontier of AI-powered search.' },
-]
+  const whyUs = Array.from({length: 6}, (_, i) => ({
+    icon: whyIcons[i], title: c[`whyus_${i+1}_title`], desc: c[`whyus_${i+1}_desc`],
+  }))
 
-const oldRules = [
-  'Ranking in Google was the only game',
-  'Keyword stuffing',
-  'Every link counted (quantity over quality)',
-  'Optimised mainly for bots',
-  'Quick traffic hacks',
-  'Gaming algorithms',
-  'Clicks equal victory',
-  'Page-one rankings were the goal',
-]
+  const advantages = Array.from({length: 6}, (_, i) => ({
+    icon: advIcons[i], title: c[`adv_${i+1}_title`], desc: c[`adv_${i+1}_desc`],
+  }))
 
-const newRules = [
-  'Being retrieved, cited, and trusted across Google and AI',
-  "Content meets Google's E-E-A-T criteria",
-  'GEO — cited in ChatGPT, Gemini, Perplexity',
-  'AEO — appear in AI answers and voice search',
-  'AIO — structure content for AI workflows',
-  'SXO — align content with UX and conversions',
-  'Long-term authority building',
-  'Visibility across Google, AI, and voice',
-]
+  const oldRules = Array.from({length: 8}, (_, i) => c[`old_${i+1}`])
+  const newRules = Array.from({length: 8}, (_, i) => c[`new_${i+1}`])
 
-const seoServices = [
-  { icon: <IconZap />, slug: 'technical-seo', title: 'Technical SEO', desc: 'We fix crawl issues, indexation gaps, rendering problems, and Core Web Vitals — the foundation everything else is built on.' },
-  { icon: <IconMapPin />, slug: 'local-seo', title: 'Local SEO', desc: 'Multi-location SEO systems that dominate the 3-pack. From single storefronts to 200+ locations.' },
-  { icon: <IconShoppingCart />, slug: 'ecommerce-seo', title: 'E-commerce SEO', desc: 'Product schema, faceted navigation, category architecture, and inventory-aware indexation for online stores.' },
-  { icon: <IconBuilding />, slug: 'enterprise-seo', title: 'Enterprise SEO', desc: 'Cross-functional roadmapping, migration planning, and programmatic page generation for large organizations.' },
-  { icon: <IconSearch />, slug: 'seo-audits', title: 'SEO Audits', desc: 'A forensic 60-90 page audit covering every dimension of your search presence. No retainer required.' },
-  { icon: <IconTarget />, slug: 'chatgpt', title: 'AI Search & GEO', desc: 'Optimize your brand to be cited in ChatGPT, Gemini, Perplexity, and Google AI Overviews.', href: '/services/ai-search' },
-]
+  const seoServices = Array.from({length: 6}, (_, i) => ({
+    icon: svcIcons[i], slug: svcSlugs[i],
+    title: c[`svc_${i+1}_title`], desc: c[`svc_${i+1}_desc`],
+    href: svcHrefs[i],
+  }))
 
-const industries = [
-  { icon: <IconDollarSign />, label: 'Accountants SEO' },
-  { icon: <IconBuilding />, label: 'Construction SEO' },
-  { icon: <IconShoppingCart />, label: 'E-commerce SEO' },
-  { icon: <IconShield />, label: 'Healthcare SEO' },
-  { icon: <IconMapPin />, label: 'Real Estate SEO' },
-  { icon: <IconDocument />, label: 'Legal & Law Firm SEO' },
-  { icon: <IconUsers />, label: 'Restaurant & Hospitality SEO' },
-  { icon: <IconLayers />, label: 'Education SEO' },
-  { icon: <IconZap />, label: 'HVAC & Trade SEO' },
-  { icon: <IconBarChart />, label: 'Financial Services SEO' },
-  { icon: <IconGlobe />, label: 'Hotel & Accommodation SEO' },
-  { icon: <IconActivity />, label: 'Automotive SEO' },
-  { icon: <IconClock />, label: 'Doctors & Medical SEO' },
-  { icon: <IconMonitor />, label: 'Security Companies SEO' },
-  { icon: <IconTrendingUp />, label: 'Fitness & Wellness SEO' },
-  { icon: <IconMessageSquare />, label: 'Logistics & Freight SEO' },
-]
+  const industries = Array.from({length: 16}, (_, i) => ({
+    icon: indIcons[i], label: c[`ind_${i+1}`],
+  }))
 
-const reviews = [
-  { initial: 'N', color: '#0e1410', name: 'Nazir Mohammadi', ago: '7 months ago', text: 'Extremely reliable and super friendly staff. The team helped us with our digital strategy. Would recommend to everyone who wants to get their SEO done properly.' },
-  { initial: 'H', color: '#ff5a1f', name: "Hunter D'Angelis", ago: '10 months ago', text: 'The Omniranq team have been incredible to work with. From the very beginning they crafted a clear SEO strategy and have delivered measurable results month after month.' },
-  { initial: 'S', color: '#1a6b4d', name: 'Sarah Mitchell', ago: '3 months ago', text: 'Our organic traffic grew by 280% in the first 90 days. The AI SEO approach is genuinely different — we\'re now appearing in ChatGPT and Google AI Overviews too.' },
-]
+  const reviews = [
+    { initial: c.rev_1_name?.[0] || 'N', color: '#0e1410', name: c.rev_1_name, ago: c.rev_1_time, text: c.rev_1_text },
+    { initial: c.rev_2_name?.[0] || 'H', color: '#ff5a1f', name: c.rev_2_name, ago: c.rev_2_time, text: c.rev_2_text },
+    { initial: c.rev_3_name?.[0] || 'S', color: '#1a6b4d', name: c.rev_3_name, ago: c.rev_3_time, text: c.rev_3_text },
+  ]
 
-const faqs = [
-  { q: 'How long does SEO take to show results?', a: 'Most clients see measurable ranking improvements within 90 days. Significant traffic growth typically occurs between months 4-6. The timeline depends on your starting position, competition level, and the technical health of your site.' },
-  { q: 'What makes your SEO different from other agencies?', a: 'Three things: we only do SEO (no distractions), every client works with a senior strategist (not an account manager), and we include AI search optimization as standard in every retainer.' },
-  { q: 'Do you require long-term contracts?', a: 'We ask for a 90-day onboarding commitment because SEO needs time to work. After that, we are month-to-month. We keep clients by delivering results, not by locking them in.' },
-  { q: 'Can you work with our in-house team?', a: 'Yes. Many of our enterprise clients have internal SEO teams. We function as a strategic extension, handling the work your team does not have bandwidth or specialization for.' },
-  { q: 'What is included in a free SEO audit?', a: 'A 200+ point technical crawl, Core Web Vitals check, content gap analysis, backlink profile overview, and AI search readiness score — delivered with a 30-minute strategy call.' },
-]
+  const faqs = Array.from({length: 5}, (_, i) => ({
+    q: c[`faq_${i+1}_q`], a: c[`faq_${i+1}_a`],
+  }))
 
-export default function SeoServicesPage() {
   return (
     <>
-      <Topbar text="Free SEO audit · 200+ checks · No obligation." linkText="Book →" linkHref="/contact" />
+      <Topbar text={c.topbar_text} linkText={c.topbar_link} linkHref="/contact" />
       <Nav active="services" />
 
       <header className="ref-hero">
         <div className="wrap">
           <div className="ref-hero-inner">
             <div className="ref-hero-copy">
-              <span className="ref-eyebrow">AI-Powered SEO Studio · Est. 2014</span>
-              <h1>Search rankings driven by <em>artificial intelligence.</em></h1>
-              <p className="ref-hero-sub">Omniranq combines deep SEO expertise with AI tools to grow your organic traffic, authority, and revenue — faster than traditional methods alone.</p>
+              <span className="ref-eyebrow">{c.hero_eyebrow}</span>
+              <h1>{c.hero_heading?.split(/artificial intelligence/i).map((part, i, arr) =>
+                i < arr.length - 1 ? <span key={i}>{part}<em>artificial intelligence.</em></span> : part
+              ) || c.hero_heading}</h1>
+              <p className="ref-hero-sub">{c.hero_subtext}</p>
               <div className="ref-hero-actions">
-                <Link href="/contact" className="btn btn-primary">Get a Free SEO Audit <span className="arr"><ArrowRight /></span></Link>
-                <a href="#process" className="btn btn-ghost">See How It Works</a>
+                <Link href="/contact" className="btn btn-primary">{c.hero_cta1} <span className="arr"><ArrowRight /></span></Link>
+                <a href="#process" className="btn btn-ghost">{c.hero_cta2}</a>
               </div>
               <div className="ref-hero-stats">
-                <div className="ref-stat"><div className="ref-stat-num">412%</div><div className="ref-stat-label">Avg. traffic growth</div></div>
-                <div className="ref-stat"><div className="ref-stat-num">600+</div><div className="ref-stat-label">Brands grown</div></div>
-                <div className="ref-stat"><div className="ref-stat-num">94%</div><div className="ref-stat-label">Client retention</div></div>
-                <div className="ref-stat"><div className="ref-stat-num">8.5×</div><div className="ref-stat-label">Avg. retainer ROI</div></div>
+                <div className="ref-stat"><div className="ref-stat-num">{c.hero_stat1_num}</div><div className="ref-stat-label">{c.hero_stat1_label}</div></div>
+                <div className="ref-stat"><div className="ref-stat-num">{c.hero_stat2_num}</div><div className="ref-stat-label">{c.hero_stat2_label}</div></div>
+                <div className="ref-stat"><div className="ref-stat-num">{c.hero_stat3_num}</div><div className="ref-stat-label">{c.hero_stat3_label}</div></div>
+                <div className="ref-stat"><div className="ref-stat-num">{c.hero_stat4_num}</div><div className="ref-stat-label">{c.hero_stat4_label}</div></div>
               </div>
             </div>
             <div className="ref-hero-visual">
@@ -155,8 +112,10 @@ export default function SeoServicesPage() {
         <div className="wrap">
           <div className="ref-contact-inner">
             <div className="ref-contact-copy">
-              <h2>Get your <em>free SEO audit</em> today.</h2>
-              <p>200+ checks. No obligation. Our team reviews your site and delivers a custom AI SEO growth plan within 48 hours.</p>
+              <h2>{c.contact_heading?.split(/free SEO audit/i).map((part, i, arr) =>
+                i < arr.length - 1 ? <span key={i}>{part}<em>free SEO audit</em></span> : part
+              ) || c.contact_heading}</h2>
+              <p>{c.contact_desc}</p>
             </div>
             <form className="ref-contact-form" action="/contact" method="get">
               <input type="text" placeholder="Your Name" />
@@ -165,7 +124,7 @@ export default function SeoServicesPage() {
               <input type="url" placeholder="Website URL" />
               <textarea placeholder="Tell us about your SEO goals…" rows={3} />
               <div className="ref-form-submit">
-                <button type="submit" className="btn btn-primary">Send My Free Audit Request <span className="arr"><ArrowRight /></span></button>
+                <button type="submit" className="btn btn-primary">{c.contact_btn} <span className="arr"><ArrowRight /></span></button>
               </div>
             </form>
           </div>
@@ -186,12 +145,14 @@ export default function SeoServicesPage() {
               <div className="ref-intro-float" style={{ bottom: '140px', left: '18px' }}><IconZap /></div>
             </div>
             <div className="ref-intro-text reveal">
-              <span className="eyebrow">Artificial Intelligence SEO</span>
-              <h2>AI SEO Services built for the <em>modern search landscape.</em></h2>
-              <p>Over the past few years, one force has reshaped every business landscape — artificial intelligence. The kind of AI-driven applications emerging in SEO and digital marketing are unprecedented.</p>
-              <p>When Google&apos;s AI Overviews, ChatGPT citations, and Perplexity search changed the rules, we were ready. Omniranq deploys proven AI-powered tools and strategies to put your brand in front of buyers — not just browsers.</p>
-              <p>If you want to stay ahead by investing in emerging technologies and revolutionary strategies, it is time to look at AI SEO.</p>
-              <a href="#process" className="ref-cta-link">See our AI SEO process →</a>
+              <span className="eyebrow">{c.intro_eyebrow}</span>
+              <h2>{c.intro_heading?.split(/modern search landscape/i).map((part, i, arr) =>
+                i < arr.length - 1 ? <span key={i}>{part}<em>modern search landscape.</em></span> : part
+              ) || c.intro_heading}</h2>
+              <p>{c.intro_p1}</p>
+              <p>{c.intro_p2}</p>
+              <p>{c.intro_p3}</p>
+              <a href="#process" className="ref-cta-link">{c.intro_cta}</a>
             </div>
           </div>
         </div>
@@ -200,9 +161,11 @@ export default function SeoServicesPage() {
       <section className="ref-section-dark section" id="process">
         <div className="wrap">
           <div className="ref-process-header reveal">
-            <span className="eyebrow" style={{ color: 'rgba(255,255,255,0.55)' }}>Our Method</span>
-            <h2 style={{ color: 'var(--dark-ink)' }}>Omniranq&apos;s <em>AI SEO Process</em></h2>
-            <p style={{ color: 'var(--dark-ink-soft)', maxWidth: 620, margin: '12px auto 0' }}>Our AI-driven SEO process is well-defined, structured in industry best practices, and tailored to the unique needs of each client.</p>
+            <span className="eyebrow" style={{ color: 'rgba(255,255,255,0.55)' }}>{c.proc_eyebrow}</span>
+            <h2 style={{ color: 'var(--dark-ink)' }}>{c.proc_heading?.split(/AI SEO Process/i).map((part, i, arr) =>
+              i < arr.length - 1 ? <span key={i}>{part}<em>AI SEO Process</em></span> : part
+            ) || c.proc_heading}</h2>
+            <p style={{ color: 'var(--dark-ink-soft)', maxWidth: 620, margin: '12px auto 0' }}>{c.proc_sub}</p>
           </div>
           <div className="ref-process-grid">
             {processSteps.map(s => (
@@ -220,9 +183,11 @@ export default function SeoServicesPage() {
       <section className="section" style={{ background: 'var(--surface)' }}>
         <div className="wrap">
           <div className="ref-features-header reveal">
-            <span className="eyebrow">Why Omniranq</span>
-            <h2>World-class AI SEO.<br /><em>Real competitive advantage.</em></h2>
-            <p className="sub">Omniranq is a natural choice for ambitious brands looking for an AI marketing partner that manages the complexity of modern search without compromising on performance or precision.</p>
+            <span className="eyebrow">{c.whyus_eyebrow}</span>
+            <h2>{c.whyus_heading?.split(/Real competitive advantage/i).map((part, i, arr) =>
+              i < arr.length - 1 ? <span key={i}>{part}<em>Real competitive advantage.</em></span> : part
+            ) || c.whyus_heading}</h2>
+            <p className="sub">{c.whyus_sub}</p>
           </div>
           <div className="ref-features-grid">
             {whyUs.map(f => (
@@ -239,9 +204,11 @@ export default function SeoServicesPage() {
       <section className="section">
         <div className="wrap">
           <div className="ref-features-header reveal">
-            <span className="eyebrow">AI Advantage</span>
-            <h2>AI makes SEO <em>faster and more effective.</em></h2>
-            <p className="sub">AI SEO services bring measurable advantages over traditional methods — here is what you gain when you partner with Omniranq.</p>
+            <span className="eyebrow">{c.adv_eyebrow}</span>
+            <h2>{c.adv_heading?.split(/faster and more effective/i).map((part, i, arr) =>
+              i < arr.length - 1 ? <span key={i}>{part}<em>faster and more effective.</em></span> : part
+            ) || c.adv_heading}</h2>
+            <p className="sub">{c.adv_sub}</p>
           </div>
           <div className="ref-features-grid">
             {advantages.map(a => (
@@ -258,8 +225,10 @@ export default function SeoServicesPage() {
       <section className="section" style={{ background: 'var(--surface)' }}>
         <div className="wrap">
           <div className="ref-rules-header reveal">
-            <h2>The rules have <em>changed.</em></h2>
-            <p>SEO in 2026 looks nothing like it did three years ago. Here&apos;s what&apos;s shifted — and why AI-first optimisation is now non-negotiable.</p>
+            <h2>{c.rules_heading?.split(/changed/i).map((part, i, arr) =>
+              i < arr.length - 1 ? <span key={i}>{part}<em>changed.</em></span> : part
+            ) || c.rules_heading}</h2>
+            <p>{c.rules_sub}</p>
           </div>
           <div className="ref-rules-table reveal">
             <div className="ref-rules-head">
@@ -287,9 +256,11 @@ export default function SeoServicesPage() {
       <section className="section">
         <div className="wrap">
           <div className="ref-features-header reveal">
-            <span className="eyebrow">Our SEO Services</span>
-            <h2>Full-spectrum search <em>optimisation.</em></h2>
-            <p className="sub">The following SEO services from Omniranq help businesses rank higher, get cited more, and reach buyers across every modern search platform.</p>
+            <span className="eyebrow">{c.svc_eyebrow}</span>
+            <h2>{c.svc_heading?.split(/optimisation/i).map((part, i, arr) =>
+              i < arr.length - 1 ? <span key={i}>{part}<em>optimisation.</em></span> : part
+            ) || c.svc_heading}</h2>
+            <p className="sub">{c.svc_sub}</p>
           </div>
           <div className="ref-features-grid">
             {seoServices.map(s => (
@@ -308,10 +279,10 @@ export default function SeoServicesPage() {
         <div className="wrap">
           <div className="ref-industries-header reveal">
             <div>
-              <span className="eyebrow">Industries We Work With</span>
-              <h2>Omniranq delivers tailored SEO for businesses just like yours.</h2>
+              <span className="eyebrow">{c.ind_eyebrow}</span>
+              <h2>{c.ind_heading}</h2>
             </div>
-            <p>We work with clients from over 300 different industries. Here are just some of the sectors we serve — if yours isn&apos;t listed, get in touch.</p>
+            <p>{c.ind_sub}</p>
           </div>
           <div className="ref-industries-grid">
             {industries.map(ind => (
@@ -328,20 +299,20 @@ export default function SeoServicesPage() {
         <div className="wrap">
           <div className="ref-testimonials-header reveal">
             <div>
-              <span className="eyebrow">Client Testimonials</span>
-              <h2>What our clients say about Omniranq.</h2>
+              <span className="eyebrow">{c.testi_eyebrow}</span>
+              <h2>{c.testi_heading}</h2>
             </div>
-            <p>With hundreds of 5-star reviews, Omniranq can create a tailored plan to meet your company&apos;s online marketing goals — and deliver on it.</p>
+            <p>{c.testi_sub}</p>
           </div>
           <div className="ref-testimonials-grid">
             <div className="ref-reviews-panel reveal">
               <div className="ref-google-bar">
                 <div className="ref-google-g">G</div>
                 <div>
-                  <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--ink)' }}>480 Google Reviews</div>
+                  <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--ink)' }}>{c.testi_count}</div>
                   <div style={{ display: 'flex', gap: 2, marginTop: 3 }}>
                     {'★★★★★'.split('').map((s, i) => <span key={i} style={{ color: '#FBBC04', fontSize: 16 }}>{s}</span>)}
-                    <span style={{ fontSize: 14, fontWeight: 700, marginLeft: 6, color: 'var(--ink)' }}>4.9</span>
+                    <span style={{ fontSize: 14, fontWeight: 700, marginLeft: 6, color: 'var(--ink)' }}>{c.testi_score}</span>
                   </div>
                 </div>
               </div>
@@ -389,7 +360,7 @@ export default function SeoServicesPage() {
           </div>
           <div style={{ textAlign: 'center', marginTop: 32 }}>
             <Link href="/contact" className="btn btn-primary" style={{ borderRadius: 999 }}>
-              Book Your Free Audit <span className="arr"><ArrowRight /></span>
+              {c.topbar_cta} <span className="arr"><ArrowRight /></span>
             </Link>
           </div>
         </div>

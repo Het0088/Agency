@@ -1,0 +1,351 @@
+
+  // ─── /services/ai-search: Topbar ───
+  { page: '/services/ai-search', section: 'Topbar', key: 'topbar_text', label: 'Topbar Text', type: 'text', value: 'AI Search is here. Is your brand visible?' },
+  { page: '/services/ai-search', section: 'Topbar', key: 'topbar_link', label: 'Topbar Link', type: 'text', value: 'Free AI audit →' },
+
+  // ─── /services/ai-search: Hero ───
+  { page: '/services/ai-search', section: 'Hero', key: 'hero_eyebrow', label: 'Eyebrow', type: 'text', value: 'AI Search & GEO' },
+  { page: '/services/ai-search', section: 'Hero', key: 'hero_heading', label: 'Heading', type: 'text', value: 'Get cited in the answers people trust.' },
+  { page: '/services/ai-search', section: 'Hero', key: 'hero_desc', label: 'Description', type: 'textarea', value: 'ChatGPT, Gemini, Perplexity, and Google AI Overviews are replacing the blue links. We make sure your brand shows up when AI answers the questions your customers ask.' },
+  { page: '/services/ai-search', section: 'Hero', key: 'hero_cta1', label: 'Primary CTA', type: 'text', value: 'Get a free AI audit' },
+  { page: '/services/ai-search', section: 'Hero', key: 'hero_cta2', label: 'Secondary CTA', type: 'text', value: 'See all AI services' },
+  { page: '/services/ai-search', section: 'Hero', key: 'hero_stat1_num', label: 'Stat 1 Number', type: 'text', value: '340%' },
+  { page: '/services/ai-search', section: 'Hero', key: 'hero_stat1_label', label: 'Stat 1 Label', type: 'text', value: 'Avg. brand mention increase' },
+  { page: '/services/ai-search', section: 'Hero', key: 'hero_stat2_num', label: 'Stat 2 Number', type: 'text', value: '4' },
+  { page: '/services/ai-search', section: 'Hero', key: 'hero_stat2_label', label: 'Stat 2 Label', type: 'text', value: 'AI platforms optimized' },
+  { page: '/services/ai-search', section: 'Hero', key: 'hero_stat3_num', label: 'Stat 3 Number', type: 'text', value: '120' },
+  { page: '/services/ai-search', section: 'Hero', key: 'hero_stat3_label', label: 'Stat 3 Label', type: 'text', value: 'Days to measurable results' },
+  { page: '/services/ai-search', section: 'Hero', key: 'hero_stat4_num', label: 'Stat 4 Number', type: 'text', value: '93%' },
+  { page: '/services/ai-search', section: 'Hero', key: 'hero_stat4_label', label: 'Stat 4 Label', type: 'text', value: 'Positive citation sentiment' },
+
+  // ─── /services/ai-search: Services Section ───
+  { page: '/services/ai-search', section: 'Services', key: 'sec_heading', label: 'Section Heading', type: 'text', value: 'Four AI platforms, one strategy.' },
+  { page: '/services/ai-search', section: 'Services', key: 'sec_sub', label: 'Section Subtext', type: 'textarea', value: 'We optimize your visibility across every AI search platform that matters today.' },
+
+  // ─── /services/ai-search: Service Cards ───
+  { page: '/services/ai-search', section: 'Card 1', key: 'card_1_title', label: 'Card 1 Title', type: 'text', value: 'ChatGPT Optimization' },
+  { page: '/services/ai-search', section: 'Card 1', key: 'card_1_tagline', label: 'Card 1 Tagline', type: 'text', value: 'Be the brand ChatGPT recommends.' },
+  { page: '/services/ai-search', section: 'Card 1', key: 'card_1_desc', label: 'Card 1 Desc', type: 'textarea', value: 'We engineer the conditions that make ChatGPT cite your brand consistently across millions of daily search queries.' },
+  { page: '/services/ai-search', section: 'Card 1', key: 'card_1_highlights', label: 'Card 1 Highlights (comma sep)', type: 'textarea', value: 'Entity optimization, Citation tracking, LLM content engineering, Competitor displacement' },
+  { page: '/services/ai-search', section: 'Card 1', key: 'card_1_result', label: 'Card 1 Result', type: 'text', value: '340% avg. brand mention increase' },
+  { page: '/services/ai-search', section: 'Card 2', key: 'card_2_title', label: 'Card 2 Title', type: 'text', value: 'Google AI Overviews' },
+  { page: '/services/ai-search', section: 'Card 2', key: 'card_2_tagline', label: 'Card 2 Tagline', type: 'text', value: 'Get featured above the blue links.' },
+  { page: '/services/ai-search', section: 'Card 2', key: 'card_2_desc', label: 'Card 2 Desc', type: 'textarea', value: 'AI Overviews appear on 40%+ of queries. We optimize your content specifically for AIO inclusion and citation.' },
+  { page: '/services/ai-search', section: 'Card 2', key: 'card_2_highlights', label: 'Card 2 Highlights (comma sep)', type: 'textarea', value: 'Trigger query mapping, AIO content formatting, E-E-A-T signals, Weekly tracking' },
+  { page: '/services/ai-search', section: 'Card 2', key: 'card_2_result', label: 'Card 2 Result', type: 'text', value: '12 new AIO citations per month (avg)' },
+  { page: '/services/ai-search', section: 'Card 3', key: 'card_3_title', label: 'Card 3 Title', type: 'text', value: 'Gemini Optimization' },
+  { page: '/services/ai-search', section: 'Card 3', key: 'card_3_tagline', label: 'Card 3 Tagline', type: 'text', value: 'Own the Google AI ecosystem.' },
+  { page: '/services/ai-search', section: 'Card 3', key: 'card_3_desc', label: 'Card 3 Desc', type: 'textarea', value: 'Gemini powers Google Search AI, Android assistants, and enterprise tools. We ensure your brand is a recognized entity.' },
+  { page: '/services/ai-search', section: 'Card 3', key: 'card_3_highlights', label: 'Card 3 Highlights (comma sep)', type: 'textarea', value: 'Knowledge Panel, Entity recognition, Cross-platform testing, Schema alignment' },
+  { page: '/services/ai-search', section: 'Card 3', key: 'card_3_result', label: 'Card 3 Result', type: 'text', value: '85% Knowledge Panel activation rate' },
+  { page: '/services/ai-search', section: 'Card 4', key: 'card_4_title', label: 'Card 4 Title', type: 'text', value: 'Perplexity SEO' },
+  { page: '/services/ai-search', section: 'Card 4', key: 'card_4_tagline', label: 'Card 4 Tagline', type: 'text', value: 'Be the source Perplexity cites.' },
+  { page: '/services/ai-search', section: 'Card 4', key: 'card_4_desc', label: 'Card 4 Desc', type: 'textarea', value: 'Perplexity always cites sources. We optimize your content library to be its preferred source for your industry.' },
+  { page: '/services/ai-search', section: 'Card 4', key: 'card_4_highlights', label: 'Card 4 Highlights (comma sep)', type: 'textarea', value: 'Source authority audit, Data-first content, Citation tracking, Competitive benchmarks' },
+  { page: '/services/ai-search', section: 'Card 4', key: 'card_4_result', label: 'Card 4 Result', type: 'text', value: '25+ citations per month (top clients)' },
+
+  // ─── /services/ai-search: FAQs ───
+  { page: '/services/ai-search', section: 'FAQ', key: 'faq_1_q', label: 'FAQ 1 Question', type: 'text', value: 'What is Generative Engine Optimization (GEO)?' },
+  { page: '/services/ai-search', section: 'FAQ', key: 'faq_1_a', label: 'FAQ 1 Answer', type: 'textarea', value: 'GEO is the practice of optimizing your brand and content to be cited by AI-powered search engines like ChatGPT, Gemini, Perplexity, and Google AI Overviews. It is the natural evolution of SEO for the AI era.' },
+  { page: '/services/ai-search', section: 'FAQ', key: 'faq_2_q', label: 'FAQ 2 Question', type: 'text', value: 'Does AI search replace traditional SEO?' },
+  { page: '/services/ai-search', section: 'FAQ', key: 'faq_2_a', label: 'FAQ 2 Answer', type: 'textarea', value: 'No. AI search builds on top of traditional SEO. Strong technical foundations, authoritative content, and quality backlinks are still the signals these AI systems use to determine trustworthiness.' },
+  { page: '/services/ai-search', section: 'FAQ', key: 'faq_3_q', label: 'FAQ 3 Question', type: 'text', value: 'Can you guarantee AI citations?' },
+  { page: '/services/ai-search', section: 'FAQ', key: 'faq_3_a', label: 'FAQ 3 Answer', type: 'textarea', value: 'No honest agency can guarantee specific AI outputs. What we guarantee is a systematic, data-driven approach that has produced measurable results for every client we have served.' },
+
+  // ─── /services/ai-search: Bottom CTA ───
+  { page: '/services/ai-search', section: 'Bottom CTA', key: 'cta_heading', label: 'CTA Heading', type: 'text', value: 'Free AI search audit.' },
+  { page: '/services/ai-search', section: 'Bottom CTA', key: 'cta_em', label: 'CTA Emphasis', type: 'text', value: 'See where you stand.' },
+  { page: '/services/ai-search', section: 'Bottom CTA', key: 'cta_text', label: 'CTA Text', type: 'textarea', value: 'We will test your brand across ChatGPT, Gemini, and Perplexity with 50+ industry prompts. Free. No obligation.' },
+  { page: '/services/ai-search', section: 'Bottom CTA', key: 'cta_btn', label: 'CTA Button', type: 'text', value: 'Book your AI audit' },
+
+  // ─── /services/content-marketing: Topbar ───
+  { page: '/services/content-marketing', section: 'Topbar', key: 'topbar_text', label: 'Topbar Text', type: 'text', value: 'Content that ranks and converts. Free audit.' },
+  { page: '/services/content-marketing', section: 'Topbar', key: 'topbar_link', label: 'Topbar Link', type: 'text', value: 'Book →' },
+
+  // ─── /services/content-marketing: Hero ───
+  { page: '/services/content-marketing', section: 'Hero', key: 'hero_eyebrow', label: 'Eyebrow', type: 'text', value: 'Content Marketing' },
+  { page: '/services/content-marketing', section: 'Hero', key: 'hero_heading', label: 'Heading', type: 'text', value: 'Content that earns links, trust, and traffic.' },
+  { page: '/services/content-marketing', section: 'Hero', key: 'hero_desc', label: 'Description', type: 'textarea', value: 'Strategic editorial content built for search, social, and AI visibility. Written by humans who know your industry.' },
+  { page: '/services/content-marketing', section: 'Hero', key: 'hero_cta1', label: 'Primary CTA', type: 'text', value: 'Get a content audit' },
+  { page: '/services/content-marketing', section: 'Hero', key: 'hero_cta2', label: 'Secondary CTA', type: 'text', value: 'See all services' },
+  { page: '/services/content-marketing', section: 'Hero', key: 'hero_stat1_num', label: 'Stat 1 Number', type: 'text', value: '4.2x' },
+  { page: '/services/content-marketing', section: 'Hero', key: 'hero_stat1_label', label: 'Stat 1 Label', type: 'text', value: 'Avg. traffic increase from content' },
+  { page: '/services/content-marketing', section: 'Hero', key: 'hero_stat2_num', label: 'Stat 2 Number', type: 'text', value: '180%' },
+  { page: '/services/content-marketing', section: 'Hero', key: 'hero_stat2_label', label: 'Stat 2 Label', type: 'text', value: 'Avg. session increase in 6 months' },
+  { page: '/services/content-marketing', section: 'Hero', key: 'hero_stat3_num', label: 'Stat 3 Number', type: 'text', value: '35%' },
+  { page: '/services/content-marketing', section: 'Hero', key: 'hero_stat3_label', label: 'Stat 3 Label', type: 'text', value: 'Avg. conversion rate lift' },
+  { page: '/services/content-marketing', section: 'Hero', key: 'hero_stat4_num', label: 'Stat 4 Number', type: 'text', value: '42x' },
+  { page: '/services/content-marketing', section: 'Hero', key: 'hero_stat4_label', label: 'Stat 4 Label', type: 'text', value: 'Avg. email marketing ROI' },
+
+  // ─── /services/content-marketing: Services Section ───
+  { page: '/services/content-marketing', section: 'Services', key: 'sec_heading', label: 'Section Heading', type: 'text', value: 'Four content disciplines, one voice.' },
+  { page: '/services/content-marketing', section: 'Services', key: 'sec_sub', label: 'Section Subtext', type: 'textarea', value: 'From SEO articles to email sequences, every word serves your growth strategy.' },
+
+  // ─── /services/content-marketing: Service Cards ───
+  { page: '/services/content-marketing', section: 'Card 1', key: 'card_1_title', label: 'Card 1 Title', type: 'text', value: 'SEO Content Writing' },
+  { page: '/services/content-marketing', section: 'Card 1', key: 'card_1_tagline', label: 'Card 1 Tagline', type: 'text', value: 'Content that ranks and converts.' },
+  { page: '/services/content-marketing', section: 'Card 1', key: 'card_1_desc', label: 'Card 1 Desc', type: 'textarea', value: 'Long-form, answer-first articles written by ex-journalists. Built to rank, satisfy intent, and drive action.' },
+  { page: '/services/content-marketing', section: 'Card 1', key: 'card_1_highlights', label: 'Card 1 Highlights (comma sep)', type: 'textarea', value: 'SERP-targeted briefs, Human-written, Clearscope scoring, Snippet optimization' },
+  { page: '/services/content-marketing', section: 'Card 1', key: 'card_1_result', label: 'Card 1 Result', type: 'text', value: '4.2x avg. traffic increase from content' },
+  { page: '/services/content-marketing', section: 'Card 2', key: 'card_2_title', label: 'Card 2 Title', type: 'text', value: 'Blog Management' },
+  { page: '/services/content-marketing', section: 'Card 2', key: 'card_2_tagline', label: 'Card 2 Tagline', type: 'text', value: 'A fully managed editorial operation.' },
+  { page: '/services/content-marketing', section: 'Card 2', key: 'card_2_desc', label: 'Card 2 Desc', type: 'textarea', value: 'We handle calendars, writers, publishing, and performance tracking so you can focus on your business.' },
+  { page: '/services/content-marketing', section: 'Card 2', key: 'card_2_highlights', label: 'Card 2 Highlights (comma sep)', type: 'textarea', value: 'Editorial calendars, Writer management, CMS publishing, Performance tracking' },
+  { page: '/services/content-marketing', section: 'Card 2', key: 'card_2_result', label: 'Card 2 Result', type: 'text', value: '180% avg. session increase in 6 months' },
+  { page: '/services/content-marketing', section: 'Card 3', key: 'card_3_title', label: 'Card 3 Title', type: 'text', value: 'Copywriting' },
+  { page: '/services/content-marketing', section: 'Card 3', key: 'card_3_tagline', label: 'Card 3 Tagline', type: 'text', value: 'Words that move people to act.' },
+  { page: '/services/content-marketing', section: 'Card 3', key: 'card_3_desc', label: 'Card 3 Desc', type: 'textarea', value: 'Conversion-focused copy for landing pages, product descriptions, emails, and ad campaigns.' },
+  { page: '/services/content-marketing', section: 'Card 3', key: 'card_3_highlights', label: 'Card 3 Highlights (comma sep)', type: 'textarea', value: 'Landing page copy, Product descriptions, Email sequences, A/B test variants' },
+  { page: '/services/content-marketing', section: 'Card 3', key: 'card_3_result', label: 'Card 3 Result', type: 'text', value: '35% avg. conversion rate lift' },
+  { page: '/services/content-marketing', section: 'Card 4', key: 'card_4_title', label: 'Card 4 Title', type: 'text', value: 'Email Marketing' },
+  { page: '/services/content-marketing', section: 'Card 4', key: 'card_4_tagline', label: 'Card 4 Tagline', type: 'text', value: 'The highest-ROI channel, done right.' },
+  { page: '/services/content-marketing', section: 'Card 4', key: 'card_4_desc', label: 'Card 4 Desc', type: 'textarea', value: 'Lifecycle email strategy from welcome sequences to win-back campaigns, fully managed and continuously optimized.' },
+  { page: '/services/content-marketing', section: 'Card 4', key: 'card_4_highlights', label: 'Card 4 Highlights (comma sep)', type: 'textarea', value: 'Automated sequences, Segmentation, A/B testing, Revenue attribution' },
+  { page: '/services/content-marketing', section: 'Card 4', key: 'card_4_result', label: 'Card 4 Result', type: 'text', value: '42x avg. ROI on email marketing' },
+
+  // ─── /services/content-marketing: Bottom CTA ───
+  { page: '/services/content-marketing', section: 'Bottom CTA', key: 'cta_heading', label: 'CTA Heading', type: 'text', value: 'Free content audit.' },
+  { page: '/services/content-marketing', section: 'Bottom CTA', key: 'cta_em', label: 'CTA Emphasis', type: 'text', value: 'Find the gaps.' },
+  { page: '/services/content-marketing', section: 'Bottom CTA', key: 'cta_text', label: 'CTA Text', type: 'textarea', value: 'We will analyze your existing content and show you the top 10 opportunities to grow organic traffic this quarter.' },
+  { page: '/services/content-marketing', section: 'Bottom CTA', key: 'cta_btn', label: 'CTA Button', type: 'text', value: 'Book your content audit' },
+
+  // ─── /services/link-building: Topbar ───
+  { page: '/services/link-building', section: 'Topbar', key: 'topbar_text', label: 'Topbar Text', type: 'text', value: 'Links from sites your customers read.' },
+  { page: '/services/link-building', section: 'Topbar', key: 'topbar_link', label: 'Topbar Link', type: 'text', value: 'Free audit →' },
+
+  // ─── /services/link-building: Hero ───
+  { page: '/services/link-building', section: 'Hero', key: 'hero_eyebrow', label: 'Eyebrow', type: 'text', value: 'Link Building & Digital PR' },
+  { page: '/services/link-building', section: 'Hero', key: 'hero_heading', label: 'Heading', type: 'text', value: 'Links that move the needle.' },
+  { page: '/services/link-building', section: 'Hero', key: 'hero_desc', label: 'Description', type: 'textarea', value: 'White-hat authority building through digital PR, guest content, and strategic outreach. Every link is editorial, relevant, and permanent.' },
+  { page: '/services/link-building', section: 'Hero', key: 'hero_cta1', label: 'Primary CTA', type: 'text', value: 'Get a link audit' },
+  { page: '/services/link-building', section: 'Hero', key: 'hero_cta2', label: 'Secondary CTA', type: 'text', value: 'See all services' },
+  { page: '/services/link-building', section: 'Hero', key: 'hero_stat1_num', label: 'Stat 1 Number', type: 'text', value: '15' },
+  { page: '/services/link-building', section: 'Hero', key: 'hero_stat1_label', label: 'Stat 1 Label', type: 'text', value: 'Avg. placements per campaign' },
+  { page: '/services/link-building', section: 'Hero', key: 'hero_stat2_num', label: 'Stat 2 Number', type: 'text', value: 'DR 55+' },
+  { page: '/services/link-building', section: 'Hero', key: 'hero_stat2_label', label: 'Stat 2 Label', type: 'text', value: 'Avg. placement quality' },
+  { page: '/services/link-building', section: 'Hero', key: 'hero_stat3_num', label: 'Stat 3 Number', type: 'text', value: '20' },
+  { page: '/services/link-building', section: 'Hero', key: 'hero_stat3_label', label: 'Stat 3 Label', type: 'text', value: 'New referring domains per month' },
+  { page: '/services/link-building', section: 'Hero', key: 'hero_stat4_num', label: 'Stat 4 Number', type: 'text', value: '0' },
+  { page: '/services/link-building', section: 'Hero', key: 'hero_stat4_label', label: 'Stat 4 Label', type: 'text', value: 'PBN or link farm links ever' },
+
+  // ─── /services/link-building: Services Section ───
+  { page: '/services/link-building', section: 'Services', key: 'sec_heading', label: 'Section Heading', type: 'text', value: 'Three approaches, zero shortcuts.' },
+  { page: '/services/link-building', section: 'Services', key: 'sec_sub', label: 'Section Subtext', type: 'textarea', value: 'Every link we build is editorial, relevant, and will still be live in five years.' },
+
+  // ─── /services/link-building: Service Cards ───
+  { page: '/services/link-building', section: 'Card 1', key: 'card_1_title', label: 'Card 1 Title', type: 'text', value: 'Digital PR' },
+  { page: '/services/link-building', section: 'Card 1', key: 'card_1_tagline', label: 'Card 1 Tagline', type: 'text', value: 'Coverage that builds authority.' },
+  { page: '/services/link-building', section: 'Card 1', key: 'card_1_desc', label: 'Card 1 Desc', type: 'textarea', value: 'Data-driven PR campaigns that generate editorial coverage, high-authority backlinks, and brand awareness simultaneously.' },
+  { page: '/services/link-building', section: 'Card 1', key: 'card_1_highlights', label: 'Card 1 Highlights (comma sep)', type: 'textarea', value: 'Data-driven campaigns, Journalist outreach, Original research, Coverage tracking' },
+  { page: '/services/link-building', section: 'Card 1', key: 'card_1_result', label: 'Card 1 Result', type: 'text', value: '15 avg. placements per campaign' },
+  { page: '/services/link-building', section: 'Card 2', key: 'card_2_title', label: 'Card 2 Title', type: 'text', value: 'Guest Posting' },
+  { page: '/services/link-building', section: 'Card 2', key: 'card_2_tagline', label: 'Card 2 Tagline', type: 'text', value: 'Strategic, editorial placements.' },
+  { page: '/services/link-building', section: 'Card 2', key: 'card_2_desc', label: 'Card 2 Desc', type: 'textarea', value: 'Guest content placement on authoritative sites in your industry. Every placement is editorial, relevant, and permanent.' },
+  { page: '/services/link-building', section: 'Card 2', key: 'card_2_highlights', label: 'Card 2 Highlights (comma sep)', type: 'textarea', value: 'Authority sites only, Expert writers, Anchor strategy, No PBNs ever' },
+  { page: '/services/link-building', section: 'Card 2', key: 'card_2_result', label: 'Card 2 Result', type: 'text', value: 'DR 55+ avg. placement quality' },
+  { page: '/services/link-building', section: 'Card 3', key: 'card_3_title', label: 'Card 3 Title', type: 'text', value: 'Outreach Campaigns' },
+  { page: '/services/link-building', section: 'Card 3', key: 'card_3_tagline', label: 'Card 3 Tagline', type: 'text', value: 'Earn links others cannot.' },
+  { page: '/services/link-building', section: 'Card 3', key: 'card_3_desc', label: 'Card 3 Desc', type: 'textarea', value: 'Broken link building, unlinked mention reclamation, resource page placement, and strategic partnerships.' },
+  { page: '/services/link-building', section: 'Card 3', key: 'card_3_highlights', label: 'Card 3 Highlights (comma sep)', type: 'textarea', value: 'Broken link building, Mention reclamation, Resource pages, Toxic link cleanup' },
+  { page: '/services/link-building', section: 'Card 3', key: 'card_3_result', label: 'Card 3 Result', type: 'text', value: '20 new referring domains per month' },
+
+  // ─── /services/link-building: Bottom CTA ───
+  { page: '/services/link-building', section: 'Bottom CTA', key: 'cta_heading', label: 'CTA Heading', type: 'text', value: 'Free link audit.' },
+  { page: '/services/link-building', section: 'Bottom CTA', key: 'cta_em', label: 'CTA Emphasis', type: 'text', value: 'See your profile.' },
+  { page: '/services/link-building', section: 'Bottom CTA', key: 'cta_text', label: 'CTA Text', type: 'textarea', value: 'We will audit your backlink profile and show you exactly where your competitors are earning links you are missing.' },
+  { page: '/services/link-building', section: 'Bottom CTA', key: 'cta_btn', label: 'CTA Button', type: 'text', value: 'Book your link audit' },
+
+  // ─── /services/ppc: Topbar ───
+  { page: '/services/ppc', section: 'Topbar', key: 'topbar_text', label: 'Topbar Text', type: 'text', value: 'Maximize your ad spend. Free PPC audit available.' },
+  { page: '/services/ppc', section: 'Topbar', key: 'topbar_link', label: 'Topbar Link', type: 'text', value: 'Book →' },
+
+  // ─── /services/ppc: Hero ───
+  { page: '/services/ppc', section: 'Hero', key: 'hero_eyebrow', label: 'Eyebrow', type: 'text', value: 'PPC & Paid Ads' },
+  { page: '/services/ppc', section: 'Hero', key: 'hero_heading', label: 'Heading', type: 'text', value: 'Paid media that pays back.' },
+  { page: '/services/ppc', section: 'Hero', key: 'hero_desc', label: 'Description', type: 'textarea', value: 'Performance-driven campaigns across Google, Meta, YouTube, and programmatic. Every dollar tracked, every campaign optimized for revenue.' },
+  { page: '/services/ppc', section: 'Hero', key: 'hero_cta1', label: 'Primary CTA', type: 'text', value: 'Get a free PPC audit' },
+  { page: '/services/ppc', section: 'Hero', key: 'hero_cta2', label: 'Secondary CTA', type: 'text', value: 'See all services' },
+  { page: '/services/ppc', section: 'Hero', key: 'hero_stat1_num', label: 'Stat 1 Number', type: 'text', value: '3.2x' },
+  { page: '/services/ppc', section: 'Hero', key: 'hero_stat1_label', label: 'Stat 1 Label', type: 'text', value: 'Avg. ROAS improvement' },
+  { page: '/services/ppc', section: 'Hero', key: 'hero_stat2_num', label: 'Stat 2 Number', type: 'text', value: '$2M+' },
+  { page: '/services/ppc', section: 'Hero', key: 'hero_stat2_label', label: 'Stat 2 Label', type: 'text', value: 'Monthly ad spend managed' },
+  { page: '/services/ppc', section: 'Hero', key: 'hero_stat3_num', label: 'Stat 3 Number', type: 'text', value: '90' },
+  { page: '/services/ppc', section: 'Hero', key: 'hero_stat3_label', label: 'Stat 3 Label', type: 'text', value: 'Days to measurable ROAS lift' },
+  { page: '/services/ppc', section: 'Hero', key: 'hero_stat4_num', label: 'Stat 4 Number', type: 'text', value: '94%' },
+  { page: '/services/ppc', section: 'Hero', key: 'hero_stat4_label', label: 'Stat 4 Label', type: 'text', value: 'Client retention rate' },
+
+  // ─── /services/ppc: Services Section ───
+  { page: '/services/ppc', section: 'Services', key: 'sec_heading', label: 'Section Heading', type: 'text', value: 'Four channels, one dashboard.' },
+  { page: '/services/ppc', section: 'Services', key: 'sec_sub', label: 'Section Subtext', type: 'textarea', value: 'Every campaign tracked in real-time with revenue attribution.' },
+
+  // ─── /services/ppc: Service Cards ───
+  { page: '/services/ppc', section: 'Card 1', key: 'card_1_title', label: 'Card 1 Title', type: 'text', value: 'Google Ads' },
+  { page: '/services/ppc', section: 'Card 1', key: 'card_1_tagline', label: 'Card 1 Tagline', type: 'text', value: 'ROAS-driven, not spend-driven.' },
+  { page: '/services/ppc', section: 'Card 1', key: 'card_1_desc', label: 'Card 1 Desc', type: 'textarea', value: 'Search, Shopping, Display, and Performance Max campaigns built to maximize return on ad spend.' },
+  { page: '/services/ppc', section: 'Card 1', key: 'card_1_highlights', label: 'Card 1 Highlights (comma sep)', type: 'textarea', value: 'Campaign architecture, Negative keywords, Quality score, Attribution modeling' },
+  { page: '/services/ppc', section: 'Card 1', key: 'card_1_result', label: 'Card 1 Result', type: 'text', value: '3.2x avg. ROAS improvement' },
+  { page: '/services/ppc', section: 'Card 2', key: 'card_2_title', label: 'Card 2 Title', type: 'text', value: 'Meta Ads' },
+  { page: '/services/ppc', section: 'Card 2', key: 'card_2_tagline', label: 'Card 2 Tagline', type: 'text', value: 'Full-funnel Facebook & Instagram.' },
+  { page: '/services/ppc', section: 'Card 2', key: 'card_2_desc', label: 'Card 2 Desc', type: 'textarea', value: 'Awareness to conversion across Meta platforms with creative strategy and Conversion API setup included.' },
+  { page: '/services/ppc', section: 'Card 2', key: 'card_2_highlights', label: 'Card 2 Highlights (comma sep)', type: 'textarea', value: 'Lookalike audiences, Creative strategy, Retargeting, iOS 14+ tracking' },
+  { page: '/services/ppc', section: 'Card 2', key: 'card_2_result', label: 'Card 2 Result', type: 'text', value: '2.8x avg. ROAS' },
+  { page: '/services/ppc', section: 'Card 3', key: 'card_3_title', label: 'Card 3 Title', type: 'text', value: 'YouTube Ads' },
+  { page: '/services/ppc', section: 'Card 3', key: 'card_3_tagline', label: 'Card 3 Tagline', type: 'text', value: 'Video that drives action.' },
+  { page: '/services/ppc', section: 'Card 3', key: 'card_3_desc', label: 'Card 3 Desc', type: 'textarea', value: 'TrueView, Bumper, and In-Feed campaigns with precise intent-based targeting on the second-largest search engine.' },
+  { page: '/services/ppc', section: 'Card 3', key: 'card_3_highlights', label: 'Card 3 Highlights (comma sep)', type: 'textarea', value: 'TrueView & Bumper, Intent targeting, Brand lift, Video remarketing' },
+  { page: '/services/ppc', section: 'Card 3', key: 'card_3_result', label: 'Card 3 Result', type: 'text', value: '65% lower CPV vs. benchmarks' },
+  { page: '/services/ppc', section: 'Card 4', key: 'card_4_title', label: 'Card 4 Title', type: 'text', value: 'Programmatic Advertising' },
+  { page: '/services/ppc', section: 'Card 4', key: 'card_4_tagline', label: 'Card 4 Tagline', type: 'text', value: 'Automated, data-driven media buying.' },
+  { page: '/services/ppc', section: 'Card 4', key: 'card_4_desc', label: 'Card 4 Desc', type: 'textarea', value: 'Cross-channel campaigns across display, video, native, and connected TV using DV360 and The Trade Desk.' },
+  { page: '/services/ppc', section: 'Card 4', key: 'card_4_highlights', label: 'Card 4 Highlights (comma sep)', type: 'textarea', value: 'DSP management, Cross-channel, Brand safety, Incrementality testing' },
+  { page: '/services/ppc', section: 'Card 4', key: 'card_4_result', label: 'Card 4 Result', type: 'text', value: '40% avg. media efficiency gain' },
+
+  // ─── /services/ppc: Bottom CTA ───
+  { page: '/services/ppc', section: 'Bottom CTA', key: 'cta_heading', label: 'CTA Heading', type: 'text', value: 'Free PPC audit.' },
+  { page: '/services/ppc', section: 'Bottom CTA', key: 'cta_em', label: 'CTA Emphasis', type: 'text', value: 'Find the waste.' },
+  { page: '/services/ppc', section: 'Bottom CTA', key: 'cta_text', label: 'CTA Text', type: 'textarea', value: 'We will analyze your current campaigns and show you exactly where budget is being wasted and where to scale.' },
+  { page: '/services/ppc', section: 'Bottom CTA', key: 'cta_btn', label: 'CTA Button', type: 'text', value: 'Book your PPC audit' },
+
+  // ─── /services/social-media: Topbar ───
+  { page: '/services/social-media', section: 'Topbar', key: 'topbar_text', label: 'Topbar Text', type: 'text', value: 'Social media that drives business results.' },
+  { page: '/services/social-media', section: 'Topbar', key: 'topbar_link', label: 'Topbar Link', type: 'text', value: 'Get started →' },
+
+  // ─── /services/social-media: Hero ───
+  { page: '/services/social-media', section: 'Hero', key: 'hero_eyebrow', label: 'Eyebrow', type: 'text', value: 'Social Media Marketing' },
+  { page: '/services/social-media', section: 'Hero', key: 'hero_heading', label: 'Heading', type: 'text', value: 'Social that drives real business.' },
+  { page: '/services/social-media', section: 'Hero', key: 'hero_desc', label: 'Description', type: 'textarea', value: 'Strategy, content, community management, and paid social that builds brand awareness and drives qualified traffic.' },
+  { page: '/services/social-media', section: 'Hero', key: 'hero_cta1', label: 'Primary CTA', type: 'text', value: 'Get a social audit' },
+  { page: '/services/social-media', section: 'Hero', key: 'hero_cta2', label: 'Secondary CTA', type: 'text', value: 'See all services' },
+  { page: '/services/social-media', section: 'Hero', key: 'hero_stat1_num', label: 'Stat 1 Number', type: 'text', value: '156%' },
+  { page: '/services/social-media', section: 'Hero', key: 'hero_stat1_label', label: 'Stat 1 Label', type: 'text', value: 'Avg. follower growth' },
+  { page: '/services/social-media', section: 'Hero', key: 'hero_stat2_num', label: 'Stat 2 Number', type: 'text', value: '2.4x' },
+  { page: '/services/social-media', section: 'Hero', key: 'hero_stat2_label', label: 'Stat 2 Label', type: 'text', value: 'Avg. paid social ROAS' },
+  { page: '/services/social-media', section: 'Hero', key: 'hero_stat3_num', label: 'Stat 3 Number', type: 'text', value: '78%' },
+  { page: '/services/social-media', section: 'Hero', key: 'hero_stat3_label', label: 'Stat 3 Label', type: 'text', value: 'Brand sentiment improvement' },
+  { page: '/services/social-media', section: 'Hero', key: 'hero_stat4_num', label: 'Stat 4 Number', type: 'text', value: '45%' },
+  { page: '/services/social-media', section: 'Hero', key: 'hero_stat4_label', label: 'Stat 4 Label', type: 'text', value: 'Avg. engagement rate increase' },
+
+  // ─── /services/social-media: Services Section ───
+  { page: '/services/social-media', section: 'Services', key: 'sec_heading', label: 'Section Heading', type: 'text', value: 'Three disciplines, one brand voice.' },
+  { page: '/services/social-media', section: 'Services', key: 'sec_sub', label: 'Section Subtext', type: 'textarea', value: 'Organic growth, paid amplification, and brand protection under one strategy.' },
+
+  // ─── /services/social-media: Service Cards ───
+  { page: '/services/social-media', section: 'Card 1', key: 'card_1_title', label: 'Card 1 Title', type: 'text', value: 'Social Media Management' },
+  { page: '/services/social-media', section: 'Card 1', key: 'card_1_tagline', label: 'Card 1 Tagline', type: 'text', value: 'Your brand, always on.' },
+  { page: '/services/social-media', section: 'Card 1', key: 'card_1_desc', label: 'Card 1 Desc', type: 'textarea', value: 'Content creation, scheduling, community engagement, and performance reporting across all major platforms.' },
+  { page: '/services/social-media', section: 'Card 1', key: 'card_1_highlights', label: 'Card 1 Highlights (comma sep)', type: 'textarea', value: 'Content creation, Community management, Multi-platform, Monthly analytics' },
+  { page: '/services/social-media', section: 'Card 1', key: 'card_1_result', label: 'Card 1 Result', type: 'text', value: '156% avg. follower growth' },
+  { page: '/services/social-media', section: 'Card 2', key: 'card_2_title', label: 'Card 2 Title', type: 'text', value: 'Social Advertising' },
+  { page: '/services/social-media', section: 'Card 2', key: 'card_2_tagline', label: 'Card 2 Tagline', type: 'text', value: 'Paid social that pays back.' },
+  { page: '/services/social-media', section: 'Card 2', key: 'card_2_desc', label: 'Card 2 Desc', type: 'textarea', value: 'Campaigns across Meta, LinkedIn, TikTok, and X with a focus on measurable ROAS, not vanity metrics.' },
+  { page: '/services/social-media', section: 'Card 2', key: 'card_2_highlights', label: 'Card 2 Highlights (comma sep)', type: 'textarea', value: 'Cross-platform, Creative testing, Retargeting, Attribution' },
+  { page: '/services/social-media', section: 'Card 2', key: 'card_2_result', label: 'Card 2 Result', type: 'text', value: '2.4x avg. ROAS' },
+  { page: '/services/social-media', section: 'Card 3', key: 'card_3_title', label: 'Card 3 Title', type: 'text', value: 'Brand Management' },
+  { page: '/services/social-media', section: 'Card 3', key: 'card_3_tagline', label: 'Card 3 Tagline', type: 'text', value: 'Build it. Protect it. Grow it.' },
+  { page: '/services/social-media', section: 'Card 3', key: 'card_3_desc', label: 'Card 3 Desc', type: 'textarea', value: 'Strategic brand positioning, reputation monitoring, and influencer partnerships across digital channels.' },
+  { page: '/services/social-media', section: 'Card 3', key: 'card_3_highlights', label: 'Card 3 Highlights (comma sep)', type: 'textarea', value: 'Brand voice, Reputation monitoring, Influencer strategy, Sentiment tracking' },
+  { page: '/services/social-media', section: 'Card 3', key: 'card_3_result', label: 'Card 3 Result', type: 'text', value: '78% brand sentiment improvement' },
+
+  // ─── /services/social-media: Bottom CTA ───
+  { page: '/services/social-media', section: 'Bottom CTA', key: 'cta_heading', label: 'CTA Heading', type: 'text', value: 'Free social audit.' },
+  { page: '/services/social-media', section: 'Bottom CTA', key: 'cta_em', label: 'CTA Emphasis', type: 'text', value: 'See what is working.' },
+  { page: '/services/social-media', section: 'Bottom CTA', key: 'cta_text', label: 'CTA Text', type: 'textarea', value: 'We will review your social presence, content performance, and competitor landscape. Free. No obligation.' },
+  { page: '/services/social-media', section: 'Bottom CTA', key: 'cta_btn', label: 'CTA Button', type: 'text', value: 'Book your social audit' },
+
+  // ─── /services/analytics: Topbar ───
+  { page: '/services/analytics', section: 'Topbar', key: 'topbar_text', label: 'Topbar Text', type: 'text', value: 'Know what works. Cut what doesn\'t.' },
+  { page: '/services/analytics', section: 'Topbar', key: 'topbar_link', label: 'Topbar Link', type: 'text', value: 'Free audit →' },
+
+  // ─── /services/analytics: Hero ───
+  { page: '/services/analytics', section: 'Hero', key: 'hero_eyebrow', label: 'Eyebrow', type: 'text', value: 'Analytics & CRO' },
+  { page: '/services/analytics', section: 'Hero', key: 'hero_heading', label: 'Heading', type: 'text', value: 'Know what works. Cut what doesn\'t.' },
+  { page: '/services/analytics', section: 'Hero', key: 'hero_desc', label: 'Description', type: 'textarea', value: 'Analytics, conversion rate optimization, and reporting that tells you what to do next — not just what happened.' },
+  { page: '/services/analytics', section: 'Hero', key: 'hero_cta1', label: 'Primary CTA', type: 'text', value: 'Get an analytics audit' },
+  { page: '/services/analytics', section: 'Hero', key: 'hero_cta2', label: 'Secondary CTA', type: 'text', value: 'See all services' },
+  { page: '/services/analytics', section: 'Hero', key: 'hero_stat1_num', label: 'Stat 1 Number', type: 'text', value: '32%' },
+  { page: '/services/analytics', section: 'Hero', key: 'hero_stat1_label', label: 'Stat 1 Label', type: 'text', value: 'Avg. conversion rate increase' },
+  { page: '/services/analytics', section: 'Hero', key: 'hero_stat2_num', label: 'Stat 2 Number', type: 'text', value: '100%' },
+  { page: '/services/analytics', section: 'Hero', key: 'hero_stat2_label', label: 'Stat 2 Label', type: 'text', value: 'Data ownership guaranteed' },
+  { page: '/services/analytics', section: 'Hero', key: 'hero_stat3_num', label: 'Stat 3 Number', type: 'text', value: '48h' },
+  { page: '/services/analytics', section: 'Hero', key: 'hero_stat3_label', label: 'Stat 3 Label', type: 'text', value: 'Dashboard setup time' },
+  { page: '/services/analytics', section: 'Hero', key: 'hero_stat4_num', label: 'Stat 4 Number', type: 'text', value: '94%' },
+  { page: '/services/analytics', section: 'Hero', key: 'hero_stat4_label', label: 'Stat 4 Label', type: 'text', value: 'Client retention rate' },
+
+  // ─── /services/analytics: Services Section ───
+  { page: '/services/analytics', section: 'Services', key: 'sec_heading', label: 'Section Heading', type: 'text', value: 'Three services, total clarity.' },
+  { page: '/services/analytics', section: 'Services', key: 'sec_sub', label: 'Section Subtext', type: 'textarea', value: 'From tracking setup to conversion optimization, we make your data work for you.' },
+
+  // ─── /services/analytics: Service Cards ───
+  { page: '/services/analytics', section: 'Card 1', key: 'card_1_title', label: 'Card 1 Title', type: 'text', value: 'Tracking & Implementation' },
+  { page: '/services/analytics', section: 'Card 1', key: 'card_1_tagline', label: 'Card 1 Tagline', type: 'text', value: 'Measure everything that matters.' },
+  { page: '/services/analytics', section: 'Card 1', key: 'card_1_desc', label: 'Card 1 Desc', type: 'textarea', value: 'GA4, GTM, server-side tagging, Conversion API — set up once, trust the data forever.' },
+  { page: '/services/analytics', section: 'Card 1', key: 'card_1_highlights', label: 'Card 1 Highlights (comma sep)', type: 'textarea', value: 'GA4 migration, GTM setup, Server-side tagging, Conversion API' },
+  { page: '/services/analytics', section: 'Card 1', key: 'card_1_result', label: 'Card 1 Result', type: 'text', value: '100% data accuracy guarantee' },
+  { page: '/services/analytics', section: 'Card 2', key: 'card_2_title', label: 'Card 2 Title', type: 'text', value: 'Custom Dashboards' },
+  { page: '/services/analytics', section: 'Card 2', key: 'card_2_tagline', label: 'Card 2 Tagline', type: 'text', value: 'Decisions at a glance.' },
+  { page: '/services/analytics', section: 'Card 2', key: 'card_2_desc', label: 'Card 2 Desc', type: 'textarea', value: 'Looker Studio and custom dashboards that show the metrics that actually matter for your business.' },
+  { page: '/services/analytics', section: 'Card 2', key: 'card_2_highlights', label: 'Card 2 Highlights (comma sep)', type: 'textarea', value: 'Looker Studio, Real-time data, Revenue attribution, Automated reports' },
+  { page: '/services/analytics', section: 'Card 2', key: 'card_2_result', label: 'Card 2 Result', type: 'text', value: '48h average setup time' },
+  { page: '/services/analytics', section: 'Card 3', key: 'card_3_title', label: 'Card 3 Title', type: 'text', value: 'Conversion Rate Optimization' },
+  { page: '/services/analytics', section: 'Card 3', key: 'card_3_tagline', label: 'Card 3 Tagline', type: 'text', value: 'More revenue from existing traffic.' },
+  { page: '/services/analytics', section: 'Card 3', key: 'card_3_desc', label: 'Card 3 Desc', type: 'textarea', value: 'Systematic A/B testing and UX optimization to turn more visitors into customers without increasing ad spend.' },
+  { page: '/services/analytics', section: 'Card 3', key: 'card_3_highlights', label: 'Card 3 Highlights (comma sep)', type: 'textarea', value: 'A/B testing, Heatmaps, User recordings, Funnel analysis' },
+  { page: '/services/analytics', section: 'Card 3', key: 'card_3_result', label: 'Card 3 Result', type: 'text', value: '32% avg. conversion rate lift' },
+
+  // ─── /services/analytics: Bottom CTA ───
+  { page: '/services/analytics', section: 'Bottom CTA', key: 'cta_heading', label: 'CTA Heading', type: 'text', value: 'Free analytics audit.' },
+  { page: '/services/analytics', section: 'Bottom CTA', key: 'cta_em', label: 'CTA Emphasis', type: 'text', value: 'See the gaps.' },
+  { page: '/services/analytics', section: 'Bottom CTA', key: 'cta_text', label: 'CTA Text', type: 'textarea', value: 'We will review your tracking setup and show you exactly what data you are missing and what it is costing you.' },
+  { page: '/services/analytics', section: 'Bottom CTA', key: 'cta_btn', label: 'CTA Button', type: 'text', value: 'Book your analytics audit' },
+
+  // ─── /services/web-design: Topbar ───
+  { page: '/services/web-design', section: 'Topbar', key: 'topbar_text', label: 'Topbar Text', type: 'text', value: 'Websites built for search from day one.' },
+  { page: '/services/web-design', section: 'Topbar', key: 'topbar_link', label: 'Topbar Link', type: 'text', value: 'Get started →' },
+
+  // ─── /services/web-design: Hero ───
+  { page: '/services/web-design', section: 'Hero', key: 'hero_eyebrow', label: 'Eyebrow', type: 'text', value: 'Web Design & Development' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_heading', label: 'Heading', type: 'text', value: 'Websites built for search from day one.' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_desc', label: 'Description', type: 'textarea', value: 'Fast, accessible, conversion-optimized sites with SEO architecture baked into every page, component, and URL.' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_cta1', label: 'Primary CTA', type: 'text', value: 'Get a free site review' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_cta2', label: 'Secondary CTA', type: 'text', value: 'See all services' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_stat1_num', label: 'Stat 1 Number', type: 'text', value: '52%' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_stat1_label', label: 'Stat 1 Label', type: 'text', value: 'Avg. conversion lift' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_stat2_num', label: 'Stat 2 Number', type: 'text', value: '3x' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_stat2_label', label: 'Stat 2 Label', type: 'text', value: 'Speed vs. template sites' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_stat3_num', label: 'Stat 3 Number', type: 'text', value: '45%' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_stat3_label', label: 'Stat 3 Label', type: 'text', value: 'Avg. revenue increase' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_stat4_num', label: 'Stat 4 Number', type: 'text', value: '0' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_stat4_label', label: 'Stat 4 Label', type: 'text', value: 'Traffic lost in redesigns' },
+
+  // ─── /services/web-design: Services Section ───
+  { page: '/services/web-design', section: 'Services', key: 'sec_heading', label: 'Section Heading', type: 'text', value: 'Four approaches, one standard.' },
+  { page: '/services/web-design', section: 'Services', key: 'sec_sub', label: 'Section Subtext', type: 'textarea', value: 'Whether custom, WordPress, e-commerce, or redesign — SEO and speed are non-negotiable.' },
+
+  // ─── /services/web-design: Service Cards ───
+  { page: '/services/web-design', section: 'Card 1', key: 'card_1_title', label: 'Card 1 Title', type: 'text', value: 'Custom Web Design' },
+  { page: '/services/web-design', section: 'Card 1', key: 'card_1_tagline', label: 'Card 1 Tagline', type: 'text', value: 'Every pixel is purposeful.' },
+  { page: '/services/web-design', section: 'Card 1', key: 'card_1_desc', label: 'Card 1 Desc', type: 'textarea', value: 'Bespoke website design built for performance, conversion, and SEO from the ground up. No templates, no themes.' },
+  { page: '/services/web-design', section: 'Card 1', key: 'card_1_highlights', label: 'Card 1 Highlights (comma sep)', type: 'textarea', value: 'Figma prototyping, Mobile-first, SEO architecture, CMS integration' },
+  { page: '/services/web-design', section: 'Card 1', key: 'card_1_result', label: 'Card 1 Result', type: 'text', value: '52% avg. conversion lift' },
+  { page: '/services/web-design', section: 'Card 2', key: 'card_2_title', label: 'Card 2 Title', type: 'text', value: 'WordPress Design' },
+  { page: '/services/web-design', section: 'Card 2', key: 'card_2_tagline', label: 'Card 2 Tagline', type: 'text', value: 'Fast, secure, manageable.' },
+  { page: '/services/web-design', section: 'Card 2', key: 'card_2_desc', label: 'Card 2 Desc', type: 'textarea', value: 'Custom WordPress development your team can actually manage without calling a developer.' },
+  { page: '/services/web-design', section: 'Card 2', key: 'card_2_highlights', label: 'Card 2 Highlights (comma sep)', type: 'textarea', value: 'Custom themes, ACF flexible content, WooCommerce, Security hardening' },
+  { page: '/services/web-design', section: 'Card 2', key: 'card_2_result', label: 'Card 2 Result', type: 'text', value: '3x speed vs. template sites' },
+  { page: '/services/web-design', section: 'Card 3', key: 'card_3_title', label: 'Card 3 Title', type: 'text', value: 'E-commerce Design' },
+  { page: '/services/web-design', section: 'Card 3', key: 'card_3_tagline', label: 'Card 3 Tagline', type: 'text', value: 'Stores that convert.' },
+  { page: '/services/web-design', section: 'Card 3', key: 'card_3_desc', label: 'Card 3 Desc', type: 'textarea', value: 'Shopping experiences optimized for mobile, speed, and average order value from day one.' },
+  { page: '/services/web-design', section: 'Card 3', key: 'card_3_highlights', label: 'Card 3 Highlights (comma sep)', type: 'textarea', value: 'Checkout optimization, Product pages, Payment setup, Post-launch CRO' },
+  { page: '/services/web-design', section: 'Card 3', key: 'card_3_result', label: 'Card 3 Result', type: 'text', value: '45% avg. revenue increase' },
+  { page: '/services/web-design', section: 'Card 4', key: 'card_4_title', label: 'Card 4 Title', type: 'text', value: 'Website Redesign' },
+  { page: '/services/web-design', section: 'Card 4', key: 'card_4_tagline', label: 'Card 4 Tagline', type: 'text', value: 'Rebuild without losing rankings.' },
+  { page: '/services/web-design', section: 'Card 4', key: 'card_4_desc', label: 'Card 4 Desc', type: 'textarea', value: 'Strategic redesigns that improve performance without losing SEO equity. Zero traffic loss is non-negotiable.' },
+  { page: '/services/web-design', section: 'Card 4', key: 'card_4_highlights', label: 'Card 4 Highlights (comma sep)', type: 'textarea', value: 'SEO migration plan, 301 redirect mapping, Performance benchmarks, Post-launch monitoring' },
+  { page: '/services/web-design', section: 'Card 4', key: 'card_4_result', label: 'Card 4 Result', type: 'text', value: '0 traffic lost in redesigns' },
+
+  // ─── /services/web-design: Bottom CTA ───
+  { page: '/services/web-design', section: 'Bottom CTA', key: 'cta_heading', label: 'CTA Heading', type: 'text', value: 'Free site review.' },
+  { page: '/services/web-design', section: 'Bottom CTA', key: 'cta_em', label: 'CTA Emphasis', type: 'text', value: 'See what is possible.' },
+  { page: '/services/web-design', section: 'Bottom CTA', key: 'cta_text', label: 'CTA Text', type: 'textarea', value: 'We will review your current site and show you where design, speed, and SEO improvements could unlock more revenue.' },
+  { page: '/services/web-design', section: 'Bottom CTA', key: 'cta_btn', label: 'CTA Button', type: 'text', value: 'Book your site review' },
+

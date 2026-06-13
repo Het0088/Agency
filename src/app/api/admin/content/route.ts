@@ -5,10 +5,19 @@ import { isAuthenticated } from '@/lib/auth'
 import { defaultContent } from '@/lib/content-blocks'
 
 const pageRoutes: Record<string, string[]> = {
-  home: ['/', '/sitemap.xml'],
-  about: ['/about'],
-  contact: ['/contact'],
-  services: ['/services'],
+  '/': ['/', '/sitemap.xml'],
+  '/about': ['/about'],
+  '/contact': ['/contact'],
+  '/services': ['/services'],
+  '/services/seo': ['/services/seo'],
+  '/services/ai-search': ['/services/ai-search'],
+  '/services/content-marketing': ['/services/content-marketing'],
+  '/services/link-building': ['/services/link-building'],
+  '/services/ppc': ['/services/ppc'],
+  '/services/social-media': ['/services/social-media'],
+  '/services/analytics': ['/services/analytics'],
+  '/services/web-design': ['/services/web-design'],
+  '/insights': ['/insights'],
 }
 
 const CREATE_TABLE = `

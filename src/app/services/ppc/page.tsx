@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { getPageMeta } from '@/lib/get-meta'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -17,38 +17,40 @@ import Footer from '@/components/Footer'
 import BigCta from '@/components/BigCta'
 import ServiceCards from '@/components/ServiceCards'
 import { ArrowRight } from '@/components/Icons'
+import { getContent } from '@/lib/get-content'
 
+export default async function PpcPage() {
+  const c = await getContent('/services/ppc')
 
-const cards = [
-  { num: '01', slug: 'google-ads', title: 'Google Ads', tagline: 'ROAS-driven, not spend-driven.', desc: 'Search, Shopping, Display, and Performance Max campaigns built to maximize return on ad spend.', highlights: ['Campaign architecture', 'Negative keywords', 'Quality score', 'Attribution modeling'], result: '3.2x avg. ROAS improvement' },
-  { num: '02', slug: 'meta-ads', title: 'Meta Ads', tagline: 'Full-funnel Facebook & Instagram.', desc: 'Awareness to conversion across Meta platforms with creative strategy and Conversion API setup included.', highlights: ['Lookalike audiences', 'Creative strategy', 'Retargeting', 'iOS 14+ tracking'], result: '2.8x avg. ROAS' },
-  { num: '03', slug: 'youtube-ads', title: 'YouTube Ads', tagline: 'Video that drives action.', desc: 'TrueView, Bumper, and In-Feed campaigns with precise intent-based targeting on the second-largest search engine.', highlights: ['TrueView & Bumper', 'Intent targeting', 'Brand lift', 'Video remarketing'], result: '65% lower CPV vs. benchmarks' },
-  { num: '04', slug: 'programmatic', title: 'Programmatic Advertising', tagline: 'Automated, data-driven media buying.', desc: 'Cross-channel campaigns across display, video, native, and connected TV using DV360 and The Trade Desk.', highlights: ['DSP management', 'Cross-channel', 'Brand safety', 'Incrementality testing'], result: '40% avg. media efficiency gain' },
-]
+  const cards = [
+    { num: '01', slug: 'google-ads', title: c.card_1_title, tagline: c.card_1_tagline, desc: c.card_1_desc, highlights: (c.card_1_highlights || '').split(',').map((s: string) => s.trim()).filter(Boolean), result: c.card_1_result },
+    { num: '02', slug: 'meta-ads', title: c.card_2_title, tagline: c.card_2_tagline, desc: c.card_2_desc, highlights: (c.card_2_highlights || '').split(',').map((s: string) => s.trim()).filter(Boolean), result: c.card_2_result },
+    { num: '03', slug: 'youtube-ads', title: c.card_3_title, tagline: c.card_3_tagline, desc: c.card_3_desc, highlights: (c.card_3_highlights || '').split(',').map((s: string) => s.trim()).filter(Boolean), result: c.card_3_result },
+    { num: '04', slug: 'programmatic', title: c.card_4_title, tagline: c.card_4_tagline, desc: c.card_4_desc, highlights: (c.card_4_highlights || '').split(',').map((s: string) => s.trim()).filter(Boolean), result: c.card_4_result },
+  ]
 
-export default function PpcPage() {
   return (
     <>
-      <Topbar text="Maximize your ad spend. Free PPC audit available." linkText="Book →" linkHref="/contact" />
+      <Topbar text={c.topbar_text} linkText={c.topbar_link} linkHref="/contact" />
       <Nav active="services" />
       <header className="svc-page-hero">
         <div className="wrap">
           <div className="crumb"><Link href="/">Home</Link> / <Link href="/services">Services</Link> / PPC</div>
           <div className="svc-page-hero-grid">
             <div className="reveal in">
-              <span className="eyebrow">PPC & Paid Ads</span>
-              <h1>Paid media that <em>pays back.</em></h1>
-              <p className="svc-page-hero-desc">Performance-driven campaigns across Google, Meta, YouTube, and programmatic. Every dollar tracked, every campaign optimized for revenue.</p>
+              <span className="eyebrow">{c.hero_eyebrow}</span>
+              <h1>{c.hero_heading?.split('pays back.')[0]}<em>pays back.</em></h1>
+              <p className="svc-page-hero-desc">{c.hero_desc}</p>
               <div className="svc-page-hero-actions">
-                <Link href="/contact" className="btn btn-primary">Get a free PPC audit <span className="arr"><ArrowRight /></span></Link>
-                <a href="#services" className="btn btn-ghost">See all services</a>
+                <Link href="/contact" className="btn btn-primary">{c.hero_cta1} <span className="arr"><ArrowRight /></span></Link>
+                <a href="#services" className="btn btn-ghost">{c.hero_cta2}</a>
               </div>
             </div>
             <div className="svc-page-hero-stats reveal in">
-              <div className="svc-page-stat"><span className="svc-page-stat-num">3.2x</span><span className="svc-page-stat-label">Avg. ROAS improvement</span></div>
-              <div className="svc-page-stat"><span className="svc-page-stat-num">$2M+</span><span className="svc-page-stat-label">Monthly ad spend managed</span></div>
-              <div className="svc-page-stat"><span className="svc-page-stat-num">90</span><span className="svc-page-stat-label">Days to measurable ROAS lift</span></div>
-              <div className="svc-page-stat"><span className="svc-page-stat-num">94%</span><span className="svc-page-stat-label">Client retention rate</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">{c.hero_stat1_num}</span><span className="svc-page-stat-label">{c.hero_stat1_label}</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">{c.hero_stat2_num}</span><span className="svc-page-stat-label">{c.hero_stat2_label}</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">{c.hero_stat3_num}</span><span className="svc-page-stat-label">{c.hero_stat3_label}</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">{c.hero_stat4_num}</span><span className="svc-page-stat-label">{c.hero_stat4_label}</span></div>
             </div>
           </div>
         </div>
@@ -56,13 +58,13 @@ export default function PpcPage() {
       <section className="section" id="services" style={{ background: 'var(--surface)' }}>
         <div className="wrap">
           <div className="sec-head reveal">
-            <h2>Four channels, <em>one dashboard.</em></h2>
-            <p className="sub">Every campaign tracked in real-time with revenue attribution.</p>
+            <h2>{c.sec_heading?.split('one dashboard.')[0]}<em>one dashboard.</em></h2>
+            <p className="sub">{c.sec_sub}</p>
           </div>
           <ServiceCards category="ppc" items={cards} />
         </div>
       </section>
-      <BigCta heading="Free PPC audit." em="Find the waste." text="We will analyze your current campaigns and show you exactly where budget is being wasted and where to scale." btnText="Book your PPC audit" btnHref="/contact" />
+      <BigCta heading={c.cta_heading} em={c.cta_em} text={c.cta_text} btnText={c.cta_btn} btnHref="/contact" />
       <Footer />
     </>
   )

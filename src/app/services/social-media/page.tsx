@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { getPageMeta } from '@/lib/get-meta'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -17,37 +17,39 @@ import Footer from '@/components/Footer'
 import BigCta from '@/components/BigCta'
 import ServiceCards from '@/components/ServiceCards'
 import { ArrowRight } from '@/components/Icons'
+import { getContent } from '@/lib/get-content'
 
+export default async function SocialMediaPage() {
+  const c = await getContent('/services/social-media')
 
-const cards = [
-  { num: '01', slug: 'management', title: 'Social Media Management', tagline: 'Your brand, always on.', desc: 'Content creation, scheduling, community engagement, and performance reporting across all major platforms.', highlights: ['Content creation', 'Community management', 'Multi-platform', 'Monthly analytics'], result: '156% avg. follower growth' },
-  { num: '02', slug: 'advertising', title: 'Social Advertising', tagline: 'Paid social that pays back.', desc: 'Campaigns across Meta, LinkedIn, TikTok, and X with a focus on measurable ROAS, not vanity metrics.', highlights: ['Cross-platform', 'Creative testing', 'Retargeting', 'Attribution'], result: '2.4x avg. ROAS' },
-  { num: '03', slug: 'brand', title: 'Brand Management', tagline: 'Build it. Protect it. Grow it.', desc: 'Strategic brand positioning, reputation monitoring, and influencer partnerships across digital channels.', highlights: ['Brand voice', 'Reputation monitoring', 'Influencer strategy', 'Sentiment tracking'], result: '78% brand sentiment improvement' },
-]
+  const cards = [
+    { num: '01', slug: 'management', title: c.card_1_title, tagline: c.card_1_tagline, desc: c.card_1_desc, highlights: (c.card_1_highlights || '').split(',').map((s: string) => s.trim()).filter(Boolean), result: c.card_1_result },
+    { num: '02', slug: 'advertising', title: c.card_2_title, tagline: c.card_2_tagline, desc: c.card_2_desc, highlights: (c.card_2_highlights || '').split(',').map((s: string) => s.trim()).filter(Boolean), result: c.card_2_result },
+    { num: '03', slug: 'brand', title: c.card_3_title, tagline: c.card_3_tagline, desc: c.card_3_desc, highlights: (c.card_3_highlights || '').split(',').map((s: string) => s.trim()).filter(Boolean), result: c.card_3_result },
+  ]
 
-export default function SocialMediaPage() {
   return (
     <>
-      <Topbar text="Social media that drives business results." linkText="Get started →" linkHref="/contact" />
+      <Topbar text={c.topbar_text} linkText={c.topbar_link} linkHref="/contact" />
       <Nav active="services" />
       <header className="svc-page-hero">
         <div className="wrap">
-          <div className="crumb"><Link href="/">Home</Link> / <Link href="/services">Services</Link> / Social Media</div>
+          <div className="crumb"><Link href="/">Home</Link> / <Link href="/services">Services</Link> / Social</div>
           <div className="svc-page-hero-grid">
             <div className="reveal in">
-              <span className="eyebrow">Social Media</span>
-              <h1>Social that builds <em>businesses,</em> not just followers.</h1>
-              <p className="svc-page-hero-desc">Organic content, paid campaigns, and brand management &mdash; all under one team that understands your audience and your revenue goals.</p>
+              <span className="eyebrow">{c.hero_eyebrow}</span>
+              <h1>{c.hero_heading?.split('real business.')[0]}<em>real business.</em></h1>
+              <p className="svc-page-hero-desc">{c.hero_desc}</p>
               <div className="svc-page-hero-actions">
-                <Link href="/contact" className="btn btn-primary">Get a social strategy <span className="arr"><ArrowRight /></span></Link>
-                <a href="#services" className="btn btn-ghost">See all services</a>
+                <Link href="/contact" className="btn btn-primary">{c.hero_cta1} <span className="arr"><ArrowRight /></span></Link>
+                <a href="#services" className="btn btn-ghost">{c.hero_cta2}</a>
               </div>
             </div>
             <div className="svc-page-hero-stats reveal in">
-              <div className="svc-page-stat"><span className="svc-page-stat-num">156%</span><span className="svc-page-stat-label">Avg. follower growth</span></div>
-              <div className="svc-page-stat"><span className="svc-page-stat-num">3.2x</span><span className="svc-page-stat-label">Engagement increase</span></div>
-              <div className="svc-page-stat"><span className="svc-page-stat-num">40+</span><span className="svc-page-stat-label">Brands managed</span></div>
-              <div className="svc-page-stat"><span className="svc-page-stat-num">98%</span><span className="svc-page-stat-label">On-time delivery</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">{c.hero_stat1_num}</span><span className="svc-page-stat-label">{c.hero_stat1_label}</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">{c.hero_stat2_num}</span><span className="svc-page-stat-label">{c.hero_stat2_label}</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">{c.hero_stat3_num}</span><span className="svc-page-stat-label">{c.hero_stat3_label}</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">{c.hero_stat4_num}</span><span className="svc-page-stat-label">{c.hero_stat4_label}</span></div>
             </div>
           </div>
         </div>
@@ -55,13 +57,13 @@ export default function SocialMediaPage() {
       <section className="section" id="services" style={{ background: 'var(--surface)' }}>
         <div className="wrap">
           <div className="sec-head reveal">
-            <h2>Three disciplines, <em>one voice.</em></h2>
-            <p className="sub">Organic, paid, and brand &mdash; managed together for maximum impact.</p>
+            <h2>{c.sec_heading?.split('one brand voice.')[0]}<em>one brand voice.</em></h2>
+            <p className="sub">{c.sec_sub}</p>
           </div>
           <ServiceCards category="social-media" items={cards} />
         </div>
       </section>
-      <BigCta heading="Free social audit." em="See what's working." text="We will review your social presence and show you the three highest-impact moves to make this quarter." btnText="Book your social audit" btnHref="/contact" />
+      <BigCta heading={c.cta_heading} em={c.cta_em} text={c.cta_text} btnText={c.cta_btn} btnHref="/contact" />
       <Footer />
     </>
   )

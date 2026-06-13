@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { getPageMeta } from '@/lib/get-meta'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -17,38 +17,40 @@ import Footer from '@/components/Footer'
 import BigCta from '@/components/BigCta'
 import ServiceCards from '@/components/ServiceCards'
 import { ArrowRight } from '@/components/Icons'
+import { getContent } from '@/lib/get-content'
 
+export default async function ContentMarketingPage() {
+  const c = await getContent('/services/content-marketing')
 
-const cards = [
-  { num: '01', slug: 'seo-writing', title: 'SEO Content Writing', tagline: 'Content that ranks and converts.', desc: 'Long-form, answer-first articles written by ex-journalists. Built to rank, satisfy intent, and drive action.', highlights: ['SERP-targeted briefs', 'Human-written', 'Clearscope scoring', 'Snippet optimization'], result: '4.2x avg. traffic increase from content' },
-  { num: '02', slug: 'blog-management', title: 'Blog Management', tagline: 'A fully managed editorial operation.', desc: 'We handle calendars, writers, publishing, and performance tracking so you can focus on your business.', highlights: ['Editorial calendars', 'Writer management', 'CMS publishing', 'Performance tracking'], result: '180% avg. session increase in 6 months' },
-  { num: '03', slug: 'copywriting', title: 'Copywriting', tagline: 'Words that move people to act.', desc: 'Conversion-focused copy for landing pages, product descriptions, emails, and ad campaigns.', highlights: ['Landing page copy', 'Product descriptions', 'Email sequences', 'A/B test variants'], result: '35% avg. conversion rate lift' },
-  { num: '04', slug: 'email-marketing', title: 'Email Marketing', tagline: 'The highest-ROI channel, done right.', desc: 'Strategic campaigns that nurture leads, retain customers, and drive repeat revenue across the lifecycle.', highlights: ['Automated sequences', 'List segmentation', 'Deliverability', 'A/B testing'], result: '42% avg. open rate across clients' },
-]
+  const cards = [
+    { num: '01', slug: 'seo-writing', title: c.card_1_title, tagline: c.card_1_tagline, desc: c.card_1_desc, highlights: (c.card_1_highlights || '').split(',').map((s: string) => s.trim()).filter(Boolean), result: c.card_1_result },
+    { num: '02', slug: 'blog-management', title: c.card_2_title, tagline: c.card_2_tagline, desc: c.card_2_desc, highlights: (c.card_2_highlights || '').split(',').map((s: string) => s.trim()).filter(Boolean), result: c.card_2_result },
+    { num: '03', slug: 'copywriting', title: c.card_3_title, tagline: c.card_3_tagline, desc: c.card_3_desc, highlights: (c.card_3_highlights || '').split(',').map((s: string) => s.trim()).filter(Boolean), result: c.card_3_result },
+    { num: '04', slug: 'email-marketing', title: c.card_4_title, tagline: c.card_4_tagline, desc: c.card_4_desc, highlights: (c.card_4_highlights || '').split(',').map((s: string) => s.trim()).filter(Boolean), result: c.card_4_result },
+  ]
 
-export default function ContentMarketingPage() {
   return (
     <>
-      <Topbar text="Content that compounds. Every month." linkText="Get started →" linkHref="/contact" />
+      <Topbar text={c.topbar_text} linkText={c.topbar_link} linkHref="/contact" />
       <Nav active="services" />
       <header className="svc-page-hero">
         <div className="wrap">
-          <div className="crumb"><Link href="/">Home</Link> / <Link href="/services">Services</Link> / Content Marketing</div>
+          <div className="crumb"><Link href="/">Home</Link> / <Link href="/services">Services</Link> / Content</div>
           <div className="svc-page-hero-grid">
             <div className="reveal in">
-              <span className="eyebrow">Content Marketing</span>
-              <h1>Content that ranks, converts, and <em>compounds.</em></h1>
-              <p className="svc-page-hero-desc">Editorial content, blog management, conversion copy, and email marketing &mdash; written by humans who know your industry. No AI filler, no word-count padding.</p>
+              <span className="eyebrow">{c.hero_eyebrow}</span>
+              <h1>{c.hero_heading?.split('trust, and traffic.')[0]}<em>trust, and traffic.</em></h1>
+              <p className="svc-page-hero-desc">{c.hero_desc}</p>
               <div className="svc-page-hero-actions">
-                <Link href="/contact" className="btn btn-primary">Get a content strategy <span className="arr"><ArrowRight /></span></Link>
-                <a href="#services" className="btn btn-ghost">See all services</a>
+                <Link href="/contact" className="btn btn-primary">{c.hero_cta1} <span className="arr"><ArrowRight /></span></Link>
+                <a href="#services" className="btn btn-ghost">{c.hero_cta2}</a>
               </div>
             </div>
             <div className="svc-page-hero-stats reveal in">
-              <div className="svc-page-stat"><span className="svc-page-stat-num">4.2x</span><span className="svc-page-stat-label">Avg. traffic increase from content</span></div>
-              <div className="svc-page-stat"><span className="svc-page-stat-num">92%</span><span className="svc-page-stat-label">First-page ranking rate</span></div>
-              <div className="svc-page-stat"><span className="svc-page-stat-num">0</span><span className="svc-page-stat-label">AI-generated content</span></div>
-              <div className="svc-page-stat"><span className="svc-page-stat-num">96%</span><span className="svc-page-stat-label">On-time delivery rate</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">{c.hero_stat1_num}</span><span className="svc-page-stat-label">{c.hero_stat1_label}</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">{c.hero_stat2_num}</span><span className="svc-page-stat-label">{c.hero_stat2_label}</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">{c.hero_stat3_num}</span><span className="svc-page-stat-label">{c.hero_stat3_label}</span></div>
+              <div className="svc-page-stat"><span className="svc-page-stat-num">{c.hero_stat4_num}</span><span className="svc-page-stat-label">{c.hero_stat4_label}</span></div>
             </div>
           </div>
         </div>
@@ -56,13 +58,13 @@ export default function ContentMarketingPage() {
       <section className="section" id="services" style={{ background: 'var(--surface)' }}>
         <div className="wrap">
           <div className="sec-head reveal">
-            <h2>Four content engines, <em>one team.</em></h2>
-            <p className="sub">Everything from strategy to publishing, managed end-to-end.</p>
+            <h2>{c.sec_heading?.split('one voice.')[0]}<em>one voice.</em></h2>
+            <p className="sub">{c.sec_sub}</p>
           </div>
           <ServiceCards category="content-marketing" items={cards} />
         </div>
       </section>
-      <BigCta heading="Free content audit." em="No obligation." text="We will analyze your top 10 pages and show you exactly where content is leaving traffic on the table." btnText="Book your content audit" btnHref="/contact" />
+      <BigCta heading={c.cta_heading} em={c.cta_em} text={c.cta_text} btnText={c.cta_btn} btnHref="/contact" />
       <Footer />
     </>
   )
