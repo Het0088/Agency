@@ -58,12 +58,12 @@ export default async function CitySeoPage({ params }: { params: Promise<{ city: 
       <Nav />
       <HeroSection
         eyebrow={`SEO Agency in ${city.cityName}, ${city.state}`}
-        title={city.heroTitle ? <div dangerouslySetInnerHTML={{ __html: city.heroTitle }} /> : (
-          <>
+        title={city.heroTitle ? <h1 dangerouslySetInnerHTML={{ __html: city.heroTitle }} /> : (
+          <h1>
             The #1 SEO agency<br />
             for brands in<br />
             <em>{city.cityName}.</em>
-          </>
+          </h1>
         )}
         lede={city.heroSub || `We help ${city.cityName}-based businesses dominate their local and national search results with precision SEO, editorial content, and AI-driven optimization.`}
       />
