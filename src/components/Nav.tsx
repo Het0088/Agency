@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { ArrowRight } from './Icons'
+import { ArrowRight, IconFileText, IconBookOpen, IconUsers } from './Icons'
 
 const serviceCategories = [
   {
@@ -88,15 +88,18 @@ const serviceCategories = [
 const mobileNavLinks = [
   { label: 'Services', href: '/services' },
   { label: 'About', href: '/about' },
+  { label: 'Our Team', href: '/our-team' },
   { label: 'Work', href: '/#work' },
-  { label: 'Insights', href: '/insights' },
+  { label: 'Resources', href: '#' },
   { label: 'Contact', href: '/contact' },
 ]
 
 export default function Nav({ active }: { active?: string }) {
   const [megaOpen, setMegaOpen] = useState(false)
+  const [resourcesOpen, setResourcesOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false)
   const timeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const enter = useCallback(() => {
@@ -195,8 +198,54 @@ export default function Nav({ active }: { active?: string }) {
             </div>
           </li>
           <li><Link href="/about" className={active === 'about' ? 'active' : ''}>About</Link></li>
+          <li><Link href="/our-team" className={active === 'team' ? 'active' : ''}>Our Team</Link></li>
           <li><Link href="/#work">Work</Link></li>
-          <li><Link href="/insights" className={active === 'insights' ? 'active' : ''}>Insights</Link></li>
+          <li
+            className="nav-has-mega nav-has-dropdown"
+            onMouseEnter={() => setResourcesOpen(true)}
+            onMouseLeave={() => setResourcesOpen(false)}
+          >
+            <button
+              type="button"
+              className={`nav-dropdown-trigger${active === 'insights' || active === 'resources' ? ' active' : ''} has-caret`}
+              onClick={(e) => { e.preventDefault(); setResourcesOpen(prev => !prev) }}
+              aria-expanded={resourcesOpen}
+              aria-haspopup="true"
+            >
+              Resources <span className="caret">&#x25BE;</span>
+            </button>
+            <div className={`nav-dropdown-menu${resourcesOpen ? ' open' : ''}`}>
+              <div className="nav-dropdown-inner">
+                <Link href="/resources/blog" className="nav-dropdown-item" onClick={() => setResourcesOpen(false)}>
+                  <span className="nav-dropdown-icon"><IconFileText /></span>
+                  <div>
+                    <strong>Blog &amp; Insights</strong>
+                    <span>Guides, deep-dives &amp; tactical SEO playbooks</span>
+                  </div>
+                </Link>
+                <Link href="/resources/publications" className="nav-dropdown-item" onClick={() => setResourcesOpen(false)}>
+                  <span className="nav-dropdown-icon"><IconBookOpen /></span>
+                  <div>
+                    <strong>Publications &amp; Research</strong>
+                    <span>Original research, white papers &amp; teardowns</span>
+                  </div>
+                </Link>
+                <Link href="/our-team" className="nav-dropdown-item" onClick={() => setResourcesOpen(false)}>
+                  <span className="nav-dropdown-icon"><IconUsers /></span>
+                  <div>
+                    <strong>Our Team</strong>
+                    <span>Meet the senior strategists and engineers</span>
+                  </div>
+                </Link>
+                <div className="nav-dropdown-footer">
+                  <span>Need an expert audit?</span>
+                  <Link href="/contact" className="nav-dropdown-cta" onClick={() => setResourcesOpen(false)}>
+                    Free Strategy Call →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
 
         <div className="nav-cta">
@@ -251,6 +300,43 @@ export default function Nav({ active }: { active?: string }) {
                         ))}
                       </div>
                     ))}
+                  </div>
+                )}
+              </div>
+            ) : link.label === 'Resources' ? (
+              <div className="mobile-accordion" key={link.label}>
+                <button
+                  className={`mobile-accordion-trigger${mobileResourcesOpen ? ' open' : ''}`}
+                  onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
+                >
+                  Resources
+                  <span className="mobile-accordion-icon">{mobileResourcesOpen ? '\u2212' : '+'}</span>
+                </button>
+                {mobileResourcesOpen && (
+                  <div className="mobile-accordion-body">
+                    <div className="mobile-cat">
+                      <Link
+                        href="/resources/blog"
+                        className="mobile-cat-title"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        Blog &amp; Insights
+                      </Link>
+                      <Link
+                        href="/resources/publications"
+                        className="mobile-cat-title"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        Publications &amp; Research
+                      </Link>
+                      <Link
+                        href="/our-team"
+                        className="mobile-cat-title"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        Our Team
+                      </Link>
+                    </div>
                   </div>
                 )}
               </div>

@@ -1,7 +1,11 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import dynamic from 'next/dynamic'
 import { defaultContent } from '@/lib/content-blocks'
+import { CheckIcon, IconClose, IconBookOpen, IconSearch, IconAlertTriangle } from '@/components/Icons'
+
+const RichTextEditor = dynamic(() => import('@/components/RichTextEditor'), { ssr: false })
 
 type Post = {
   id: string
@@ -149,13 +153,17 @@ function PostForm({ initial, onSave, onCancel }: {
       </div>
 
       <div className="adm-field">
-        <label>Content (HTML)</label>
-        <textarea
+        <label>Content (Visual Blog &amp; Article Editor)</label>
+        <div className="adm-editor-helper">
+          <span className="adm-helper-badge">Easy Editor</span>
+          <p>
+            <strong>WordPress-Style Media &amp; Formatting:</strong> Click the prominent <strong>Add / Upload Image</strong> button to pick photos from your computer, or drag &amp; drop pictures directly into the text. Highlight any word or sentence and click <strong>Insert Link</strong> to create hyperlinks. Use <strong>Add Table</strong> to insert responsive data tables.
+          </p>
+        </div>
+        <RichTextEditor
           value={form.content}
-          onChange={e => set('content', e.target.value)}
-          placeholder="Full post content. Supports HTML."
-          rows={14}
-          className="adm-content-area"
+          onChange={val => set('content', val)}
+          placeholder="Start writing your post..."
         />
       </div>
 
@@ -288,8 +296,8 @@ function MetaEditPanel({ page, onSaved }: { page: LivePage; onSaved: (p: LivePag
         <div className="seo-page-body">
           {page.note && <div className="seo-note">ℹ {page.note}</div>}
 
-          {status === 'ok' && <div className="seo-toast seo-toast-ok">✓ Changes saved — live immediately</div>}
-          {status === 'err' && <div className="seo-toast seo-toast-err">✕ {errMsg}</div>}
+          {status === 'ok' && <div className="seo-toast seo-toast-ok"><CheckIcon /> Changes saved — live immediately</div>}
+          {status === 'err' && <div className="seo-toast seo-toast-err"><IconClose /> {errMsg}</div>}
 
           <div className="seo-edit-field">
             <div className="seo-edit-label-row">
@@ -371,7 +379,7 @@ function SeoTab() {
 
       {dbWarning && (
         <div className="seo-db-warning">
-          <span className="seo-db-warning-icon">⚠</span>
+          <span className="seo-db-warning-icon"><IconAlertTriangle /></span>
           <div>
             <strong>Database not connected</strong> — pages below show code defaults only. Saves will not persist until you add your Hostinger MySQL credentials to <code>.env.local</code>
             <span className="seo-db-warning-keys"> (DB_HOST · DB_USER · DB_PASSWORD · DB_NAME)</span>
@@ -394,8 +402,11 @@ const PAGE_LABELS: Record<string, string> = {
   '/': 'Homepage',
   '/about': 'About',
   '/contact': 'Contact',
+  '/our-team': 'Our Team',
+  '/resources/publications': 'Publications & Research',
   '/services': 'Services Hub',
   '/services/seo': 'SEO Services',
+  '/services/seo/technical-seo': 'Technical SEO',
   '/services/ai-search': 'AI Search & GEO',
   '/services/content-marketing': 'Content Marketing',
   '/services/link-building': 'Link Building',
@@ -406,23 +417,41 @@ const PAGE_LABELS: Record<string, string> = {
   '/insights': 'Insights',
 }
 
-function ContentPageEditor({ page, blocks, saved, onUpdate }: {
+function ContentPageEditor({ page, blocks, saved, onUpdate, searchQuery }: {
   page: string
   blocks: Record<string, string>
   saved: Record<string, string>
   onUpdate: (key: string, val: string) => void
+  searchQuery: string
 }) {
-  const [open, setOpen] = useState(false)
   const [saving, setSaving] = useState(false)
   const [status, setStatus] = useState<'idle' | 'ok' | 'err'>('idle')
-  const meta = defaultContent.filter(b => b.page === page)
-  const hasChanges = meta.some(b => blocks[b.key] !== saved[b.key])
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({})
 
-  async function saveAll() {
+  const allMeta = defaultContent.filter(b => b.page === page)
+
+  // Group blocks by section (Hero, Stats, Process, Pricing, etc.)
+  const sections = Array.from(new Set(allMeta.map(b => b.section || 'General Content')))
+
+  const hasChanges = allMeta.some(b => blocks[b.key] !== saved[b.key])
+  const changedCount = allMeta.filter(b => blocks[b.key] !== saved[b.key]).length
+
+  function toggleSection(sec: string) {
+    setOpenSections(prev => ({ ...prev, [sec]: prev[sec] === undefined ? false : !prev[sec] }))
+  }
+
+  function isSectionOpen(sec: string) {
+    if (searchQuery.trim()) return true // Auto-expand all when searching
+    return openSections[sec] !== false // Default open
+  }
+
+  async function saveSection(sectionName?: string) {
     setSaving(true)
     setStatus('idle')
     let ok = true
-    for (const b of meta) {
+    const targets = sectionName ? allMeta.filter(b => (b.section || 'General Content') === sectionName) : allMeta
+
+    for (const b of targets) {
       if (blocks[b.key] === saved[b.key]) continue
       const res = await fetch('/api/admin/content', {
         method: 'PUT',
@@ -437,61 +466,124 @@ function ContentPageEditor({ page, blocks, saved, onUpdate }: {
   }
 
   async function resetAll() {
-    if (!confirm('Reset all content for this page to code defaults?')) return
+    if (!confirm('Reset all content on this page to code defaults?')) return
     await fetch('/api/admin/content', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ page }),
     })
-    for (const b of meta) onUpdate(b.key, b.value)
+    for (const b of allMeta) onUpdate(b.key, b.value)
   }
 
   return (
-    <div className={`seo-page-card${open ? ' open' : ''}`}>
-      <button className="seo-page-header" onClick={() => setOpen(o => !o)}>
-        <div className="seo-page-header-left">
-          <span className="seo-page-route">{page}</span>
-          <span className="seo-page-label">{PAGE_LABELS[page] || page}</span>
-          <span className="cnt-block-count">{meta.length} blocks</span>
+    <div className="cnt-editor-wrap">
+      <div className="cnt-editor-header">
+        <div>
+          <div className="cnt-editor-title-row">
+            <h3>{PAGE_LABELS[page] || page}</h3>
+            <span className="cnt-route-pill">{page}</span>
+            {hasChanges && <span className="cnt-changes-badge">● {changedCount} unsaved {changedCount === 1 ? 'change' : 'changes'}</span>}
+          </div>
+          <p className="cnt-editor-subtitle">Edit text, images, buttons, and sections on this page. Drag &amp; drop images directly into text blocks.</p>
         </div>
-        <div className="seo-page-header-right">
-          <span className="seo-chevron">{open ? '\u25B2' : '\u25BC'}</span>
+
+        <div className="cnt-header-actions">
+          <a href={page} target="_blank" rel="noopener noreferrer" className="adm-btn-ghost adm-btn-sm" title="View live page in new tab">
+            View Live Page ↗
+          </a>
+          <button className="adm-btn-primary adm-btn-sm" style={{ width: 'auto' }} onClick={() => saveSection()} disabled={saving || !hasChanges}>
+            {saving ? 'Saving...' : hasChanges ? `Save Page (${changedCount})` : 'All Saved'}
+          </button>
         </div>
-      </button>
+      </div>
 
-      {open && (
-        <div className="seo-page-body">
-          {status === 'ok' && <div className="seo-toast seo-toast-ok">\u2713 Saved</div>}
-          {status === 'err' && <div className="seo-toast seo-toast-err">\u2715 Failed to save — check DB connection</div>}
+      {status === 'ok' && <div className="seo-toast seo-toast-ok"><CheckIcon /> Changes saved &amp; live immediately!</div>}
+      {status === 'err' && <div className="seo-toast seo-toast-err"><IconClose /> Failed to save — check DB connection in .env.local</div>}
 
-          {meta.map(b => (
-            <div key={b.key} className="seo-edit-field">
-              <label className="seo-meta-label">{b.label}</label>
-              {b.type === 'textarea' ? (
-                <textarea
-                  className="seo-edit-textarea"
-                  value={blocks[b.key] || ''}
-                  onChange={e => onUpdate(b.key, e.target.value)}
-                  rows={b.key.includes('desc') || b.key.includes('subtext') || b.key.includes('quote') || b.key.includes('address') ? 5 : 3}
-                />
-              ) : (
-                <input
-                  className="seo-edit-input"
-                  value={blocks[b.key] || ''}
-                  onChange={e => onUpdate(b.key, e.target.value)}
-                />
+      <div className="cnt-sections-list">
+        {sections.map(sec => {
+          const secMeta = allMeta.filter(b => (b.section || 'General Content') === sec)
+          const filteredMeta = searchQuery.trim()
+            ? secMeta.filter(b => b.label.toLowerCase().includes(searchQuery.toLowerCase()) || (blocks[b.key] || '').toLowerCase().includes(searchQuery.toLowerCase()))
+            : secMeta
+
+          if (filteredMeta.length === 0) return null
+
+          const secHasChanges = secMeta.some(b => blocks[b.key] !== saved[b.key])
+          const isOpen = isSectionOpen(sec)
+
+          return (
+            <div className={`cnt-section-card${isOpen ? ' open' : ''}`} key={sec}>
+              <div className="cnt-section-head" onClick={() => toggleSection(sec)}>
+                <div className="cnt-section-head-left">
+                  <span className="cnt-section-icon"><IconBookOpen /></span>
+                  <strong>{sec} Section</strong>
+                  <span className="cnt-section-count">{filteredMeta.length} {filteredMeta.length === 1 ? 'item' : 'items'}</span>
+                  {secHasChanges && <span className="cnt-sec-dirty-dot" title="Unsaved changes in this section">●</span>}
+                </div>
+
+                <div className="cnt-section-head-right">
+                  {secHasChanges && (
+                    <button
+                      type="button"
+                      className="adm-btn-primary adm-btn-sm"
+                      style={{ width: 'auto', padding: '4px 10px', fontSize: 11 }}
+                      onClick={e => { e.stopPropagation(); saveSection(sec) }}
+                      disabled={saving}
+                    >
+                      Save Section
+                    </button>
+                  )}
+                  <span className="cnt-accordion-arrow">{isOpen ? '▲' : '▼'}</span>
+                </div>
+              </div>
+
+              {isOpen && (
+                <div className="cnt-section-body">
+                  {filteredMeta.map(b => (
+                    <div key={`${page}_${b.section}_${b.key}`} className="cnt-field-row">
+                      <div className="cnt-field-label-wrap">
+                        <label className="cnt-field-label">{b.label}</label>
+                        <span className="cnt-field-key">{b.key}</span>
+                      </div>
+
+                      {b.type === 'textarea' ? (
+                        <RichTextEditor
+                          compact
+                          value={blocks[b.key] || ''}
+                          onChange={val => onUpdate(b.key, val)}
+                          placeholder={`Edit ${b.label.toLowerCase()}... Drag & drop images anywhere`}
+                        />
+                      ) : (
+                        <input
+                          className="cnt-field-input"
+                          value={blocks[b.key] || ''}
+                          onChange={e => onUpdate(b.key, e.target.value)}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
-          ))}
+          )
+        })}
+      </div>
 
-          <div className="seo-edit-actions">
-            <button className="seo-reset-btn" onClick={resetAll} disabled={saving}>Reset to defaults</button>
-            <button className="seo-save-btn" onClick={saveAll} disabled={saving || !hasChanges}>
-              {saving ? 'Saving...' : hasChanges ? 'Save Changes' : 'No changes'}
-            </button>
-          </div>
-        </div>
-      )}
+      <div className="cnt-footer-bar">
+        <button type="button" className="seo-reset-btn" onClick={resetAll} disabled={saving}>
+          Reset page to defaults
+        </button>
+        <button
+          type="button"
+          className="adm-btn-primary"
+          style={{ width: 'auto', padding: '10px 24px' }}
+          onClick={() => saveSection()}
+          disabled={saving || !hasChanges}
+        >
+          {saving ? 'Saving...' : hasChanges ? `Save All Page Changes (${changedCount})` : 'Page Up To Date'}
+        </button>
+      </div>
     </div>
   )
 }
@@ -499,6 +591,8 @@ function ContentPageEditor({ page, blocks, saved, onUpdate }: {
 function ContentTab() {
   const [blocks, setBlocks] = useState<Record<string, Record<string, string>>>({})
   const [savedState, setSavedState] = useState<Record<string, Record<string, string>>>({})
+  const [activePage, setActivePage] = useState('/')
+  const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [dbWarn, setDbWarn] = useState('')
 
@@ -525,31 +619,67 @@ function ContentTab() {
   return (
     <div className="seo-tab">
       <div className="seo-tab-intro">
-        <h2>Page Content</h2>
-        <p>Edit headings, hero text, CTAs, and key content blocks across all pages. Changes save to the database and go live <strong>immediately</strong>.</p>
+        <h2>Visual Page Content Editor</h2>
+        <p>WordPress-style visual editor for all pages, headings, pricing plans, and text blocks. Drag &amp; drop images directly into text.</p>
       </div>
 
       {dbWarn && (
         <div className="seo-db-warning">
-          <span className="seo-db-warning-icon">\u26A0</span>
+          <span className="seo-db-warning-icon"><IconAlertTriangle /></span>
           <div><strong>Database not connected.</strong> {dbWarn}</div>
         </div>
       )}
 
-      {loading ? (
-        <div style={{ padding: 32, color: '#9ca3af', fontSize: 14 }}>Loading content blocks...</div>
-      ) : (
-        <div className="seo-pages-list">
-          {pages.map(page => (
-            <ContentPageEditor
-              key={page}
-              page={page}
-              blocks={blocks[page] || {}}
-              saved={savedState[page] || {}}
-              onUpdate={(k, v) => updateBlock(page, k, v)}
-            />
-          ))}
+      {/* WordPress-Style Page Selector Tabs & Search */}
+      <div className="cnt-toolbar">
+        <div className="cnt-page-pills">
+          {pages.map(p => {
+            const label = PAGE_LABELS[p] || p
+            const isSelected = activePage === p
+            const pageMeta = defaultContent.filter(b => b.page === p)
+            const hasDirty = pageMeta.some(b => (blocks[p]?.[b.key] ?? b.value) !== (savedState[p]?.[b.key] ?? b.value))
+
+            return (
+              <button
+                key={p}
+                type="button"
+                className={`cnt-page-pill${isSelected ? ' active' : ''}`}
+                onClick={() => { setActivePage(p); setSearchQuery('') }}
+              >
+                {label}
+                {hasDirty && <span className="cnt-pill-dirty">●</span>}
+              </button>
+            )
+          })}
         </div>
+
+        <div className="cnt-search-box">
+          <span className="cnt-search-icon"><IconSearch /></span>
+          <input
+            type="text"
+            placeholder="Search any text on this page..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+          />
+          {searchQuery && (
+            <button type="button" className="cnt-search-clear" onClick={() => setSearchQuery('')} aria-label="Clear search">
+              <IconClose />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {loading ? (
+        <div style={{ padding: 48, color: '#9ca3af', textAlign: 'center', fontSize: 15 }}>Loading content blocks...</div>
+      ) : (
+        <ContentPageEditor
+          key={activePage}
+          page={activePage}
+          blocks={blocks[activePage] || {}}
+          saved={savedState[activePage] || {}}
+          onUpdate={(k, v) => updateBlock(activePage, k, v)}
+          searchQuery={searchQuery}
+        />
       )}
     </div>
   )

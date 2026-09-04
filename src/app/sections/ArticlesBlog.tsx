@@ -39,6 +39,9 @@ function EntryCard({ item, num }: { item: Entry; num: string }) {
   )
 }
 
+import fallbackArticles from '@/data/articles.json'
+import fallbackBlogs from '@/data/blogs.json'
+
 export default async function ArticlesBlogsSection() {
   let articles: Entry[] = []
   let blogs: Entry[] = []
@@ -52,11 +55,33 @@ export default async function ArticlesBlogsSection() {
       'SELECT id, tag, title, description, author, created_at, read_time, slug FROM posts WHERE type = ? AND published = 1 ORDER BY created_at DESC LIMIT 3',
       ['blog']
     )
-  } catch {
-    return null
+  } catch {}
+
+  if (!articles.length) {
+    articles = fallbackArticles.slice(0, 3).map(a => ({
+      id: a.id,
+      tag: a.tag,
+      title: a.title,
+      description: a.desc,
+      author: a.author,
+      created_at: a.date,
+      read_time: a.read,
+      slug: a.slug,
+    }))
   }
 
-  if (!articles.length && !blogs.length) return null
+  if (!blogs.length) {
+    blogs = fallbackBlogs.slice(0, 3).map(b => ({
+      id: b.id,
+      tag: b.tag,
+      title: b.title,
+      description: b.desc,
+      author: b.author,
+      created_at: b.date,
+      read_time: b.read,
+      slug: b.slug,
+    }))
+  }
 
   return (
     <section className="section ab-section">

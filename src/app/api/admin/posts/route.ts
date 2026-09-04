@@ -18,6 +18,9 @@ function makeId(title: string): string {
 
 const GRADIENTS = ['g1', 'g2', 'g3', 'g4', 'g5', 'g6']
 
+import fallbackArticles from '@/data/articles.json'
+import fallbackBlogs from '@/data/blogs.json'
+
 function dbError(e: unknown) {
   const msg = e instanceof Error ? e.message : 'Database error'
   const isConn = msg.includes('ECONNREFUSED') || msg.includes('ENOTFOUND')
@@ -27,12 +30,38 @@ function dbError(e: unknown) {
   )
 }
 
+const CREATE_TABLE = `
+  CREATE TABLE IF NOT EXISTS posts (
+    id VARCHAR(100) PRIMARY KEY,
+    type VARCHAR(20) NOT NULL DEFAULT 'article',
+    tag VARCHAR(100) NOT NULL,
+    title VARCHAR(500) NOT NULL,
+    description TEXT,
+    content MEDIUMTEXT,
+    author VARCHAR(200) NOT NULL DEFAULT 'Omniranq Team',
+    read_time VARCHAR(50) DEFAULT '5 min',
+    slug VARCHAR(200) NOT NULL UNIQUE,
+    cover_gradient VARCHAR(20) DEFAULT 'g1',
+    featured TINYINT(1) DEFAULT 0,
+    published TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_type_pub (type, published),
+    INDEX idx_slug (slug),
+    INDEX idx_created (created_at DESC)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+`
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const type = searchParams.get('type')
   const limit = Math.min(Number(searchParams.get('limit') || 50), 100)
   const authed = isAuthenticated(req.headers.get('cookie'))
   const drafts = searchParams.get('drafts') === '1' && authed
+
+  try {
+    await query(CREATE_TABLE, [])
+  } catch {}
 
   let sql = 'SELECT * FROM posts'
   const params: (string | number | boolean | null)[] = []
@@ -58,7 +87,46 @@ export async function GET(req: NextRequest) {
     const rows = await query(sql, params)
     return NextResponse.json({ items: rows, total: rows.length })
   } catch (e) {
-    return dbError(e)
+    // If DB is offline in local dev, provide seed items gracefully
+    const combined = [
+      ...fallbackArticles.map(a => ({
+        id: a.id,
+        type: 'article',
+        tag: a.tag,
+        title: a.title,
+        description: a.desc,
+        content: `<p>${a.desc}</p>`,
+        author: a.author,
+        read_time: a.read,
+        slug: a.slug,
+        cover_gradient: 'g1',
+        featured: 0,
+        published: 1,
+        created_at: a.date,
+      })),
+      ...fallbackBlogs.map(b => ({
+        id: b.id,
+        type: 'blog',
+        tag: b.tag,
+        title: b.title,
+        description: b.desc,
+        content: `<p>${b.desc}</p>`,
+        author: b.author,
+        read_time: b.read,
+        slug: b.slug,
+        cover_gradient: 'g2',
+        featured: 0,
+        published: 1,
+        created_at: b.date,
+      })),
+    ]
+
+    const filtered = type ? combined.filter(p => p.type === type) : combined
+    return NextResponse.json({
+      items: filtered.slice(0, limit),
+      total: filtered.length,
+      dbWarning: 'Database offline in local dev — displaying seed items.',
+    }, { status: 200 })
   }
 }
 

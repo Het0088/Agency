@@ -112,6 +112,11 @@ export const defaultContent: ContentBlock[] = [
   { page: '/', section: 'Process', key: 'proc_4_title', label: 'Step 4 Title', type: 'text', value: 'Measure & iterate' },
   { page: '/', section: 'Process', key: 'proc_4_desc', label: 'Step 4 Text', type: 'textarea', value: 'Monthly dashboards show traffic, rankings, AI mentions, and revenue. We meet, we adjust, we ship the next sprint.' },
 
+  // ─── HOMEPAGE: Mid-Page CTA ───
+  { page: '/', section: 'Mid CTA', key: 'mid_cta_heading', label: 'CTA Heading', type: 'text', value: 'Ready to outrank your competitors?' },
+  { page: '/', section: 'Mid CTA', key: 'mid_cta_text', label: 'CTA Text', type: 'textarea', value: 'Get a free 30-minute strategy call with one of our senior SEO strategists. No pitch, just actionable insights.' },
+  { page: '/', section: 'Mid CTA', key: 'mid_cta_btn', label: 'CTA Button Text', type: 'text', value: 'Book your free call' },
+
   // ─── HOMEPAGE: Cases ───
   { page: '/', section: 'Case Studies', key: 'cases_heading', label: 'Section Heading', type: 'text', value: 'Results that actually move revenue.' },
   { page: '/', section: 'Case Studies', key: 'cases_subtext', label: 'Section Subtext', type: 'textarea', value: 'Twelve-month outcomes from real small-business clients. No vanity metrics — just qualified traffic and revenue.' },
@@ -124,6 +129,26 @@ export const defaultContent: ContentBlock[] = [
   { page: '/', section: 'Case Studies', key: 'case_3_name', label: 'Case 3 Name', type: 'text', value: 'Northbound Analytics' },
   { page: '/', section: 'Case Studies', key: 'case_3_tag', label: 'Case 3 Tag', type: 'text', value: 'B2B SaaS · Bootstrapped' },
   { page: '/', section: 'Case Studies', key: 'case_3_cat', label: 'Case 3 Subtitle', type: 'text', value: 'Outranking VC-funded competitors with 1/10 the budget' },
+
+  // ─── HOMEPAGE: Pricing ───
+  { page: '/', section: 'Pricing', key: 'pricing_eyebrow', label: 'Eyebrow', type: 'text', value: 'Transparent Retainers' },
+  { page: '/', section: 'Pricing', key: 'pricing_heading', label: 'Section Heading', type: 'text', value: 'Predictable Retainers. Real Revenue ROI.' },
+  { page: '/', section: 'Pricing', key: 'pricing_subtext', label: 'Section Subtext', type: 'textarea', value: 'No lock-in contracts. 90-day initial execution sprint, then month-to-month. Every account is led by a senior strategist with 8+ years experience.' },
+  { page: '/', section: 'Pricing', key: 'plan_1_name', label: 'Tier 1 Name', type: 'text', value: 'Essential Growth' },
+  { page: '/', section: 'Pricing', key: 'plan_1_badge', label: 'Tier 1 Badge', type: 'text', value: 'Starter' },
+  { page: '/', section: 'Pricing', key: 'plan_1_price', label: 'Tier 1 Price', type: 'text', value: '$3,500' },
+  { page: '/', section: 'Pricing', key: 'plan_1_desc', label: 'Tier 1 Description', type: 'textarea', value: 'For high-intent small businesses and challenger brands establishing search and AI answer visibility.' },
+  { page: '/', section: 'Pricing', key: 'plan_1_cta', label: 'Tier 1 CTA Button', type: 'text', value: 'Start with Essential' },
+  { page: '/', section: 'Pricing', key: 'plan_2_name', label: 'Tier 2 Name', type: 'text', value: 'Market Leader' },
+  { page: '/', section: 'Pricing', key: 'plan_2_badge', label: 'Tier 2 Badge', type: 'text', value: 'Most Popular' },
+  { page: '/', section: 'Pricing', key: 'plan_2_price', label: 'Tier 2 Price', type: 'text', value: '$6,500' },
+  { page: '/', section: 'Pricing', key: 'plan_2_desc', label: 'Tier 2 Description', type: 'textarea', value: 'Full-spectrum SEO, GEO, and digital PR for companies aggressively taking market share from legacy incumbents.' },
+  { page: '/', section: 'Pricing', key: 'plan_2_cta', label: 'Tier 2 CTA Button', type: 'text', value: 'Scale with Market Leader' },
+  { page: '/', section: 'Pricing', key: 'plan_3_name', label: 'Tier 3 Name', type: 'text', value: 'Enterprise & Scale' },
+  { page: '/', section: 'Pricing', key: 'plan_3_badge', label: 'Tier 3 Badge', type: 'text', value: 'Full Arsenal' },
+  { page: '/', section: 'Pricing', key: 'plan_3_price', label: 'Tier 3 Price', type: 'text', value: '$12,000' },
+  { page: '/', section: 'Pricing', key: 'plan_3_desc', label: 'Tier 3 Description', type: 'textarea', value: 'For multi-location brands, high-SKU e-commerce stores, and venture-backed SaaS requiring dedicated engineering.' },
+  { page: '/', section: 'Pricing', key: 'plan_3_cta', label: 'Tier 3 CTA Button', type: 'text', value: 'Book Enterprise Discovery' },
 
   // ─── HOMEPAGE: Testimonials ───
   { page: '/', section: 'Testimonials', key: 'testi_heading', label: 'Section Heading', type: 'text', value: 'What our clients actually say.' },
@@ -276,32 +301,8 @@ export const defaultContent: ContentBlock[] = [
   { page: '/services', section: 'Compare Row 6', key: 'compare_6_us', label: 'Row 6 Us', type: 'text', value: 'Always yours' },
   { page: '/services', section: 'Compare Row 6', key: 'compare_6_them', label: 'Row 6 Them', type: 'text', value: 'Proprietary tools you lose access to' },
 
-
-  { page: '/services/seo', section: 'Hero', key: 'hero_heading', label: 'Page Heading', type: 'text', value: 'SEO that moves revenue, not just rankings.' },
-  { page: '/services/seo', section: 'Hero', key: 'hero_subtext', label: 'Page Subtext', type: 'textarea', value: 'Full-service organic search for brands that want more than a monthly report.' },
-
-  { page: '/services/ai-search', section: 'Hero', key: 'hero_heading', label: 'Page Heading', type: 'text', value: 'Be the answer, not the blue link.' },
-  { page: '/services/ai-search', section: 'Hero', key: 'hero_subtext', label: 'Page Subtext', type: 'textarea', value: 'Optimise your brand to appear in ChatGPT, Google AI Overviews, Gemini, and Perplexity.' },
-
-  { page: '/services/content-marketing', section: 'Hero', key: 'hero_heading', label: 'Page Heading', type: 'text', value: 'Content that earns links, trust, and traffic.' },
-  { page: '/services/content-marketing', section: 'Hero', key: 'hero_subtext', label: 'Page Subtext', type: 'textarea', value: 'Strategic content marketing driven by data, not guesswork.' },
-
-  { page: '/services/link-building', section: 'Hero', key: 'hero_heading', label: 'Page Heading', type: 'text', value: 'Links that move the needle.' },
-  { page: '/services/link-building', section: 'Hero', key: 'hero_subtext', label: 'Page Subtext', type: 'textarea', value: 'White-hat authority building through digital PR, guest posting, and editorial outreach.' },
-
-  { page: '/services/ppc', section: 'Hero', key: 'hero_heading', label: 'Page Heading', type: 'text', value: 'Paid search that actually pays back.' },
-  { page: '/services/ppc', section: 'Hero', key: 'hero_subtext', label: 'Page Subtext', type: 'textarea', value: 'Google Ads, Meta Ads, and YouTube campaigns managed by people who understand organic too.' },
-
-  { page: '/services/social-media', section: 'Hero', key: 'hero_heading', label: 'Page Heading', type: 'text', value: 'Social that drives real business.' },
-  { page: '/services/social-media', section: 'Hero', key: 'hero_subtext', label: 'Page Subtext', type: 'textarea', value: 'Strategy, content, and advertising that builds brand awareness and drives qualified traffic.' },
-
-  { page: '/services/analytics', section: 'Hero', key: 'hero_heading', label: 'Page Heading', type: 'text', value: "Know what works. Cut what doesn't." },
-  { page: '/services/analytics', section: 'Hero', key: 'hero_subtext', label: 'Page Subtext', type: 'textarea', value: 'Analytics, CRO, and reporting that tells you what to do next — not just what happened.' },
-
-  { page: '/services/web-design', section: 'Hero', key: 'hero_heading', label: 'Page Heading', type: 'text', value: 'Websites built for search from day one.' },
-  { page: '/services/web-design', section: 'Hero', key: 'hero_subtext', label: 'Page Subtext', type: 'textarea', value: 'Fast, accessible, conversion-optimised sites with SEO baked into every page.' },
-
   { page: '/insights', section: 'Hero', key: 'hero_heading', label: 'Page Heading', type: 'text', value: 'Field notes from the search era.' },
+  { page: '/insights', section: 'Hero', key: 'hero_subtext', label: 'Page Subtext', type: 'textarea', value: 'Playbooks, teardowns, and deep dives on search, LLM optimization, and technical SEO from our senior practitioners.' },
   // ─── ABOUT PAGE: Timeline ───
   { page: '/about', section: 'Timeline', key: 'timeline_1_yr', label: 'Timeline 1 Year/Loc', type: 'text', value: '2014 · Melbourne' },
   { page: '/about', section: 'Timeline', key: 'timeline_1_title', label: 'Timeline 1 Title', type: 'text', value: 'Founded in a garage' },
@@ -869,58 +870,153 @@ export const defaultContent: ContentBlock[] = [
   { page: '/services/analytics', section: 'Bottom CTA', key: 'cta_text', label: 'CTA Text', type: 'textarea', value: 'We will review your tracking setup and show you exactly what data you are missing and what it is costing you.' },
   { page: '/services/analytics', section: 'Bottom CTA', key: 'cta_btn', label: 'CTA Button', type: 'text', value: 'Book your analytics audit' },
 
-  // ─── /services/web-design: Topbar ───
-  { page: '/services/web-design', section: 'Topbar', key: 'topbar_text', label: 'Topbar Text', type: 'text', value: 'Websites built for search from day one.' },
-  { page: '/services/web-design', section: 'Topbar', key: 'topbar_link', label: 'Topbar Link', type: 'text', value: 'Get started →' },
+  // ─── /services/web-design: Topbar & Hero ───
+  { page: '/services/web-design', section: 'Hero', key: 'topbar_text', label: 'Topbar Text', type: 'text', value: 'Websites built for search & conversion from day one.' },
+  { page: '/services/web-design', section: 'Hero', key: 'topbar_link', label: 'Topbar Link', type: 'text', value: 'Get free proposal →' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_badge', label: 'Hero Badge', type: 'text', value: 'Bespoke Web Design & Shopify Studio' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_title', label: 'Hero Title', type: 'text', value: 'High-Converting Web Design & Shopify Stores Built for Revenue.' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_lede', label: 'Hero Description', type: 'textarea', value: 'We craft bespoke websites with next-gen speed, interactive UX, and measurable ROI. From custom Figma prototypes to sub-second Next.js and Shopify builds, our team turns visitors into loyal customers.' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_form_title', label: 'Form Title', type: 'text', value: 'Get a Free Custom Proposal' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_form_sub', label: 'Form Subtext', type: 'textarea', value: 'Tell us about your project — we will reply with an estimate & timeline within 4 hours.' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_form_btn', label: 'Form Submit Button', type: 'text', value: 'Get Free Proposal' },
+  { page: '/services/web-design', section: 'Hero', key: 'hero_rating_text', label: 'Rating Text', type: 'text', value: '4.9 / 5 across 412+ verified reviews on Clutch, Google & Trustpilot' },
 
-  // ─── /services/web-design: Hero ───
-  { page: '/services/web-design', section: 'Hero', key: 'hero_eyebrow', label: 'Eyebrow', type: 'text', value: 'Web Design & Development' },
-  { page: '/services/web-design', section: 'Hero', key: 'hero_heading', label: 'Heading', type: 'text', value: 'Websites built for search from day one.' },
-  { page: '/services/web-design', section: 'Hero', key: 'hero_desc', label: 'Description', type: 'textarea', value: 'Fast, accessible, conversion-optimized sites with SEO architecture baked into every page, component, and URL.' },
-  { page: '/services/web-design', section: 'Hero', key: 'hero_cta1', label: 'Primary CTA', type: 'text', value: 'Get a free site review' },
-  { page: '/services/web-design', section: 'Hero', key: 'hero_cta2', label: 'Secondary CTA', type: 'text', value: 'See all services' },
-  { page: '/services/web-design', section: 'Hero', key: 'hero_stat1_num', label: 'Stat 1 Number', type: 'text', value: '52%' },
-  { page: '/services/web-design', section: 'Hero', key: 'hero_stat1_label', label: 'Stat 1 Label', type: 'text', value: 'Avg. conversion lift' },
-  { page: '/services/web-design', section: 'Hero', key: 'hero_stat2_num', label: 'Stat 2 Number', type: 'text', value: '3x' },
-  { page: '/services/web-design', section: 'Hero', key: 'hero_stat2_label', label: 'Stat 2 Label', type: 'text', value: 'Speed vs. template sites' },
-  { page: '/services/web-design', section: 'Hero', key: 'hero_stat3_num', label: 'Stat 3 Number', type: 'text', value: '45%' },
-  { page: '/services/web-design', section: 'Hero', key: 'hero_stat3_label', label: 'Stat 3 Label', type: 'text', value: 'Avg. revenue increase' },
-  { page: '/services/web-design', section: 'Hero', key: 'hero_stat4_num', label: 'Stat 4 Number', type: 'text', value: '0' },
-  { page: '/services/web-design', section: 'Hero', key: 'hero_stat4_label', label: 'Stat 4 Label', type: 'text', value: 'Traffic lost in redesigns' },
+  // ─── /services/web-design: Capabilities & Mockup ───
+  { page: '/services/web-design', section: 'Capabilities', key: 'showcase_eyebrow', label: 'Eyebrow', type: 'text', value: 'Full-Spectrum Capabilities' },
+  { page: '/services/web-design', section: 'Capabilities', key: 'showcase_title', label: 'Section Title', type: 'text', value: 'Our Professional Web Design & Development Includes:' },
+  { page: '/services/web-design', section: 'Capabilities', key: 'showcase_subtext', label: 'Section Subtext', type: 'textarea', value: 'We handle every layer of the digital product lifecycle — from initial brand wireframes to full-stack code and post-launch conversion rate optimization.' },
+  { page: '/services/web-design', section: 'Capabilities', key: 'showcase_btn', label: 'CTA Button', type: 'text', value: 'Speak With A Lead Designer' },
 
-  // ─── /services/web-design: Services Section ───
-  { page: '/services/web-design', section: 'Services', key: 'sec_heading', label: 'Section Heading', type: 'text', value: 'Four approaches, one standard.' },
-  { page: '/services/web-design', section: 'Services', key: 'sec_sub', label: 'Section Subtext', type: 'textarea', value: 'Whether custom, WordPress, e-commerce, or redesign — SEO and speed are non-negotiable.' },
+  // ─── /services/web-design: Mid Banner ───
+  { page: '/services/web-design', section: 'Mid Banner', key: 'mid_eyebrow', label: 'Banner Eyebrow', type: 'text', value: 'Ready To Build?' },
+  { page: '/services/web-design', section: 'Mid Banner', key: 'mid_title', label: 'Banner Title', type: 'text', value: 'We are ready to design and launch your on-demand custom website.' },
+  { page: '/services/web-design', section: 'Mid Banner', key: 'mid_subtext', label: 'Banner Subtext', type: 'textarea', value: 'Discuss your timeline, tech stack, and goals with our senior design architects today.' },
+  { page: '/services/web-design', section: 'Mid Banner', key: 'mid_btn', label: 'Banner Button', type: 'text', value: 'Start Your Project' },
 
-  // ─── /services/web-design: Service Cards ───
-  { page: '/services/web-design', section: 'Card 1', key: 'card_1_title', label: 'Card 1 Title', type: 'text', value: 'Custom Web Design' },
-  { page: '/services/web-design', section: 'Card 1', key: 'card_1_tagline', label: 'Card 1 Tagline', type: 'text', value: 'Every pixel is purposeful.' },
-  { page: '/services/web-design', section: 'Card 1', key: 'card_1_desc', label: 'Card 1 Desc', type: 'textarea', value: 'Bespoke website design built for performance, conversion, and SEO from the ground up. No templates, no themes.' },
-  { page: '/services/web-design', section: 'Card 1', key: 'card_1_highlights', label: 'Card 1 Highlights (comma sep)', type: 'textarea', value: 'Figma prototyping, Mobile-first, SEO architecture, CMS integration' },
-  { page: '/services/web-design', section: 'Card 1', key: 'card_1_result', label: 'Card 1 Result', type: 'text', value: '52% avg. conversion lift' },
-  { page: '/services/web-design', section: 'Card 2', key: 'card_2_title', label: 'Card 2 Title', type: 'text', value: 'WordPress Design' },
-  { page: '/services/web-design', section: 'Card 2', key: 'card_2_tagline', label: 'Card 2 Tagline', type: 'text', value: 'Fast, secure, manageable.' },
-  { page: '/services/web-design', section: 'Card 2', key: 'card_2_desc', label: 'Card 2 Desc', type: 'textarea', value: 'Custom WordPress development your team can actually manage without calling a developer.' },
-  { page: '/services/web-design', section: 'Card 2', key: 'card_2_highlights', label: 'Card 2 Highlights (comma sep)', type: 'textarea', value: 'Custom themes, ACF flexible content, WooCommerce, Security hardening' },
-  { page: '/services/web-design', section: 'Card 2', key: 'card_2_result', label: 'Card 2 Result', type: 'text', value: '3x speed vs. template sites' },
-  { page: '/services/web-design', section: 'Card 3', key: 'card_3_title', label: 'Card 3 Title', type: 'text', value: 'E-commerce Design' },
-  { page: '/services/web-design', section: 'Card 3', key: 'card_3_tagline', label: 'Card 3 Tagline', type: 'text', value: 'Stores that convert.' },
-  { page: '/services/web-design', section: 'Card 3', key: 'card_3_desc', label: 'Card 3 Desc', type: 'textarea', value: 'Shopping experiences optimized for mobile, speed, and average order value from day one.' },
-  { page: '/services/web-design', section: 'Card 3', key: 'card_3_highlights', label: 'Card 3 Highlights (comma sep)', type: 'textarea', value: 'Checkout optimization, Product pages, Payment setup, Post-launch CRO' },
-  { page: '/services/web-design', section: 'Card 3', key: 'card_3_result', label: 'Card 3 Result', type: 'text', value: '45% avg. revenue increase' },
-  { page: '/services/web-design', section: 'Card 4', key: 'card_4_title', label: 'Card 4 Title', type: 'text', value: 'Website Redesign' },
-  { page: '/services/web-design', section: 'Card 4', key: 'card_4_tagline', label: 'Card 4 Tagline', type: 'text', value: 'Rebuild without losing rankings.' },
-  { page: '/services/web-design', section: 'Card 4', key: 'card_4_desc', label: 'Card 4 Desc', type: 'textarea', value: 'Strategic redesigns that improve performance without losing SEO equity. Zero traffic loss is non-negotiable.' },
-  { page: '/services/web-design', section: 'Card 4', key: 'card_4_highlights', label: 'Card 4 Highlights (comma sep)', type: 'textarea', value: 'SEO migration plan, 301 redirect mapping, Performance benchmarks, Post-launch monitoring' },
-  { page: '/services/web-design', section: 'Card 4', key: 'card_4_result', label: 'Card 4 Result', type: 'text', value: '0 traffic lost in redesigns' },
+  // ─── /services/web-design: Services Grid ───
+  { page: '/services/web-design', section: 'Specialties', key: 'svc_eyebrow', label: 'Eyebrow', type: 'text', value: 'Our Core Specialties' },
+  { page: '/services/web-design', section: 'Specialties', key: 'svc_heading', label: 'Heading', type: 'text', value: 'Bespoke Web Design Services We Offer.' },
+  { page: '/services/web-design', section: 'Specialties', key: 'svc_subtext', label: 'Subtext', type: 'textarea', value: 'Every business requires a tailored approach. Here is how our specialized web design and development practices deliver measurable growth.' },
 
-  // ─── /services/web-design: Bottom CTA ───
-  { page: '/services/web-design', section: 'Bottom CTA', key: 'cta_heading', label: 'CTA Heading', type: 'text', value: 'Free site review.' },
-  { page: '/services/web-design', section: 'Bottom CTA', key: 'cta_em', label: 'CTA Emphasis', type: 'text', value: 'See what is possible.' },
-  { page: '/services/web-design', section: 'Bottom CTA', key: 'cta_text', label: 'CTA Text', type: 'textarea', value: 'We will review your current site and show you where design, speed, and SEO improvements could unlock more revenue.' },
-  { page: '/services/web-design', section: 'Bottom CTA', key: 'cta_btn', label: 'CTA Button', type: 'text', value: 'Book your site review' },
+  // ─── /our-team: Topbar & Hero ───
+  { page: '/our-team', section: 'Hero', key: 'topbar_text', label: 'Announcement Text', type: 'text', value: 'Now hiring senior technical SEOs and GEO research engineers.' },
+  { page: '/our-team', section: 'Hero', key: 'topbar_link', label: 'Announcement Link', type: 'text', value: 'View open positions →' },
+  { page: '/our-team', section: 'Hero', key: 'hero_badge', label: 'Hero Badge', type: 'text', value: 'The Practitioners' },
+  { page: '/our-team', section: 'Hero', key: 'hero_title', label: 'Hero Heading', type: 'text', value: 'The Senior Strategists & Engineers Behind Your Organic Revenue.' },
+  { page: '/our-team', section: 'Hero', key: 'hero_lede', label: 'Hero Lede Text', type: 'textarea', value: 'We are 38 senior search specialists, full-stack engineers, and editorial investigators. No junior account reps, no outsourced white-labeling — just direct access to the people doing the work.' },
 
+  // ─── /our-team: Principles ───
+  { page: '/our-team', section: 'Principles', key: 'principle_1_title', label: 'Principle 1 Title', type: 'text', value: 'No Junior Account Hand-Offs' },
+  { page: '/our-team', section: 'Principles', key: 'principle_1_desc', label: 'Principle 1 Description', type: 'textarea', value: 'You never speak with an intern or middle-man coordinator. Every strategy meeting, Slack message, and pull request is handled by a senior practitioner with 7+ years in search.' },
+  { page: '/our-team', section: 'Principles', key: 'principle_2_title', label: 'Principle 2 Title', type: 'text', value: '100% Asset & Code Ownership' },
+  { page: '/our-team', section: 'Principles', key: 'principle_2_desc', label: 'Principle 2 Description', type: 'textarea', value: 'You own every line of schema, every technical audit, every keyword database, and every creative asset forever. No proprietary platform lock-in.' },
+  { page: '/our-team', section: 'Principles', key: 'principle_3_title', label: 'Principle 3 Title', type: 'text', value: 'Code-Level Execution' },
+  { page: '/our-team', section: 'Principles', key: 'principle_3_desc', label: 'Principle 3 Description', type: 'textarea', value: 'We don’t just deliver 50-page PDF audit decks and tell your engineers to fix them. We submit clean GitHub pull requests and test them in staging ourselves.' },
+  { page: '/our-team', section: 'Principles', key: 'principle_4_title', label: 'Principle 4 Title', type: 'text', value: 'Revenue Over Vanity Traffic' },
+  { page: '/our-team', section: 'Principles', key: 'principle_4_desc', label: 'Principle 4 Description', type: 'textarea', value: 'Ranking for 100,000 zero-intent queries does not pay bills. We relentlessly optimize for high-commercial buyer queries and primary AI citations that convert.' },
+
+  // ─── /our-team: Team Grid & Careers ───
+  { page: '/our-team', section: 'Team Grid', key: 'team_eyebrow', label: 'Eyebrow', type: 'text', value: 'Leadership & Lead Strategists' },
+  { page: '/our-team', section: 'Team Grid', key: 'team_heading', label: 'Heading', type: 'text', value: 'Meet the team on your Slack channel.' },
+  { page: '/our-team', section: 'Team Grid', key: 'team_subtext', label: 'Subtext', type: 'textarea', value: 'Every client retainer is led by hands-on specialists who have spent a decade in the trenches of technical search and algorithmic recovery.' },
+  { page: '/our-team', section: 'Careers', key: 'careers_badge', label: 'Careers Badge', type: 'text', value: 'Join Our Crew' },
+  { page: '/our-team', section: 'Careers', key: 'careers_heading', label: 'Careers Heading', type: 'text', value: "We're always looking for rare search talent." },
+  { page: '/our-team', section: 'Careers', key: 'careers_subtext', label: 'Careers Subtext', type: 'textarea', value: 'We hire only senior practitioners (5+ years hands-on). Competitive compensation, asynchronous workflow, zero micromanagement, and generous profit sharing.' },
+  { page: '/our-team', section: 'Big CTA', key: 'cta_heading', label: 'CTA Heading', type: 'text', value: 'Ready to collaborate with senior' },
+  { page: '/our-team', section: 'Big CTA', key: 'cta_em', label: 'CTA Emphasis', type: 'text', value: 'practitioners?' },
+  { page: '/our-team', section: 'Big CTA', key: 'cta_text', label: 'CTA Text', type: 'textarea', value: 'Book a free 30-minute forensic strategy call directly with a lead strategist. No sales pitch, just actionable data.' },
+  { page: '/our-team', section: 'Big CTA', key: 'cta_btn_text', label: 'CTA Button Text', type: 'text', value: 'Schedule Strategy Session' },
+
+  // ─── /resources/publications: Hero & Featured ───
+  { page: '/resources/publications', section: 'Hero', key: 'topbar_text', label: 'Announcement Text', type: 'text', value: 'New Research: The 2026 Generative Engine Optimization Benchmark Study is live.' },
+  { page: '/resources/publications', section: 'Hero', key: 'topbar_link', label: 'Announcement Link', type: 'text', value: 'Download free PDF →' },
+  { page: '/resources/publications', section: 'Hero', key: 'hero_badge', label: 'Hero Badge', type: 'text', value: 'Omniranq Research Lab' },
+  { page: '/resources/publications', section: 'Hero', key: 'hero_title', label: 'Hero Title', type: 'text', value: 'Publications, Research & Search Playbooks' },
+  { page: '/resources/publications', section: 'Hero', key: 'hero_lede', label: 'Hero Description', type: 'textarea', value: 'Original benchmark studies, technical white papers, and forensic teardowns written by senior SEO engineers. No fluff, pure empirical data.' },
+  { page: '/resources/publications', section: 'Featured', key: 'featured_title', label: 'Featured Title', type: 'text', value: 'The State of Generative Engine Optimization (GEO) & AI Search 2026' },
+  { page: '/resources/publications', section: 'Featured', key: 'featured_summary', label: 'Featured Summary', type: 'textarea', value: 'A forensic audit of 12,000 queries across ChatGPT Search, Perplexity Pro, Google AI Overviews, and Claude 3.5 Sonnet to map which brand citations LLMs surface and why.' },
+  { page: '/resources/publications', section: 'Featured', key: 'featured_takeaway', label: 'Featured Key Finding', type: 'textarea', value: '87% of LLM citations originate from third-party consensus sources (Wikidata, Crunchbase, tier-1 trade media) rather than brand-owned landing pages.' },
+  { page: '/resources/publications', section: 'Featured', key: 'featured_btn', label: 'Featured Button Text', type: 'text', value: 'Download Full PDF (Free)' },
+  { page: '/resources/publications', section: 'Featured', key: 'featured_note', label: 'Featured Note', type: 'text', value: 'No credit card required • Instant access' },
+  { page: '/resources/publications', section: 'Bespoke Advisory', key: 'cta_badge', label: 'Advisory Badge', type: 'text', value: 'Bespoke Research' },
+  { page: '/resources/publications', section: 'Bespoke Advisory', key: 'cta_title', label: 'Advisory Title', type: 'text', value: 'Need a custom technical audit or competitor research teardown?' },
+  { page: '/resources/publications', section: 'Bespoke Advisory', key: 'cta_desc', label: 'Advisory Description', type: 'textarea', value: 'Our research and technical SEO team conducts private forensic audits and share-of-voice analyses for high-growth enterprises.' },
+  { page: '/resources/publications', section: 'Bespoke Advisory', key: 'cta_btn', label: 'Advisory Button Text', type: 'text', value: 'Commission an Audit' },
+
+  // ─── /services/seo/technical-seo ───
+  { page: '/services/seo/technical-seo', section: 'Hero', key: 'topbar_text', label: 'Topbar Announcement', type: 'text', value: 'Specialist Technical Audit: Surface hidden crawl & Core Web Vitals bottlenecks.' },
+  { page: '/services/seo/technical-seo', section: 'Hero', key: 'topbar_link', label: 'Topbar Link Text', type: 'text', value: 'Request free audit →' },
+  { page: '/services/seo/technical-seo', section: 'Hero', key: 'hero_badge', label: 'Hero Badge', type: 'text', value: 'Technical SEO Services' },
+  { page: '/services/seo/technical-seo', section: 'Hero', key: 'hero_title', label: 'Hero Heading', type: 'text', value: 'Forensic Technical SEO Services That Safeguard Revenue.' },
+  { page: '/services/seo/technical-seo', section: 'Hero', key: 'hero_lede', label: 'Hero Description', type: 'textarea', value: 'We resolve crawl budget traps, Core Web Vitals degradation, hydration delays, and faceted indexing bloat. Engineered for Next.js, headless architectures, and enterprise platforms.' },
+  { page: '/services/seo/technical-seo', section: 'Hero', key: 'hero_cta_btn', label: 'Hero Form Button', type: 'text', value: 'Get A Free Audit' },
+  { page: '/services/seo/technical-seo', section: 'Hero', key: 'hero_guarantee', label: 'Guarantee Note', type: 'text', value: '100% Confidential • Signed NDA protection as standard' },
+
+  // Stats
+  { page: '/services/seo/technical-seo', section: 'Stats', key: 'stat_1_val', label: 'Stat 1 Value', type: 'text', value: '40%' },
+  { page: '/services/seo/technical-seo', section: 'Stats', key: 'stat_1_label', label: 'Stat 1 Label', type: 'text', value: 'Avg. Organic Traffic Lift' },
+  { page: '/services/seo/technical-seo', section: 'Stats', key: 'stat_2_val', label: 'Stat 2 Value', type: 'text', value: '200+' },
+  { page: '/services/seo/technical-seo', section: 'Stats', key: 'stat_2_label', label: 'Stat 2 Label', type: 'text', value: 'Forensic Audits Delivered' },
+  { page: '/services/seo/technical-seo', section: 'Stats', key: 'stat_3_val', label: 'Stat 3 Value', type: 'text', value: '60' },
+  { page: '/services/seo/technical-seo', section: 'Stats', key: 'stat_3_label', label: 'Stat 3 Label', type: 'text', value: 'Days to Green Vitals' },
+  { page: '/services/seo/technical-seo', section: 'Stats', key: 'stat_4_val', label: 'Stat 4 Value', type: 'text', value: '94%' },
+  { page: '/services/seo/technical-seo', section: 'Stats', key: 'stat_4_label', label: 'Stat 4 Label', type: 'text', value: 'Client Retention Rate' },
+  { page: '/services/seo/technical-seo', section: 'Stats', key: 'stat_5_val', label: 'Stat 5 Value', type: 'text', value: '3×' },
+  { page: '/services/seo/technical-seo', section: 'Stats', key: 'stat_5_label', label: 'Stat 5 Label', type: 'text', value: 'Increase in AI Citations' },
+  { page: '/services/seo/technical-seo', section: 'Stats', key: 'stat_6_val', label: 'Stat 6 Value', type: 'text', value: '24/7' },
+  { page: '/services/seo/technical-seo', section: 'Stats', key: 'stat_6_label', label: 'Stat 6 Label', type: 'text', value: 'Continuous Uptime & Indexing' },
+
+  // Why Section
+  { page: '/services/seo/technical-seo', section: 'Why AI SEO', key: 'why_eyebrow', label: 'Eyebrow', type: 'text', value: 'Next-Gen SEO Paradigm' },
+  { page: '/services/seo/technical-seo', section: 'Why AI SEO', key: 'why_heading', label: 'Heading', type: 'text', value: 'Why classic SEO alone fails in the AI search era.' },
+  { page: '/services/seo/technical-seo', section: 'Why AI SEO', key: 'why_subtext', label: 'Subtext', type: 'textarea', value: 'Search engines and LLMs no longer just match keywords. They evaluate technical rendering speed, structured data entities, and authority consensus.' },
+
+  // Platforms
+  { page: '/services/seo/technical-seo', section: 'Platforms', key: 'plat_badge', label: 'Badge', type: 'text', value: 'Next-Gen Search Matrix' },
+  { page: '/services/seo/technical-seo', section: 'Platforms', key: 'plat_heading', label: 'Heading', type: 'text', value: 'Rank across Search & AI platforms.' },
+  { page: '/services/seo/technical-seo', section: 'Platforms', key: 'plat_subtext', label: 'Description', type: 'textarea', value: 'Search behaviour is changing. Users now expect direct answers, comprehensive summaries, and AI-curated insights. We engineer your technical infrastructure so your company ranks on classic engines and modern AI answer platforms alike.' },
+  { page: '/services/seo/technical-seo', section: 'Platforms', key: 'plat_cta', label: 'CTA Button', type: 'text', value: 'Unlock AI SEO Now' },
+
+  // Services Matrix
+  { page: '/services/seo/technical-seo', section: 'Services Matrix', key: 'svc_eyebrow', label: 'Eyebrow', type: 'text', value: 'Services Matrix' },
+  { page: '/services/seo/technical-seo', section: 'Services Matrix', key: 'svc_heading', label: 'Heading', type: 'text', value: 'Comprehensive SEO services — 9 core disciplines.' },
+  { page: '/services/seo/technical-seo', section: 'Services Matrix', key: 'svc_subtext', label: 'Subtext', type: 'textarea', value: 'We cover every technical layer: from rendering pipelines and crawl traps to enterprise architecture and index pruning.' },
+
+  // Reporting
+  { page: '/services/seo/technical-seo', section: 'Reporting', key: 'report_badge', label: 'Badge', type: 'text', value: 'Radical Transparency' },
+  { page: '/services/seo/technical-seo', section: 'Reporting', key: 'report_heading', label: 'Heading', type: 'text', value: 'Reporting & communication built for leaders.' },
+  { page: '/services/seo/technical-seo', section: 'Reporting', key: 'report_subtext', label: 'Description', type: 'textarea', value: 'No dense 80-page automated PDF exports that nobody reads. We operate with clean, live Looker Studio telemetry and direct communication with the senior team doing the work.' },
+
+  // Security
+  { page: '/services/seo/technical-seo', section: 'Security', key: 'sec_eyebrow', label: 'Eyebrow', type: 'text', value: 'Trust & Protection' },
+  { page: '/services/seo/technical-seo', section: 'Security', key: 'sec_heading', label: 'Heading', type: 'text', value: 'Data security & operational integrity.' },
+  { page: '/services/seo/technical-seo', section: 'Security', key: 'sec_subtext', label: 'Subtext', type: 'textarea', value: 'Our commitment: measurable growth, responsible execution, and absolute confidentiality.' },
+
+  // Tech Stack
+  { page: '/services/seo/technical-seo', section: 'Tech Stack', key: 'tools_eyebrow', label: 'Eyebrow', type: 'text', value: 'Enterprise Tech Stack' },
+  { page: '/services/seo/technical-seo', section: 'Tech Stack', key: 'tools_heading', label: 'Heading', type: 'text', value: 'Tools which we use.' },
+  { page: '/services/seo/technical-seo', section: 'Tech Stack', key: 'tools_subtext', label: 'Subtext', type: 'textarea', value: 'The battle-tested software matrix that powers data-driven strategy, precise tracking, and seamless execution.' },
+
+  // Pricing
+  { page: '/services/seo/technical-seo', section: 'Pricing', key: 'pricing_badge', label: 'Badge', type: 'text', value: 'Investment' },
+  { page: '/services/seo/technical-seo', section: 'Pricing', key: 'pricing_heading', label: 'Heading', type: 'text', value: 'Transparent Retainers & Pricing.' },
+  { page: '/services/seo/technical-seo', section: 'Pricing', key: 'pricing_subtext', label: 'Subtext', type: 'textarea', value: 'Predictable monthly pricing with zero surprise add-ons. 90-day initial sprint, then flexible month-to-month.' },
+  { page: '/services/seo/technical-seo', section: 'Pricing', key: 'pricing_plan_title', label: 'Plan Title', type: 'text', value: 'AI-Driven SEO Growth Program' },
+  { page: '/services/seo/technical-seo', section: 'Pricing', key: 'pricing_plan_desc', label: 'Plan Description', type: 'textarea', value: 'Consistent visibility across Google Search, Maps, and AI-powered discovery platforms.' },
+  { page: '/services/seo/technical-seo', section: 'Pricing', key: 'pricing_price_val', label: 'Price Value', type: 'text', value: '₹15,000 – ₹1,00,000' },
+  { page: '/services/seo/technical-seo', section: 'Pricing', key: 'pricing_price_unit', label: 'Price Unit', type: 'text', value: '/ month*' },
+  { page: '/services/seo/technical-seo', section: 'Pricing', key: 'pricing_price_sub', label: 'Price Asterisk Note', type: 'text', value: '*Customised based on scope, competition & AI SEO depth' },
+  { page: '/services/seo/technical-seo', section: 'Pricing', key: 'pricing_btn_text', label: 'Button Text', type: 'text', value: 'Request a Custom AI SEO Strategy' },
+  { page: '/services/seo/technical-seo', section: 'Pricing', key: 'pricing_note', label: 'Pricing Note', type: 'text', value: 'Month-to-month after 90 days • You own all code & assets' },
+
+  // Final CTA
+  { page: '/services/seo/technical-seo', section: 'Final CTA', key: 'cta_badge', label: 'Badge', type: 'text', value: 'Take Action' },
+  { page: '/services/seo/technical-seo', section: 'Final CTA', key: 'cta_heading', label: 'Heading', type: 'text', value: 'Get a free SEO audit today.' },
+  { page: '/services/seo/technical-seo', section: 'Final CTA', key: 'cta_subtext', label: 'Description', type: 'textarea', value: 'We analyse your server response times, index coverage, crawl efficiency, and entity footprint to surface high-leverage growth opportunities. No sales decks, just real findings.' },
+  { page: '/services/seo/technical-seo', section: 'Final CTA', key: 'cta_btn_text', label: 'Button Text', type: 'text', value: 'Get a Free SEO Audit Today' },
+  { page: '/services/seo/technical-seo', section: 'Final CTA', key: 'cta_note', label: 'Final Note', type: 'text', value: '100% Free • Delivered within 24 hours by a Senior SEO' },
 ]
+
 
 
 export function getDefaults(page: string): Record<string, string> {

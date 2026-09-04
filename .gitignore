@@ -43,3 +43,7 @@ yarn-error.log*
 next-env.d.ts
 /nextjs-app
 /scraps
+
+# user uploads
+/public/uploads/*
+!/public/uploads/.gitkeep

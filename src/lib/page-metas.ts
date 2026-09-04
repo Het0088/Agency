@@ -177,4 +177,35 @@ export const pageMetas: PageMeta[] = [
       canonical: 'https://omniranq.com/services/{{category}}/{{slug}}',
     },
   },
+  {
+    route: '/our-team',
+    label: 'Our Team',
+    filePath: 'src/app/our-team/page.tsx',
+    fields: {
+      title: 'Our Team — Meet The Senior SEO Strategists & Engineers | Omniranq',
+      description: 'Meet the 38 senior strategists, technical SEOs, and developers behind Omniranq. No account managers, just direct collaboration with practitioners.',
+      canonical: 'https://omniranq.com/our-team',
+    },
+  },
+  {
+    route: '/resources/publications',
+    label: 'Publications & Research',
+    filePath: 'src/app/resources/publications/page.tsx',
+    fields: {
+      title: 'Publications, White Papers & SEO Research Reports — Omniranq',
+      description: 'Original benchmark studies, technical white papers, and forensic search teardowns by senior SEO engineers.',
+      canonical: 'https://omniranq.com/resources/publications',
+    },
+  },
+  {
+    route: '/services/seo/technical-seo',
+    label: 'Technical SEO Services',
+    filePath: 'src/app/services/seo/technical-seo/page.tsx',
+    fields: {
+      title: 'Technical SEO Services & AI Search Audit — Omniranq',
+      description: 'Forensic technical SEO services that eliminate crawl errors, optimize Core Web Vitals, and prepare your domain for ChatGPT, Perplexity, and AI Overviews.',
+      canonical: 'https://omniranq.com/services/seo/technical-seo',
+    },
+  },
 ]
+

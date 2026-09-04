@@ -20,7 +20,7 @@ import {
   ArrowRight, IconBuilding, IconSearch, IconDocument, IconZap, IconActivity,
   IconDollarSign, IconMonitor, IconGlobe, IconUsers, IconLayers, IconClock,
   IconBarChart, IconMapPin, IconShoppingCart, IconShield, IconMessageSquare,
-  IconTrendingUp, IconTarget
+  IconTrendingUp, IconTarget, CheckIcon, IconClose
 } from '@/components/Icons'
 
 const procIcons = [<IconBuilding key={0}/>, <IconSearch key={1}/>, <IconDocument key={2}/>, <IconZap key={3}/>, <IconActivity key={4}/>, <IconDollarSign key={5}/>]
@@ -239,12 +239,12 @@ export default async function SeoServicesPage() {
               <div className="ref-rules-row" key={i}>
                 <div className="ref-rules-cell ref-cell-old">
                   <span className="ref-cell-num">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="ref-cell-icon ref-cell-x">✕</span>
+                  <span className="ref-cell-icon ref-cell-x"><IconClose /></span>
                   {old}
                 </div>
                 <div className="ref-rules-cell">
                   <span className="ref-cell-num">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="ref-cell-icon ref-cell-check">✓</span>
+                  <span className="ref-cell-icon ref-cell-check"><CheckIcon /></span>
                   {newRules[i]}
                 </div>
               </div>

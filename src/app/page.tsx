@@ -24,12 +24,16 @@ import AiBlock from './sections/AiBlock'
 import MarqueeSection from './sections/Marquee'
 import ProcessSection from './sections/Process'
 import CasesSection from './sections/Cases'
+import PricingSection from './sections/Pricing'
 import TestimonialsSection from './sections/Testimonials'
 import WhyUsSection from './sections/WhyUs'
 import ArticlesBlogsSection from './sections/ArticlesBlog'
 import WhyNeedSeo from './sections/WhyNeedSeo'
 import SeoProcess from './sections/SeoProcess'
 import HomeFaq from './sections/HomeFaq'
+
+import Link from 'next/link'
+import { ArrowRight } from '@/components/Icons'
 
 export default async function Home() {
   const content = await getContent('/')
@@ -51,7 +55,24 @@ export default async function Home() {
       <AiBlock content={content} />
       <MarqueeSection content={content} />
       <ProcessSection content={content} />
+
+      <section className="mid-cta">
+        <div className="wrap">
+          <div className="mid-cta-inner mid-cta-dark reveal">
+            <div className="mid-cta-text">
+              <h3>{content.mid_cta_heading || 'Ready to outrank your competitors?'}</h3>
+              <p>{content.mid_cta_text || 'Get a free 30-minute strategy call with one of our senior SEO strategists. No pitch, just actionable insights.'}</p>
+            </div>
+            <Link href="/contact" className="btn btn-primary">
+              {content.mid_cta_btn || 'Book your free call'}
+              <span className="arr"><ArrowRight /></span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <CasesSection content={content} />
+      <PricingSection content={content} />
       <TestimonialsSection content={content} />
       <WhyUsSection content={content} />
       <ArticlesBlogsSection />
