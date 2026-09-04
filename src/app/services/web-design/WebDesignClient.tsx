@@ -487,7 +487,7 @@ export default function WebDesignClient({ content = {} }: Props) {
                     <span />
                     <span />
                   </div>
-                  <div className="wd-mockup-url">omniranq.design/preview</div>
+                  <div className="wd-mockup-url">genranq.design/preview</div>
                   <div className="wd-mockup-switch">
                     <button
                       className={activeDevice === 'desktop' ? 'active' : ''}
@@ -657,7 +657,7 @@ export default function WebDesignClient({ content = {} }: Props) {
       <section className="section" style={{ background: 'var(--surface)' }}>
         <div className="wrap">
           <div className="sec-head reveal">
-            <span className="eyebrow">The Omniranq Advantage</span>
+            <span className="eyebrow">The Gen Ranq Advantage</span>
             <h2>Why High-Growth Brands Choose <em>Our Design Studio.</em></h2>
             <p className="sub">
               We combine boutique craftsmanship with engineering rigor to deliver digital products that outclass the market.

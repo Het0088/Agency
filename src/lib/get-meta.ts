@@ -12,10 +12,10 @@ type MetaRow = {
 export async function getPageMeta(route: string): Promise<MetaRow> {
   const defaults = pageMetas.find(p => p.route === route)
   const fallback: MetaRow = {
-    title: defaults?.fields.title || 'Omniranq',
+    title: defaults?.fields.title || 'Gen Ranq',
     description: defaults?.fields.description || '',
-    canonical: defaults?.fields.canonical || 'https://omniranq.com',
-    og_title: defaults?.fields.ogTitle || defaults?.fields.title || 'Omniranq',
+    canonical: defaults?.fields.canonical || 'https://genranq.com',
+    og_title: defaults?.fields.ogTitle || defaults?.fields.title || 'Gen Ranq',
     og_description: defaults?.fields.ogDescription || defaults?.fields.description || '',
     og_image: defaults?.fields.ogImage || '',
   }

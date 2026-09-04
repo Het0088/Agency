@@ -146,7 +146,7 @@ export default async function AboutPage() {
   ]
 
   const heroHeading = content.hero_heading || "We're 38 people who genuinely care if your phone rings."
-  const heroSubtext = content.hero_subtext || 'Omniranq is a global SEO studio for ambitious small businesses. We started in a Melbourne garage in 2014, picked up offices in London and Bangalore, and have shipped SEO strategy for 600+ brands across 42 countries since.'
+  const heroSubtext = content.hero_subtext || 'Gen Ranq is a global SEO studio for ambitious small businesses. We started in a Melbourne garage in 2014, picked up offices in London and Bangalore, and have shipped SEO strategy for 600+ brands across 42 countries since.'
 
   const storyHeading = content.story_heading || 'A studio, not an agency.'
   const storyPara1 = content.story_para_1 || 'We hate the word "agency." It carries everything we wanted to leave behind — bloated retainers, account managers passing notes, juniors learning on client budgets, decks dressed up as strategy.'
@@ -262,7 +262,7 @@ export default async function AboutPage() {
               <div className="avatar" style={{ width: 48, height: 48, fontSize: 22, background: 'var(--dark-ink)', color: 'var(--ink)' }}>D</div>
               <div style={{ marginLeft: 8 }}>
                 <div style={{ fontWeight: 600 }}>Anaya &amp; Daniel</div>
-                <div style={{ fontSize: 13, color: 'var(--dark-ink-soft)' }}>Founders, Omniranq</div>
+                <div style={{ fontSize: 13, color: 'var(--dark-ink-soft)' }}>Founders, Gen Ranq</div>
               </div>
             </div>
           </div>

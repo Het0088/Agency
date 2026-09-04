@@ -134,7 +134,7 @@ export default function PublicationsClient({ content = {} }: Props) {
       <section className="pub-hero">
         <div className="wrap">
           <div className="pub-hero-inner">
-            <span className="pub-badge">{content.hero_badge || 'Omniranq Research Lab'}</span>
+            <span className="pub-badge">{content.hero_badge || 'Gen Ranq Research Lab'}</span>
             <h1 className="pub-title">
               {content.hero_title ? (
                 content.hero_title

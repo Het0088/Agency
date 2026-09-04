@@ -18,15 +18,8 @@ export default function Footer() {
       <div className="wrap">
         <div className="footer-top">
           <div className="footer-brand">
-            <Link href="/" className="logo">
-              <img src="/logo.png" alt="Omniranq" className="logo-icon" />
-              <span className="logo-wordmark">
-                <span className="logo-name">
-                  <span className="logo-omni">OMNI</span><span className="logo-space"> </span><span className="logo-ranq">RANQ</span>
-                </span>
-                <span className="logo-rule"></span>
-                <span className="logo-tagline">SEO <span className="logo-dot">&bull;</span> GROWTH <span className="logo-dot">&bull;</span> PERFORMANCE</span>
-              </span>
+            <Link href="/" className="logo" aria-label="Gen Ranq Home">
+              <img src="/logo.png" alt="Gen Ranq Software LLP" className="logo-img" />
             </Link>
             <p>A 38-person SEO studio for ambitious small businesses. Global team, monthly retainers, no long contracts, no agency BS.</p>
             <Link href="/contact" className="btn btn-dark btn-sm">Get a free audit</Link>
@@ -57,7 +50,7 @@ export default function Footer() {
             <h4>Office</h4>
             <ul>
               <li><Link href="/contact">Bangalore, India</Link></li>
-              <li><a href="mailto:hello@omniranq.com">hello@omniranq.com</a></li>
+              <li><a href="mailto:hello@genranq.com">hello@genranq.com</a></li>
               <li><a href="tel:+918045674242">+91 80 4567 4242</a></li>
             </ul>
           </div>
@@ -73,12 +66,12 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <div>&copy; 2026 Omniranq &middot; All rights reserved</div>
+          <div>&copy; 2026 Gen Ranq Software LLP &middot; All rights reserved</div>
           <div className="socials">
-            <a href="https://linkedin.com/company/omniranq" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><LinkedInIcon /></a>
-            <a href="https://x.com/omniranq" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><XIcon /></a>
-            <a href="https://instagram.com/omniranq" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
-            <a href="https://youtube.com/@omniranq" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><YouTubeIcon /></a>
+            <a href="https://linkedin.com/company/genranq" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><LinkedInIcon /></a>
+            <a href="https://x.com/genranq" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><XIcon /></a>
+            <a href="https://instagram.com/genranq" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
+            <a href="https://youtube.com/@genranq" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><YouTubeIcon /></a>
           </div>
         </div>
       </div>

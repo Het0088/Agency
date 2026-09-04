@@ -3,7 +3,7 @@ import { getCities } from '@/lib/excel'
 import { getAllCities } from '@/lib/cities'
 import { getSubServiceSlugs } from '@/lib/services-data'
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
+const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://genranq.com'
 const NOW = new Date().toISOString().split('T')[0]
 
 async function getPublishedPosts(): Promise<{ slug: string; created_at: string }[]> {
@@ -21,8 +21,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     { path: '', priority: 1.0, freq: 'weekly' as const },
     { path: '/about', priority: 0.8, freq: 'monthly' as const },
+    { path: '/our-team', priority: 0.8, freq: 'monthly' as const },
     { path: '/services', priority: 0.9, freq: 'weekly' as const },
     { path: '/services/seo', priority: 0.85, freq: 'weekly' as const },
+    { path: '/services/seo/technical-seo', priority: 0.85, freq: 'weekly' as const },
     { path: '/services/ai-search', priority: 0.85, freq: 'weekly' as const },
     { path: '/services/content-marketing', priority: 0.85, freq: 'monthly' as const },
     { path: '/services/ppc', priority: 0.85, freq: 'monthly' as const },
@@ -31,6 +33,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/services/link-building', priority: 0.85, freq: 'monthly' as const },
     { path: '/services/analytics', priority: 0.85, freq: 'monthly' as const },
     { path: '/insights', priority: 0.8, freq: 'daily' as const },
+    { path: '/resources/blog', priority: 0.8, freq: 'daily' as const },
+    { path: '/resources/publications', priority: 0.8, freq: 'weekly' as const },
     { path: '/contact', priority: 0.7, freq: 'monthly' as const },
   ].map(p => ({
     url: `${BASE}${p.path}`,

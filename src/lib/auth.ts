@@ -1,8 +1,8 @@
 import crypto from 'crypto'
 
 const ADMIN_PASS = process.env.ADMIN_PASSWORD || 'Valga@123'
-const COOKIE_NAME = 'omniranq_admin'
-const HMAC_SECRET = process.env.HMAC_SECRET || 'omniranq-session-key-2026'
+const COOKIE_NAME = 'genranq_admin'
+const HMAC_SECRET = process.env.HMAC_SECRET || 'genranq-session-key-2026'
 
 export function getTokenValue(): string {
   return crypto.createHmac('sha256', HMAC_SECRET).update(ADMIN_PASS).digest('hex')

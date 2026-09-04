@@ -18,9 +18,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const c = await getCityBySlugAsync(slug)
   if (!c) return {}
   const loc = c.state ? `${c.city}, ${c.state}` : c.city
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://genranq.com'
   return {
-    title: c.metaTitle || `${c.service} in ${loc} — Omniranq`,
+    title: c.metaTitle || `${c.service} in ${loc} — Gen Ranq`,
     description: c.metaDescription || `Expert ${c.service} in ${c.city}. Free audit available.`,
     keywords: c.localKeywords?.split(',').map(k => k.trim()),
     alternates: { canonical: `${base}/${c.slug}` },

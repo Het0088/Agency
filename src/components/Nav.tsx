@@ -134,15 +134,8 @@ export default function Nav({ active }: { active?: string }) {
   return (
     <nav className="nav" role="navigation" aria-label="Main navigation">
       <div className="nav-inner">
-        <Link href="/" className="logo">
-          <img src="/logo.png" alt="Omniranq" className="logo-icon" />
-          <span className="logo-wordmark">
-            <span className="logo-name">
-              <span className="logo-omni">OMNI</span><span className="logo-space"> </span><span className="logo-ranq">RANQ</span>
-            </span>
-            <span className="logo-rule"></span>
-            <span className="logo-tagline">SEO <span className="logo-dot">&bull;</span> GROWTH <span className="logo-dot">&bull;</span> PERFORMANCE</span>
-          </span>
+        <Link href="/" className="logo" aria-label="Gen Ranq Home">
+          <img src="/logo.png" alt="Gen Ranq Software LLP" className="logo-img" />
         </Link>
 
         <ul className="nav-links">

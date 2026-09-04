@@ -17,8 +17,8 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const { category, slug } = await params
   const svc = getSubService(category, slug)
   if (!svc) return {}
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
-  const title = `${svc.title} Services — Omniranq`
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://genranq.com'
+  const title = `${svc.title} Services — Gen Ranq`
   const description = svc.metaDescription || `${svc.desc.slice(0, 155)}...`
   return {
     title,
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       description,
       url: `${base}/services/${category}/${slug}`,
       type: 'website',
-      siteName: 'Omniranq',
+      siteName: 'Gen Ranq',
     },
   }
 }

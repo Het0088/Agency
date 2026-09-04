@@ -50,7 +50,7 @@ export default async function ContactPage() {
 
   const directHeading = content.direct_heading || 'Or reach out directly.'
   const directSub = content.direct_sub || 'The fastest way to get a real answer is the form on the left. But these go to humans, too.'
-  const directEmail = content.direct_email || 'hello@omniranq.com'
+  const directEmail = content.direct_email || 'hello@genranq.com'
   const directPhone = content.direct_phone || '+91 80 4567 4242'
 
   const nextEyebrow = content.next_eyebrow || 'What happens next'
@@ -68,7 +68,7 @@ export default async function ContactPage() {
   const studioHours = content.studio_hours || 'Mon–Fri · 09:30–18:30 IST'
 
   const emailCtaHeading = content.email_cta_heading || 'Or just email us.'
-  const emailCtaSubtext = content.email_cta_subtext || "If forms aren't your thing, hello@omniranq.com lands in the same inbox and gets the same reply. We don't mind."
+  const emailCtaSubtext = content.email_cta_subtext || "If forms aren't your thing, hello@genranq.com lands in the same inbox and gets the same reply. We don't mind."
 
   return (
     <>

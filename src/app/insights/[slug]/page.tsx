@@ -29,9 +29,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     ['/insights/' + slug]
   )
   if (!post) return { title: 'Post Not Found', robots: { index: false } }
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://genranq.com'
   return {
-    title: `${post.title} — Omniranq`,
+    title: `${post.title} — Gen Ranq`,
     description: post.description,
     alternates: { canonical: `${base}/insights/${slug}` },
     openGraph: {
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: post.description,
       url: `${base}/insights/${slug}`,
       type: 'article',
-      siteName: 'Omniranq',
+      siteName: 'Gen Ranq',
     },
   }
 }

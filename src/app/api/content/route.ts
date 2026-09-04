@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { query, queryOne } from '@/lib/db'
 
-const API_KEY = process.env.CONTENT_API_KEY || 'omniranq-n8n-secret'
+const API_KEY = process.env.CONTENT_API_KEY || 'genranq-n8n-secret'
 
 function authenticate(req: NextRequest): boolean {
   const key = req.headers.get('x-api-key') || req.headers.get('authorization')?.replace('Bearer ', '')

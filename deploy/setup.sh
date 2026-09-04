@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Hostinger VPS Auto-Setup & Deployment Script for Omniranq Next.js Application
+# Hostinger VPS Auto-Setup & Deployment Script for Gen Ranq Next.js Application
 # Target OS: Ubuntu 22.04 / 24.04 LTS or Debian 11 / 12
 # ==============================================================================
 
@@ -14,7 +14,7 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 echo -e "${CYAN}=====================================================${NC}"
-echo -e "${CYAN}   Omniranq Hostinger VPS Automated Setup Script     ${NC}"
+echo -e "${CYAN}   Gen Ranq Hostinger VPS Automated Setup Script     ${NC}"
 echo -e "${CYAN}=====================================================${NC}"
 
 # Check root/sudo
@@ -53,8 +53,8 @@ echo -e "\n${YELLOW}>> [4/8] Configuring MySQL Database...${NC}"
 systemctl start mysql
 systemctl enable mysql
 
-DB_NAME="omniranq"
-DB_USER="omniranq_user"
+DB_NAME="genranq"
+DB_USER="genranq_user"
 
 # Generate or read DB Password
 if [ -f "$APP_DIR/.env.local" ] && grep -q "DB_PASSWORD=" "$APP_DIR/.env.local"; then
@@ -98,7 +98,7 @@ SMTP_PORT=587
 SMTP_SECURE=false
 SMTP_USER=
 SMTP_PASS=
-NOTIFY_EMAIL=hello@omniranq.com
+NOTIFY_EMAIL=hello@genranq.com
 
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 EOF

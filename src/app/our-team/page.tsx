@@ -30,7 +30,7 @@ const teamMembers = [
     role: 'Founder & Head of AI Search / GEO',
     experience: '12+ yrs experience',
     focus: 'LLM Citations, Knowledge Graph & Algorithm Reverse Engineering',
-    bio: 'Former technical lead at global publisher networks. Tomás pioneered Omniranq’s proprietary GEO framework, analyzing over 100,000 AI search citations across Perplexity, ChatGPT, and Google AI Overviews.',
+    bio: 'Former technical lead at global publisher networks. Tomás pioneered Gen Ranq’s proprietary GEO framework, analyzing over 100,000 AI search citations across Perplexity, ChatGPT, and Google AI Overviews.',
     gradient: 'linear-gradient(135deg, #ff5a1f 0%, #ff8c42 100%)',
     avatarChar: 'TB',
     linkedin: 'https://linkedin.com',

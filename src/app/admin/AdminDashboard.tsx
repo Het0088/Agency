@@ -70,7 +70,10 @@ function LoginScreen() {
   return (
     <div className="adm-login-wrap">
       <form className="adm-login" onSubmit={handleLogin}>
-        <div className="adm-login-brand">Omniranq</div>
+        <div className="adm-login-brand" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+          <img src="/logo-icon.png" alt="Gen Ranq" style={{ height: 38, width: 'auto' }} />
+          <span>Gen Ranq</span>
+        </div>
         <h1>Admin Portal</h1>
         <div className="adm-field">
           <label htmlFor="adm-pass">Password</label>
@@ -317,7 +320,7 @@ function MetaEditPanel({ page, onSaved }: { page: LivePage; onSaved: (p: LivePag
 
           <div className="seo-edit-field">
             <label className="seo-meta-label">Canonical URL</label>
-            <input className="seo-edit-input" value={form.canonical} onChange={field('canonical')} placeholder="https://omniranq.com/page" />
+            <input className="seo-edit-input" value={form.canonical} onChange={field('canonical')} placeholder="https://genranq.com/page" />
           </div>
 
           <details className="seo-og-toggle">
@@ -333,7 +336,7 @@ function MetaEditPanel({ page, onSaved }: { page: LivePage; onSaved: (p: LivePag
               </div>
               <div className="seo-edit-field">
                 <label className="seo-meta-label">OG Image URL</label>
-                <input className="seo-edit-input" value={form.og_image} onChange={e => { setForm(f => ({ ...f, og_image: e.target.value })); setStatus('idle') }} placeholder="https://omniranq.com/og-image.jpg (1200×630)" />
+                <input className="seo-edit-input" value={form.og_image} onChange={e => { setForm(f => ({ ...f, og_image: e.target.value })); setStatus('idle') }} placeholder="https://genranq.com/og-image.jpg (1200×630)" />
               </div>
             </div>
           </details>
@@ -1069,7 +1072,10 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
     <div className="adm-wrap">
       <header className="adm-header">
         <div className="adm-header-left">
-          <span className="adm-brand">Omniranq</span>
+          <span className="adm-brand" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <img src="/logo-icon.png" alt="Gen Ranq" style={{ height: 24, width: 'auto' }} />
+            <span>Gen Ranq</span>
+          </span>
           <span className="adm-badge">Admin</span>
         </div>
         <div className="adm-header-right">

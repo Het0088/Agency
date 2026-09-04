@@ -322,7 +322,7 @@ export default function TechnicalSeoClient({ content = {} }: Props) {
   const testimonials = [
     {
       quote:
-        'Omniranq was instrumental in scaling our company — our rankings and organic qualified leads improved remarkably within the first four months of technical remediation.',
+        'Gen Ranq was instrumental in scaling our company — our rankings and organic qualified leads improved remarkably within the first four months of technical remediation.',
       author: 'David Harrison',
       company: 'Founder & CEO',
       location: 'Agency, USA',

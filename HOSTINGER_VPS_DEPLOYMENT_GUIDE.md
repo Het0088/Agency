@@ -1,4 +1,4 @@
-# 🚀 Hostinger VPS Deployment Guide for Omniranq (Next.js + MySQL + PM2 + Nginx)
+# 🚀 Hostinger VPS Deployment Guide for Gen Ranq (Next.js + MySQL + PM2 + Nginx)
 
 This guide walks you through deploying this Next.js project onto your **Hostinger VPS** (Ubuntu 22.04 / 24.04 LTS).
 
@@ -52,7 +52,7 @@ sudo bash deploy/setup.sh
 **What this script automatically does:**
 - Updates your VPS packages.
 - Installs Node.js 20, Git, Nginx, MySQL, PM2, and Certbot.
-- Creates the `omniranq` MySQL database and imports all tables (`posts`, `page_content`, `page_meta`, `cities`).
+- Creates the `genranq` MySQL database and imports all tables (`posts`, `page_content`, `page_meta`, `cities`).
 - Creates `.env.local` with database credentials and sets `ADMIN_PASSWORD=Valga@123`.
 - Creates `public/uploads` with writable permissions for image uploads.
 - Compiles the Next.js production build (`npm run build`).
@@ -118,9 +118,9 @@ sudo mysql
 ```
 Inside the MySQL prompt:
 ```sql
-CREATE DATABASE IF NOT EXISTS omniranq CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER IF NOT EXISTS 'omniranq_user'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YourSecurePassword123!';
-GRANT ALL PRIVILEGES ON omniranq.* TO 'omniranq_user'@'localhost';
+CREATE DATABASE IF NOT EXISTS genranq CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER IF NOT EXISTS 'genranq_user'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YourSecurePassword123!';
+GRANT ALL PRIVILEGES ON genranq.* TO 'genranq_user'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 ```
@@ -128,7 +128,7 @@ EXIT;
 Import initial schema & sample data:
 ```bash
 cd /var/www/agency
-mysql -u omniranq_user -p'YourSecurePassword123!' omniranq < data/setup.sql
+mysql -u genranq_user -p'YourSecurePassword123!' genranq < data/setup.sql
 ```
 
 ### 4. Configure Environment Variables (`.env.local`)
@@ -139,13 +139,13 @@ Paste the following values:
 ```env
 DB_HOST=localhost
 DB_PORT=3306
-DB_USER=omniranq_user
+DB_USER=genranq_user
 DB_PASSWORD=YourSecurePassword123!
-DB_NAME=omniranq
+DB_NAME=genranq
 
 ADMIN_PASSWORD=Valga@123
-HMAC_SECRET=omniranq-session-key-2026-production
-CONTENT_API_KEY=omniranq-n8n-secret-key
+HMAC_SECRET=genranq-session-key-2026-production
+CONTENT_API_KEY=genranq-n8n-secret-key
 
 # Email configuration for contact forms
 SMTP_HOST=smtp.gmail.com
@@ -228,7 +228,7 @@ pm2 restart agency-web
 | **Restart Next.js App** | `pm2 restart agency-web` |
 | **Restart Nginx** | `sudo systemctl restart nginx` |
 | **Test Nginx Config** | `sudo nginx -t` |
-| **Access MySQL CLI** | `mysql -u omniranq_user -p omniranq` |
+| **Access MySQL CLI** | `mysql -u genranq_user -p genranq` |
 | **Renew SSL Certificate** | `sudo certbot renew` (Auto-renews automatically) |
 
 ---

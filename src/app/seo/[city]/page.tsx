@@ -27,8 +27,8 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
   const { city: slug } = await params
   const city = getCityBySlug(slug)
   if (!city) return {}
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://omniranq.com'
-  const title = `SEO Agency in ${city.cityName}, ${city.state} | Omniranq`
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://genranq.com'
+  const title = `SEO Agency in ${city.cityName}, ${city.state} | Gen Ranq`
   const description = `Top-rated SEO agency serving ${city.cityName}, ${city.state}. Get more traffic, leads, and revenue with proven local SEO strategies. Free audit available.`
   return {
     title,
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
       description,
       url: `${base}/seo/${slug}`,
       type: 'website',
-      siteName: 'Omniranq',
+      siteName: 'Gen Ranq',
     },
   }
 }

@@ -1,5 +1,5 @@
 /* ============================================
-   Omniranq — shared design system
+   Gen Ranq — shared design system
    ============================================ */
 
 :root {
@@ -251,10 +251,23 @@ h4 {
 }
 
 .logo-icon {
-  height: 55px;
+  height: 50px;
   width: auto;
   display: block;
   object-fit: contain;
+}
+
+.logo-img {
+  height: 46px;
+  width: auto;
+  max-width: 220px;
+  display: block;
+  object-fit: contain;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.logo:hover .logo-img {
+  transform: scale(1.02);
 }
 
 .logo-wordmark {
@@ -279,7 +292,8 @@ h4 {
   width: 0.28em;
 }
 
-.logo-omni {
+.logo-omni,
+.logo-gen {
   color: var(--ink);
 }
 

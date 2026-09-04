@@ -156,7 +156,7 @@ export const defaultContent: ContentBlock[] = [
   { page: '/', section: 'Testimonials', key: 'testi_1_quote', label: 'Testimonial 1 Quote', type: 'textarea', value: '"Within nine months we were ranking #1 for our three highest-intent keywords. The team didn\'t just deliver traffic — they helped us understand why it was working."' },
   { page: '/', section: 'Testimonials', key: 'testi_1_name', label: 'Testimonial 1 Name', type: 'text', value: 'Elena Marchetti' },
   { page: '/', section: 'Testimonials', key: 'testi_1_role', label: 'Testimonial 1 Role', type: 'text', value: 'Founder · Maple & Oak Roasters' },
-  { page: '/', section: 'Testimonials', key: 'testi_2_quote', label: 'Testimonial 2 Quote', type: 'textarea', value: '"We\'ve worked with three SEO agencies before. Omniranq is the first one that felt like a partner instead of a vendor sending PDFs into the void."' },
+  { page: '/', section: 'Testimonials', key: 'testi_2_quote', label: 'Testimonial 2 Quote', type: 'textarea', value: '"We\'ve worked with three SEO agencies before. Gen Ranq is the first one that felt like a partner instead of a vendor sending PDFs into the void."' },
   { page: '/', section: 'Testimonials', key: 'testi_2_name', label: 'Testimonial 2 Name', type: 'text', value: 'James Okafor' },
   { page: '/', section: 'Testimonials', key: 'testi_2_role', label: 'Testimonial 2 Role', type: 'text', value: 'CMO · Northbound Analytics' },
   { page: '/', section: 'Testimonials', key: 'testi_3_quote', label: 'Testimonial 3 Quote', type: 'textarea', value: '"They got us cited inside ChatGPT for our category before we even knew that was a thing you could optimize for. Clearly thinking three steps ahead."' },
@@ -188,7 +188,7 @@ export const defaultContent: ContentBlock[] = [
   { page: '/', section: 'FAQ', key: 'faq_4_a', label: 'FAQ 4 Answer', type: 'textarea', value: "It will if it's done right. The brands cited inside ChatGPT and Google AI Overviews are the brands with real authority, real content, real entity signals. AI hasn't replaced SEO; it's raised the bar. We've been optimizing for LLM citations since 2023." },
   { page: '/', section: 'FAQ', key: 'faq_5_q', label: 'FAQ 5 Question', type: 'text', value: 'Who actually does the work on my account?' },
   { page: '/', section: 'FAQ', key: 'faq_5_a', label: 'FAQ 5 Answer', type: 'textarea', value: 'A senior strategist with at least 8 years of SEO experience, supported by specialists in technical, content, and digital PR. Same lead strategist for the lifetime of your retainer.' },
-  { page: '/', section: 'FAQ', key: 'faq_6_q', label: 'FAQ 6 Question', type: 'text', value: 'What makes Omniranq different from other SEO agencies?' },
+  { page: '/', section: 'FAQ', key: 'faq_6_q', label: 'FAQ 6 Question', type: 'text', value: 'What makes Gen Ranq different from other SEO agencies?' },
   { page: '/', section: 'FAQ', key: 'faq_6_a', label: 'FAQ 6 Answer', type: 'textarea', value: 'We optimize for both traditional search and AI-driven retrieval. Most agencies still focus only on Google rankings. We ensure your brand is cited in ChatGPT, Perplexity, and Google AI Overviews alongside traditional organic results.' },
   { page: '/', section: 'FAQ', key: 'faq_7_q', label: 'FAQ 7 Question', type: 'text', value: 'Do you guarantee first-page rankings?' },
   { page: '/', section: 'FAQ', key: 'faq_7_a', label: 'FAQ 7 Answer', type: 'textarea', value: 'No. Anyone who guarantees rankings is lying or gaming. We guarantee a transparent process, consistent execution, and measurable progress. Our 4.9/5 rating across 412 reviews exists because we deliver results, not promises.' },
@@ -201,7 +201,7 @@ export const defaultContent: ContentBlock[] = [
 
   // ─── ABOUT PAGE ───
   { page: '/about', section: 'Hero', key: 'hero_heading', label: 'Page Heading', type: 'text', value: "We're 38 people who genuinely care if your phone rings." },
-  { page: '/about', section: 'Hero', key: 'hero_subtext', label: 'Page Subtext', type: 'textarea', value: 'Omniranq is a global SEO studio for ambitious small businesses. We started in a Melbourne garage in 2014, picked up offices in London and Bangalore, and have shipped SEO strategy for 600+ brands across 42 countries since.' },
+  { page: '/about', section: 'Hero', key: 'hero_subtext', label: 'Page Subtext', type: 'textarea', value: 'Gen Ranq is a global SEO studio for ambitious small businesses. We started in a Melbourne garage in 2014, picked up offices in London and Bangalore, and have shipped SEO strategy for 600+ brands across 42 countries since.' },
   { page: '/about', section: 'Our Story', key: 'story_heading', label: 'Story Heading', type: 'text', value: 'A studio, not an agency.' },
   { page: '/about', section: 'Our Story', key: 'story_para_1', label: 'Story Paragraph 1', type: 'textarea', value: 'We hate the word "agency." It carries everything we wanted to leave behind — bloated retainers, account managers passing notes, juniors learning on client budgets, decks dressed up as strategy.' },
   { page: '/about', section: 'Our Story', key: 'story_para_2', label: 'Story Paragraph 2', type: 'textarea', value: 'A studio is small, senior, and accountable. The person who pitches you is the person who works on you. Every account is owned by a strategist with eight or more years in the trenches — not a sales guy who hands you off.' },
@@ -378,7 +378,7 @@ export const defaultContent: ContentBlock[] = [
   // ─── CONTACT PAGE: Details ───
   { page: '/contact', section: 'Contact Info', key: 'direct_heading', label: 'Direct Heading', type: 'text', value: 'Or reach out directly.' },
   { page: '/contact', section: 'Contact Info', key: 'direct_sub', label: 'Direct Subtitle', type: 'text', value: 'The fastest way to get a real answer is the form on the left. But these go to humans, too.' },
-  { page: '/contact', section: 'Contact Info', key: 'direct_email', label: 'Direct Email', type: 'text', value: 'hello@omniranq.com' },
+  { page: '/contact', section: 'Contact Info', key: 'direct_email', label: 'Direct Email', type: 'text', value: 'hello@genranq.com' },
   { page: '/contact', section: 'Contact Info', key: 'direct_phone', label: 'Direct Phone', type: 'text', value: '+91 80 4567 4242' },
   { page: '/contact', section: 'Contact Info', key: 'next_eyebrow', label: 'Next steps eyebrow', type: 'text', value: 'What happens next' },
   { page: '/contact', section: 'Contact Info', key: 'next_step_1', label: 'Next Step 1', type: 'text', value: 'Within 4 hours — A senior strategist replies with 2-3 calendar slots.' },
@@ -397,12 +397,12 @@ export const defaultContent: ContentBlock[] = [
 
   // ─── CONTACT PAGE: Email CTA ───
   { page: '/contact', section: 'Email CTA', key: 'email_cta_heading', label: 'Email CTA Heading', type: 'text', value: 'Or just email us.' },
-  { page: '/contact', section: 'Email CTA', key: 'email_cta_subtext', label: 'Email CTA Subtext', type: 'textarea', value: "If forms aren't your thing, hello@omniranq.com lands in the same inbox and gets the same reply. We don't mind." },
+  { page: '/contact', section: 'Email CTA', key: 'email_cta_subtext', label: 'Email CTA Subtext', type: 'textarea', value: "If forms aren't your thing, hello@genranq.com lands in the same inbox and gets the same reply. We don't mind." },
 
   // ─── /services/seo: Hero ───
   { page: '/services/seo', section: 'Hero', key: 'hero_eyebrow', label: 'Eyebrow', type: 'text', value: 'AI-Powered SEO Studio · Est. 2014' },
   { page: '/services/seo', section: 'Hero', key: 'hero_heading', label: 'Heading', type: 'text', value: 'Search rankings driven by artificial intelligence.' },
-  { page: '/services/seo', section: 'Hero', key: 'hero_subtext', label: 'Subtext', type: 'textarea', value: 'Omniranq combines deep SEO expertise with AI tools to grow your organic traffic, authority, and revenue — faster than traditional methods alone.' },
+  { page: '/services/seo', section: 'Hero', key: 'hero_subtext', label: 'Subtext', type: 'textarea', value: 'Gen Ranq combines deep SEO expertise with AI tools to grow your organic traffic, authority, and revenue — faster than traditional methods alone.' },
   { page: '/services/seo', section: 'Hero', key: 'hero_cta1', label: 'Primary CTA', type: 'text', value: 'Get a Free SEO Audit' },
   { page: '/services/seo', section: 'Hero', key: 'hero_cta2', label: 'Secondary CTA', type: 'text', value: 'See How It Works' },
   { page: '/services/seo', section: 'Hero', key: 'hero_stat1_num', label: 'Stat 1 Number', type: 'text', value: '412%' },
@@ -423,13 +423,13 @@ export const defaultContent: ContentBlock[] = [
   { page: '/services/seo', section: 'Intro', key: 'intro_eyebrow', label: 'Eyebrow', type: 'text', value: 'Artificial Intelligence SEO' },
   { page: '/services/seo', section: 'Intro', key: 'intro_heading', label: 'Heading', type: 'text', value: 'AI SEO Services built for the modern search landscape.' },
   { page: '/services/seo', section: 'Intro', key: 'intro_p1', label: 'Paragraph 1', type: 'textarea', value: 'Over the past few years, one force has reshaped every business landscape — artificial intelligence. The kind of AI-driven applications emerging in SEO and digital marketing are unprecedented.' },
-  { page: '/services/seo', section: 'Intro', key: 'intro_p2', label: 'Paragraph 2', type: 'textarea', value: "When Google's AI Overviews, ChatGPT citations, and Perplexity search changed the rules, we were ready. Omniranq deploys proven AI-powered tools and strategies to put your brand in front of buyers — not just browsers." },
+  { page: '/services/seo', section: 'Intro', key: 'intro_p2', label: 'Paragraph 2', type: 'textarea', value: "When Google's AI Overviews, ChatGPT citations, and Perplexity search changed the rules, we were ready. Gen Ranq deploys proven AI-powered tools and strategies to put your brand in front of buyers — not just browsers." },
   { page: '/services/seo', section: 'Intro', key: 'intro_p3', label: 'Paragraph 3', type: 'textarea', value: 'If you want to stay ahead by investing in emerging technologies and revolutionary strategies, it is time to look at AI SEO.' },
   { page: '/services/seo', section: 'Intro', key: 'intro_cta', label: 'CTA Link', type: 'text', value: 'See our AI SEO process →' },
 
   // ─── /services/seo: Process ───
   { page: '/services/seo', section: 'Process', key: 'proc_eyebrow', label: 'Eyebrow', type: 'text', value: 'Our Method' },
-  { page: '/services/seo', section: 'Process', key: 'proc_heading', label: 'Heading', type: 'text', value: "Omniranq's AI SEO Process" },
+  { page: '/services/seo', section: 'Process', key: 'proc_heading', label: 'Heading', type: 'text', value: "Gen Ranq's AI SEO Process" },
   { page: '/services/seo', section: 'Process', key: 'proc_sub', label: 'Subtext', type: 'textarea', value: 'Our AI-driven SEO process is well-defined, structured in industry best practices, and tailored to the unique needs of each client.' },
   { page: '/services/seo', section: 'Process', key: 'proc_1_title', label: 'Step 1 Title', type: 'text', value: 'Understanding Your Business' },
   { page: '/services/seo', section: 'Process', key: 'proc_1_desc', label: 'Step 1 Desc', type: 'textarea', value: 'We begin by gaining a clear understanding of your business, industry, and objectives to ensure the strategy aligns with your growth goals.' },
@@ -445,9 +445,9 @@ export const defaultContent: ContentBlock[] = [
   { page: '/services/seo', section: 'Process', key: 'proc_6_desc', label: 'Step 6 Desc', type: 'textarea', value: 'We track your performance and refine the strategy as necessary, optimising results and achieving business goals systematically.' },
 
   // ─── /services/seo: Why Us ───
-  { page: '/services/seo', section: 'Why Us', key: 'whyus_eyebrow', label: 'Eyebrow', type: 'text', value: 'Why Omniranq' },
+  { page: '/services/seo', section: 'Why Us', key: 'whyus_eyebrow', label: 'Eyebrow', type: 'text', value: 'Why Gen Ranq' },
   { page: '/services/seo', section: 'Why Us', key: 'whyus_heading', label: 'Heading', type: 'text', value: 'World-class AI SEO. Real competitive advantage.' },
-  { page: '/services/seo', section: 'Why Us', key: 'whyus_sub', label: 'Subtext', type: 'textarea', value: 'Omniranq is a natural choice for ambitious brands looking for an AI marketing partner that manages the complexity of modern search without compromising on performance or precision.' },
+  { page: '/services/seo', section: 'Why Us', key: 'whyus_sub', label: 'Subtext', type: 'textarea', value: 'Gen Ranq is a natural choice for ambitious brands looking for an AI marketing partner that manages the complexity of modern search without compromising on performance or precision.' },
   { page: '/services/seo', section: 'Why Us', key: 'whyus_1_title', label: 'Card 1 Title', type: 'text', value: 'Genuine Enterprise Capabilities' },
   { page: '/services/seo', section: 'Why Us', key: 'whyus_1_desc', label: 'Card 1 Desc', type: 'textarea', value: 'We have built in-house AI capabilities that allow us to work on websites with thousands of pages and scale up our efforts as your business grows.' },
   { page: '/services/seo', section: 'Why Us', key: 'whyus_2_title', label: 'Card 2 Title', type: 'text', value: 'Expertise Across the Entire Search Landscape' },
@@ -464,7 +464,7 @@ export const defaultContent: ContentBlock[] = [
   // ─── /services/seo: AI Advantages ───
   { page: '/services/seo', section: 'AI Advantages', key: 'adv_eyebrow', label: 'Eyebrow', type: 'text', value: 'AI Advantage' },
   { page: '/services/seo', section: 'AI Advantages', key: 'adv_heading', label: 'Heading', type: 'text', value: 'AI makes SEO faster and more effective.' },
-  { page: '/services/seo', section: 'AI Advantages', key: 'adv_sub', label: 'Subtext', type: 'textarea', value: 'AI SEO services bring measurable advantages over traditional methods — here is what you gain when you partner with Omniranq.' },
+  { page: '/services/seo', section: 'AI Advantages', key: 'adv_sub', label: 'Subtext', type: 'textarea', value: 'AI SEO services bring measurable advantages over traditional methods — here is what you gain when you partner with Gen Ranq.' },
   { page: '/services/seo', section: 'AI Advantages', key: 'adv_1_title', label: 'Card 1 Title', type: 'text', value: 'Accelerated Keyword Research' },
   { page: '/services/seo', section: 'AI Advantages', key: 'adv_1_desc', label: 'Card 1 Desc', type: 'textarea', value: 'AI quickly identifies the best keyword opportunities, streamlining the research process and improving accuracy well beyond manual analysis.' },
   { page: '/services/seo', section: 'AI Advantages', key: 'adv_2_title', label: 'Card 2 Title', type: 'text', value: 'Optimised Content Recommendations' },
@@ -501,7 +501,7 @@ export const defaultContent: ContentBlock[] = [
   // ─── /services/seo: Sub-Services ───
   { page: '/services/seo', section: 'Sub-Services', key: 'svc_eyebrow', label: 'Eyebrow', type: 'text', value: 'Our SEO Services' },
   { page: '/services/seo', section: 'Sub-Services', key: 'svc_heading', label: 'Heading', type: 'text', value: 'Full-spectrum search optimisation.' },
-  { page: '/services/seo', section: 'Sub-Services', key: 'svc_sub', label: 'Subtext', type: 'textarea', value: 'The following SEO services from Omniranq help businesses rank higher, get cited more, and reach buyers across every modern search platform.' },
+  { page: '/services/seo', section: 'Sub-Services', key: 'svc_sub', label: 'Subtext', type: 'textarea', value: 'The following SEO services from Gen Ranq help businesses rank higher, get cited more, and reach buyers across every modern search platform.' },
   { page: '/services/seo', section: 'Sub-Services', key: 'svc_1_title', label: 'Service 1 Title', type: 'text', value: 'Technical SEO' },
   { page: '/services/seo', section: 'Sub-Services', key: 'svc_1_desc', label: 'Service 1 Desc', type: 'textarea', value: 'We fix crawl issues, indexation gaps, rendering problems, and Core Web Vitals — the foundation everything else is built on.' },
   { page: '/services/seo', section: 'Sub-Services', key: 'svc_2_title', label: 'Service 2 Title', type: 'text', value: 'Local SEO' },
@@ -517,7 +517,7 @@ export const defaultContent: ContentBlock[] = [
 
   // ─── /services/seo: Industries ───
   { page: '/services/seo', section: 'Industries', key: 'ind_eyebrow', label: 'Eyebrow', type: 'text', value: 'Industries We Work With' },
-  { page: '/services/seo', section: 'Industries', key: 'ind_heading', label: 'Heading', type: 'text', value: 'Omniranq delivers tailored SEO for businesses just like yours.' },
+  { page: '/services/seo', section: 'Industries', key: 'ind_heading', label: 'Heading', type: 'text', value: 'Gen Ranq delivers tailored SEO for businesses just like yours.' },
   { page: '/services/seo', section: 'Industries', key: 'ind_sub', label: 'Subtext', type: 'textarea', value: "We work with clients from over 300 different industries. Here are just some of the sectors we serve — if yours isn't listed, get in touch." },
   { page: '/services/seo', section: 'Industries', key: 'ind_1', label: 'Industry 1', type: 'text', value: 'Accountants SEO' },
   { page: '/services/seo', section: 'Industries', key: 'ind_2', label: 'Industry 2', type: 'text', value: 'Construction SEO' },
@@ -538,8 +538,8 @@ export const defaultContent: ContentBlock[] = [
 
   // ─── /services/seo: Testimonials ───
   { page: '/services/seo', section: 'Testimonials', key: 'testi_eyebrow', label: 'Eyebrow', type: 'text', value: 'Client Testimonials' },
-  { page: '/services/seo', section: 'Testimonials', key: 'testi_heading', label: 'Heading', type: 'text', value: 'What our clients say about Omniranq.' },
-  { page: '/services/seo', section: 'Testimonials', key: 'testi_sub', label: 'Subtext', type: 'textarea', value: "With hundreds of 5-star reviews, Omniranq can create a tailored plan to meet your company's online marketing goals — and deliver on it." },
+  { page: '/services/seo', section: 'Testimonials', key: 'testi_heading', label: 'Heading', type: 'text', value: 'What our clients say about Gen Ranq.' },
+  { page: '/services/seo', section: 'Testimonials', key: 'testi_sub', label: 'Subtext', type: 'textarea', value: "With hundreds of 5-star reviews, Gen Ranq can create a tailored plan to meet your company's online marketing goals — and deliver on it." },
   { page: '/services/seo', section: 'Testimonials', key: 'testi_count', label: 'Review Count', type: 'text', value: '480 Google Reviews' },
   { page: '/services/seo', section: 'Testimonials', key: 'testi_score', label: 'Review Score', type: 'text', value: '4.9' },
   { page: '/services/seo', section: 'Testimonials', key: 'rev_1_name', label: 'Review 1 Name', type: 'text', value: 'Nazir Mohammadi' },
@@ -547,7 +547,7 @@ export const defaultContent: ContentBlock[] = [
   { page: '/services/seo', section: 'Testimonials', key: 'rev_1_text', label: 'Review 1 Text', type: 'textarea', value: 'Extremely reliable and super friendly staff. The team helped us with our digital strategy. Would recommend to everyone who wants to get their SEO done properly.' },
   { page: '/services/seo', section: 'Testimonials', key: 'rev_2_name', label: 'Review 2 Name', type: 'text', value: "Hunter D'Angelis" },
   { page: '/services/seo', section: 'Testimonials', key: 'rev_2_time', label: 'Review 2 Time', type: 'text', value: '10 months ago' },
-  { page: '/services/seo', section: 'Testimonials', key: 'rev_2_text', label: 'Review 2 Text', type: 'textarea', value: 'The Omniranq team have been incredible to work with. From the very beginning they crafted a clear SEO strategy and have delivered measurable results month after month.' },
+  { page: '/services/seo', section: 'Testimonials', key: 'rev_2_text', label: 'Review 2 Text', type: 'textarea', value: 'The Gen Ranq team have been incredible to work with. From the very beginning they crafted a clear SEO strategy and have delivered measurable results month after month.' },
   { page: '/services/seo', section: 'Testimonials', key: 'rev_3_name', label: 'Review 3 Name', type: 'text', value: 'Sarah Mitchell' },
   { page: '/services/seo', section: 'Testimonials', key: 'rev_3_time', label: 'Review 3 Time', type: 'text', value: '3 months ago' },
   { page: '/services/seo', section: 'Testimonials', key: 'rev_3_text', label: 'Review 3 Text', type: 'textarea', value: "Our organic traffic grew by 280% in the first 90 days. The AI SEO approach is genuinely different — we're now appearing in ChatGPT and Google AI Overviews too." },
@@ -930,7 +930,7 @@ export const defaultContent: ContentBlock[] = [
   // ─── /resources/publications: Hero & Featured ───
   { page: '/resources/publications', section: 'Hero', key: 'topbar_text', label: 'Announcement Text', type: 'text', value: 'New Research: The 2026 Generative Engine Optimization Benchmark Study is live.' },
   { page: '/resources/publications', section: 'Hero', key: 'topbar_link', label: 'Announcement Link', type: 'text', value: 'Download free PDF →' },
-  { page: '/resources/publications', section: 'Hero', key: 'hero_badge', label: 'Hero Badge', type: 'text', value: 'Omniranq Research Lab' },
+  { page: '/resources/publications', section: 'Hero', key: 'hero_badge', label: 'Hero Badge', type: 'text', value: 'Gen Ranq Research Lab' },
   { page: '/resources/publications', section: 'Hero', key: 'hero_title', label: 'Hero Title', type: 'text', value: 'Publications, Research & Search Playbooks' },
   { page: '/resources/publications', section: 'Hero', key: 'hero_lede', label: 'Hero Description', type: 'textarea', value: 'Original benchmark studies, technical white papers, and forensic teardowns written by senior SEO engineers. No fluff, pure empirical data.' },
   { page: '/resources/publications', section: 'Featured', key: 'featured_title', label: 'Featured Title', type: 'text', value: 'The State of Generative Engine Optimization (GEO) & AI Search 2026' },

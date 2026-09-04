@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
-  title: 'Blog & SEO Playbooks — Omniranq',
+  title: 'Blog & SEO Playbooks — Gen Ranq',
   description: 'In-depth tactical guides, playbooks, and teardowns on modern SEO, AI search, and GEO.',
-  alternates: { canonical: 'https://omniranq.com/insights' },
+  alternates: { canonical: 'https://genranq.com/insights' },
 }
 
 export default function ResourcesBlogPage() {

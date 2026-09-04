@@ -38,7 +38,7 @@ const CREATE_TABLE = `
     title VARCHAR(500) NOT NULL,
     description TEXT,
     content MEDIUMTEXT,
-    author VARCHAR(200) NOT NULL DEFAULT 'Omniranq Team',
+    author VARCHAR(200) NOT NULL DEFAULT 'Gen Ranq Team',
     read_time VARCHAR(50) DEFAULT '5 min',
     slug VARCHAR(200) NOT NULL UNIQUE,
     cover_gradient VARCHAR(20) DEFAULT 'g1',

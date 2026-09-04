@@ -281,7 +281,7 @@ export default async function ServicesPage() {
             <p className="sub">{compareSubtext}</p>
           </div>
           <div className="compare reveal">
-            <div className="compare-row head"><div>What you get</div><div className="col-us">Omniranq</div><div>Most agencies</div></div>
+            <div className="compare-row head"><div>What you get</div><div className="col-us">Gen Ranq</div><div>Most agencies</div></div>
             {compareRows.map((r) => (
               <div className="compare-row" key={r.lab}>
                 <div className="lab">{r.lab}</div>

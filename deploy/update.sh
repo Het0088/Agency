@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Omniranq VPS Quick Update Script
+# Gen Ranq VPS Quick Update Script
 # Run this script whenever you push new changes to GitHub and want to update the VPS
 # ==============================================================================
 

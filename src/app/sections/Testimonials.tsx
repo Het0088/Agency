@@ -1,7 +1,7 @@
 export default function TestimonialsSection({ content }: { content?: Record<string, string> }) {
   const testimonials = [
     { stars: '★★★★★', q: content?.testi_1_quote || '"Within nine months we were ranking #1 for our three highest-intent keywords. The team didn\'t just deliver traffic — they helped us understand why it was working."', name: content?.testi_1_name || 'Elena Marchetti', role: content?.testi_1_role || 'Founder · Maple & Oak Roasters', initial: (content?.testi_1_name || 'Elena')[0] },
-    { stars: '★★★★★', q: content?.testi_2_quote || '"We\'ve worked with three SEO agencies before. Omniranq is the first one that felt like a partner instead of a vendor sending PDFs into the void."', name: content?.testi_2_name || 'James Okafor', role: content?.testi_2_role || 'CMO · Northbound Analytics', initial: (content?.testi_2_name || 'James')[0], feature: true },
+    { stars: '★★★★★', q: content?.testi_2_quote || '"We\'ve worked with three SEO agencies before. Gen Ranq is the first one that felt like a partner instead of a vendor sending PDFs into the void."', name: content?.testi_2_name || 'James Okafor', role: content?.testi_2_role || 'CMO · Northbound Analytics', initial: (content?.testi_2_name || 'James')[0], feature: true },
     { stars: '★★★★★', q: content?.testi_3_quote || '"They got us cited inside ChatGPT for our category before we even knew that was a thing you could optimize for. Clearly thinking three steps ahead."', name: content?.testi_3_name || 'Priya Raghavan', role: content?.testi_3_role || 'Head of Growth · Habitat Goods Co.', initial: (content?.testi_3_name || 'Priya')[0] },
   ]
 
