@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!post) return { title: 'Post Not Found', robots: { index: false } }
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://genranq.com'
   return {
-    title: `${post.title} — Gen Ranq`,
+    title: post.title,
     description: post.description,
     alternates: { canonical: `${base}/insights/${slug}` },
     openGraph: {

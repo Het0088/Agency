@@ -159,8 +159,22 @@ const openRoles = [
 export default async function OurTeamPage() {
   const c = await getContent('/our-team')
 
+  const breadcrumbsSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://genranq.com' },
+      { '@type': 'ListItem', position: 2, name: 'About', item: 'https://genranq.com/about' },
+      { '@type': 'ListItem', position: 3, name: 'Our Team', item: 'https://genranq.com/our-team' },
+    ],
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
       <Topbar
         text={c.topbar_text || 'Now hiring senior technical SEOs and GEO research engineers.'}
         linkText={c.topbar_link || 'View open positions →'}
@@ -173,6 +187,15 @@ export default async function OurTeamPage() {
         <section className="team-hero">
           <div className="wrap">
             <div className="team-hero-inner">
+              <nav aria-label="Breadcrumb" style={{ marginBottom: 14 }}>
+                <ol style={{ display: 'inline-flex', alignItems: 'center', gap: 8, listStyle: 'none', padding: 0, margin: 0, fontSize: 13, color: 'var(--ink-soft)' }}>
+                  <li><Link href="/" style={{ color: 'var(--ink)', textDecoration: 'none' }}>Home</Link></li>
+                  <li>/</li>
+                  <li><Link href="/about" style={{ color: 'var(--ink)', textDecoration: 'none' }}>About</Link></li>
+                  <li>/</li>
+                  <li aria-current="page" style={{ color: 'var(--accent)', fontWeight: 600 }}>Our Team</li>
+                </ol>
+              </nav>
               <span className="team-badge">{c.hero_badge || 'The Practitioners'}</span>
               <h1 className="team-title">
                 {c.hero_title ? (

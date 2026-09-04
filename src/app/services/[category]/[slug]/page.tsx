@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const svc = getSubService(category, slug)
   if (!svc) return {}
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://genranq.com'
-  const title = `${svc.title} Services — Gen Ranq`
+  const title = `${svc.title} Services`
   const description = svc.metaDescription || `${svc.desc.slice(0, 155)}...`
   return {
     title,
@@ -39,10 +39,26 @@ export default async function SubServicePage({ params }: { params: Promise<{ cat
   const svc = getSubService(category, slug)
   if (!svc) notFound()
 
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://genranq.com'
   const siblings = getSubServicesByCategory(category).filter(s => s.slug !== slug)
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${base}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${base}/services` },
+      { '@type': 'ListItem', position: 3, name: svc.parentTitle, item: `${base}/services/${category}` },
+      { '@type': 'ListItem', position: 4, name: svc.title, item: `${base}/services/${category}/${slug}` },
+    ],
+  }
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Topbar text={`Expert ${svc.title} services. Free audit available.`} linkText="Book →" linkHref="/contact" />
       <Nav active="services" />
 

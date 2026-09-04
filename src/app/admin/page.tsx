@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import AdminDashboard from './AdminDashboard'
 import { getTokenValue, getCookieName } from '@/lib/auth'
 
-export const metadata: Metadata = { title: 'Admin — Gen Ranq', robots: 'noindex, nofollow' }
+export const metadata: Metadata = { title: 'Admin', robots: 'noindex, nofollow' }
 
 export default async function AdminPage() {
   const jar = await cookies()

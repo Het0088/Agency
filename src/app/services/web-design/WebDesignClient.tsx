@@ -270,6 +270,15 @@ export default function WebDesignClient({ content = {} }: Props) {
           <div className="wd-hero-grid">
             {/* Left Content */}
             <div className="wd-hero-left reveal in">
+              <nav aria-label="Breadcrumb" style={{ marginBottom: 14 }}>
+                <ol style={{ display: 'inline-flex', alignItems: 'center', gap: 8, listStyle: 'none', padding: 0, margin: 0, fontSize: 13, color: 'var(--ink-soft)' }}>
+                  <li><Link href="/" style={{ color: 'var(--ink)', textDecoration: 'none' }}>Home</Link></li>
+                  <li>/</li>
+                  <li><Link href="/services" style={{ color: 'var(--ink)', textDecoration: 'none' }}>Services</Link></li>
+                  <li>/</li>
+                  <li aria-current="page" style={{ color: 'var(--accent)', fontWeight: 600 }}>Web Design</li>
+                </ol>
+              </nav>
               <span className="wd-badge"><IconSparkles /> {content.hero_badge || 'Bespoke Web Design & Shopify Studio'}</span>
               <h1 className="wd-hero-title">
                 {content.hero_title ? (

@@ -4,7 +4,7 @@ import { getPageMeta } from '@/lib/get-meta'
 export async function generateMetadata(): Promise<Metadata> {
   const m = await getPageMeta('/')
   return {
-    title: m.title,
+    title: { absolute: m.title },
     description: m.description,
     alternates: { canonical: m.canonical },
     openGraph: { title: m.og_title, description: m.og_description, url: m.canonical, type: 'website', ...(m.og_image ? { images: [{ url: m.og_image }] } : {}) },

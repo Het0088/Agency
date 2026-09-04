@@ -25,8 +25,22 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function TechnicalSeoPage() {
   const content = await getContent('/services/seo/technical-seo')
 
+  const breadcrumbsSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://genranq.com' },
+      { '@type': 'ListItem', position: 2, name: 'SEO Services', item: 'https://genranq.com/services/seo' },
+      { '@type': 'ListItem', position: 3, name: 'Technical SEO', item: 'https://genranq.com/services/seo/technical-seo' },
+    ],
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
       <Topbar
         text={content.topbar_text || 'Specialist Technical Audit: Surface hidden crawl & Core Web Vitals bottlenecks.'}
         linkText={content.topbar_link || 'Request free audit →'}

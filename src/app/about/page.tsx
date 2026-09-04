@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { getPageMeta } from '@/lib/get-meta'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -166,14 +167,27 @@ export default async function AboutPage() {
   const ctaText = content.cta_text || "Book a 30-minute intro call with the strategist who would lead your account. No sales reps, no decks — just the person who'd actually do the work."
   const ctaBtn = content.cta_btn || 'Book your intro call'
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://genranq.com/' },
+      { '@type': 'ListItem', position: 2, name: 'About', item: 'https://genranq.com/about' },
+    ],
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Topbar text="We're hiring 3 senior strategists." linkText="See roles →" linkHref="#careers" />
       <Nav active="about" />
 
       <header className="page-hero">
         <div className="wrap">
-          <div className="crumb">Home / About</div>
+          <div className="crumb"><Link href="/">Home</Link> / About</div>
           <h1 dangerouslySetInnerHTML={{ __html: heroHeading.replace('phone rings.', '<em>phone rings.</em>') }} />
           <p>{heroSubtext}</p>
         </div>
@@ -247,6 +261,11 @@ export default async function AboutPage() {
                 <div className="member-role">{m.role}</div>
               </div>
             ))}
+          </div>
+          <div className="reveal" style={{ textAlign: 'center', marginTop: 40 }}>
+            <Link href="/our-team" className="btn btn-dark">
+              Meet our full leadership &amp; engineering team →
+            </Link>
           </div>
         </div>
       </section>

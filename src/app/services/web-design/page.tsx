@@ -20,8 +20,22 @@ import WebDesignClient from './WebDesignClient'
 export default async function WebDesignPage() {
   const c = await getContent('/services/web-design')
 
+  const breadcrumbsSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://genranq.com' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://genranq.com/services' },
+      { '@type': 'ListItem', position: 3, name: 'Web Design', item: 'https://genranq.com/services/web-design' },
+    ],
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
       <Topbar
         text={c.topbar_text || 'Websites built for search & conversion from day one.'}
         linkText={c.topbar_link || 'Get free proposal →'}

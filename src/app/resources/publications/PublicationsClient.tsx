@@ -134,6 +134,15 @@ export default function PublicationsClient({ content = {} }: Props) {
       <section className="pub-hero">
         <div className="wrap">
           <div className="pub-hero-inner">
+            <nav aria-label="Breadcrumb" style={{ marginBottom: 14 }}>
+              <ol style={{ display: 'inline-flex', alignItems: 'center', gap: 8, listStyle: 'none', padding: 0, margin: 0, fontSize: 13, color: 'var(--ink-soft)' }}>
+                <li><Link href="/" style={{ color: 'var(--ink)', textDecoration: 'none' }}>Home</Link></li>
+                <li>/</li>
+                <li><Link href="/insights" style={{ color: 'var(--ink)', textDecoration: 'none' }}>Resources</Link></li>
+                <li>/</li>
+                <li aria-current="page" style={{ color: 'var(--accent)', fontWeight: 600 }}>Publications &amp; Research</li>
+              </ol>
+            </nav>
             <span className="pub-badge">{content.hero_badge || 'Gen Ranq Research Lab'}</span>
             <h1 className="pub-title">
               {content.hero_title ? (
