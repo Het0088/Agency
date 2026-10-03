@@ -30,6 +30,8 @@ export default function Footer() {
               <li><Link href="/services/seo">SEO Services</Link></li>
               <li><Link href="/services/seo/technical-seo">Technical SEO</Link></li>
               <li><Link href="/services/ai-search">AI Search &amp; GEO</Link></li>
+              <li><Link href="/services/web-development">Web Development</Link></li>
+              <li><Link href="/hire-resource">Hire Dedicated Developers</Link></li>
               <li><Link href="/services/content-marketing">Content Marketing</Link></li>
               <li><Link href="/services/web-design">Web Design</Link></li>
               <li><Link href="/services/ppc">PPC &amp; Paid Ads</Link></li>
@@ -43,6 +45,8 @@ export default function Footer() {
             <ul>
               <li><Link href="/about">About</Link></li>
               <li><Link href="/our-team">Our Team</Link></li>
+              <li><Link href="/hire-resource">Hire Developers</Link></li>
+              <li><Link href="/resources/news">Company News</Link></li>
               <li><Link href="/resources/publications">Publications &amp; Research</Link></li>
               <li><Link href="/resources/blog">Blog &amp; Insights</Link></li>
               <li><Link href="/#work">Case Studies</Link></li>

@@ -56,13 +56,13 @@ const serviceCategories = [
     ],
   },
   {
-    title: 'Web Design',
-    href: '/services/web-design',
+    title: 'Web Design & Dev',
+    href: '/services/web-development',
     items: [
-      { label: 'Custom Web Design', href: '/services/web-design/custom' },
-      { label: 'WordPress Design', href: '/services/web-design/wordpress' },
-      { label: 'E-commerce Design', href: '/services/web-design/ecommerce' },
-      { label: 'Website Redesign', href: '/services/web-design/redesign' },
+      { label: 'Website Development', href: '/services/web-development' },
+      { label: 'Custom Web Design', href: '/services/web-design' },
+      { label: 'Shopify & E-commerce', href: '/services/web-design' },
+      { label: 'Hire Dedicated Developers', href: '/hire-resource' },
     ],
   },
   {
@@ -190,6 +190,7 @@ export default function Nav({ active }: { active?: string }) {
               </div>
             </div>
           </li>
+          <li><Link href="/hire-resource" className={active === 'hire' ? 'active' : ''}>Hire Developers</Link></li>
           <li><Link href="/about" className={active === 'about' ? 'active' : ''}>About</Link></li>
           <li><Link href="/our-team" className={active === 'team' ? 'active' : ''}>Our Team</Link></li>
           <li><Link href="/#work">Work</Link></li>
@@ -214,6 +215,13 @@ export default function Nav({ active }: { active?: string }) {
                   <div>
                     <strong>Blog &amp; Insights</strong>
                     <span>Guides, deep-dives &amp; tactical SEO playbooks</span>
+                  </div>
+                </Link>
+                <Link href="/resources/news" className="nav-dropdown-item" onClick={() => setResourcesOpen(false)}>
+                  <span className="nav-dropdown-icon"><IconFileText /></span>
+                  <div>
+                    <strong>News &amp; Press Releases</strong>
+                    <span>Company milestones &amp; announcements</span>
                   </div>
                 </Link>
                 <Link href="/resources/publications" className="nav-dropdown-item" onClick={() => setResourcesOpen(false)}>

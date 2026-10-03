@@ -126,5 +126,37 @@
     "published": 1,
     "created_at": "2026-03-08T10:00:00.000Z",
     "updated_at": "2026-03-08T10:00:00.000Z"
+  },
+  {
+    "id": "ai-search-small-businesses",
+    "type": "blog",
+    "tag": "AI Search",
+    "title": "AI Search for Small Businesses: What Gets You Cited vs What Gets You Ignored",
+    "description": "A forensic teardown of how ChatGPT, Google AI Overviews, Perplexity, and Claude select sources to cite — and what small businesses must do.",
+    "content": "<p>A forensic teardown of how ChatGPT, Google AI Overviews, Perplexity, and Claude select sources to cite — and the 4 structural changes small businesses must make to get recommended.</p>",
+    "author": "Tomás Beltrán",
+    "read_time": "9 min",
+    "slug": "/insights/ai-search-small-businesses",
+    "cover_gradient": "g1",
+    "featured": 1,
+    "published": 1,
+    "created_at": "2026-10-01T10:00:00.000Z",
+    "updated_at": "2026-10-01T10:00:00.000Z"
+  },
+  {
+    "id": "vadodara-delivery-centre",
+    "type": "news",
+    "tag": "Company News",
+    "title": "GENRANQ Crosses 120 Engineers and Opens New Delivery Centre in Vadodara",
+    "description": "State-of-the-art 18,000 sq ft campus expands engineering capacity across AI Search optimization, full-stack web platforms, and client pods.",
+    "content": "<p>GENRANQ Software LLP announces the opening of its state-of-the-art 18,000 sq ft delivery centre in Vadodara, Gujarat, expanding engineering capacity past 120 full-time specialists.</p>",
+    "author": "Priya Nair",
+    "read_time": "4 min",
+    "slug": "/resources/news/vadodara-delivery-centre",
+    "cover_gradient": "g2",
+    "featured": 1,
+    "published": 1,
+    "created_at": "2026-10-02T10:00:00.000Z",
+    "updated_at": "2026-10-02T10:00:00.000Z"
   }
 ]

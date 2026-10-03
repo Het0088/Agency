@@ -707,11 +707,22 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                 <span className="ic">⚡</span>
                 <span>Database & Health</span>
               </a>
+              <a
+                href="/admin-cms.html"
+                target="_blank"
+                rel="noopener"
+                style={{ color: '#FF5A1F', fontWeight: 600 }}
+              >
+                <span className="ic">★</span>
+                <span>CMS v3 (39 Sections) ↗</span>
+                <span className="tag" style={{ marginLeft: 'auto', background: '#FF5A1F', color: '#fff', border: 'none' }}>v3</span>
+              </a>
             </div>
           </nav>
 
           <div className="side-foot">
             <a href="/" target="_blank" rel="noopener">View website ↗</a>
+            <a href="/admin-cms.html" target="_blank" rel="noopener" style={{ color: '#FF5A1F' }}>Launch CMS v3 ↗</a>
             <a href="/sitemap.xml" target="_blank" rel="noopener">sitemap.xml ↗</a>
           </div>
         </aside>
@@ -730,6 +741,9 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
 
             <div className="quick">
               <a href="#" onClick={e => { e.preventDefault(); handleQuickNewPost() }}>+ New Post</a>
+              <a href="/admin-cms.html" target="_blank" rel="noopener" style={{ background: '#FFE8DC', borderColor: '#FF5A1F', color: '#E94A10' }}>
+                Open CMS v3 ↗
+              </a>
               <a href="/" target="_blank" rel="noopener">View Site ↗</a>
               <a href="#" onClick={e => { e.preventDefault(); fetchPosts(); fetchLeads(); notify('Refreshed latest data') }}>↻ Refresh</a>
             </div>
