@@ -1,0 +1,74 @@
+[
+  {
+    "slug": "seo-services-new-york",
+    "city_name": "New York",
+    "state": "NY",
+    "country": "United States",
+    "service": "SEO Services",
+    "active": true
+  },
+  {
+    "slug": "seo-services-dubai",
+    "city_name": "Dubai",
+    "state": "Dubai",
+    "country": "UAE",
+    "service": "SEO Services",
+    "active": true
+  },
+  {
+    "slug": "seo-services-melbourne",
+    "city_name": "Melbourne",
+    "state": "Victoria",
+    "country": "Australia",
+    "service": "SEO Services",
+    "active": true
+  },
+  {
+    "slug": "seo-services-london",
+    "city_name": "London",
+    "state": "England",
+    "country": "United Kingdom",
+    "service": "SEO Services",
+    "active": true
+  },
+  {
+    "slug": "seo-services-surat",
+    "city_name": "Surat",
+    "state": "Gujarat",
+    "country": "India",
+    "service": "SEO Services",
+    "active": true
+  },
+  {
+    "slug": "seo-services-vadodara",
+    "city_name": "Vadodara",
+    "state": "Gujarat",
+    "country": "India",
+    "service": "SEO Services",
+    "active": true
+  },
+  {
+    "slug": "seo-services-ahmedabad",
+    "city_name": "Ahmedabad",
+    "state": "Gujarat",
+    "country": "India",
+    "service": "SEO Services",
+    "active": true
+  },
+  {
+    "slug": "seo-services-delhi",
+    "city_name": "Delhi",
+    "state": "Delhi",
+    "country": "India",
+    "service": "SEO Services",
+    "active": true
+  },
+  {
+    "slug": "seo-services-mumbai",
+    "city_name": "Mumbai",
+    "state": "Maharashtra",
+    "country": "India",
+    "service": "SEO Services",
+    "active": true
+  }
+]

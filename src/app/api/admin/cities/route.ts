@@ -1,14 +1,48 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { query } from '@/lib/db'
-import { isAuthenticated } from '@/lib/auth'
 import * as XLSX from 'xlsx'
+import { query, queryOne } from '@/lib/db'
+import { isAuthenticated } from '@/lib/auth'
+import fs from 'fs'
+import path from 'path'
+
+const CITIES_FILE = path.join(process.cwd(), 'src', 'data', 'cities.json')
+
+function readLocalCities(): any[] {
+  try {
+    if (fs.existsSync(CITIES_FILE)) {
+      return JSON.parse(fs.readFileSync(CITIES_FILE, 'utf-8'))
+    }
+  } catch {}
+  return []
+}
+
+function writeLocalCities(data: any[]) {
+  try {
+    fs.writeFileSync(CITIES_FILE, JSON.stringify(data, null, 2), 'utf-8')
+  } catch (err) {
+    console.error('Failed to write local cities:', err)
+  }
+}
+
+function sanitize(val: unknown, maxLen = 2000): string {
+  if (typeof val !== 'string') return ''
+  return val.trim().slice(0, maxLen)
+}
+
+function makeSlug(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 150)
+}
 
 const CREATE_TABLE = `
   CREATE TABLE IF NOT EXISTS cities (
     slug VARCHAR(200) PRIMARY KEY,
     city_name VARCHAR(200) NOT NULL,
-    state VARCHAR(100) NOT NULL DEFAULT '',
-    country VARCHAR(100) NOT NULL DEFAULT '',
+    state VARCHAR(100) DEFAULT '',
+    country VARCHAR(100) NOT NULL DEFAULT 'United States',
     service VARCHAR(200) NOT NULL DEFAULT 'SEO Services',
     hero_heading TEXT,
     hero_subheading TEXT,
@@ -22,31 +56,14 @@ const CREATE_TABLE = `
     testimonial_name VARCHAR(200),
     testimonial_role VARCHAR(200),
     testimonial_quote TEXT,
-    active TINYINT(1) NOT NULL DEFAULT 1,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_active (active),
-    INDEX idx_country (country)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    INDEX idx_country_state (country, state),
+    INDEX idx_service (service)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 `
-
-function sanitize(val: unknown, maxLen = 2000): string {
-  if (typeof val !== 'string') return ''
-  return val.trim().slice(0, maxLen)
-}
-
-function makeSlug(name: string): string {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 200)
-}
-
-function dbErr(e: unknown) {
-  const msg = e instanceof Error ? e.message : 'Database error'
-  const isConn = msg.includes('ECONNREFUSED') || msg.includes('ENOTFOUND') || msg.includes('ETIMEDOUT')
-  return NextResponse.json(
-    { error: isConn ? 'Database not connected' : msg },
-    { status: 503 }
-  )
-}
 
 const HEADER_MAP: Record<string, string> = {
   slug: 'slug', city: 'city_name', cityname: 'city_name', city_name: 'city_name',
@@ -76,13 +93,12 @@ export async function GET(req: NextRequest) {
     await query(CREATE_TABLE, [])
     const rows = await query('SELECT * FROM cities ORDER BY country, state, city_name', [])
     return NextResponse.json({ cities: rows, dbConnected: true })
-  } catch (e) {
+  } catch {
+    const list = readLocalCities()
     return NextResponse.json({
-      cities: [],
+      cities: list,
       dbConnected: false,
-      dbWarning: e instanceof Error && (e.message.includes('ECONNREFUSED') || e.message.includes('ENOTFOUND'))
-        ? 'Database not connected.'
-        : (e instanceof Error ? e.message : 'Database error'),
+      dbWarning: 'Using local file storage.'
     })
   }
 }
@@ -96,7 +112,6 @@ export async function POST(req: NextRequest) {
 
   if (contentType.includes('multipart/form-data')) {
     try {
-      await query(CREATE_TABLE, [])
       const formData = await req.formData()
       const file = formData.get('file') as File | null
       if (!file) return NextResponse.json({ error: 'No file uploaded' }, { status: 400 })
@@ -126,6 +141,8 @@ export async function POST(req: NextRequest) {
       let updated = 0
       let skipped = 0
 
+      const localList = readLocalCities()
+
       for (const row of raw) {
         const normalized: Record<string, string> = {}
         for (const [k, v] of Object.entries(row)) {
@@ -137,52 +154,78 @@ export async function POST(req: NextRequest) {
 
         const slug = normalized.slug || makeSlug(cityName + (normalized.state ? '-' + normalized.state : ''))
 
-        const existing = await query<{ slug: string }>('SELECT slug FROM cities WHERE slug = ?', [slug])
-
-        const params = [
-          slug,
-          sanitize(cityName, 200),
-          sanitize(normalized.state, 100),
-          sanitize(normalized.country, 100),
-          sanitize(normalized.service, 200) || 'SEO Services',
-          sanitize(normalized.hero_heading, 2000),
-          sanitize(normalized.hero_subheading, 2000),
-          sanitize(normalized.description, 5000),
-          sanitize(normalized.meta_title, 500),
-          sanitize(normalized.meta_description, 2000),
-          sanitize(normalized.phone, 50),
-          sanitize(normalized.address, 500),
-          sanitize(normalized.population, 20),
-          sanitize(normalized.local_keywords, 2000),
-          sanitize(normalized.testimonial_name, 200),
-          sanitize(normalized.testimonial_role, 200),
-          sanitize(normalized.testimonial_quote, 2000),
-        ]
-
-        if (existing.length) {
-          await query(
-            `UPDATE cities SET city_name=?, state=?, country=?, service=?, hero_heading=?, hero_subheading=?,
-             description=?, meta_title=?, meta_description=?, phone=?, address=?, population=?,
-             local_keywords=?, testimonial_name=?, testimonial_role=?, testimonial_quote=?,
-             updated_at=CURRENT_TIMESTAMP WHERE slug=?`,
-            [...params.slice(1), slug]
-          )
-          updated++
-        } else {
-          await query(
-            `INSERT INTO cities (slug, city_name, state, country, service, hero_heading, hero_subheading,
-             description, meta_title, meta_description, phone, address, population,
-             local_keywords, testimonial_name, testimonial_role, testimonial_quote)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            params
-          )
-          inserted++
+        try {
+          await query(CREATE_TABLE, [])
+          const existing = await query<{ slug: string }>('SELECT slug FROM cities WHERE slug = ?', [slug])
+          if (existing.length) {
+            await query(
+              `UPDATE cities SET city_name=?, state=?, country=?, service=?, hero_heading=?, hero_subheading=?,
+               description=?, meta_title=?, meta_description=?, phone=?, address=?, population=?,
+               local_keywords=?, testimonial_name=?, testimonial_role=?, testimonial_quote=?
+               WHERE slug=?`,
+              [
+                cityName, normalized.state || '', normalized.country || 'United States', normalized.service || 'SEO Services',
+                normalized.hero_heading || '', normalized.hero_subheading || '', normalized.description || '',
+                normalized.meta_title || '', normalized.meta_description || '', normalized.phone || '',
+                normalized.address || '', normalized.population || '', normalized.local_keywords || '',
+                normalized.testimonial_name || '', normalized.testimonial_role || '', normalized.testimonial_quote || '',
+                slug
+              ]
+            )
+            updated++
+          } else {
+            await query(
+              `INSERT INTO cities (slug, city_name, state, country, service, hero_heading, hero_subheading,
+               description, meta_title, meta_description, phone, address, population,
+               local_keywords, testimonial_name, testimonial_role, testimonial_quote, active)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
+              [
+                slug, cityName, normalized.state || '', normalized.country || 'United States', normalized.service || 'SEO Services',
+                normalized.hero_heading || '', normalized.hero_subheading || '', normalized.description || '',
+                normalized.meta_title || '', normalized.meta_description || '', normalized.phone || '',
+                normalized.address || '', normalized.population || '', normalized.local_keywords || '',
+                normalized.testimonial_name || '', normalized.testimonial_role || '', normalized.testimonial_quote || ''
+              ]
+            )
+            inserted++
+          }
+        } catch {
+          // Local fallback
+          const idx = localList.findIndex(c => c.slug === slug)
+          const record = {
+            slug,
+            city_name: cityName,
+            state: normalized.state || '',
+            country: normalized.country || 'United States',
+            service: normalized.service || 'SEO Services',
+            hero_heading: normalized.hero_heading || '',
+            hero_subheading: normalized.hero_subheading || '',
+            description: normalized.description || '',
+            meta_title: normalized.meta_title || '',
+            meta_description: normalized.meta_description || '',
+            phone: normalized.phone || '',
+            address: normalized.address || '',
+            population: normalized.population || '',
+            local_keywords: normalized.local_keywords || '',
+            testimonial_name: normalized.testimonial_name || '',
+            testimonial_role: normalized.testimonial_role || '',
+            testimonial_quote: normalized.testimonial_quote || '',
+            active: true
+          }
+          if (idx >= 0) {
+            localList[idx] = record
+            updated++
+          } else {
+            localList.push(record)
+            inserted++
+          }
         }
       }
 
+      writeLocalCities(localList)
       return NextResponse.json({ ok: true, inserted, updated, skipped, total: raw.length })
-    } catch (e) {
-      return dbErr(e)
+    } catch {
+      return NextResponse.json({ error: 'Spreadsheet import failed' }, { status: 500 })
     }
   }
 
@@ -214,7 +257,7 @@ export async function POST(req: NextRequest) {
         slug,
         cityName,
         sanitize(body.state, 100),
-        sanitize(body.country, 100),
+        sanitize(body.country, 100) || 'United States',
         sanitize(body.service, 200) || 'SEO Services',
         sanitize(body.hero_heading, 2000),
         sanitize(body.hero_subheading, 2000),
@@ -231,10 +274,36 @@ export async function POST(req: NextRequest) {
         body.active === false ? 0 : 1,
       ]
     )
-    return NextResponse.json({ ok: true, slug })
-  } catch (e) {
-    return dbErr(e)
+  } catch {
+    const list = readLocalCities()
+    const idx = list.findIndex(c => c.slug === slug)
+    const rec = {
+      slug,
+      city_name: cityName,
+      state: sanitize(body.state, 100),
+      country: sanitize(body.country, 100) || 'United States',
+      service: sanitize(body.service, 200) || 'SEO Services',
+      hero_heading: sanitize(body.hero_heading, 2000),
+      hero_subheading: sanitize(body.hero_subheading, 2000),
+      description: sanitize(body.description, 5000),
+      meta_title: sanitize(body.meta_title, 500),
+      meta_description: sanitize(body.meta_description, 2000),
+      phone: sanitize(body.phone, 50),
+      address: sanitize(body.address, 500),
+      population: sanitize(body.population, 20),
+      local_keywords: sanitize(body.local_keywords, 2000),
+      testimonial_name: sanitize(body.testimonial_name, 200),
+      testimonial_role: sanitize(body.testimonial_role, 200),
+      testimonial_quote: sanitize(body.testimonial_quote, 2000),
+      active: body.active !== false,
+      updated_at: new Date().toISOString()
+    }
+    if (idx >= 0) list[idx] = rec
+    else list.unshift(rec)
+    writeLocalCities(list)
   }
+
+  return NextResponse.json({ ok: true, slug })
 }
 
 export async function PUT(req: NextRequest) {
@@ -288,10 +357,20 @@ export async function PUT(req: NextRequest) {
   try {
     params.push(slug)
     await query(`UPDATE cities SET ${fields.join(', ')} WHERE slug = ?`, params)
-    return NextResponse.json({ ok: true, slug })
-  } catch (e) {
-    return dbErr(e)
+  } catch {
+    const list = readLocalCities()
+    const idx = list.findIndex(c => c.slug === slug)
+    if (idx >= 0) {
+      list[idx] = {
+        ...list[idx],
+        ...body,
+        updated_at: new Date().toISOString()
+      }
+      writeLocalCities(list)
+    }
   }
+
+  return NextResponse.json({ ok: true, slug })
 }
 
 export async function DELETE(req: NextRequest) {
@@ -307,11 +386,11 @@ export async function DELETE(req: NextRequest) {
   if (!slug) return NextResponse.json({ error: 'slug required' }, { status: 422 })
 
   try {
-    const result = await query('DELETE FROM cities WHERE slug = ?', [slug])
-    const affected = (result as unknown as { affectedRows?: number })?.affectedRows
-    if (!affected) return NextResponse.json({ error: 'City not found' }, { status: 404 })
-    return NextResponse.json({ ok: true, removed: slug })
-  } catch (e) {
-    return dbErr(e)
+    await query('DELETE FROM cities WHERE slug = ?', [slug])
+  } catch {
+    const list = readLocalCities()
+    writeLocalCities(list.filter(c => c.slug !== slug))
   }
+
+  return NextResponse.json({ ok: true, removed: slug })
 }

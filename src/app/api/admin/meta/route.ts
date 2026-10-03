@@ -3,6 +3,27 @@ import { revalidatePath } from 'next/cache'
 import { query, queryOne } from '@/lib/db'
 import { isAuthenticated } from '@/lib/auth'
 import { pageMetas } from '@/lib/page-metas'
+import fs from 'fs'
+import path from 'path'
+
+const META_FILE = path.join(process.cwd(), 'src', 'data', 'page-meta.json')
+
+function readLocalMeta(): Record<string, Record<string, string>> {
+  try {
+    if (fs.existsSync(META_FILE)) {
+      return JSON.parse(fs.readFileSync(META_FILE, 'utf-8'))
+    }
+  } catch {}
+  return {}
+}
+
+function writeLocalMeta(data: Record<string, Record<string, string>>) {
+  try {
+    fs.writeFileSync(META_FILE, JSON.stringify(data, null, 2), 'utf-8')
+  } catch (err) {
+    console.error('Failed to write local meta:', err)
+  }
+}
 
 const CREATE_TABLE = `
   CREATE TABLE IF NOT EXISTS page_meta (
@@ -16,15 +37,6 @@ const CREATE_TABLE = `
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   )
 `
-
-function dbErr(e: unknown) {
-  const msg = e instanceof Error ? e.message : 'Database error'
-  const isConn = msg.includes('ECONNREFUSED') || msg.includes('ENOTFOUND')
-  return NextResponse.json(
-    { error: isConn ? 'Database not connected — set DB_HOST in .env.local' : msg },
-    { status: 503 }
-  )
-}
 
 function staticPages(map: Record<string, Record<string, string>> = {}) {
   return pageMetas
@@ -54,15 +66,13 @@ export async function GET(req: NextRequest) {
     const rows = await query<Record<string, string>>('SELECT * FROM page_meta', [])
     const map: Record<string, Record<string, string>> = {}
     for (const row of rows) map[row.route] = row
-    return NextResponse.json({ pages: staticPages(map) })
-  } catch (e) {
-    const full = String(e) + (e instanceof Error ? ' ' + e.message : '')
-    const isConn = full.includes('ECONNREFUSED') || full.includes('ENOTFOUND') || full.includes('ETIMEDOUT') || full.includes('AggregateError')
+    return NextResponse.json({ pages: staticPages(map), dbConnected: true })
+  } catch {
+    const local = readLocalMeta()
     return NextResponse.json({
-      pages: staticPages(),
-      dbWarning: isConn
-        ? 'Database not connected. Connect your Hostinger MySQL to enable saving.'
-        : (e instanceof Error ? e.message : 'Database error'),
+      pages: staticPages(local),
+      dbConnected: false,
+      dbWarning: 'Using local file storage.'
     })
   }
 }
@@ -90,11 +100,23 @@ export async function PUT(req: NextRequest) {
          updated_at=CURRENT_TIMESTAMP`,
       [route, title, description || '', canonical || '', og_title || title, og_description || description || '', og_image || '']
     )
-    revalidatePath(route)
-    return NextResponse.json({ ok: true })
-  } catch (e) {
-    return dbErr(e)
+  } catch {
+    // Local fallback
+    const local = readLocalMeta()
+    local[route] = {
+      route,
+      title,
+      description: description || '',
+      canonical: canonical || '',
+      og_title: og_title || title,
+      og_description: og_description || description || '',
+      og_image: og_image || '',
+    }
+    writeLocalMeta(local)
   }
+
+  try { revalidatePath(route) } catch {}
+  return NextResponse.json({ ok: true })
 }
 
 export async function DELETE(req: NextRequest) {
@@ -108,9 +130,12 @@ export async function DELETE(req: NextRequest) {
 
   try {
     await query('DELETE FROM page_meta WHERE route = ?', [body.route])
-    revalidatePath(body.route)
-    return NextResponse.json({ ok: true })
-  } catch (e) {
-    return dbErr(e)
+  } catch {
+    const local = readLocalMeta()
+    delete local[body.route]
+    writeLocalMeta(local)
   }
+
+  try { revalidatePath(body.route) } catch {}
+  return NextResponse.json({ ok: true })
 }

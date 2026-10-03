@@ -1,5 +1,31 @@
 [
   {
+    "id": "lead-1791028454965",
+    "name": "Sarah Lin",
+    "email": "client.real.1791028454@acmecorp.com",
+    "phone": "+91 98200 12345",
+    "company": "Acme Global Digital",
+    "website": "https://acmeglobal.com",
+    "service": "AI Search Optimization & GEO",
+    "budget": "$10k - $25k",
+    "message": "We need to get our proprietary SaaS software cited in ChatGPT and Perplexity. Please contact us immediately.",
+    "status": "contacted",
+    "created_at": "2026-10-03T11:54:14.903Z"
+  },
+  {
+    "id": "lead-1791028188171",
+    "name": "Alexander Vance",
+    "email": "client.test.1791028188@enterprise.com",
+    "phone": "+1 415 555 0199",
+    "company": "Vance Bio-Analytics",
+    "website": "https://vancebio.example.com",
+    "service": "AI Search Optimization & GEO",
+    "budget": "$10,000 - $25,000",
+    "message": "We need to get our proprietary clinical diagnostics platform indexed and cited in Perplexity and ChatGPT. Please schedule an audit call.",
+    "status": "contacted",
+    "created_at": "2026-10-03T11:49:48.131Z"
+  },
+  {
     "id": "lead-1",
     "name": "David Sterling",
     "email": "david.sterling@nexuscloud.io",
