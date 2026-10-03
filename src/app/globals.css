@@ -3,6 +3,23 @@
    ============================================ */
 
 :root {
+  --orange: #FF5A1F;
+  --orange-600: #E94A10;
+  --orange-soft: #FFE8DC;
+  --ink-2: #1B211D;
+  --cream: #F9F6EF;
+  --line: #E9E3D6;
+  --line-dark: #2C332E;
+
+  --f-display: 'Fraunces', Georgia, serif;
+  --f-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --f-logo: 'Chakra Petch', 'Plus Jakarta Sans', sans-serif;
+
+  --font-serif: var(--f-display);
+  --font-body: var(--f-body);
+  --font-mono: var(--f-mono);
+  --font-logo: var(--f-logo);
   --bg: #ffffff;
   --surface: #faf7f0;
   --surface-2: #f3eee2;
@@ -47,7 +64,7 @@ html {
 }
 
 body {
-  font-family: 'Geist', 'Söhne', system-ui, -apple-system, sans-serif;
+  font-family: var(--f-body);
   font-size: 16px;
   line-height: 1.55;
   color: var(--ink);
@@ -86,32 +103,34 @@ h2,
 h3,
 h4 {
   margin: 0;
-  font-weight: 500;
+  font-family: var(--f-display);
+  font-weight: 400;
   letter-spacing: -0.02em;
-  line-height: 1.05;
+  line-height: 1.08;
+  font-variation-settings: "opsz" 144;
 }
 
 .serif {
-  font-family: 'Instrument Serif', 'Times New Roman', serif;
+  font-family: var(--f-display);
   font-weight: 400;
   letter-spacing: -0.01em;
 }
 
 .serif-i {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-style: italic;
   font-weight: 400;
 }
 
 .mono {
-  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-family: var(--f-mono);
 }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -243,7 +262,7 @@ h4 {
   color: var(--accent);
   display: grid;
   place-items: center;
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   font-style: italic;
   line-height: 1;
@@ -278,7 +297,7 @@ h4 {
 }
 
 .logo-name {
-  font-family: 'Geist', system-ui, sans-serif;
+  font-family: var(--f-body);
   font-size: 28px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -311,7 +330,7 @@ h4 {
 
 .logo-tagline {
   display: block;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 8.5px;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -455,7 +474,7 @@ h4 {
 }
 
 .mega-sidebar-head h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 26px;
   font-weight: 400;
   line-height: 1.25;
@@ -480,7 +499,7 @@ h4 {
 }
 
 .mega-stat-num {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 28px;
   color: var(--accent);
 }
@@ -964,7 +983,7 @@ h4 {
 }
 
 .hero h1 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-weight: 400;
   font-size: clamp(48px, 7vw, 88px);
   line-height: 0.96;
@@ -1061,7 +1080,7 @@ h4 {
 }
 
 .hv-tag {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -1069,14 +1088,14 @@ h4 {
 }
 
 .hv-title {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   margin-top: 6px;
   letter-spacing: -0.01em;
 }
 
 .hv-pill {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   background: var(--ink);
   color: var(--dark-ink);
@@ -1126,7 +1145,7 @@ h4 {
 
 .hv-row .pos {
   color: var(--ink-soft);
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
 }
 
@@ -1187,7 +1206,7 @@ h4 {
 }
 
 .hero-card-tag {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -1196,7 +1215,7 @@ h4 {
 }
 
 .hero-card-pill {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   background: var(--ink);
   color: var(--dark-ink);
@@ -1278,7 +1297,7 @@ h4 {
 
 .logos-label {
   text-align: center;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1295,7 +1314,7 @@ h4 {
 }
 
 .logo-item {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   color: var(--ink-soft);
   opacity: 0.65;
@@ -1309,7 +1328,7 @@ h4 {
 }
 
 .logo-item .sub {
-  font-family: 'Geist', sans-serif;
+  font-family: var(--f-body);
   font-size: 10px;
   color: var(--ink-mute);
   display: block;
@@ -1343,7 +1362,7 @@ h4 {
 }
 
 .stat-num {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(48px, 6vw, 80px);
   line-height: 1;
   letter-spacing: -0.02em;
@@ -1397,7 +1416,7 @@ h4 {
 }
 
 .sec-head h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(40px, 5vw, 64px);
   line-height: 1;
   font-weight: 400;
@@ -1503,7 +1522,7 @@ h4 {
 }
 
 .why-seo-num {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   color: var(--ink-mute);
   position: absolute;
@@ -1513,7 +1532,7 @@ h4 {
 }
 
 .why-seo-card h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 20px;
   font-weight: 400;
   line-height: 1.2;
@@ -1594,7 +1613,7 @@ h4 {
 }
 
 .ovn-num {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   color: var(--ink-mute);
 }
@@ -1699,7 +1718,7 @@ h4 {
 }
 
 .seo-proc-num {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 48px;
   font-weight: 400;
   color: var(--ink);
@@ -1709,7 +1728,7 @@ h4 {
 }
 
 .seo-proc-card h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 19px;
   font-weight: 400;
   line-height: 1.2;
@@ -1776,7 +1795,7 @@ h4 {
 }
 
 .service-num {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
   color: var(--ink-mute);
   margin-bottom: 32px;
@@ -1784,7 +1803,7 @@ h4 {
 }
 
 .service h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 30px;
   line-height: 1.05;
   margin-bottom: 12px;
@@ -1880,7 +1899,7 @@ h4 {
 }
 
 .ai-block h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(40px, 5.5vw, 72px);
   line-height: 1;
   font-weight: 400;
@@ -1949,7 +1968,7 @@ h4 {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   color: var(--dark-ink-soft);
 }
@@ -1969,7 +1988,7 @@ h4 {
 
 .ai-visual-body {
   padding: 24px;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 13px;
   line-height: 1.7;
 }
@@ -2052,7 +2071,7 @@ h4 {
   border: 1px solid var(--border);
   display: grid;
   place-items: center;
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 26px;
   color: var(--ink);
   margin-bottom: 24px;
@@ -2122,7 +2141,7 @@ h4 {
 }
 
 .case-tag {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -2131,7 +2150,7 @@ h4 {
 }
 
 .case-name {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 28px;
   line-height: 1.05;
   margin-bottom: 6px;
@@ -2154,7 +2173,7 @@ h4 {
 }
 
 .case-metric .num {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 36px;
   line-height: 1;
   color: var(--ink);
@@ -2216,7 +2235,7 @@ h4 {
 }
 
 .testi .q {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   line-height: 1.3;
   color: var(--ink);
@@ -2241,7 +2260,7 @@ h4 {
   color: var(--accent-ink);
   display: grid;
   place-items: center;
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 18px;
   flex-shrink: 0;
 }
@@ -2309,14 +2328,14 @@ h4 {
 }
 
 .why-num {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
   color: var(--ink-mute);
   padding-top: 6px;
 }
 
 .why-name {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 26px;
   line-height: 1.05;
   font-weight: 400;
@@ -2484,7 +2503,7 @@ h4 {
 }
 
 .ab-entry-num {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
   color: var(--ink-mute);
   padding-top: 2px;
@@ -2498,7 +2517,7 @@ h4 {
 }
 
 .ab-entry-tag {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -2508,7 +2527,7 @@ h4 {
 }
 
 .ab-entry-content h4 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 20px;
   font-weight: 400;
   line-height: 1.2;
@@ -2608,7 +2627,7 @@ h4 {
   padding: 28px 0;
   cursor: pointer;
   list-style: none;
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 24px;
   font-weight: 400;
   color: var(--ink);
@@ -2726,7 +2745,7 @@ h4 {
 }
 
 .pricing-card-head h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 30px;
   font-weight: 400;
   color: var(--ink);
@@ -2741,7 +2760,7 @@ h4 {
 }
 
 .pricing-price {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 44px;
   font-weight: 400;
   color: var(--ink);
@@ -2908,7 +2927,7 @@ h4 {
 }
 
 .big-cta h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(40px, 6vw, 80px);
   line-height: 0.98;
   font-weight: 400;
@@ -2971,7 +2990,7 @@ h4 {
 }
 
 .footer-col h4 {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -3165,7 +3184,7 @@ h4 {
 }
 
 .marquee-item {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 28px;
   display: flex;
   align-items: center;
@@ -3194,7 +3213,7 @@ h4 {
 }
 
 .page-hero .crumb {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
   color: var(--ink-soft);
   text-transform: uppercase;
@@ -3203,7 +3222,7 @@ h4 {
 }
 
 .page-hero h1 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-weight: 400;
   font-size: clamp(48px, 7vw, 96px);
   line-height: 1.02;
@@ -3276,7 +3295,7 @@ h4 {
 }
 
 .timeline .yr {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
   color: var(--accent);
   text-transform: uppercase;
@@ -3285,7 +3304,7 @@ h4 {
 }
 
 .timeline h4 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   font-weight: 400;
   margin-bottom: 6px;
@@ -3314,14 +3333,14 @@ h4 {
 }
 
 .value-num {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
   color: var(--accent);
   margin-bottom: 16px;
 }
 
 .value h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 26px;
   font-weight: 400;
   margin-bottom: 10px;
@@ -3363,7 +3382,7 @@ h4 {
   border: 1px solid var(--border);
   display: grid;
   place-items: center;
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 56px;
   color: var(--ink-mute);
   margin-bottom: 16px;
@@ -3379,7 +3398,7 @@ h4 {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 4px 10px;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -3387,7 +3406,7 @@ h4 {
 }
 
 .member-name {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   font-weight: 400;
   letter-spacing: -0.01em;
@@ -3422,7 +3441,7 @@ h4 {
 }
 
 .deliv-num {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 44px;
   color: var(--accent);
   line-height: 1;
@@ -3431,7 +3450,7 @@ h4 {
 }
 
 .deliv h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 24px;
   font-weight: 400;
   margin-bottom: 10px;
@@ -3542,7 +3561,7 @@ h4 {
 }
 
 .mid-cta-text h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 26px;
   font-weight: 400;
   margin-bottom: 6px;
@@ -3598,14 +3617,14 @@ h4 {
 }
 
 .engage-card h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 28px;
   font-weight: 400;
   margin: 0;
 }
 
 .engage-price {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   color: var(--ink);
 }
@@ -3664,14 +3683,14 @@ h4 {
 }
 
 .tool {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   color: var(--ink-soft);
   letter-spacing: -0.01em;
 }
 
 .tool .sub {
-  font-family: 'Geist', sans-serif;
+  font-family: var(--f-body);
   font-size: 11px;
   color: var(--ink-mute);
   display: block;
@@ -3717,7 +3736,7 @@ h4 {
 }
 
 .field label {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -3826,7 +3845,7 @@ h4 {
 }
 
 .contact-info h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 28px;
   font-weight: 400;
   margin-bottom: 8px;
@@ -3849,7 +3868,7 @@ h4 {
 }
 
 .contact-row .lab {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -3881,7 +3900,7 @@ h4 {
 }
 
 .office .city {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 28px;
   font-weight: 400;
   margin-bottom: 4px;
@@ -3926,14 +3945,14 @@ h4 {
 }
 
 .press-item .num {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 40px;
   line-height: 1;
   color: var(--ink);
 }
 
 .press-item .lab {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -3963,7 +3982,7 @@ h4 {
 }
 
 .svc-rank-num {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   color: var(--ink-mute);
 }
@@ -3978,14 +3997,14 @@ h4 {
 }
 
 .svc-rank-vol {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   color: var(--ink-soft);
   text-align: right;
 }
 
 .svc-rank-delta {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   color: var(--green);
   background: rgba(26, 107, 77, 0.1);
@@ -4013,7 +4032,7 @@ h4 {
 }
 
 .compare-row.head {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -4067,7 +4086,7 @@ h4 {
 }
 
 .state-stat .num {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(48px, 5vw, 72px);
   line-height: 1;
   color: var(--ink);
@@ -4129,14 +4148,14 @@ h4 {
 }
 
 .ind .ind-icon {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   color: var(--accent);
   margin-bottom: 12px;
 }
 
 .ind h4 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   font-weight: 400;
   letter-spacing: -0.01em;
@@ -4198,7 +4217,7 @@ h4 {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -4210,7 +4229,7 @@ h4 {
 }
 
 .blog-feature h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(32px, 4vw, 48px);
   line-height: 1.1;
   font-weight: 400;
@@ -4278,7 +4297,7 @@ h4 {
 }
 
 .cat-pill .ct {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   margin-left: 6px;
   opacity: 0.6;
@@ -4359,7 +4378,7 @@ h4 {
   position: absolute;
   top: 16px;
   left: 16px;
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 28px;
   color: rgba(255, 255, 255, 0.92);
   z-index: 1;
@@ -4370,7 +4389,7 @@ h4 {
 
 .post .tag {
   display: inline-flex;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -4379,7 +4398,7 @@ h4 {
 }
 
 .post h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 24px;
   font-weight: 400;
   line-height: 1.15;
@@ -4459,7 +4478,7 @@ h4 {
 }
 
 .newsletter h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(36px, 4.5vw, 56px);
   line-height: 1;
   font-weight: 400;
@@ -4565,7 +4584,7 @@ h4 {
 }
 
 .city-hero h1 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-weight: 400;
   font-size: clamp(42px, 6vw, 80px);
   line-height: 1;
@@ -4634,7 +4653,7 @@ h4 {
 }
 
 .article-hero h1 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-weight: 400;
   font-size: clamp(32px, 5vw, 52px);
   line-height: 1.12;
@@ -4665,7 +4684,7 @@ h4 {
   color: var(--accent);
   display: grid;
   place-items: center;
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 20px;
   font-style: italic;
   flex-shrink: 0;
@@ -4787,7 +4806,7 @@ h4 {
 }
 
 .toc-num {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   color: var(--accent);
   min-width: 28px;
@@ -4795,7 +4814,7 @@ h4 {
 }
 
 .article-body h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 32px;
   font-weight: 400;
   letter-spacing: -0.01em;
@@ -4809,7 +4828,7 @@ h4 {
 }
 
 .article-body h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   font-weight: 400;
   margin: 32px 0 12px;
@@ -4858,7 +4877,7 @@ h4 {
 }
 
 .article-cta-inline h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   color: var(--bg);
   font-size: 26px;
   font-weight: 400;
@@ -4900,7 +4919,7 @@ h4 {
 }
 
 .svc-page-hero h1 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-weight: 400;
   font-size: clamp(36px, 5vw, 56px);
   line-height: 1.08;
@@ -4944,7 +4963,7 @@ h4 {
 }
 
 .svc-page-stat-num {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 36px;
   color: var(--ink);
   line-height: 1;
@@ -4973,7 +4992,7 @@ h4 {
 }
 
 .svc-detail-num {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
   color: var(--accent);
   background: rgba(255, 90, 31, 0.08);
@@ -4984,7 +5003,7 @@ h4 {
 }
 
 .svc-detail-head h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 32px;
   font-weight: 400;
   line-height: 1.15;
@@ -5083,7 +5102,7 @@ h4 {
 }
 
 .svc-card-num {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
   color: var(--ink-mute);
   background: var(--surface);
@@ -5120,7 +5139,7 @@ h4 {
 }
 
 .svc-card h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 28px;
   font-weight: 400;
   line-height: 1.1;
@@ -5161,7 +5180,7 @@ h4 {
 
 .svc-card-tag {
   font-size: 11px;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   padding: 4px 10px;
@@ -5289,7 +5308,7 @@ h4 {
 }
 
 .sub-svc-feat-num {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   color: var(--accent);
   background: rgba(255, 90, 31, 0.08);
@@ -5347,7 +5366,7 @@ h4 {
 }
 
 .svc-cat-title {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(28px, 3.5vw, 36px);
   color: var(--ink);
   text-decoration: none;
@@ -5981,7 +6000,7 @@ h4 {
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 13px;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
 }
 
 .seo-how-to {
@@ -6062,7 +6081,7 @@ h4 {
 }
 
 .seo-page-route {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 13px;
   font-weight: 600;
   color: #ff5a1f;
@@ -6081,7 +6100,7 @@ h4 {
   background: #f3f4f6;
   padding: 2px 8px;
   border-radius: 20px;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
 }
 
 .seo-page-header-right {
@@ -6092,7 +6111,7 @@ h4 {
 }
 
 .seo-page-file {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   color: #9ca3af;
   background: #f3f4f6;
@@ -6153,7 +6172,7 @@ h4 {
 .seo-meta-chars {
   font-size: 11px;
   color: #9ca3af;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
 }
 
 .seo-copy-btn {
@@ -6191,7 +6210,7 @@ h4 {
 }
 
 .seo-code-header code {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
   color: #ff5a1f;
   background: none;
@@ -6202,7 +6221,7 @@ h4 {
   padding: 16px 14px;
   background: #111827;
   color: #e5e7eb;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
   line-height: 1.7;
   overflow-x: auto;
@@ -6223,7 +6242,7 @@ h4 {
 
 .seo-char-hint {
   font-size: 11px;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-weight: 600;
 }
 
@@ -6635,7 +6654,7 @@ h4 {
   background: #fee2e2;
   padding: 1px 5px;
   border-radius: 3px;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
 }
 
@@ -6663,13 +6682,13 @@ h4 {
   background: #fef3c7;
   padding: 1px 5px;
   border-radius: 3px;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
 }
 
 .seo-db-warning-keys {
   opacity: 0.7;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
 }
 
@@ -7373,11 +7392,11 @@ h4 {
   padding: 6px 14px;
   border-radius: 4px;
   margin-bottom: 20px;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
 }
 
 .ref-hero-copy h1 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(36px, 5vw, 56px);
   font-weight: 400;
   line-height: 1.08;
@@ -7416,7 +7435,7 @@ h4 {
 }
 
 .ref-stat-num {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 32px;
   color: var(--ink);
   line-height: 1;
@@ -7495,7 +7514,7 @@ h4 {
 }
 
 .ref-contact-copy h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(26px, 3vw, 34px);
   font-weight: 400;
   color: var(--dark-ink);
@@ -7615,7 +7634,7 @@ h4 {
 }
 
 .ref-intro-text h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(28px, 3.5vw, 40px);
   font-weight: 400;
   color: var(--ink);
@@ -7661,7 +7680,7 @@ h4 {
 }
 
 .ref-process-header h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(28px, 4vw, 42px);
   font-weight: 400;
   line-height: 1.15;
@@ -7699,7 +7718,7 @@ h4 {
   font-weight: 800;
   color: rgba(255,255,255,0.06);
   line-height: 1;
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
 }
 
 .ref-process-icon {
@@ -7741,7 +7760,7 @@ h4 {
 }
 
 .ref-features-header h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(28px, 3.5vw, 40px);
   font-weight: 400;
   color: var(--ink);
@@ -7898,7 +7917,7 @@ h4 {
 }
 
 .ref-rules-header h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(36px, 5vw, 52px);
   font-weight: 400;
   color: var(--ink);
@@ -7932,7 +7951,7 @@ h4 {
 
 .ref-rules-col-label {
   padding: 14px 24px;
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -7977,7 +7996,7 @@ h4 {
 }
 
 .ref-cell-num {
-  font-family: 'Geist Mono', monospace;
+  font-family: var(--f-mono);
   font-size: 12px;
   color: var(--ink-mute);
   font-weight: 600;
@@ -8009,7 +8028,7 @@ h4 {
 }
 
 .ref-industries-header h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(24px, 3vw, 34px);
   font-weight: 400;
   color: var(--ink);
@@ -8084,7 +8103,7 @@ h4 {
 }
 
 .ref-testimonials-header h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: clamp(24px, 3vw, 34px);
   font-weight: 400;
   color: var(--ink);
@@ -8238,7 +8257,7 @@ h4 {
 }
 
 .ref-faq-header h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 28px;
   font-weight: 400;
   color: var(--ink);
@@ -8359,7 +8378,7 @@ h4 {
 }
 
 .wd-hero-title {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 52px;
   line-height: 1.12;
   font-weight: 400;
@@ -8494,7 +8513,7 @@ h4 {
 }
 
 .wd-form-head h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 26px;
   font-weight: 400;
   color: var(--ink);
@@ -8656,7 +8675,7 @@ h4 {
 }
 
 .wd-trust-item {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   color: var(--ink);
   opacity: 0.65;
@@ -8681,7 +8700,7 @@ h4 {
 }
 
 .wd-statement-card h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 42px;
   line-height: 1.2;
   font-weight: 400;
@@ -8808,7 +8827,7 @@ h4 {
 }
 
 .wd-screen-hero h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 26px;
   line-height: 1.25;
   color: var(--bg);
@@ -8851,7 +8870,7 @@ h4 {
 
 .wd-metric-val {
   display: block;
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   color: var(--accent);
 }
@@ -8913,7 +8932,7 @@ h4 {
 }
 
 .wd-mid-banner-text h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 32px;
   font-weight: 400;
   color: var(--bg);
@@ -8990,7 +9009,7 @@ h4 {
 }
 
 .wd-svc-card h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 24px;
   font-weight: 400;
   color: var(--ink);
@@ -9200,7 +9219,7 @@ h4 {
 }
 
 .wd-port-content h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 26px;
   font-weight: 400;
   color: var(--ink);
@@ -9346,7 +9365,7 @@ h4 {
 }
 
 .pub-title {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 52px;
   line-height: 1.12;
   font-weight: 400;
@@ -9506,7 +9525,7 @@ h4 {
 }
 
 .pub-featured-content h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 32px;
   line-height: 1.2;
   font-weight: 400;
@@ -9618,7 +9637,7 @@ h4 {
 }
 
 .pub-grid-header h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 28px;
   font-weight: 400;
   margin: 0;
@@ -9686,7 +9705,7 @@ h4 {
 }
 
 .pub-card-body h4 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   line-height: 1.25;
   color: var(--ink);
@@ -9750,7 +9769,7 @@ h4 {
 }
 
 .pub-cta-text h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 32px;
   color: var(--bg);
   margin: 10px 0 8px;
@@ -9791,7 +9810,7 @@ h4 {
 }
 
 .team-title {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 52px;
   line-height: 1.12;
   font-weight: 400;
@@ -9903,7 +9922,7 @@ h4 {
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 48px;
   font-weight: 400;
 }
@@ -9937,7 +9956,7 @@ h4 {
 }
 
 .team-name-row h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   font-weight: 400;
   margin: 0;
@@ -10108,7 +10127,7 @@ h4 {
 }
 
 .tseo-hero-title {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 50px;
   line-height: 1.12;
   font-weight: 400;
@@ -10152,7 +10171,7 @@ h4 {
 
 .tseo-stat-val {
   display: block;
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 32px;
   font-weight: 400;
   color: var(--accent);
@@ -10200,7 +10219,7 @@ h4 {
 }
 
 .tseo-form-head h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 26px;
   font-weight: 400;
   margin: 0 0 6px;
@@ -10426,7 +10445,7 @@ h4 {
 }
 
 .tseo-platforms-text h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 40px;
   line-height: 1.15;
   font-weight: 400;
@@ -10552,7 +10571,7 @@ h4 {
 }
 
 .tseo-service-card h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 24px;
   font-weight: 400;
   margin: 0 0 10px;
@@ -10709,7 +10728,7 @@ h4 {
 }
 
 .tseo-ind-body h4 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 22px;
   margin: 0 0 8px;
   color: var(--ink);
@@ -10744,7 +10763,7 @@ h4 {
 }
 
 .tseo-reporting-content h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 40px;
   color: var(--bg);
   margin: 12px 0 14px;
@@ -10969,7 +10988,7 @@ h4 {
 }
 
 .tseo-pricing-card h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 32px;
   font-weight: 400;
   margin: 0 0 8px;
@@ -10991,7 +11010,7 @@ h4 {
 }
 
 .tseo-price-val {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 46px;
   color: var(--ink);
 }
@@ -11104,7 +11123,7 @@ h4 {
 }
 
 .tseo-model-card h3 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 26px;
   font-weight: 400;
   color: var(--ink);
@@ -11170,7 +11189,7 @@ h4 {
 }
 
 .tseo-testimonial-card blockquote {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 20px;
   line-height: 1.45;
   color: var(--ink);
@@ -11205,7 +11224,7 @@ h4 {
 }
 
 .tseo-final-cta-box h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--f-display);
   font-size: 48px;
   color: var(--bg);
   margin: 16px 0 14px;
@@ -11269,3 +11288,459 @@ h4 {
   .tseo-final-cta-box { padding: 40px 24px; }
   .tseo-final-cta-box h2 { font-size: 34px; }
 }
+
+/* ============================================
+   GENRANQ Reference Framework Styles (v3)
+   ============================================ */
+
+.pad { padding: 100px 0; }
+.bg-cream { background: var(--cream); }
+.bg-dark { background: var(--ink); color: #B8BAB4; }
+.bg-dark h1, .bg-dark h2, .bg-dark h3 { color: #F4F2EC; }
+.bg-dark .eyebrow { color: #9C9F98; }
+.bg-dark .lead { color: #A8ABA4; }
+
+em.accent {
+  font-style: italic;
+  color: var(--orange);
+  font-weight: 400;
+}
+
+.sec-head {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 48px;
+  align-items: end;
+  margin-bottom: 60px;
+}
+.sec-head .eyebrow { margin-bottom: 18px; }
+.sec-head p { font-size: 17px; color: var(--muted); max-width: 460px; justify-self: end; line-height: 1.6; }
+.bg-dark .sec-head p { color: #A8ABA4; }
+.sec-head.center { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+.sec-head.center p { justify-self: center; max-width: 640px; }
+
+/* Reference Buttons */
+.btn-primary {
+  background: var(--orange);
+  color: #fff;
+  box-shadow: 0 10px 24px -10px rgba(255, 90, 31, .7);
+}
+.btn-primary:hover {
+  background: var(--orange-600);
+  transform: translateY(-1px);
+}
+.btn-ghost {
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+.btn-ghost:hover {
+  border-color: var(--ink);
+}
+.btn-ghost-dark {
+  background: transparent;
+  border: 1px solid var(--line-dark);
+  color: #fff;
+}
+.btn-ghost-dark:hover {
+  border-color: #fff;
+}
+.btn-dark {
+  background: var(--ink);
+  color: #fff;
+}
+.btn-dark:hover {
+  background: #000;
+}
+
+/* Counters & Stats Grid */
+.stats-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.stat-box {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 30px 24px;
+  text-align: center;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+.stat-box:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: var(--orange);
+}
+.stat-box b {
+  font-family: var(--f-display);
+  font-size: 44px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1;
+  display: block;
+}
+.stat-box b small {
+  color: var(--orange);
+  font-style: italic;
+  font-size: 24px;
+}
+.stat-box span {
+  font-size: 13.5px;
+  color: var(--muted);
+  display: block;
+  margin-top: 10px;
+  line-height: 1.4;
+}
+
+/* Why GENRANQ Section */
+.why-wrap {
+  display: grid;
+  grid-template-columns: .95fr 1.05fr;
+  gap: 40px;
+  align-items: stretch;
+}
+.why-hero {
+  background: var(--ink);
+  border-radius: 24px;
+  padding: 48px 44px;
+  color: #B8BAB4;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.why-hero::after {
+  content: "";
+  position: absolute;
+  right: -120px;
+  bottom: -120px;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(closest-side, rgba(255, 90, 31, .35), transparent);
+}
+.why-hero .logo { margin-bottom: 34px; }
+.why-hero h3 { font-size: 32px; color: #fff; line-height: 1.2; margin-bottom: 18px; }
+.why-hero p { font-size: 15.5px; max-width: 440px; line-height: 1.6; }
+.why-nums {
+  margin-top: auto;
+  padding-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+.why-nums div {
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  background: var(--ink-2);
+}
+.why-nums b {
+  display: block;
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: 34px;
+  color: #fff;
+  line-height: 1;
+}
+.why-nums b small {
+  color: var(--orange);
+  font-size: 18px;
+  font-style: italic;
+}
+.why-nums span {
+  font-size: 12.5px;
+  display: block;
+  margin-top: 8px;
+  color: #9C9F98;
+}
+.why-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.why-item {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 30px 28px;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+.why-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: var(--orange);
+}
+.why-item .icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--orange-soft);
+  color: var(--orange);
+  display: grid;
+  place-items: center;
+  margin-bottom: 22px;
+}
+.why-item .icon svg { width: 22px; height: 22px; }
+.why-item h3 { font-size: 20px; margin-bottom: 10px; }
+.why-item p { font-size: 14.5px; color: var(--muted); line-height: 1.55; }
+
+/* What Sets Us Apart (4 Boxes) */
+.apart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.apart {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 40px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 28px;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+.apart:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: var(--orange);
+}
+.apart .big {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: 56px;
+  line-height: .9;
+  color: var(--orange);
+}
+.apart h3 { font-size: 24px; margin-bottom: 12px; font-weight: 500; }
+.apart p { font-size: 15.5px; color: var(--muted); line-height: 1.6; }
+.apart .proof {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line);
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--ink);
+}
+.apart .proof b { color: var(--orange); font-weight: 600; margin-right: 6px; }
+
+/* Developer / People Cards */
+.dev-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.dev {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  transition: all .25s;
+}
+.dev:hover {
+  border-color: var(--orange);
+  box-shadow: var(--shadow);
+  transform: translateY(-3px);
+}
+.dev-head { display: flex; gap: 16px; align-items: center; }
+.dev-av {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--f-display);
+  font-size: 26px;
+  color: #fff;
+  position: relative;
+  flex: none;
+}
+.dev-av::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1F9D55;
+  border: 3px solid #fff;
+}
+.dev h3 { font-size: 21px; margin-bottom: 4px; }
+.dev .role-t { font-size: 13.5px; color: var(--muted); }
+.dev .meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 20px 0 18px;
+}
+.dev .meta div {
+  background: var(--cream);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.dev .meta b {
+  display: block;
+  font-family: var(--f-display);
+  font-weight: 500;
+  font-size: 19px;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.dev .meta span { font-size: 11.5px; color: var(--muted); display: block; margin-top: 3px; }
+.dev .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
+.dev .chips span {
+  font-size: 12px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--text);
+}
+.dev .foot {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line);
+}
+.dev .foot small { font-size: 12.5px; color: #1F9D55; font-weight: 600; }
+
+/* Contact Section & Form */
+.contact-layout {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 56px;
+  align-items: start;
+}
+.commit { margin-top: 32px; display: grid; gap: 12px; }
+.commit div {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  background: var(--ink-2);
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  color: #C9CBC5;
+  font-size: 15px;
+}
+.commit .icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 90, 31, .15);
+  color: var(--orange);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.commit .icon svg { width: 20px; height: 20px; }
+.contact-direct {
+  display: flex;
+  gap: 28px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+  font-size: 15px;
+}
+.contact-direct a { color: #fff; font-weight: 600; transition: color .2s; }
+.contact-direct a:hover { color: var(--orange); }
+
+.cform {
+  background: #fff;
+  border-radius: 24px;
+  padding: 40px;
+  color: var(--text);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+.cform h3 { font-size: 26px; margin-bottom: 6px; color: var(--ink); }
+.cform .sub { color: var(--muted); font-size: 14.5px; margin-bottom: 24px; }
+.fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.fgrid label { display: block; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.fgrid input, .fgrid select, .fgrid textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--cream);
+  outline: none;
+  font-size: 15px;
+  color: var(--ink);
+  font-family: var(--f-body);
+  transition: border-color .2s, background .2s;
+}
+.fgrid input:focus, .fgrid select:focus, .fgrid textarea:focus {
+  border-color: var(--orange);
+  background: #fff;
+}
+.fgrid .full { grid-column: 1 / -1; }
+.fgrid textarea { min-height: 110px; resize: vertical; }
+.consent {
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+  margin: 18px 0 22px;
+  align-items: flex-start;
+  line-height: 1.4;
+}
+.consent input { margin-top: 3px; accent-color: var(--orange); }
+
+/* Reference CTA Box */
+.cta-box {
+  border-radius: 28px;
+  padding: 56px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+}
+.cta-box h3 {
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.1;
+  max-width: 640px;
+  font-weight: 400;
+  margin: 0;
+}
+.cta-box p { margin-top: 12px; max-width: 560px; font-size: 16px; }
+.cta-actions { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+.cta-dark { background: var(--ink); color: #B8BAB4; }
+.cta-dark h3 { color: #fff; }
+.cta-dark::after {
+  content: "";
+  position: absolute;
+  left: 40%;
+  bottom: -160px;
+  width: 420px;
+  height: 320px;
+  background: radial-gradient(closest-side, rgba(255, 90, 31, .35), transparent);
+}
+.cta-orange { background: var(--orange); color: #FFE3D6; }
+.cta-orange h3 { color: #fff; }
+.cta-orange h3 em { font-style: italic; color: var(--ink); }
+
+@media (max-width: 1024px) {
+  .stats-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .why-wrap { grid-template-columns: 1fr; }
+  .apart-grid { grid-template-columns: 1fr; }
+  .dev-grid { grid-template-columns: repeat(2, 1fr); }
+  .contact-layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .stats-grid-4 { grid-template-columns: 1fr; }
+  .why-list { grid-template-columns: 1fr; }
+  .dev-grid { grid-template-columns: 1fr; }
+  .fgrid { grid-template-columns: 1fr; }
+  .cta-box { padding: 36px 24px; }
+}

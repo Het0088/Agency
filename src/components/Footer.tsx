@@ -52,9 +52,9 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Office</h4>
             <ul>
-              <li><Link href="/contact">Bangalore, India</Link></li>
+              <li><Link href="/contact">Vadodara, Gujarat, India</Link></li>
               <li><a href="mailto:hello@genranq.com">hello@genranq.com</a></li>
-              <li><a href="tel:+918045674242">+91 80 4567 4242</a></li>
+              <li><a href="tel:+918045074242">+91 80 4507 4242</a></li>
             </ul>
           </div>
         </div>

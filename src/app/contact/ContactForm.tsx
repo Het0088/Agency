@@ -3,12 +3,9 @@
 import { useState, useRef } from 'react'
 import { ArrowRight } from '@/components/Icons'
 
-const budgetOptions = ['Under $4k', '$4k–$8k', '$8k–$15k', '$15k+', 'Not sure']
-
 type FormState = 'idle' | 'sending' | 'sent' | 'error'
 
 export default function ContactForm() {
-  const [budget, setBudget] = useState('$4k–$8k')
   const [state, setState] = useState<FormState>('idle')
   const [errorMsg, setErrorMsg] = useState('')
   const formRef = useRef<HTMLFormElement>(null)
@@ -25,10 +22,11 @@ export default function ContactForm() {
     const payload = {
       name: fd.get('name'),
       email: fd.get('email'),
+      phone: fd.get('phone'),
       company: fd.get('company'),
       website: fd.get('website'),
       service: fd.get('service'),
-      budget,
+      budget: fd.get('budget'),
       message: fd.get('message'),
       _t: loadedAt.current,
     }
@@ -55,95 +53,110 @@ export default function ContactForm() {
 
   if (state === 'sent') {
     return (
-      <div className="form reveal in" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 400, textAlign: 'center', gap: 20 }}>
-        <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--accent)', display: 'grid', placeItems: 'center' }}>
-          <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M5 13l4 4L19 7" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      <div className="cform" style={{ textAlign: 'center', padding: '60px 40px' }}>
+        <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--orange)', color: '#fff', display: 'grid', placeItems: 'center', margin: '0 auto 20px', fontSize: 28 }}>
+          ✓
         </div>
-        <h2 className="serif" style={{ fontSize: 'clamp(28px,3.5vw,42px)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
-          We&apos;ll be in touch <em className="serif-i" style={{ color: 'var(--accent)' }}>soon.</em>
-        </h2>
-        <p style={{ fontSize: 16, color: 'var(--ink-soft)', maxWidth: 400, lineHeight: 1.55 }}>
-          A senior strategist will reply within 4 business hours with calendar slots for your discovery call.
+        <h3 style={{ fontSize: 32, marginBottom: 12 }}>Message received!</h3>
+        <p style={{ color: 'var(--muted)', fontSize: 16, maxWidth: 440, margin: '0 auto 28px', lineHeight: 1.6 }}>
+          Thank you for reaching out. A senior strategist or developer will review your details and reply within 4 business hours.
         </p>
-        <button type="button" className="btn btn-ghost" onClick={() => setState('idle')}>Send another</button>
+        <button
+          type="button"
+          className="btn btn-ghost"
+          onClick={() => setState('idle')}
+        >
+          Send another message
+        </button>
       </div>
     )
   }
 
   return (
-    <form className="form reveal in" ref={formRef} onSubmit={handleSubmit}>
-      <span className="eyebrow">Project enquiry</span>
-      <h2 className="serif" style={{ fontSize: 'clamp(32px,4vw,48px)', lineHeight: 1, margin: '14px 0 28px', letterSpacing: '-0.02em' }}>
-        Tell us a bit about <em className="serif-i" style={{ color: 'var(--accent)' }}>your business.</em>
-      </h2>
+    <form className="cform" ref={formRef} onSubmit={handleSubmit}>
+      <h3>Tell us where you stand</h3>
+      <p className="sub">Fields marked * are required. We sign NDAs before discussing confidential details.</p>
 
-
-
-      <div className="field-row">
-        <div className="field">
-          <label htmlFor="f-name">Full name</label>
-          <input id="f-name" name="name" type="text" placeholder="Anaya Sharma" required />
-        </div>
-        <div className="field">
-          <label htmlFor="f-email">Work email</label>
-          <input id="f-email" name="email" type="email" placeholder="anaya@yourcompany.com" required />
-        </div>
-      </div>
-
-      <div className="field-row">
-        <div className="field">
-          <label htmlFor="f-co">Company</label>
-          <input id="f-co" name="company" type="text" placeholder="Your company" />
-        </div>
-        <div className="field">
-          <label htmlFor="f-site">Website</label>
-          <input id="f-site" name="website" type="url" placeholder="https://yoursite.com" />
-        </div>
-      </div>
-
-      <div className="field">
-        <label htmlFor="f-svc">What do you need help with?</label>
-        <select id="f-svc" name="service">
-          <option>Full SEO retainer</option>
-          <option>Free SEO audit (no obligation)</option>
-          <option>Technical SEO project</option>
-          <option>Local / Maps SEO</option>
-          <option>AI Search &amp; GEO</option>
-          <option>Editorial content</option>
-          <option>Digital PR &amp; links</option>
-          <option>Not sure yet — let&apos;s talk</option>
-        </select>
-      </div>
-
-      <div className="field">
-        <label>Monthly budget</label>
-        <div className="budget-chips">
-          {budgetOptions.map((b) => (
-            <button type="button" key={b} className={`chip${budget === b ? ' active' : ''}`} onClick={() => setBudget(b)}>{b}</button>
-          ))}
-        </div>
-      </div>
-
-      <div className="field">
-        <label htmlFor="f-msg">What&apos;s going on?</label>
-        <textarea id="f-msg" name="message" placeholder="A few sentences about where you're stuck, what you've tried, what success looks like…" />
-      </div>
-
-      {errorMsg && (
-        <div style={{ padding: '12px 16px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, color: '#b91c1c', fontSize: 14 }}>
+      {state === 'error' && (
+        <div style={{ background: '#FEECEC', border: '1px solid #FCA5A5', color: '#B91C1C', padding: '12px 16px', borderRadius: 'var(--radius-sm)', marginBottom: 20, fontSize: 14 }}>
           {errorMsg}
         </div>
       )}
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 14, marginTop: 8 }}>
-        <div style={{ fontSize: 12, color: 'var(--ink-soft)', maxWidth: 380, lineHeight: 1.5 }}>
-          By submitting, you agree to our privacy policy. We won&apos;t share your data, ever — not even with our own marketing tools.
+      <div className="fgrid">
+        <div>
+          <label htmlFor="f-name">Full name *</label>
+          <input id="f-name" name="name" type="text" placeholder="Your name" required />
         </div>
-        <button type="submit" className="btn btn-primary" disabled={state === 'sending'}>
-          {state === 'sending' ? 'Sending…' : 'Send enquiry'}
-          <span className="arr"><ArrowRight /></span>
-        </button>
+
+        <div>
+          <label htmlFor="f-email">Work email *</label>
+          <input id="f-email" name="email" type="email" placeholder="you@company.com" required />
+        </div>
+
+        <div>
+          <label htmlFor="f-phone">Phone number *</label>
+          <input id="f-phone" name="phone" type="tel" placeholder="+91 98765 43210" required />
+        </div>
+
+        <div>
+          <label htmlFor="f-co">Company name</label>
+          <input id="f-co" name="company" type="text" placeholder="Company or brand" />
+        </div>
+
+        <div>
+          <label htmlFor="f-service">Service required</label>
+          <select id="f-service" name="service" defaultValue="AI SEO & GEO">
+            <option value="AI SEO & GEO">AI SEO & GEO (ChatGPT / Perplexity)</option>
+            <option value="Technical SEO Audit">200-Point Technical SEO Audit</option>
+            <option value="Website Design & Development">Website Design & Development</option>
+            <option value="Hire Dedicated Developers">Hire Dedicated Developers</option>
+            <option value="Local SEO & Maps">Local SEO & Google 3-Pack</option>
+            <option value="Content & Link Building">Content & Authority Link Building</option>
+            <option value="General Consultation">General Consultation / Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="f-budget">Estimated budget</label>
+          <select id="f-budget" name="budget" defaultValue="₹1L – ₹3L">
+            <option value="< ₹1L">&lt; ₹1L</option>
+            <option value="₹1L – ₹3L">₹1L – ₹3L / month</option>
+            <option value="₹3L – ₹8L">₹3L – ₹8L / month</option>
+            <option value="₹8L+">₹8L+ / Enterprise</option>
+          </select>
+        </div>
+
+        <div className="full">
+          <label htmlFor="f-site">Website or store URL</label>
+          <input id="f-site" name="website" type="url" placeholder="https://yourwebsite.com" />
+        </div>
+
+        <div className="full">
+          <label htmlFor="f-msg">Tell us about your project *</label>
+          <textarea
+            id="f-msg"
+            name="message"
+            placeholder="What are your goals, current bottlenecks, target keywords, or timeline?"
+            required
+          />
+        </div>
       </div>
+
+      <label className="consent">
+        <input type="checkbox" required />
+        <span>I agree to the privacy policy and consent to GENRANQ contacting me regarding my enquiry.</span>
+      </label>
+
+      <button className="btn btn-primary" type="submit" disabled={state === 'sending'} style={{ width: '100%', justifyContent: 'center' }}>
+        {state === 'sending' ? (
+          'Sending your enquiry…'
+        ) : (
+          <>
+            Send enquiry <span className="arr"><ArrowRight /></span>
+          </>
+        )}
+      </button>
     </form>
   )
 }

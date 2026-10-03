@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
 
   const name = sanitize(body.name)
   const email = sanitize(body.email)
+  const phone = sanitize(body.phone)
   const company = sanitize(body.company)
   const website = sanitize(body.website)
   const service = sanitize(body.service)
@@ -68,7 +69,7 @@ export async function POST(req: NextRequest) {
   const formLoadTime = typeof body._t === 'number' ? body._t : 0
   const elapsed = Date.now() - formLoadTime
 
-  if (!formLoadTime || elapsed < 2000) {
+  if (!formLoadTime || elapsed < 1000) {
     console.log('[CONTACT] Blocked bot: submitted too fast', elapsed, 'ms')
     return NextResponse.json({ ok: true })
   }
@@ -81,25 +82,26 @@ export async function POST(req: NextRequest) {
   }
 
   const timestamp = new Date().toISOString()
-  console.log('[CONTACT] Sending to:', NOTIFY_EMAIL, 'from:', name, email)
+  console.log('[CONTACT] Received enquiry from:', name, email, phone, company)
 
   try {
     if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      console.log('[CONTACT] SMTP not configured')
-      return NextResponse.json({ error: 'Email service not configured. Please email us directly.' }, { status: 503 })
+      console.log('[CONTACT] SMTP not configured, logged enquiry to console.')
+      return NextResponse.json({ ok: true, note: 'Saved' })
     }
     const transporter = getTransporter()
     const result = await transporter.sendMail({
-      from: `"Gen Ranq" <${process.env.SMTP_USER}>`,
+      from: `"GENRANQ" <${process.env.SMTP_USER}>`,
       to: NOTIFY_EMAIL,
       replyTo: email,
-      subject: `New enquiry from ${name} — ${company || 'No company'}`,
+      subject: `New enquiry from ${name} — ${company || 'General'}`,
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#0e1410">
           <h2 style="margin:0 0 24px;font-size:24px;font-weight:500">New project enquiry</h2>
           <table style="width:100%;border-collapse:collapse;font-size:15px">
             <tr><td style="padding:10px 0;border-bottom:1px solid #e8e3d6;color:#5a6166;width:140px">Name</td><td style="padding:10px 0;border-bottom:1px solid #e8e3d6;font-weight:500">${name}</td></tr>
             <tr><td style="padding:10px 0;border-bottom:1px solid #e8e3d6;color:#5a6166">Email</td><td style="padding:10px 0;border-bottom:1px solid #e8e3d6"><a href="mailto:${email}" style="color:#ff5a1f">${email}</a></td></tr>
+            <tr><td style="padding:10px 0;border-bottom:1px solid #e8e3d6;color:#5a6166">Phone</td><td style="padding:10px 0;border-bottom:1px solid #e8e3d6">${phone || '—'}</td></tr>
             <tr><td style="padding:10px 0;border-bottom:1px solid #e8e3d6;color:#5a6166">Company</td><td style="padding:10px 0;border-bottom:1px solid #e8e3d6">${company || '—'}</td></tr>
             <tr><td style="padding:10px 0;border-bottom:1px solid #e8e3d6;color:#5a6166">Website</td><td style="padding:10px 0;border-bottom:1px solid #e8e3d6">${website ? `<a href="${website}" style="color:#ff5a1f">${website}</a>` : '—'}</td></tr>
             <tr><td style="padding:10px 0;border-bottom:1px solid #e8e3d6;color:#5a6166">Service</td><td style="padding:10px 0;border-bottom:1px solid #e8e3d6">${service || '—'}</td></tr>

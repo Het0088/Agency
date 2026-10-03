@@ -209,11 +209,11 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         <section className="section" style={{ background: 'var(--surface)' }}>
           <div className="wrap" style={{ maxWidth: 800 }}>
             <div className="testimonial reveal" style={{ background: 'var(--ink)', color: 'var(--dark-ink)', padding: '48px 44px', borderRadius: 'var(--radius-lg)' }}>
-              <div style={{ fontFamily: "'Instrument Serif', serif", fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.25, marginBottom: 28, letterSpacing: '-0.01em' }}>
+              <div style={{ fontFamily: "var(--f-display)", fontSize: 'clamp(24px, 3vw, 36px)', lineHeight: 1.25, marginBottom: 28, letterSpacing: '-0.01em' }}>
                 &ldquo;{c.testimonialQuote}&rdquo;
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--accent)', display: 'grid', placeItems: 'center', fontFamily: "'Instrument Serif', serif", fontSize: 20, color: '#fff' }}>
+                <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--accent)', display: 'grid', placeItems: 'center', fontFamily: "var(--f-display)", fontSize: 20, color: '#fff' }}>
                   {c.testimonialName?.[0]}
                 </div>
                 <div>

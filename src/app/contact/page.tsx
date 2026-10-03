@@ -1,5 +1,10 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { getPageMeta } from '@/lib/get-meta'
+import Topbar from '@/components/Topbar'
+import Nav from '@/components/Nav'
+import Footer from '@/components/Footer'
+import ContactForm from './ContactForm'
 
 export async function generateMetadata(): Promise<Metadata> {
   const m = await getPageMeta('/contact')
@@ -7,169 +12,235 @@ export async function generateMetadata(): Promise<Metadata> {
     title: m.title,
     description: m.description,
     alternates: { canonical: m.canonical },
-    openGraph: { title: m.og_title, description: m.og_description, url: m.canonical, type: 'website', ...(m.og_image ? { images: [{ url: m.og_image }] } : {}) },
+    openGraph: {
+      title: m.og_title,
+      description: m.og_description,
+      url: m.canonical,
+      type: 'website',
+      siteName: 'GENRANQ',
+      ...(m.og_image ? { images: [{ url: m.og_image }] } : {}),
+    },
   }
 }
-import { getContent } from '@/lib/get-content'
-import Topbar from '@/components/Topbar'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
-import BigCta from '@/components/BigCta'
-import ContactForm from './ContactForm'
-import { ArrowRight } from '@/components/Icons'
 
 export default async function ContactPage() {
-  const content = await getContent('/contact')
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://genranq.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://genranq.com/contact' },
+    ],
+  }
 
-  const faqs = [
+  const contactFaqs = [
     {
-      q: content.faq_1_q || 'How fast will I hear back?',
-      a: content.faq_1_a || "Within 4 business hours, Mon–Fri. The reply will come from the strategist who'd actually lead your account, not an SDR. We sometimes batch over weekends."
+      q: 'How fast will you reply?',
+      a: 'A senior strategist or developer replies within 4 business hours, Monday to Friday (09:30 – 18:30 IST). The response will be from someone who can evaluate your site and tech stack, not an SDR.',
     },
     {
-      q: content.faq_2_q || 'Do I need to provide a brief?',
-      a: content.faq_2_a || "No. A few honest sentences in the form is plenty. Most useful info comes out of the discovery call, not a polished brief. We just need enough to know if we're the right fit before we book a call."
+      q: 'Do you sign an NDA?',
+      a: 'Yes. We routinely sign non-disclosure agreements before reviewing source code, analytics, keyword targets, or proprietary systems.',
     },
     {
-      q: content.faq_3_q || 'Is the audit really free?',
-      a: content.faq_3_a || "Yes — for businesses that look like a plausible fit. It's a real audit, written by a senior strategist, and it's yours to keep whether you hire us or not. Worth doing even if you have an in-house team."
+      q: 'Where are you based?',
+      a: 'GENRANQ Software LLP is based in Vadodara, Gujarat, India. Our 120+ person team serves ambitious clients across 42 countries, overlapping smoothly with US, UK, European, and Australian business hours.',
     },
     {
-      q: content.faq_4_q || "What if I'm a tiny business / pre-revenue?",
-      a: content.faq_4_a || "Tell us. If we can't help, we'll say so on the call and point you at someone who can — or just at the right DIY resources. We've sent dozens of businesses to better-fit partners. We won't take work we can't deliver on."
+      q: 'Is the 200-point audit really free?',
+      a: 'Yes. We run a comprehensive technical crawl, Core Web Vitals assessment, backlink toxicity review, and generative engine citation audit. It is 100% yours to keep whether you engage us or not.',
     },
     {
-      q: content.faq_5_q || 'Can I just call?',
-      a: content.faq_5_a || "Of course. Numbers above. If we don't pick up, we're on a client call — leave a message and we'll ring back same business day."
-    }
+      q: 'Do I have to sign a long-term contract?',
+      a: 'No. All our retainers and engineering pods transition to flexible month-to-month terms after an initial 90-day baseline setup. We earn your partnership every single month.',
+    },
   ]
-
-  const heroHeading = content.hero_heading || "Let's talk."
-  const heroSubtext = content.hero_subtext || "Fill the form, send an email, or pick up the phone — whichever feels easier. Either way, the strategist who'd lead your account replies. No SDRs, no sales reps, no funnels."
-  const topbarText = content.topbar_text || 'Most replies within 4 business hours · Mon–Fri.'
-
-  const directHeading = content.direct_heading || 'Or reach out directly.'
-  const directSub = content.direct_sub || 'The fastest way to get a real answer is the form on the left. But these go to humans, too.'
-  const directEmail = content.direct_email || 'hello@genranq.com'
-  const directPhone = content.direct_phone || '+91 80 4567 4242'
-
-  const nextEyebrow = content.next_eyebrow || 'What happens next'
-  const nextStep1 = content.next_step_1 || 'Within 4 hours — A senior strategist replies with 2-3 calendar slots.'
-  const nextStep2 = content.next_step_2 || '30-min discovery call — We listen first, ask sharp questions second.'
-  const nextStep3 = content.next_step_3 || 'Free audit (within 7 days) — A real, written audit. Useful even if you never hire us.'
-  const nextStep4 = content.next_step_4 || 'Proposal call — If it\'s a fit, we walk through scope & price together.'
-
-  const studioHeading = content.studio_heading || 'Our studio.'
-  const studioSubtext = content.studio_subtext || "Based in India, working with businesses worldwide. Drop by or call — we'll buy the coffee."
-  const studioCity = content.studio_city || 'Bangalore'
-  const studioCountry = content.studio_country || 'India'
-  const studioAddress = content.studio_address || '1st Floor, Indiqube Alpha\nOuter Ring Road, Bellandur\nBangalore 560103, India'
-  const studioPh = content.studio_ph || '+91 80 4567 4242'
-  const studioHours = content.studio_hours || 'Mon–Fri · 09:30–18:30 IST'
-
-  const emailCtaHeading = content.email_cta_heading || 'Or just email us.'
-  const emailCtaSubtext = content.email_cta_subtext || "If forms aren't your thing, hello@genranq.com lands in the same inbox and gets the same reply. We don't mind."
 
   return (
     <>
-      <Topbar text={topbarText} />
-      <Nav />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
 
-      <header className="page-hero">
+      <Topbar text="● Most enquiries answered within 4 business hours." linkText="Direct call →" linkHref="tel:+918045074242" />
+      <Nav active="contact" />
+
+      {/* ===== HERO & CONTACT SECTION ===== */}
+      <section className="pad bg-dark" style={{ paddingTop: 80, paddingBottom: 110 }}>
         <div className="wrap">
-          <div className="crumb">Home / Contact</div>
-          <h1 dangerouslySetInnerHTML={{ __html: heroHeading.replace('talk.', '<em>talk.</em>') }} />
-          <p>{heroSubtext}</p>
-        </div>
-      </header>
-
-      <section className="section" id="form">
-        <div className="wrap">
-          <div className="contact-grid">
-            <ContactForm />
-
-            <div className="reveal">
-              <div className="contact-info">
-                <h3>{directHeading}</h3>
-                <p>{directSub}</p>
-                <div className="contact-row">
-                  <span className="lab">Email</span>
-                  <span className="val"><a href={`mailto:${directEmail}`}>{directEmail}</a></span>
-                </div>
-                <div className="contact-row">
-                  <span className="lab">Phone (IN)</span>
-                  <span className="val">{directPhone}</span>
-                </div>
-              </div>
-
-              <div style={{ marginTop: 24, padding: 24, border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', background: 'var(--bg)' }}>
-                <div className="eyebrow" style={{ marginBottom: 14 }}>{nextEyebrow}</div>
-                <ol style={{ paddingLeft: 18, margin: 0, fontSize: 14, lineHeight: 1.7, color: 'var(--ink-soft)' }}>
-                  <li>{nextStep1}</li>
-                  <li>{nextStep2}</li>
-                  <li>{nextStep3}</li>
-                  <li>{nextStep4}</li>
-                </ol>
-              </div>
-            </div>
+          <div className="crumbs" style={{ fontSize: 13, color: '#8C908A', marginBottom: 24 }}>
+            <Link href="/" style={{ color: 'inherit' }}>Home</Link> / <b style={{ color: '#fff' }}>Contact</b>
           </div>
-        </div>
-      </section>
 
-      <section className="section" style={{ background: 'var(--surface)' }}>
-        <div className="wrap">
-          <div className="sec-head reveal">
-            <h2 dangerouslySetInnerHTML={{ __html: studioHeading.replace('studio.', '<em>studio.</em>') }} />
-            <p className="sub">{studioSubtext}</p>
-          </div>
-          <div className="offices">
-            <div className="office reveal">
-              <div className="city">{studioCity}</div>
-              <div className="country">{studioCountry}</div>
-              <address>
-                {studioAddress.split('\n').map((line, idx) => (
-                  <span key={idx}>{line}<br /></span>
-                ))}
-              </address>
-              <div className="ph">{studioPh}</div>
-              <div style={{ fontSize: 13, color: 'var(--ink-soft)', marginTop: 4 }}>{studioHours}</div>
-            </div>
-          </div>
-        </div>
-      </section>
+          <div className="contact-layout">
+            <div>
+              <span className="eyebrow" style={{ color: 'var(--orange)' }}>Contact GENRANQ</span>
+              <h1 style={{ fontSize: 'clamp(40px, 5.2vw, 68px)', margin: '18px 0 22px', color: '#fff' }}>
+                Let&apos;s talk about <em className="accent">your growth.</em>
+              </h1>
+              <p className="lead" style={{ color: '#A8ABA4', fontSize: 18, lineHeight: 1.6, marginBottom: 32 }}>
+                SEO, AI search, a modern website, or dedicated developers — tell us where you stand and a senior strategist will reply within 4 business hours.
+              </p>
 
-      <section className="section">
-        <div className="wrap" style={{ maxWidth: 900 }}>
-          <div className="sec-head reveal">
-            <h2>Quick <em>answers.</em></h2>
-            <p className="sub">The questions we get most via the contact form. If yours isn&apos;t here, just ask.</p>
-          </div>
-          <div className="faq-list reveal">
-            {faqs.map((f, i) => (
-              <details className="faq" key={f.q} open={i === 0}>
-                <summary>
-                  {f.q}
-                  <span className="faq-icon">
-                    <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
+              <div className="commit">
+                <div>
+                  <span className="icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                   </span>
-                </summary>
-                <div className="faq-body">{f.a}</div>
-              </details>
-            ))}
+                  <span>Reply within 4 business hours guaranteed</span>
+                </div>
+                <div>
+                  <span className="icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </span>
+                  <span>NDA signed before any confidential project discussion</span>
+                </div>
+                <div>
+                  <span className="icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                  </span>
+                  <span>Free 200-point audit, timeline &amp; tech plan included</span>
+                </div>
+              </div>
+
+              <div style={{ marginTop: 40, paddingTop: 32, borderTop: '1px solid var(--line-dark)' }}>
+                <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#9C9F98', marginBottom: 12, fontFamily: 'var(--f-mono)' }}>
+                  Direct Office Channels
+                </div>
+                <div className="contact-direct">
+                  <a href="mailto:hello@genranq.com">hello@genranq.com</a>
+                  <a href="tel:+918045074242">+91 80 4507 4242</a>
+                </div>
+                <p style={{ marginTop: 14, color: '#8C908A', fontSize: 14 }}>
+                  GENRANQ Software LLP · Vadodara, Gujarat, India
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <ContactForm />
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="section" style={{ background: 'var(--surface)' }}>
+      {/* ===== PROOF COUNTERS ===== */}
+      <section className="pad bg-cream" style={{ padding: '70px 0' }}>
         <div className="wrap">
-          <div className="big-cta reveal">
-            <h2 dangerouslySetInnerHTML={{ __html: emailCtaHeading.replace('email us.', '<em>email us.</em>') }} />
-            <p>{emailCtaSubtext}</p>
-            <div className="ctas">
-              <a href={`mailto:${directEmail}`} className="btn btn-primary">
-                {directEmail}
-                <span className="arr"><ArrowRight /></span>
-              </a>
+          <div className="stats-grid-4">
+            <div className="stat-box">
+              <b>4<small>h</small></b>
+              <span>Average response time</span>
+            </div>
+            <div className="stat-box">
+              <b>600<small>+</small></b>
+              <span>Clients served worldwide</span>
+            </div>
+            <div className="stat-box">
+              <b>42</b>
+              <span>Countries with active retainers</span>
+            </div>
+            <div className="stat-box">
+              <b>4.9<small>/5</small></b>
+              <span>Verified client satisfaction</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== FAQ SECTION ===== */}
+      <section className="pad" id="faq">
+        <div className="wrap">
+          <div className="faq-wrap">
+            <div>
+              <span className="eyebrow">Before you get in touch</span>
+              <h2 style={{ fontSize: 'clamp(34px, 4.2vw, 52px)' }}>
+                Frequently asked <em className="accent">questions.</em>
+              </h2>
+              <p className="lead" style={{ marginTop: 16 }}>
+                Have questions before filling out the form? Here are clear, upfront answers to what prospective partners ask most.
+              </p>
+              <div style={{ marginTop: 32 }}>
+                <a href="mailto:hello@genranq.com" className="btn btn-dark">
+                  Email us directly →
+                </a>
+              </div>
+            </div>
+
+            <div className="faq-list">
+              {contactFaqs.map((faq, i) => (
+                <details
+                  key={faq.q}
+                  className="faq"
+                  style={{
+                    background: '#fff',
+                    border: '1px solid var(--line)',
+                    borderRadius: 'var(--radius-sm)',
+                    overflow: 'hidden',
+                    marginBottom: 12,
+                    padding: 0,
+                  }}
+                  open={i === 0}
+                >
+                  <summary
+                    style={{
+                      padding: '22px 24px',
+                      cursor: 'pointer',
+                      listStyle: 'none',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      fontFamily: 'var(--f-display)',
+                      fontSize: 20,
+                      fontWeight: 500,
+                      color: 'var(--ink)',
+                    }}
+                  >
+                    <span>{faq.q}</span>
+                    <span style={{ fontSize: 22, color: 'var(--orange)', marginLeft: 16 }}>+</span>
+                  </summary>
+                  <div style={{ padding: '0 24px 22px', color: 'var(--muted)', fontSize: 15.5, lineHeight: 1.6 }}>
+                    {faq.a}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== MAP & STUDIO BANNER ===== */}
+      <section className="pad bg-cream" style={{ paddingTop: 60, paddingBottom: 60 }}>
+        <div className="wrap">
+          <div
+            style={{
+              background: '#fff',
+              border: '1px solid var(--line)',
+              borderRadius: 24,
+              padding: '44px 48px',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: 36,
+              alignItems: 'center',
+            }}
+          >
+            <div>
+              <span className="eyebrow" style={{ marginBottom: 12 }}>Our Studio</span>
+              <h3 style={{ fontSize: 28, marginBottom: 12 }}>Vadodara Engineering Hub</h3>
+              <p style={{ color: 'var(--muted)', fontSize: 15.5, lineHeight: 1.6, margin: 0 }}>
+                Strategists, technical SEO engineers, and full-stack developers collaborate under one roof. Drop by our office or book a video call.
+              </p>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, background: 'var(--cream)', padding: 24, borderRadius: 'var(--radius-sm)' }}>
+              <div>
+                <span style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase' }}>Working Hours</span>
+                <div style={{ fontWeight: 600, color: 'var(--ink)', marginTop: 4, fontSize: 14 }}>Mon–Fri · 09:30–18:30 IST</div>
+              </div>
+              <div>
+                <span style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase' }}>Phone Support</span>
+                <div style={{ fontWeight: 600, color: 'var(--ink)', marginTop: 4, fontSize: 14 }}>+91 80 4507 4242</div>
+              </div>
             </div>
           </div>
         </div>
