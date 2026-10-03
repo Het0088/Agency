@@ -109,6 +109,52 @@ export default function WebDevClient() {
       }
     })
 
+    // Project estimate & contact forms
+    root.querySelectorAll('form').forEach(form => {
+      form.onsubmit = async (e) => {
+        e.preventDefault()
+        const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement
+        const originalText = submitBtn ? submitBtn.innerText : 'Submit'
+        if (submitBtn) {
+          submitBtn.disabled = true
+          submitBtn.innerText = 'Submitting...'
+        }
+        const formData = new FormData(form)
+        const email = (form.querySelector('input[type="email"]') as HTMLInputElement)?.value || ''
+        const name = (form.querySelector('input[name="name"]') as HTMLInputElement)?.value || 'Prospect'
+        const phone = (form.querySelector('input[type="tel"]') as HTMLInputElement)?.value || ''
+        const message = (form.querySelector('textarea') as HTMLTextAreaElement)?.value || `Project estimate request. Type: ${formData.get('t') || 'Business site'}, Budget: ${formData.get('b') || 'Standard'}`
+
+        try {
+          const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name,
+              email,
+              phone,
+              service: 'Website Design & Development',
+              budget: String(formData.get('b') || 'Standard'),
+              message,
+            }),
+          })
+          if (res.ok) {
+            alert('Thank you! Your project request has been received. Our senior strategist will review and reply within 4 hours.')
+            form.reset()
+          } else {
+            alert('Something went wrong. Please email us directly at hello@genranq.com.')
+          }
+        } catch {
+          alert('Submission error. Please email hello@genranq.com.')
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false
+            submitBtn.innerText = originalText
+          }
+        }
+      }
+    })
+
     return () => io.disconnect()
   }, [])
 

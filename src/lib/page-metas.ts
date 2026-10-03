@@ -19,8 +19,8 @@ export const pageMetas: PageMeta[] = [
     label: 'Homepage',
     filePath: 'src/app/page.tsx',
     fields: {
-      title: 'Gen Ranq — AI-Powered SEO Agency',
-      description: 'Gen Ranq is an AI-powered SEO agency helping brands grow organic traffic, authority, and revenue faster.',
+      title: 'GENRANQ Software LLP — Website Design & Development Studio',
+      description: 'GENRANQ designs and builds fast, SEO-ready websites that turn visitors into customers on WordPress, Shopify, Next.js, or fully custom.',
       canonical: 'https://genranq.com',
     },
   },
