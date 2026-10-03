@@ -22,13 +22,13 @@ const defaultPlans = [
       'Monthly share of voice reporting dashboard',
       'Dedicated Senior Strategist (no account managers)',
     ],
-    ctaText: 'Start with Essential',
+    ctaText: 'Start with Essential Growth',
     popular: false,
   },
   {
     key: 'plan_2',
     name: 'Market Leader',
-    badge: 'Most Popular',
+    badge: 'Growth Accelerator',
     price: '$6,500',
     period: '/ month',
     desc: 'Full-spectrum SEO, GEO, and digital PR for companies aggressively taking market share from legacy incumbents.',
@@ -77,21 +77,35 @@ export default function PricingSection({ content = {} }: Props) {
       <div className="wrap">
         <div className="sec-head reveal text-center" style={{ maxWidth: 840, margin: '0 auto 56px' }}>
           <span className="eyebrow">{eyebrow}</span>
-          <h2>{heading.split('Real Revenue ROI.')[0]}<em>Real Revenue ROI.</em></h2>
+          <h2>
+            {heading.includes('Real Revenue ROI.') ? (
+              <>
+                {heading.split('Real Revenue ROI.')[0]}
+                <em>Real Revenue ROI.</em>
+              </>
+            ) : (
+              heading
+            )}
+          </h2>
           <p className="sub">{subtext}</p>
         </div>
 
         <div className="pricing-grid reveal">
           {defaultPlans.map((plan, i) => {
             const name = content[`${plan.key}_name`] || plan.name
-            const badge = content[`${plan.key}_badge`] || plan.badge
+            const rawBadge = content[`${plan.key}_badge`]
+            const badge = rawBadge && rawBadge !== 'Most Popular' ? rawBadge : plan.badge
             const price = content[`${plan.key}_price`] || plan.price
             const desc = content[`${plan.key}_desc`] || plan.desc
             const cta = content[`${plan.key}_cta`] || plan.ctaText
 
             return (
               <div className={`pricing-card${plan.popular ? ' pricing-card-popular' : ''}`} key={plan.key}>
-                {plan.popular && <div className="pricing-popular-badge"><IconSparkles /> Most Selected</div>}
+                {plan.popular && (
+                  <div className="pricing-popular-badge">
+                    <IconSparkles /> Most Popular
+                  </div>
+                )}
                 
                 <div className="pricing-card-head">
                   <span className="pricing-badge">{badge}</span>
