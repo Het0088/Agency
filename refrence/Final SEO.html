@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI SEO Services — GENRANQ Software LLP</title>
+<meta name="description" content="AI SEO services by GENRANQ — rank on Google and get cited in ChatGPT, Perplexity, Gemini and Google AI Overviews." />
+
+<!-- FONTS (same as home page)
+  Headings: Fraunces · Body: Plus Jakarta Sans · Labels: JetBrains Mono · Logo: Chakra Petch -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+/* ===== COLOR TOKENS (same as home page) ===== */
+:root{
+  --orange:#FF5A1F; --orange-600:#E94A10; --orange-soft:#FFE8DC;
+  --ink:#121613; --ink-2:#1B211D; --text:#2A2F2B; --muted:#6B6F6A;
+  --cream:#F9F6EF; --white:#FFFFFF; --line:#E9E3D6; --line-dark:#2C332E;
+  --green:#1F9D55; --red:#D64545;
+  --f-display:'Fraunces',Georgia,serif; --f-body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,monospace; --f-logo:'Chakra Petch',sans-serif;
+  --radius:18px; --radius-sm:12px; --wrap:1220px;
+  --shadow:0 1px 2px rgba(18,22,19,.04),0 12px 32px -12px rgba(18,22,19,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--f-body);color:var(--text);background:#fff;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+section{position:relative}
+.pad{padding:112px 0}
+.bg-cream{background:var(--cream)}
+.bg-dark{background:var(--ink);color:#B8BAB4}
+
+h1,h2,h3,h4{font-family:var(--f-display);font-weight:400;color:var(--ink);letter-spacing:-.02em;line-height:1.08}
+h1{font-size:clamp(42px,5.6vw,72px);font-variation-settings:"opsz" 144}
+h2{font-size:clamp(34px,4.2vw,54px);font-variation-settings:"opsz" 144}
+h3{font-size:21px;line-height:1.25;letter-spacing:-.01em;font-weight:500}
+.bg-dark h2,.bg-dark h3{color:#F4F2EC}
+em.accent{font-style:italic;color:var(--orange)}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px rgba(255,90,31,.15)}
+.bg-dark .eyebrow{color:#9C9F98}
+.lead{font-size:18px;color:var(--muted);max-width:540px}
+.bg-dark .lead{color:#A8ABA4}
+.sec-head{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end;margin-bottom:60px}
+.sec-head .eyebrow{margin-bottom:18px}
+.sec-head p{font-size:17px;color:var(--muted);max-width:460px;justify-self:end}
+.bg-dark .sec-head p{color:#A8ABA4}
+.sec-head.center{grid-template-columns:1fr;text-align:center;justify-items:center}
+.sec-head.center p{justify-self:center;max-width:620px}
+
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border-radius:999px;font-weight:600;font-size:15px;border:1px solid transparent;cursor:pointer;transition:transform .2s,background .2s,border-color .2s}
+.btn svg{width:16px;height:16px;transition:transform .2s}
+.btn:hover svg{transform:translateX(3px)}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 10px 24px -10px rgba(255,90,31,.7)}
+.btn-primary:hover{background:var(--orange-600);transform:translateY(-1px)}
+.btn-ghost{background:#fff;border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn-ghost-dark{background:transparent;border-color:var(--line-dark);color:#fff}
+.btn-ghost-dark:hover{border-color:#fff}
+.btn-dark{background:var(--ink);color:#fff}
+.link-u{font-weight:600;color:var(--ink);border-bottom:2px solid var(--orange);padding-bottom:3px;display:inline-flex;gap:8px;align-items:center}
+
+/* ===== TOP BAR / NAV / LOGO ===== */
+.topbar{background:var(--ink);color:#cfcfc8;font-size:13px;text-align:center;padding:10px 16px}
+.topbar b{color:#fff;font-weight:600}.topbar a{color:var(--orange);font-weight:600;margin-left:8px}
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:78px}
+.nav-links{display:flex;gap:34px;font-weight:500;font-size:15px}
+.nav-links a{position:relative}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--orange);transition:width .25s}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:10px;width:44px;height:44px;align-items:center;justify-content:center}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-mark{width:46px;height:46px;flex:none}
+.logo-text{display:flex;flex-direction:column;line-height:1}
+.logo-word{font-family:var(--f-logo);font-weight:700;font-size:25px;letter-spacing:.02em;color:var(--orange)}
+.logo-sub{font-size:9.5px;letter-spacing:.42em;color:var(--ink);margin-top:5px;font-weight:600}
+.logo.light .logo-sub{color:#E8E6E0}
+.crumbs{font-size:13px;color:var(--muted);margin-bottom:22px}
+.crumbs a:hover{color:var(--orange)}
+.crumbs b{color:var(--ink);font-weight:600}
+
+/* ===== IMAGE COLLAGE ===== */
+.collage{position:relative;height:500px}
+.ph{position:absolute;border-radius:24px;overflow:hidden;background:linear-gradient(135deg,var(--ink),#2A322C);box-shadow:0 30px 60px -30px rgba(18,22,19,.45)}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph.one{left:0;top:0;width:74%;height:74%}
+.ph.two{right:0;bottom:0;width:56%;height:52%;border:8px solid #fff;background:linear-gradient(135deg,var(--orange),#FF8A5B)}
+.float-chip{position:absolute;z-index:3;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 18px;display:flex;gap:12px;align-items:center;box-shadow:var(--shadow)}
+.float-chip .ic{width:40px;height:40px;border-radius:12px;background:var(--orange-soft);color:var(--orange);display:grid;place-items:center}
+.float-chip b{display:block;font-family:var(--f-display);font-size:22px;font-weight:500;color:var(--ink);line-height:1}
+.float-chip span{font-size:12px;color:var(--muted)}
+.chip-a{left:-20px;bottom:70px}.chip-b{right:20px;top:24px}
+
+/* ===== HERO ===== */
+.hero{padding:80px 0 104px;background:radial-gradient(700px 360px at 95% 0%,rgba(255,90,31,.10),transparent 70%),var(--cream)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:72px;align-items:center}
+.badge{display:inline-block;font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);background:var(--orange-soft);padding:8px 14px;border-radius:8px;font-weight:600}
+.hero h1{margin:22px 0 24px}
+.hero .lead{margin-bottom:34px}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:44px}
+.hero-stats div{background:#fff;border:1px solid var(--line);border-radius:var(--radius-sm);padding:18px 16px}
+.hero-stats b{display:block;font-family:var(--f-display);font-weight:400;font-size:32px;color:var(--ink);line-height:1}
+.hero-stats b small{color:var(--orange);font-style:italic;font-size:18px}
+.hero-stats span{font-size:12.5px;color:var(--muted);display:block;margin-top:8px}
+
+/* ===== AUDIT FORM BAND ===== */
+.audit-band{padding:80px 0}
+.audit-band .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px;align-items:center}
+.audit-band h2{font-size:clamp(32px,3.4vw,44px);margin:16px 0 16px}
+.audit-band ul{list-style:none;margin-top:24px;display:grid;gap:10px;font-size:15px}
+.audit-band li{display:flex;gap:10px;align-items:center;color:#C9CBC5}
+.audit-band li::before{content:"✓";width:22px;height:22px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-size:12px;flex:none}
+.form-dark{background:var(--ink-2);border:1px solid var(--line-dark);border-radius:24px;padding:32px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-dark input,.form-dark textarea{width:100%;background:#141915;border:1px solid var(--line-dark);border-radius:var(--radius-sm);padding:15px 16px;color:#fff;outline:none;font-size:15px;transition:border-color .2s}
+.form-dark input:focus,.form-dark textarea:focus{border-color:var(--orange)}
+.form-dark textarea{grid-column:1/-1;min-height:100px;resize:vertical}
+.form-foot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:16px;flex-wrap:wrap;font-size:13px;color:#8C908A}
+
+/* ===== INTRO ===== */
+.intro .wrap{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.intro h2{margin:18px 0 24px}
+.intro p{color:var(--muted);margin-bottom:18px;font-size:16.5px}
+.intro .link-u{margin-top:10px}
+
+/* ===== CARDS ===== */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:34px 30px;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s,border-color .25s}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:#DDD4C2}
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
+.icon{width:48px;height:48px;border-radius:12px;background:var(--orange-soft);color:var(--orange);display:grid;place-items:center;flex:none}
+.icon svg{width:21px;height:21px}
+.num{font-family:var(--f-mono);font-size:12px;color:#A9ABA6}
+.big-num{font-family:var(--f-display);font-size:44px;line-height:1;color:#E6DFD0}
+.card h3{margin-bottom:12px}
+.card p{font-size:15px;color:var(--muted)}
+.card .go{margin-top:26px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:all .2s}
+.card:hover .go{background:var(--orange);border-color:var(--orange);color:#fff}
+.card.dark{background:var(--ink-2);border-color:var(--line-dark)}
+.card.dark h3{color:#F4F2EC}.card.dark p{color:#A8ABA4}
+.card.dark .big-num{color:#2F3731}
+.card.dark:hover{border-color:var(--orange)}
+.card.dark .icon{background:rgba(255,90,31,.14)}
+.card.featured{background:var(--ink);border-color:var(--ink)}
+.card.featured h3{color:#fff}.card.featured p{color:#B8BAB4}
+.card.featured .icon{background:var(--orange);color:#fff}
+
+/* ===== RULES TABLE ===== */
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.rule-col{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.rule-col.new{border-color:var(--ink);box-shadow:var(--shadow)}
+.rule-head{padding:22px 28px;display:flex;justify-content:space-between;align-items:center;background:#F3EFE5;font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;font-weight:600}
+.rule-col.old .rule-head{color:var(--red)}
+.rule-col.new .rule-head{background:var(--ink);color:#fff}
+.rule-head span{font-weight:400;color:var(--muted);letter-spacing:0}
+.rule-col.new .rule-head span{color:#9C9F98}
+.rule-row{display:grid;grid-template-columns:34px 26px 1fr;align-items:center;gap:10px;padding:17px 28px;border-top:1px solid var(--line);font-size:15px}
+.rule-row .n{font-family:var(--f-mono);font-size:12px;color:#A9ABA6}
+.rule-row .x{color:var(--red);font-weight:700}
+.rule-row .ok{width:22px;height:22px;border-radius:50%;background:#E3F6EA;color:var(--green);display:grid;place-items:center;font-size:12px;font-weight:700}
+.rule-col.old .rule-row span:last-child{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(214,69,69,.35)}
+
+/* ===== SLIDER (generic) ===== */
+.slider{position:relative}
+.slides{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:6px 2px 10px;scrollbar-width:none}
+.slides::-webkit-scrollbar{display:none}
+.slides>*{scroll-snap-align:start;flex:0 0 calc((100% - 48px)/3)}
+.slider.two .slides>*{flex-basis:calc((100% - 24px)/2)}
+.slider-ctrl{display:flex;justify-content:space-between;align-items:center;margin-top:36px;gap:20px}
+.dots{display:flex;gap:8px}
+.dots button{width:8px;height:8px;border-radius:999px;border:none;background:#D9D2C2;cursor:pointer;transition:width .3s,background .3s}
+.dots button.on{width:28px;background:var(--orange)}
+.bg-dark .dots button{background:#39413B}.bg-dark .dots button.on{background:var(--orange)}
+.arrows{display:flex;gap:10px}
+.arrows button{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;display:grid;place-items:center;transition:all .2s}
+.arrows button:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+.arrows .prev svg{transform:rotate(180deg)}
+.bg-dark .arrows button{background:transparent;border-color:var(--line-dark);color:#fff}
+
+/* industries */
+.ind{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px 28px;display:flex;flex-direction:column;min-height:280px;transition:border-color .25s,box-shadow .25s}
+.ind:hover{border-color:var(--orange);box-shadow:var(--shadow)}
+.ind .icon{margin-bottom:24px}
+.ind h3{font-size:22px;margin-bottom:10px}
+.ind p{font-size:14.5px;color:var(--muted)}
+.ind .tags{margin-top:auto;padding-top:22px;display:flex;flex-wrap:wrap;gap:8px}
+.ind .tags span{font-size:12px;padding:5px 11px;border-radius:999px;background:var(--cream);border:1px solid var(--line)}
+
+/* case studies */
+.case{background:var(--ink-2);border:1px solid var(--line-dark);border-radius:22px;overflow:hidden;display:flex;flex-direction:column}
+.case-img{height:200px;position:relative;background:linear-gradient(135deg,#2A322C,var(--ink))}
+.case-img img{width:100%;height:100%;object-fit:cover;opacity:.85}
+.case-img .tag{position:absolute;left:18px;top:18px;background:var(--orange);color:#fff;font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;padding:6px 12px;border-radius:999px;text-transform:uppercase}
+.case-body{padding:28px}
+.case h3{font-size:24px;margin-bottom:6px}
+.case .sub{font-size:14px;color:#9C9F98}
+.case .mets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}
+.case .mets div{background:#141915;border:1px solid var(--line-dark);border-radius:10px;padding:12px}
+.case .mets b{display:block;font-family:var(--f-display);font-weight:400;font-size:26px;color:#fff;line-height:1}
+.case .mets b small{color:var(--orange);font-size:14px;font-style:italic}
+.case .mets span{font-size:11.5px;color:#8C908A}
+.case .read{color:#fff;font-weight:600;font-size:14px;display:inline-flex;gap:8px;align-items:center}
+.case .read:hover{color:var(--orange)}
+
+/* reviews */
+.rev-top{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;margin-bottom:28px}
+.g-score{background:var(--ink);color:#B8BAB4;border-radius:var(--radius);padding:32px;display:flex;flex-direction:column;justify-content:space-between;gap:20px}
+.g-score b{font-family:var(--f-display);font-weight:400;font-size:72px;color:#fff;line-height:1}
+.g-score .stars{color:#F5A524;font-size:20px;letter-spacing:3px}
+.g-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.g-row div{border:1px solid var(--line-dark);border-radius:10px;padding:12px;font-size:12.5px}
+.g-row div strong{display:block;color:#fff;font-size:18px;font-family:var(--f-display);font-weight:400}
+.video{border-radius:var(--radius);overflow:hidden;position:relative;min-height:260px;background:linear-gradient(135deg,#2A322C,var(--ink))}
+.video img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:.75}
+.video .play{position:absolute;inset:0;margin:auto;width:76px;height:76px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;box-shadow:0 0 0 12px rgba(255,90,31,.25);cursor:pointer;transition:transform .2s}
+.video .play:hover{transform:scale(1.08)}
+.video .cap{position:absolute;left:24px;bottom:22px;color:#fff;font-weight:600}
+.video .cap span{display:block;font-size:12.5px;font-weight:400;color:#D2D4CF}
+.review{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px;display:flex;flex-direction:column}
+.review .stars{color:#F5A524;letter-spacing:2px}
+.review q{display:block;font-family:var(--f-display);font-size:19px;line-height:1.45;color:var(--ink);margin:16px 0 24px;quotes:none}
+.review .who{margin-top:auto;display:flex;gap:12px;align-items:center;padding-top:20px;border-top:1px solid var(--line)}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-weight:700;flex:none}
+.review .who b{display:block;font-size:14.5px;color:var(--ink)}
+.review .who span{font-size:12.5px;color:var(--muted)}
+.review .g{margin-left:auto;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+
+/* packages */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+.plan{background:#fff;border:1px solid var(--line);border-radius:22px;padding:36px 32px;display:flex;flex-direction:column;position:relative;transition:transform .25s,box-shadow .25s}
+.plan:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.plan.pop{background:var(--ink);border-color:var(--ink);color:#B8BAB4}
+.plan.pop h3,.plan.pop .price{color:#fff}
+.plan .ribbon{position:absolute;top:-13px;right:28px;background:var(--orange);color:#fff;font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;padding:6px 12px;border-radius:999px}
+.plan h3{font-size:26px}
+.plan .for{font-size:14px;color:var(--muted);margin:8px 0 24px}
+.plan.pop .for{color:#9C9F98}
+.price{font-family:var(--f-display);font-size:48px;color:var(--ink);line-height:1}
+.price small{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.plan ul{list-style:none;margin:28px 0 32px;padding-top:24px;border-top:1px dashed var(--line);display:grid;gap:12px;font-size:14.5px}
+.plan.pop ul{border-color:var(--line-dark)}
+.plan li{display:flex;gap:10px}
+.plan li::before{content:"✓";color:var(--orange);font-weight:700}
+.plan .btn{margin-top:auto;justify-content:center}
+
+/* why choose */
+.why-wrap{display:grid;grid-template-columns:.95fr 1.05fr;gap:40px}
+.why-hero{background:var(--ink);border-radius:24px;padding:48px 44px;color:#B8BAB4;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.why-hero::after{content:"";position:absolute;right:-120px;bottom:-120px;width:360px;height:360px;background:radial-gradient(closest-side,rgba(255,90,31,.35),transparent)}
+.why-hero .logo{margin-bottom:34px}
+.why-hero h3{font-size:32px;color:#fff;line-height:1.2;margin-bottom:18px}
+.why-nums{margin-top:auto;padding-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;position:relative;z-index:1}
+.why-nums div{border:1px solid var(--line-dark);border-radius:var(--radius-sm);padding:18px;background:var(--ink-2)}
+.why-nums b{display:block;font-family:var(--f-display);font-weight:400;font-size:34px;color:#fff;line-height:1}
+.why-nums b small{color:var(--orange);font-size:18px;font-style:italic}
+.why-nums span{font-size:12.5px;display:block;margin-top:8px}
+.why-list{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.why-item{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px 28px;transition:all .25s}
+.why-item:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--orange)}
+.why-item .icon{margin-bottom:22px}
+.why-item h3{font-size:20px;margin-bottom:10px}
+.why-item p{font-size:14.5px;color:var(--muted)}
+
+/* tools */
+.marquee{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.marquee+.marquee{margin-top:14px}
+.marquee-track{display:flex;gap:16px;width:max-content;animation:scroll 45s linear infinite}
+.marquee.rev .marquee-track{animation-direction:reverse}
+.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.tool{display:flex;align-items:center;gap:14px;padding:16px 24px 16px 16px;border:1px solid var(--line);border-radius:999px;background:#fff;white-space:nowrap;transition:all .2s}
+.tool:hover{border-color:var(--orange);transform:translateY(-2px)}
+.tool .mono{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-mono);font-weight:600;font-size:13px;background:var(--orange-soft);color:var(--orange)}
+.tool:nth-child(3n) .mono{background:var(--ink);color:#fff}
+.tool:nth-child(3n+2) .mono{background:var(--cream);color:var(--ink);border:1px solid var(--line)}
+.tool b{display:block;font-size:15px;color:var(--ink);line-height:1.2}
+.tool small{font-size:12px;color:var(--muted)}
+.tool-cats{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:44px}
+.tool-cats span{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 16px;border:1px dashed var(--line);border-radius:999px}
+.tool-cats b{color:var(--orange)}
+
+/* FAQ */
+.faq-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:72px}
+.faq-wrap h2{margin:18px 0 20px}
+.faq-list{display:grid;gap:12px}
+.faq{background:#fff;border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden}
+.faq button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 24px;background:none;border:none;cursor:pointer;text-align:left;font-family:var(--f-display);font-size:20px;color:var(--ink)}
+.faq .plus{width:32px;height:32px;border-radius:50%;background:var(--cream);display:grid;place-items:center;flex:none;transition:all .3s;font-family:var(--f-body);font-size:18px}
+.faq.open .plus{transform:rotate(45deg);background:var(--orange);color:#fff}
+.faq .ans{max-height:0;overflow:hidden;transition:max-height .35s}
+.faq .ans p{padding:0 24px 22px;color:var(--muted);font-size:15.5px}
+
+/* blog */
+.post{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:all .25s}
+.post:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.post-img{height:190px;background:linear-gradient(135deg,var(--orange-soft),#F3EFE5)}
+.post-img img{width:100%;height:100%;object-fit:cover}
+.post-body{padding:26px;display:flex;flex-direction:column;flex:1}
+.post .cat{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;color:var(--orange);font-weight:600;text-transform:uppercase}
+.post h4{font-size:21px;line-height:1.3;margin:10px 0;font-weight:500}
+.post p{font-size:14.5px;color:var(--muted)}
+.post .by{margin-top:auto;padding-top:18px;font-size:13px;color:var(--muted);display:flex;justify-content:space-between}
+.post .by b{color:var(--ink)}
+
+/* CTA */
+.cta-box{border-radius:28px;padding:56px 60px;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;position:relative;overflow:hidden}
+.cta-box h3{font-size:clamp(28px,3vw,40px);line-height:1.1;max-width:640px;font-weight:400}
+.cta-box p{margin-top:12px;max-width:560px}
+.cta-actions{display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:1}
+.cta-orange{background:var(--orange);color:#FFE3D6}
+.cta-orange h3{color:#fff}.cta-orange h3 em{font-style:italic;color:var(--ink)}
+.cta-orange::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;border:40px solid rgba(255,255,255,.12)}
+.cta-dark{background:var(--ink);color:#B8BAB4}
+.cta-dark h3{color:#fff}
+.cta-dark::after{content:"";position:absolute;left:40%;bottom:-160px;width:420px;height:320px;background:radial-gradient(closest-side,rgba(255,90,31,.35),transparent)}
+.cta-light{background:#fff;border:1px solid var(--line)}
+.cta-light p{color:var(--muted)}
+.cta-stats{display:flex;gap:28px;margin-top:18px;font-family:var(--f-mono);font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+.cta-stats b{color:var(--orange)}
+.cta-sec{padding-bottom:112px}
+
+/* footer */
+footer{background:var(--ink);color:#9C9F98;padding:88px 0 36px}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;padding-bottom:48px;border-bottom:1px solid var(--line-dark)}
+.foot-grid p{margin-top:20px;font-size:14.5px;max-width:320px}
+.foot-grid h5{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#fff;font-weight:500;margin-bottom:20px}
+.foot-grid ul{list-style:none;display:grid;gap:12px;font-size:14.5px}
+.foot-grid a:hover,.cities a:hover{color:var(--orange)}
+.cities{padding:32px 0;border-bottom:1px solid var(--line-dark)}
+.cities h5{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;color:#fff;font-weight:500;margin-bottom:16px}
+.cities div{display:flex;flex-wrap:wrap;gap:10px}
+.cities a{font-size:13px;border:1px solid var(--line-dark);border-radius:999px;padding:6px 14px}
+.foot-bottom{display:flex;justify-content:space-between;padding-top:28px;font-size:13px;flex-wrap:wrap;gap:12px}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:1080px){
+  .hero .wrap,.intro .wrap,.audit-band .wrap,.faq-wrap,.why-wrap,.rev-top{grid-template-columns:1fr;gap:56px}
+  .grid-3,.plans{grid-template-columns:repeat(2,1fr)}
+  .slides>*{flex-basis:calc((100% - 24px)/2)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:760px){
+  .pad{padding:80px 0}.wrap{padding:0 16px}
+  .nav-links,.nav .btn{display:none}.menu-btn{display:flex}
+  .nav.open .nav-links{display:flex;flex-direction:column;position:absolute;top:78px;left:0;right:0;background:#fff;padding:24px 16px;gap:20px;border-bottom:1px solid var(--line)}
+  .sec-head{grid-template-columns:1fr;gap:20px;margin-bottom:40px}.sec-head p{justify-self:start}
+  .grid-3,.grid-2,.plans,.rules,.why-list,.fgrid,.foot-grid{grid-template-columns:1fr}
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .collage{height:360px}.chip-a{left:0}
+  .slides>*,.slider.two .slides>*{flex-basis:88%}
+  .cta-box{padding:40px 26px}
+  .rule-row{padding:15px 18px}
+  .why-hero{padding:34px 26px}
+  .form-dark{padding:24px}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="g-mark" viewBox="0 0 64 64">
+      <path d="M40 12 A24 24 0 1 0 50 44" fill="none" stroke="#1F2320" stroke-width="7"/>
+      <path d="M38 23 A13 13 0 1 0 44 42" fill="none" stroke="#FF5A1F" stroke-width="6"/>
+      <path d="M30 34 H46 V40 H36" fill="none" stroke="#1F2320" stroke-width="5"/>
+      <path d="M36 24 L54 11" stroke="#FF5A1F" stroke-width="5"/>
+      <path d="M47 7 L60 6 L56 18 Z" fill="#FF5A1F"/>
+    </symbol>
+    <symbol id="arrow" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></g></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></g></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></g></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 15l4-4 3 3 5-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></g></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M16 4a4 4 0 010 8M22 21c0-3-2-5-4-5.5"/></g></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 4h2l2.5 11h11L21 7H6.5"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></g></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-7 7-12a7 7 0 10-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></g></symbol>
+    <symbol id="i-build" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2M10 21v-3h4v3"/></g></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-8-5-8-11a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 9c0 6-8 11-8 11z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M5 21h14M4 7h16M7 7l-3 7a3 3 0 006 0zM17 7l-3 7a3 3 0 006 0z"/></g></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v10h-6v-6H9v6H3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 012-2h14v16H6a2 2 0 00-2 2zM4 5v16" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6h12v10H2zM14 10h4l3 3v3h-7"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></g></symbol>
+    <symbol id="i-hotel" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 20V8M3 14h18v6M21 14v-2a3 3 0 00-3-3h-7v5"/><circle cx="7" cy="11" r="2"/></g></symbol>
+  </defs>
+</svg>
+
+<!-- ============ TOP BAR + NAV ============ -->
+<div class="topbar"><b>● Free SEO audit · 200+ checks · No obligation.</b><a href="#audit">Book →</a></div>
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#" class="logo" aria-label="GENRANQ Software LLP"><svg class="logo-mark"><use href="#g-mark"/></svg><span class="logo-text"><span class="logo-word">GENRANQ</span><span class="logo-sub">SOFTWARE LLP</span></span></a>
+    <div class="nav-links"><a href="#" class="active">Services</a><a href="#industries">Industries</a><a href="#cases">Case studies</a><a href="#pricing">Pricing</a><a href="#blog">Blog</a></div>
+    <a href="#audit" class="btn btn-dark">Get a free audit <svg><use href="#arrow"/></svg></a>
+    <button class="menu-btn" aria-label="Menu" onclick="nav.classList.toggle('open')"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M3 6h14M3 14h14" stroke="#121613" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+  </div>
+</nav>
+
+<!-- ============ 1. HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="crumbs"><a href="#">Home</a> / <a href="#">Services</a> / <b>AI SEO</b></div>
+      <span class="badge">AI-Powered SEO Studio · Est. 2014</span>
+      <h1>Search rankings driven by <em class="accent">artificial intelligence.</em></h1>
+      <p class="lead">GENRANQ combines deep SEO expertise with AI tools to grow your organic traffic, authority, and revenue — faster than traditional methods alone.</p>
+      <div class="hero-ctas"><a href="#audit" class="btn btn-primary">Get a free SEO audit <svg><use href="#arrow"/></svg></a><a href="#process" class="btn btn-ghost">See how it works</a></div>
+      <div class="hero-stats">
+        <div><b>412<small>%</small></b><span>Avg. traffic growth</span></div>
+        <div><b>600<small>+</small></b><span>Brands grown</span></div>
+        <div><b>94<small>%</small></b><span>Client retention</span></div>
+        <div><b>8.5<small>×</small></b><span>Avg. retainer ROI</span></div>
+      </div>
+    </div>
+    <div class="collage reveal">
+      <div class="ph one"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80" alt="SEO team collaborating" onerror="this.remove()"></div>
+      <div class="ph two"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Analytics dashboard on laptop" onerror="this.remove()"></div>
+      <div class="float-chip chip-a"><span class="ic"><svg width="20" height="20"><use href="#i-target"/></svg></span><div><b>#1</b><span>Rankings in 90 days</span></div></div>
+      <div class="float-chip chip-b"><span class="ic"><svg width="20" height="20"><use href="#i-sparkle"/></svg></span><div><b>1,284</b><span>AI citations tracked</span></div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 2. AUDIT FORM ============ -->
+<section class="audit-band bg-dark" id="audit">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">Free audit</span>
+      <h2>Get your <em class="accent">free SEO audit</em> today.</h2>
+      <p class="lead">Our team reviews your site and delivers a custom AI SEO growth plan within 48 hours.</p>
+      <ul><li>200+ technical &amp; content checks</li><li>AI visibility report (ChatGPT, Gemini, Perplexity)</li><li>Top 3 quick wins, prioritised</li></ul>
+    </div>
+    <form class="form-dark reveal" onsubmit="event.preventDefault();this.querySelector('button').innerHTML='Request sent ✓'">
+      <div class="fgrid">
+        <input type="text" placeholder="Your name" required>
+        <input type="email" placeholder="Email address" required>
+        <input type="tel" placeholder="Phone number">
+        <input type="url" placeholder="Website URL">
+        <textarea placeholder="Tell us about your SEO goals…"></textarea>
+      </div>
+      <div class="form-foot"><span>🔒 Your data stays private. Reply within 4 hours.</span><button class="btn btn-primary" type="submit">Send my free audit request <svg><use href="#arrow"/></svg></button></div>
+    </form>
+  </div>
+</section>
+
+<!-- ============ 3. AI SEO INTRO ============ -->
+<section class="pad intro">
+  <div class="wrap">
+    <div class="collage reveal">
+      <div class="ph one"><img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1000&q=80" alt="Team working in office" onerror="this.remove()"></div>
+      <div class="ph two"><img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80" alt="Strategy session" onerror="this.remove()"></div>
+      <div class="float-chip chip-a"><span class="ic"><svg width="20" height="20"><use href="#i-bolt"/></svg></span><div><b>3.4×</b><span>AI share of voice</span></div></div>
+    </div>
+    <div class="reveal">
+      <span class="eyebrow">Artificial intelligence SEO</span>
+      <h2>AI SEO services built for the <em class="accent">modern search landscape.</em></h2>
+      <p>Over the past few years, one force has reshaped every business landscape — artificial intelligence. The AI-driven applications emerging in SEO and digital marketing are unprecedented.</p>
+      <p>When Google's AI Overviews, ChatGPT citations, and Perplexity search changed the rules, we were ready. GENRANQ deploys proven AI-powered tools and strategies to put your brand in front of buyers — not just browsers.</p>
+      <p>If you want to stay ahead by investing in emerging technologies and revolutionary strategies, it's time to look at AI SEO.</p>
+      <a href="#process" class="link-u">See our AI SEO process <svg width="14" height="14"><use href="#arrow"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. PROCESS ============ -->
+<section class="pad bg-dark" id="process">
+  <div class="wrap">
+    <div class="sec-head center reveal"><span class="eyebrow">Our method</span><h2>GENRANQ's <em class="accent">AI SEO process.</em></h2><p>A well-defined, structured process built on industry best practices and tailored to the unique needs of each client.</p></div>
+    <div class="grid-3">
+      <article class="card dark reveal"><div class="card-top"><span class="icon"><svg><use href="#i-search"/></svg></span><span class="big-num">01</span></div><h3>Understanding your business</h3><p>We begin by gaining a clear understanding of your business, industry, and objectives so the strategy aligns with your growth goals.</p></article>
+      <article class="card dark reveal"><div class="card-top"><span class="icon"><svg><use href="#i-bolt"/></svg></span><span class="big-num">02</span></div><h3>AI-powered audits &amp; keyword research</h3><p>AI tools conduct detailed audits of your website and perform keyword research, identifying key opportunities for improvement.</p></article>
+      <article class="card dark reveal"><div class="card-top"><span class="icon"><svg><use href="#i-doc"/></svg></span><span class="big-num">03</span></div><h3>Personalised content &amp; SEO recommendations</h3><p>Based on findings, we develop tailored content strategies and SEO recommendations to enhance content and site performance.</p></article>
+      <article class="card dark reveal"><div class="card-top"><span class="icon"><svg><use href="#i-cpu"/></svg></span><span class="big-num">04</span></div><h3>LLM optimisation</h3><p>We research and optimise your brand to boost visibility in LLM searches — ChatGPT, Gemini, Perplexity — driving higher discoverability.</p></article>
+      <article class="card dark reveal"><div class="card-top"><span class="icon"><svg><use href="#i-chart"/></svg></span><span class="big-num">05</span></div><h3>Continuous monitoring &amp; optimisation</h3><p>The strategy is regularly monitored using AI tools, keeping it effective as industry changes and algorithm updates roll out.</p></article>
+      <article class="card dark reveal"><div class="card-top"><span class="icon"><svg><use href="#i-target"/></svg></span><span class="big-num">06</span></div><h3>Measuring ROI &amp; refining the strategy</h3><p>We track performance and refine the strategy as needed, optimising results and achieving business goals systematically.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. WORLD-CLASS AI SEO ============ -->
+<section class="pad bg-cream">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><span class="eyebrow">Why GENRANQ</span><h2>World-class AI SEO. <em class="accent">Real competitive advantage.</em></h2></div><p>GENRANQ is a natural choice for ambitious brands looking for an AI marketing partner that manages the complexity of modern search without compromising on performance.</p></div>
+    <div class="grid-3">
+      <article class="card reveal"><div class="card-top"><span class="icon"><svg><use href="#i-build"/></svg></span><span class="num">01</span></div><h3>Genuine enterprise capabilities</h3><p>We have built in-house AI capabilities that allow us to work on websites with thousands of pages and scale our efforts with your business.</p></article>
+      <article class="card reveal"><div class="card-top"><span class="icon"><svg><use href="#i-search"/></svg></span><span class="num">02</span></div><h3>Expertise across the entire search landscape</h3><p>From technical SEO to video, local, e-commerce and AI search — our team spans the full spectrum to deliver the best growth for your business.</p></article>
+      <article class="card featured reveal"><div class="card-top"><span class="icon"><svg><use href="#i-sparkle"/></svg></span><span class="num">03</span></div><h3>Portfolio of marquee brands</h3><p>Our client portfolio includes some of the leading brands across industries including healthcare, finance, e-commerce, education and more.</p></article>
+      <article class="card reveal"><div class="card-top"><span class="icon"><svg><use href="#i-users"/></svg></span><span class="num">04</span></div><h3>38-person specialist studio</h3><p>Our global team spans strategy, content, engineering and AI search — not a side offering within a generalist agency.</p></article>
+      <article class="card reveal"><div class="card-top"><span class="icon"><svg><use href="#i-chart"/></svg></span><span class="num">05</span></div><h3>12+ years of search expertise</h3><p>Founded in 2014, we've guided 600+ brands through every major search algorithm shift — from Panda and Penguin to AI Overviews and GEO.</p></article>
+      <article class="card reveal"><div class="card-top"><span class="icon"><svg><use href="#i-shield"/></svg></span><span class="num">06</span></div><h3>Data-driven, no long contracts</h3><p>Monthly reviews with full transparency. We earn your business every month with measurable results — 8.5× average return on retainer.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. AI MAKES SEO FASTER ============ -->
+<section class="pad">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><span class="eyebrow">AI advantage</span><h2>AI makes SEO <em class="accent">faster and more effective.</em></h2></div><p>AI SEO services bring measurable advantages over traditional methods — here's what you gain when you partner with GENRANQ.</p></div>
+    <div class="grid-3">
+      <article class="card reveal"><span class="icon" style="margin-bottom:24px"><svg><use href="#i-search"/></svg></span><h3>Accelerated keyword research</h3><p>AI quickly identifies the best keyword opportunities, streamlining research and improving accuracy well beyond manual analysis.</p></article>
+      <article class="card reveal"><span class="icon" style="margin-bottom:24px"><svg><use href="#i-doc"/></svg></span><h3>Optimised content recommendations</h3><p>AI enhances content relevance and structure, making it more engaging for users and search engines — including AI answer engines.</p></article>
+      <article class="card reveal"><span class="icon" style="margin-bottom:24px"><svg><use href="#i-chart"/></svg></span><h3>Trend prediction for SEO</h3><p>AI helps your business stay ahead by forecasting search trends before they peak — so you capture traffic before competitors notice.</p></article>
+      <article class="card reveal"><span class="icon" style="margin-bottom:24px"><svg><use href="#i-bolt"/></svg></span><h3>Continuous SEO optimisation</h3><p>AI monitors and adjusts your SEO performance in real time, enabling ongoing improvements without waiting for quarterly reviews.</p></article>
+      <article class="card reveal"><span class="icon" style="margin-bottom:24px"><svg><use href="#i-scale"/></svg></span><h3>Scalable &amp; cost-effective SEO</h3><p>AI automates many SEO tasks, making it easier to scale your efforts while reducing per-unit cost — ideal for multi-location and enterprise brands.</p></article>
+      <article class="card reveal"><span class="icon" style="margin-bottom:24px"><svg><use href="#i-cpu"/></svg></span><h3>GEO &amp; LLM visibility</h3><p>We optimise your brand to appear in ChatGPT, Google AI Overviews, Gemini, and Perplexity — the new frontier of AI-powered search.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- CTA A -->
+<section class="cta-sec">
+  <div class="wrap"><div class="cta-box cta-orange reveal">
+    <div><h3>See how AI can speed up <em>your SEO growth.</em></h3><p>Get a free AI visibility check across ChatGPT, Gemini, Perplexity and Google AI Overviews.</p></div>
+    <div class="cta-actions"><a href="#audit" class="btn btn-dark">Check my AI visibility <svg><use href="#arrow"/></svg></a></div>
+  </div></div>
+</section>
+
+<!-- ============ 7. RULES HAVE CHANGED ============ -->
+<section class="pad bg-cream">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><span class="eyebrow">Old vs new</span><h2>The rules have <em class="accent">changed.</em></h2></div><p>SEO in 2026 looks nothing like it did three years ago. Here's what's shifted — and why AI-first optimisation is now non-negotiable.</p></div>
+    <div class="rules">
+      <div class="rule-col old reveal">
+        <div class="rule-head">● OLD SEO <span>Before 2023</span></div>
+        <div class="rule-row"><span class="n">01</span><span class="x">✕</span><span>Ranking in Google was the only game</span></div>
+        <div class="rule-row"><span class="n">02</span><span class="x">✕</span><span>Keyword stuffing</span></div>
+        <div class="rule-row"><span class="n">03</span><span class="x">✕</span><span>Every link counted (quantity over quality)</span></div>
+        <div class="rule-row"><span class="n">04</span><span class="x">✕</span><span>Optimised mainly for bots</span></div>
+        <div class="rule-row"><span class="n">05</span><span class="x">✕</span><span>Quick traffic hacks</span></div>
+        <div class="rule-row"><span class="n">06</span><span class="x">✕</span><span>Gaming algorithms</span></div>
+        <div class="rule-row"><span class="n">07</span><span class="x">✕</span><span>Clicks equal victory</span></div>
+        <div class="rule-row"><span class="n">08</span><span class="x">✕</span><span>Page-one rankings were the goal</span></div>
+      </div>
+      <div class="rule-col new reveal">
+        <div class="rule-head">● NEW SEO <span>How GENRANQ works</span></div>
+        <div class="rule-row"><span class="n">01</span><span class="ok">✓</span><span>Being retrieved, cited, and trusted across Google and AI</span></div>
+        <div class="rule-row"><span class="n">02</span><span class="ok">✓</span><span>Content meets Google's E-E-A-T criteria</span></div>
+        <div class="rule-row"><span class="n">03</span><span class="ok">✓</span><span>GEO — cited in ChatGPT, Gemini, Perplexity</span></div>
+        <div class="rule-row"><span class="n">04</span><span class="ok">✓</span><span>AEO — appear in AI answers and voice search</span></div>
+        <div class="rule-row"><span class="n">05</span><span class="ok">✓</span><span>AIO — structure content for AI workflows</span></div>
+        <div class="rule-row"><span class="n">06</span><span class="ok">✓</span><span>SXO — align content with UX and conversions</span></div>
+        <div class="rule-row"><span class="n">07</span><span class="ok">✓</span><span>Long-term authority building</span></div>
+        <div class="rule-row"><span class="n">08</span><span class="ok">✓</span><span>Visibility across Google, AI, and voice</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. FULL-SPECTRUM SERVICES ============ -->
+<section class="pad" id="services">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><span class="eyebrow">Our SEO services</span><h2>Full-spectrum search <em class="accent">optimisation.</em></h2></div><p>The following SEO services help businesses rank higher, get cited more, and reach buyers across every modern search platform.</p></div>
+    <div class="grid-3">
+      <a href="#" class="card reveal"><div class="card-top"><span class="icon"><svg><use href="#i-bolt"/></svg></span><span class="num">01</span></div><h3>Technical SEO</h3><p>We fix crawl issues, indexation gaps, rendering problems, and Core Web Vitals — the foundation everything else is built on.</p><span class="go"><svg width="14" height="14"><use href="#arrow"/></svg></span></a>
+      <a href="#" class="card reveal"><div class="card-top"><span class="icon"><svg><use href="#i-pin"/></svg></span><span class="num">02</span></div><h3>Local SEO</h3><p>Multi-location SEO systems that dominate the 3-pack. From single storefronts to 200+ locations.</p><span class="go"><svg width="14" height="14"><use href="#arrow"/></svg></span></a>
+      <a href="#" class="card reveal"><div class="card-top"><span class="icon"><svg><use href="#i-cart"/></svg></span><span class="num">03</span></div><h3>E-commerce SEO</h3><p>Product schema, faceted navigation, category architecture, and inventory-aware indexation for online stores.</p><span class="go"><svg width="14" height="14"><use href="#arrow"/></svg></span></a>
+      <a href="#" class="card reveal"><div class="card-top"><span class="icon"><svg><use href="#i-build"/></svg></span><span class="num">04</span></div><h3>Enterprise SEO</h3><p>Cross-functional roadmapping, migration planning, and programmatic page generation for large organisations.</p><span class="go"><svg width="14" height="14"><use href="#arrow"/></svg></span></a>
+      <a href="#" class="card reveal"><div class="card-top"><span class="icon"><svg><use href="#i-search"/></svg></span><span class="num">05</span></div><h3>SEO audits</h3><p>A forensic 80–90 page audit covering every dimension of your search presence. No retainer required.</p><span class="go"><svg width="14" height="14"><use href="#arrow"/></svg></span></a>
+      <a href="#" class="card featured reveal"><div class="card-top"><span class="icon"><svg><use href="#i-sparkle"/></svg></span><span class="num">06</span></div><h3>AI Search &amp; GEO</h3><p>Optimise your brand to be cited in ChatGPT, Gemini, Perplexity, and Google AI Overviews.</p><span class="go"><svg width="14" height="14"><use href="#arrow"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA B -->
+<section class="cta-sec">
+  <div class="wrap"><div class="cta-box cta-light reveal">
+    <div><span class="eyebrow">Not sure where to start?</span><h3 style="margin-top:14px">Get a custom <em class="accent">AI SEO roadmap</em> for your site.</h3><div class="cta-stats"><span><b>200+</b> checks</span><span><b>48h</b> delivery</span><span><b>₹0</b> cost</span></div></div>
+    <div class="cta-actions"><a href="#audit" class="btn btn-primary">Get my roadmap <svg><use href="#arrow"/></svg></a><a href="#pricing" class="btn btn-ghost">View packages</a></div>
+  </div></div>
+</section>
+
+<!-- ============ 9. INDUSTRIES (slider, 9 boxes) ============ -->
+<section class="pad bg-cream" id="industries">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><span class="eyebrow">Industries we work with</span><h2>SEO tailored for <em class="accent">your industry.</em></h2></div><p>We work with clients from over 300 different industries. Here are some of the sectors we serve most — if yours isn't listed, talk to us.</p></div>
+    <div class="slider reveal" data-slider>
+      <div class="slides">
+        <article class="ind"><span class="icon"><svg><use href="#i-heart"/></svg></span><h3>Healthcare &amp; clinics</h3><p>Patient-first content and local SEO that brings bookings to hospitals, clinics, and dental practices — fully YMYL-compliant.</p><div class="tags"><span>Local</span><span>E-E-A-T</span></div></article>
+        <article class="ind"><span class="icon"><svg><use href="#i-cart"/></svg></span><h3>E-commerce &amp; D2C</h3><p>Category, product, and collection SEO that turns search into sales for Shopify, WooCommerce, and custom stores.</p><div class="tags"><span>Product schema</span><span>CRO</span></div></article>
+        <article class="ind"><span class="icon"><svg><use href="#i-home"/></svg></span><h3>Real estate</h3><p>Rank project pages and locality searches to generate high-intent buyer and tenant leads for developers and brokers.</p><div class="tags"><span>Local</span><span>Listings</span></div></article>
+        <article class="ind"><span class="icon"><svg><use href="#i-book"/></svg></span><h3>Education &amp; EdTech</h3><p>Course and admissions SEO for schools, universities, and online learning platforms competing for student enquiries.</p><div class="tags"><span>Programmatic</span><span>AI answers</span></div></article>
+        <article class="ind"><span class="icon"><svg><use href="#i-scale"/></svg></span><h3>Legal &amp; law firms</h3><p>Authority content and practice-area pages that win "lawyer near me" queries and build trust with prospective clients.</p><div class="tags"><span>YMYL</span><span>Local</span></div></article>
+        <article class="ind"><span class="icon"><svg><use href="#i-chart"/></svg></span><h3>Finance &amp; fintech</h3><p>Compliant, expert-led content that ranks for competitive money keywords and earns citations in AI answers.</p><div class="tags"><span>E-E-A-T</span><span>Digital PR</span></div></article>
+        <article class="ind"><span class="icon"><svg><use href="#i-cpu"/></svg></span><h3>SaaS &amp; technology</h3><p>Bottom-funnel, comparison, and integration pages that drive demo signups and pipeline — not just traffic.</p><div class="tags"><span>Content</span><span>GEO</span></div></article>
+        <article class="ind"><span class="icon"><svg><use href="#i-hotel"/></svg></span><h3>Hospitality &amp; travel</h3><p>Hotel, restaurant, and travel SEO that captures bookings directly — reducing reliance on OTAs and aggregators.</p><div class="tags"><span>Maps</span><span>Reviews</span></div></article>
+        <article class="ind"><span class="icon"><svg><use href="#i-truck"/></svg></span><h3>Manufacturing &amp; logistics</h3><p>B2B SEO for manufacturers, exporters, and freight companies that turns technical searches into RFQs.</p><div class="tags"><span>B2B</span><span>Export</span></div></article>
+      </div>
+      <div class="slider-ctrl"><div class="dots"></div><div class="arrows"><button class="prev" aria-label="Previous"><svg width="16" height="16"><use href="#arrow"/></svg></button><button class="next" aria-label="Next"><svg width="16" height="16"><use href="#arrow"/></svg></button></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10. CASE STUDIES (slider) ============ -->
+<section class="pad bg-dark" id="cases">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><span class="eyebrow">Case studies</span><h2>Results that <em class="accent">actually move</em> revenue.</h2></div><p>Twelve-month outcomes from real clients. No vanity metrics — just qualified traffic, leads, and revenue.</p></div>
+    <div class="slider reveal" data-slider>
+      <div class="slides">
+        <article class="case"><div class="case-img"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80" alt="Coffee roastery" onerror="this.remove()"><span class="tag">E-commerce</span></div><div class="case-body"><h3>Maple &amp; Oak Roasters</h3><p class="sub">Local roastery to national subscription brand</p><div class="mets"><div><b>+412<small>%</small></b><span>Organic sessions</span></div><div><b>14×</b><span>ROAS</span></div><div><b>38<small>%</small></b><span>AI citations</span></div></div><a href="#" class="read">Read case study <svg width="14" height="14"><use href="#arrow"/></svg></a></div></article>
+        <article class="case"><div class="case-img"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80" alt="Yoga studio" onerror="this.remove()"><span class="tag">Local SEO</span></div><div class="case-body"><h3>Solace Yoga Studios</h3><p class="sub">From 4 studios to 22 in three years</p><div class="mets"><div><b>+286<small>%</small></b><span>Local visibility</span></div><div><b>5.8×</b><span>Bookings</span></div><div><b>22</b><span>3-pack spots</span></div></div><a href="#" class="read">Read case study <svg width="14" height="14"><use href="#arrow"/></svg></a></div></article>
+        <article class="case"><div class="case-img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="SaaS analytics" onerror="this.remove()"><span class="tag">B2B SaaS</span></div><div class="case-body"><h3>Northbound Analytics</h3><p class="sub">Outranking VC-funded rivals on 1/10 the budget</p><div class="mets"><div><b>+612<small>%</small></b><span>Demo signups</span></div><div><b>11×</b><span>MRR from SEO</span></div><div><b>#2</b><span>Category term</span></div></div><a href="#" class="read">Read case study <svg width="14" height="14"><use href="#arrow"/></svg></a></div></article>
+        <article class="case"><div class="case-img"><img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=80" alt="Dental clinic" onerror="this.remove()"><span class="tag">Healthcare</span></div><div class="case-body"><h3>BrightSmile Dental</h3><p class="sub">Multi-city clinic chain dominating local search</p><div class="mets"><div><b>+340<small>%</small></b><span>Appointments</span></div><div><b>9</b><span>Cities ranked</span></div><div><b>4.9</b><span>Review rating</span></div></div><a href="#" class="read">Read case study <svg width="14" height="14"><use href="#arrow"/></svg></a></div></article>
+        <article class="case"><div class="case-img"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Real estate property" onerror="this.remove()"><span class="tag">Real estate</span></div><div class="case-body"><h3>Habitat Homes</h3><p class="sub">Project pages ranking #1 in 6 localities</p><div class="mets"><div><b>+230<small>%</small></b><span>Qualified leads</span></div><div><b>-48<small>%</small></b><span>Cost per lead</span></div><div><b>#1</b><span>6 localities</span></div></div><a href="#" class="read">Read case study <svg width="14" height="14"><use href="#arrow"/></svg></a></div></article>
+      </div>
+      <div class="slider-ctrl"><div class="dots"></div><div class="arrows"><button class="prev" aria-label="Previous"><svg width="16" height="16"><use href="#arrow"/></svg></button><button class="next" aria-label="Next"><svg width="16" height="16"><use href="#arrow"/></svg></button></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA C -->
+<section class="cta-sec bg-dark" style="padding-top:0">
+  <div class="wrap"><div class="cta-box cta-orange reveal">
+    <div><h3>Want results like these? <em>Let's map your growth.</em></h3><p>Get a custom 12-month SEO &amp; AI search forecast for your business — free.</p></div>
+    <div class="cta-actions"><a href="#audit" class="btn btn-dark">Get my forecast <svg><use href="#arrow"/></svg></a></div>
+  </div></div>
+</section>
+
+<!-- ============ 11. SEO PACKAGES ============ -->
+<section class="pad bg-cream" id="pricing">
+  <div class="wrap">
+    <div class="sec-head center reveal"><span class="eyebrow">SEO packages</span><h2>Simple plans. <em class="accent">Serious results.</em></h2><p>Transparent monthly packages with no hidden fees. Month-to-month after the first 90 days.</p></div>
+    <div class="plans">
+      <div class="plan reveal"><h3>Starter</h3><p class="for">For local businesses &amp; new websites</p><div class="price">₹24,999<small> /month</small></div>
+        <ul><li>Up to 15 target keywords</li><li>Technical SEO audit &amp; fixes</li><li>Google Business Profile optimisation</li><li>2 SEO blog posts / month</li><li>Monthly performance report</li></ul>
+        <a href="#audit" class="btn btn-ghost">Get started <svg><use href="#arrow"/></svg></a></div>
+      <div class="plan pop reveal"><span class="ribbon">MOST POPULAR</span><h3>Growth</h3><p class="for">For growing brands &amp; e-commerce</p><div class="price">₹49,999<small style="color:#9C9F98"> /month</small></div>
+        <ul><li>Up to 40 target keywords</li><li>Everything in Starter</li><li>AI search &amp; GEO optimisation</li><li>6 content pieces / month</li><li>Digital PR &amp; 8 quality backlinks</li><li>Dedicated senior strategist</li></ul>
+        <a href="#audit" class="btn btn-primary">Get started <svg><use href="#arrow"/></svg></a></div>
+      <div class="plan reveal"><h3>Enterprise</h3><p class="for">For multi-location &amp; large sites</p><div class="price">Custom</div>
+        <ul><li>Unlimited keywords &amp; locations</li><li>Everything in Growth</li><li>Programmatic SEO at scale</li><li>In-house developer support</li><li>Weekly AI visibility tracking</li><li>Quarterly strategy workshops</li></ul>
+        <a href="#audit" class="btn btn-dark">Talk to sales <svg><use href="#arrow"/></svg></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12. WHY CHOOSE GENRANQ ============ -->
+<section class="pad" id="why">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><span class="eyebrow">Why choose GENRANQ</span><h2>SEO experts who <em class="accent">also build software.</em></h2></div><p>GENRANQ Software LLP combines SEO strategists and in-house engineers — so strategy and execution never get lost in translation.</p></div>
+    <div class="why-wrap">
+      <div class="why-hero reveal">
+        <span class="logo light"><svg class="logo-mark" style="filter:brightness(1.6)"><use href="#g-mark"/></svg><span class="logo-text"><span class="logo-word">GENRANQ</span><span class="logo-sub">SOFTWARE LLP</span></span></span>
+        <h3>One team for strategy, content, and code.</h3>
+        <p>When your SEO plan needs a faster site, new templates, or schema at scale, our developers ship it — no waiting on a third-party agency.</p>
+        <div class="why-nums"><div><b>38</b><span>In-house experts</span></div><div><b>94<small>%</small></b><span>Client retention</span></div><div><b>4<small>h</small></b><span>Avg. reply time</span></div></div>
+      </div>
+      <div class="why-list">
+        <article class="why-item reveal"><span class="icon"><svg><use href="#i-cpu"/></svg></span><h3>In-house developers</h3><p>Technical fixes, speed, and schema shipped by our own engineers.</p></article>
+        <article class="why-item reveal"><span class="icon"><svg><use href="#i-chart"/></svg></span><h3>Transparent reporting</h3><p>Live dashboards with traffic, leads, and revenue — updated daily.</p></article>
+        <article class="why-item reveal"><span class="icon"><svg><use href="#i-users"/></svg></span><h3>Dedicated strategist</h3><p>One senior point of contact who knows your business inside out.</p></article>
+        <article class="why-item reveal"><span class="icon"><svg><use href="#i-shield"/></svg></span><h3>No long contracts</h3><p>Month-to-month after 90 days. You keep all work and dashboards.</p></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA D -->
+<section class="cta-sec">
+  <div class="wrap"><div class="cta-box cta-dark reveal">
+    <div><h3>Ready to be <em class="accent">unmissable?</em></h3><p>Talk to a senior strategist this week. No deck, no fluff — just your site and a plan.</p></div>
+    <div class="cta-actions"><a href="#audit" class="btn btn-primary">Book your free audit <svg><use href="#arrow"/></svg></a><a href="#pricing" class="btn btn-ghost-dark">Compare packages</a></div>
+  </div></div>
+</section>
+
+<!-- ============ 13. REVIEWS (slider) ============ -->
+<section class="pad bg-cream">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><span class="eyebrow">Client testimonials</span><h2>What our clients say about <em class="accent">GENRANQ.</em></h2></div><p>With hundreds of 5-star reviews, GENRANQ can create a tailored plan to meet your company's online marketing goals — and deliver on it.</p></div>
+    <div class="rev-top reveal">
+      <div class="g-score">
+        <div><span class="eyebrow">Google reviews</span></div>
+        <div style="display:flex;align-items:end;gap:16px"><b>4.9</b><div><div class="stars">★★★★★</div><span>Based on 480 reviews</span></div></div>
+        <div class="g-row"><div><strong>480+</strong>Google</div><div><strong>4.9</strong>Clutch</div><div><strong>4.8</strong>Trustpilot</div></div>
+      </div>
+      <div class="video">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=80" alt="Client success story" onerror="this.remove()">
+        <span class="play"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg></span>
+        <div class="cap">Client success story<span>Watch now · 2:48</span></div>
+      </div>
+    </div>
+    <div class="slider reveal" data-slider data-auto>
+      <div class="slides">
+        <article class="review"><div class="stars">★★★★★</div><q>Extremely reliable and super friendly staff. The team helped us with our digital strategy. Would recommend to everyone who wants to get their SEO done properly.</q><div class="who"><span class="avatar">N</span><div><b>Nazir Mohammadi</b><span>Founder · Retail</span></div><span class="g">Google · 7 mo</span></div></article>
+        <article class="review"><div class="stars">★★★★★</div><q>The team has been incredible to work with. From the very beginning they crafted a clear SEO strategy and delivered measurable results month after month.</q><div class="who"><span class="avatar">H</span><div><b>Hunter D'Angelis</b><span>Marketing Head · SaaS</span></div><span class="g">Google · 10 mo</span></div></article>
+        <article class="review"><div class="stars">★★★★★</div><q>Our organic traffic grew by 280% in the first 90 days. The AI SEO approach is genuinely different — we're now appearing in ChatGPT and Google AI Overviews.</q><div class="who"><span class="avatar">S</span><div><b>Sarah Mitchell</b><span>CMO · E-commerce</span></div><span class="g">Google · 3 mo</span></div></article>
+        <article class="review"><div class="stars">★★★★★</div><q>Transparent reporting, honest advice, and a strategist who actually understands our business. Leads from search have tripled since we started.</q><div class="who"><span class="avatar">R</span><div><b>Rahul Mehta</b><span>Director · Real Estate</span></div><span class="g">Google · 2 mo</span></div></article>
+        <article class="review"><div class="stars">★★★★★</div><q>They fixed technical issues three previous agencies missed. Our clinic now ranks #1 in every city we operate in.</q><div class="who"><span class="avatar">A</span><div><b>Dr. Ananya Rao</b><span>Owner · Healthcare</span></div><span class="g">Google · 5 mo</span></div></article>
+      </div>
+      <div class="slider-ctrl"><div class="dots"></div><div class="arrows"><button class="prev" aria-label="Previous"><svg width="16" height="16"><use href="#arrow"/></svg></button><button class="next" aria-label="Next"><svg width="16" height="16"><use href="#arrow"/></svg></button></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14. TOOLS & TECHNOLOGY (slider) ============ -->
+<section class="pad">
+  <div class="wrap"><div class="sec-head reveal"><div><span class="eyebrow">Tools &amp; technology</span><h2>The stack behind <em class="accent">every ranking.</em></h2></div><p>Industry-leading SEO platforms, analytics, and engineering tools — combined with our own in-house AI tracking.</p></div></div>
+  <div class="marquee"><div class="marquee-track tools-track">
+    <div class="tool"><span class="mono">GSC</span><div><b>Search Console</b><small>Indexing &amp; queries</small></div></div>
+    <div class="tool"><span class="mono">GA4</span><div><b>Google Analytics 4</b><small>Traffic &amp; conversions</small></div></div>
+    <div class="tool"><span class="mono">Ah</span><div><b>Ahrefs</b><small>Backlinks &amp; keywords</small></div></div>
+    <div class="tool"><span class="mono">Se</span><div><b>Semrush</b><small>Competitor research</small></div></div>
+    <div class="tool"><span class="mono">SF</span><div><b>Screaming Frog</b><small>Technical crawls</small></div></div>
+    <div class="tool"><span class="mono">Su</span><div><b>Surfer SEO</b><small>Content optimisation</small></div></div>
+    <div class="tool"><span class="mono">LS</span><div><b>Looker Studio</b><small>Client dashboards</small></div></div>
+    <div class="tool"><span class="mono">PSI</span><div><b>PageSpeed Insights</b><small>Core Web Vitals</small></div></div>
+  </div></div>
+  <div class="marquee rev"><div class="marquee-track tools-track">
+    <div class="tool"><span class="mono">GQ</span><div><b>GENRANQ AI Tracker</b><small>LLM citation tracking</small></div></div>
+    <div class="tool"><span class="mono">Py</span><div><b>Python</b><small>Automation &amp; scripts</small></div></div>
+    <div class="tool"><span class="mono">BQ</span><div><b>BigQuery</b><small>Data warehouse</small></div></div>
+    <div class="tool"><span class="mono">Nx</span><div><b>Next.js</b><small>Fast, SEO-ready sites</small></div></div>
+    <div class="tool"><span class="mono">WP</span><div><b>WordPress</b><small>CMS builds</small></div></div>
+    <div class="tool"><span class="mono">Sh</span><div><b>Shopify</b><small>E-commerce SEO</small></div></div>
+    <div class="tool"><span class="mono">{ }</span><div><b>Schema.org</b><small>Structured data</small></div></div>
+    <div class="tool"><span class="mono">CF</span><div><b>Cloudflare</b><small>CDN &amp; performance</small></div></div>
+  </div></div>
+  <div class="wrap"><div class="tool-cats reveal"><span><b>40+</b> tools</span><span>SEO research</span><span>Analytics</span><span>AI tracking</span><span>Development</span><span>Automation</span></div></div>
+</section>
+
+<!-- CTA E -->
+<section class="cta-sec">
+  <div class="wrap"><div class="cta-box cta-light reveal">
+    <div><span class="eyebrow">Talk to an expert</span><h3 style="margin-top:14px">Have a question about <em class="accent">AI SEO?</em> Ask a strategist.</h3><p>A free 30-minute call with a senior strategist — not a salesperson.</p></div>
+    <div class="cta-actions"><a href="#audit" class="btn btn-primary">Book a free call <svg><use href="#arrow"/></svg></a><a href="tel:+918045074242" class="btn btn-ghost">+91 80 4507 4242</a></div>
+  </div></div>
+</section>
+
+<!-- ============ 15. FAQ ============ -->
+<section class="pad bg-cream" id="faq">
+  <div class="wrap faq-wrap">
+    <div class="reveal"><span class="eyebrow">FAQ</span><h2>Frequently asked <em class="accent">questions.</em></h2><p class="lead">If yours isn't here, ask us on the discovery call. We'll give you a real answer, not a sales answer.</p><a href="#audit" class="btn btn-primary" style="margin-top:28px">Book your free audit <svg><use href="#arrow"/></svg></a></div>
+    <div class="faq-list reveal">
+      <div class="faq"><button>How long does SEO take to show results? <span class="plus">+</span></button><div class="ans"><p>Technical and on-page fixes typically show movement in 4–8 weeks. Meaningful traffic and revenue growth lands between months 3 and 6, compounding from there.</p></div></div>
+      <div class="faq"><button>What makes your SEO different from other agencies? <span class="plus">+</span></button><div class="ans"><p>Senior-only strategists, in-house developers, AI-powered tooling, and reports tied to revenue — not just rankings. We also optimise for AI search engines, not only Google.</p></div></div>
+      <div class="faq"><button>Do you require long-term contracts? <span class="plus">+</span></button><div class="ans"><p>No. After the first 90 days everything is month-to-month, and you keep all work, content, and dashboards if you leave.</p></div></div>
+      <div class="faq"><button>Can you work with our in-house team? <span class="plus">+</span></button><div class="ans"><p>Yes. We regularly collaborate with in-house marketing and dev teams — we can lead strategy, execute, or support whatever mix works best.</p></div></div>
+      <div class="faq"><button>What is included in a free SEO audit? <span class="plus">+</span></button><div class="ans"><p>200+ technical and content checks, an AI visibility snapshot, a competitor gap overview, and your top three prioritised quick wins — delivered within 48 hours.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 16. BLOG (slider, above footer) ============ -->
+<section class="pad" id="blog">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><span class="eyebrow">From our blog</span><h2>Latest from our <em class="accent">strategists.</em></h2></div><p>Deep dives, playbooks, and real-world teardowns — written by the people doing the work.</p></div>
+    <div class="slider reveal" data-slider>
+      <div class="slides">
+        <a href="#" class="post"><div class="post-img"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80" alt="AI concept" onerror="this.remove()"></div><div class="post-body"><span class="cat">AI Search</span><h4>How LLMs choose which brands to cite — and how to be one of them.</h4><p>A teardown of 4,200 AI answers across ChatGPT, Perplexity, and Gemini.</p><div class="by"><b>Tomas Beltran</b><span>14 min</span></div></div></a>
+        <a href="#" class="post"><div class="post-img"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80" alt="Code on laptop" onerror="this.remove()"></div><div class="post-body"><span class="cat">Technical SEO</span><h4>The Core Web Vitals checklist most agencies still get wrong in 2026.</h4><p>INP replaced FID. Half the audits we see still measure the wrong thing.</p><div class="by"><b>Daniel Whitford</b><span>11 min</span></div></div></a>
+        <a href="#" class="post"><div class="post-img"><img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=800&q=80" alt="Map" onerror="this.remove()"></div><div class="post-body"><span class="cat">Local SEO</span><h4>Multi-location SEO at scale: lessons from 22 yoga studios.</h4><p>How we built a programmatic local system that turned 4 studios into 22.</p><div class="by"><b>Farah Khoury</b><span>9 min</span></div></div></a>
+        <a href="#" class="post"><div class="post-img"><img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80" alt="Writing" onerror="this.remove()"></div><div class="post-body"><span class="cat">Editorial</span><h4>Why "AI-written content" tanks — and what hybrid workflows look like.</h4><p>We tested four content workflows across 80 articles.</p><div class="by"><b>Marisol Acevedo</b><span>16 min</span></div></div></a>
+        <a href="#" class="post"><div class="post-img"><img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80" alt="Newspaper" onerror="this.remove()"></div><div class="post-body"><span class="cat">Digital PR</span><h4>The death of the guest post (and what replaced it for our clients).</h4><p>Earned editorial mentions are now 4× more valuable than guest posts.</p><div class="by"><b>Kemi Adeyemi</b><span>8 min</span></div></div></a>
+      </div>
+      <div class="slider-ctrl"><div class="dots"></div><div class="arrows"><button class="prev" aria-label="Previous"><svg width="16" height="16"><use href="#arrow"/></svg></button><button class="next" aria-label="Next"><svg width="16" height="16"><use href="#arrow"/></svg></button></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="#" class="logo light"><svg class="logo-mark" style="filter:brightness(1.6)"><use href="#g-mark"/></svg><span class="logo-text"><span class="logo-word">GENRANQ</span><span class="logo-sub">SOFTWARE LLP</span></span></a>
+        <p>A 38-person SEO studio for ambitious small businesses. Global team, monthly reporting, no long contracts, no agency BS.</p>
+        <a href="#audit" class="btn btn-primary" style="margin-top:24px">Get a free audit <svg><use href="#arrow"/></svg></a>
+      </div>
+      <div><h5>Services</h5><ul><li><a href="#">SEO services</a></li><li><a href="#">AI Search &amp; GEO</a></li><li><a href="#">Content marketing</a></li><li><a href="#">PPC &amp; paid ads</a></li><li><a href="#">Web design</a></li><li><a href="#">Link building</a></li></ul></div>
+      <div><h5>Company</h5><ul><li><a href="#">About</a></li><li><a href="#cases">Case studies</a></li><li><a href="#blog">Insights &amp; blog</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div><h5>Office</h5><ul><li>Vadodara, Gujarat, India</li><li><a href="mailto:hello@genranq.com">hello@genranq.com</a></li><li><a href="tel:+918045074242">+91 80 4507 4242</a></li></ul></div>
+    </div>
+    <div class="cities"><h5>SEO SERVICES BY CITY</h5><div><a href="#">SEO Services Mumbai</a><a href="#">SEO Services Delhi</a><a href="#">SEO Services Ahmedabad</a><a href="#">SEO Services Vadodara</a><a href="#">SEO Services Surat</a><a href="#">SEO Services Bengaluru</a><a href="#">SEO Services London</a><a href="#">SEO Services Dubai</a></div></div>
+    <div class="foot-bottom"><span>© 2026 GENRANQ Software LLP. All rights reserved.</span><span>Privacy · Terms</span></div>
+  </div>
+</footer>
+
+<script>
+// Reveal on scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// Tools marquee: duplicate for seamless loop
+document.querySelectorAll('.tools-track').forEach(t=>t.innerHTML+=t.innerHTML);
+
+// Sliders (industries, case studies, reviews, blog)
+document.querySelectorAll('[data-slider]').forEach(s=>{
+  const track=s.querySelector('.slides'),items=[...track.children],dots=s.querySelector('.dots');
+  const perView=()=>Math.max(1,Math.round(track.clientWidth/items[0].getBoundingClientRect().width));
+  const pages=()=>Math.max(1,items.length-perView()+1);
+  const step=()=>items[0].getBoundingClientRect().width+24;
+  const build=()=>{dots.innerHTML='';for(let i=0;i<pages();i++){const b=document.createElement('button');b.ariaLabel='Slide '+(i+1);b.onclick=()=>track.scrollTo({left:i*step()});dots.appendChild(b)}update()};
+  const idx=()=>Math.round(track.scrollLeft/step());
+  const update=()=>[...dots.children].forEach((d,i)=>d.classList.toggle('on',i===Math.min(idx(),pages()-1)));
+  const go=d=>{let i=idx()+d;if(i>=pages())i=0;if(i<0)i=pages()-1;track.scrollTo({left:i*step()})};
+  s.querySelector('.next').onclick=()=>go(1);
+  s.querySelector('.prev').onclick=()=>go(-1);
+  track.addEventListener('scroll',()=>requestAnimationFrame(update));
+  window.addEventListener('resize',build);build();
+  if(s.hasAttribute('data-auto')){let t=setInterval(()=>go(1),4500);s.onmouseenter=()=>clearInterval(t);s.onmouseleave=()=>t=setInterval(()=>go(1),4500)}
+});
+
+// FAQ
+document.querySelectorAll('.faq button').forEach(b=>b.onclick=()=>{const f=b.parentElement,a=f.querySelector('.ans'),o=f.classList.toggle('open');a.style.maxHeight=o?a.scrollHeight+'px':0});
+</script>
+</body>
+</html>

@@ -84,6 +84,35 @@ export async function POST(req: NextRequest) {
   const timestamp = new Date().toISOString()
   console.log('[CONTACT] Received enquiry from:', name, email, phone, company)
 
+  // Save to DB / local fallback
+  try {
+    const leadId = 'lead-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7)
+    const { query } = await import('@/lib/db')
+    await query(
+      `INSERT INTO leads (id, name, email, phone, company, website, service, budget, message, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'new')`,
+      [leadId, name, email, phone || null, company || null, website || null, service || null, budget || null, message || null]
+    )
+  } catch {
+    try {
+      const fs = await import('fs')
+      const path = await import('path')
+      const fpath = path.join(process.cwd(), 'src', 'data', 'leads.json')
+      let list = []
+      if (fs.existsSync(fpath)) {
+        list = JSON.parse(fs.readFileSync(fpath, 'utf-8'))
+      }
+      list.unshift({
+        id: 'lead-' + Date.now(),
+        name, email, phone, company, website, service, budget, message,
+        status: 'new',
+        created_at: timestamp
+      })
+      fs.writeFileSync(fpath, JSON.stringify(list, null, 2), 'utf-8')
+    } catch {
+      // ignore
+    }
+  }
+
   try {
     if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
       console.log('[CONTACT] SMTP not configured, logged enquiry to console.')

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "lead-1",
+    "name": "David Sterling",
+    "email": "david.sterling@nexuscloud.io",
+    "phone": "+1 415 890 2311",
+    "company": "Nexus Cloud Technologies",
+    "website": "https://nexuscloud.io",
+    "service": "AI Search Optimization & GEO",
+    "budget": "$10k - $25k",
+    "message": "We want to optimize our cloud architecture platform for Perplexity, ChatGPT citations, and Google AI Overviews. Looking for a comprehensive 6-month enterprise engagement.",
+    "status": "new",
+    "created_at": "2026-10-02T14:22:00Z"
+  },
+  {
+    "id": "lead-2",
+    "name": "Priya Sharma",
+    "email": "priya@vortexfin.com",
+    "phone": "+91 98201 44552",
+    "company": "Vortex Financial",
+    "website": "https://vortexfin.com",
+    "service": "Technical SEO & Core Web Vitals",
+    "budget": "$5k - $10k",
+    "message": "Our React Next.js application has crawl budget issues and indexing lag on new finance pages. Need an audit and fix.",
+    "status": "contacted",
+    "created_at": "2026-10-01T09:15:00Z"
+  }
+]

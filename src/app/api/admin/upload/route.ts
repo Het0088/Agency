@@ -57,3 +57,24 @@ export async function POST(req: NextRequest) {
     )
   }
 }
+
+export async function GET(req: NextRequest) {
+  if (!isAuthenticated(req.headers.get('cookie'))) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  try {
+    const fs = await import('fs/promises')
+    await fs.mkdir(UPLOAD_DIR, { recursive: true })
+    const dirFiles = await fs.readdir(UPLOAD_DIR)
+    const files = dirFiles
+      .filter(f => Object.values(ALLOWED_TYPES).some(ext => f.endsWith(ext)))
+      .map(filename => ({
+        filename,
+        url: `/uploads/${filename}`
+      }))
+    return NextResponse.json({ files })
+  } catch {
+    return NextResponse.json({ files: [] })
+  }
+}
