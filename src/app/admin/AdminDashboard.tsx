@@ -1952,7 +1952,7 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
 
                   <div className="card">
                     <div className="card-h">
-                      <h3><span>🔗</span> Social Channels & Brand</h3>
+                      <h3><span>§</span> Social Channels & Brand</h3>
                     </div>
                     <div className="card-b">
                       <div className="grid2">

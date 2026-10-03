@@ -62,6 +62,22 @@ CREATE TABLE IF NOT EXISTS cities (
   INDEX idx_country (country)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS leads (
+  id VARCHAR(100) PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(100),
+  company VARCHAR(255),
+  website VARCHAR(255),
+  service VARCHAR(255),
+  budget VARCHAR(100),
+  message TEXT,
+  status VARCHAR(50) DEFAULT 'new',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_status (status),
+  INDEX idx_created (created_at DESC)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 INSERT INTO posts (id, type, tag, title, description, author, read_time, slug, cover_gradient, created_at) VALUES
 ('ai-search-playbook-2026', 'article', 'AI Search', 'How LLMs choose which brands to cite — and how to be one of them.', 'A teardown of 4,200 AI answers across ChatGPT, Perplexity, and Gemini.', 'Tomas Beltran', '14 min', '/insights/ai-search-playbook-2026', 'g1', '2026-04-28 10:00:00'),
 ('core-web-vitals-2026', 'article', 'Technical SEO', 'The Core Web Vitals checklist most agencies still get wrong in 2026.', 'INP replaced FID a year ago. Half the audits we see still measure the wrong thing.', 'Daniel Whitford', '11 min', '/insights/core-web-vitals-2026', 'g2', '2026-04-22 10:00:00'),

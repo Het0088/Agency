@@ -15,33 +15,11 @@ import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import InsightsContent from './InsightsContent'
-import { query } from '@/lib/db'
-
-type PostRow = {
-  slug: string
-  cover_gradient: string
-  tag: string
-  title: string
-  description: string
-  author: string
-  created_at: string
-  read_time: string
-  featured: number
-}
-
+import { getAllPublishedPosts, type PostRecord } from '@/lib/posts'
 
 export default async function InsightsPage() {
-  let posts: PostRow[] = []
-  let featuredPost: PostRow | null = null
-
-  try {
-    posts = await query<PostRow>(
-      'SELECT slug, cover_gradient, tag, title, description, author, created_at, read_time, featured FROM posts WHERE published = 1 ORDER BY created_at DESC LIMIT 50'
-    )
-    featuredPost = posts.find(p => p.featured) || posts[0] || null
-  } catch {
-    posts = []
-  }
+  const posts = await getAllPublishedPosts(50)
+  const featuredPost = posts.find(p => p.featured) || posts[0] || null
 
   const mapped = posts.map(p => ({
     slug: p.slug.replace('/insights/', ''),

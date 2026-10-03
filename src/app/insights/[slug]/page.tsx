@@ -5,29 +5,13 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import BigCta from '@/components/BigCta'
 import BlogPostClient from './BlogPostClient'
-import { query, queryOne } from '@/lib/db'
+import { getPostBySlug, getRelatedPosts, type PostRecord } from '@/lib/posts'
 
 export const dynamic = 'force-dynamic'
 
-type PostRow = {
-  id: string
-  tag: string
-  title: string
-  description: string
-  content: string
-  author: string
-  read_time: string
-  slug: string
-  cover_gradient: string
-  created_at: string
-}
-
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const post = await queryOne<PostRow>(
-    'SELECT title, description FROM posts WHERE slug = ? AND published = 1',
-    ['/insights/' + slug]
-  )
+  const post = await getPostBySlug(slug)
   if (!post) return { title: 'Post Not Found', robots: { index: false } }
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://genranq.com'
   return {
@@ -46,10 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const post = await queryOne<PostRow>(
-    'SELECT * FROM posts WHERE slug = ? AND published = 1',
-    ['/insights/' + slug]
-  )
+  const post = await getPostBySlug(slug)
 
   if (!post) {
     return (
@@ -65,10 +46,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     )
   }
 
-  const related = await query<PostRow>(
-    'SELECT slug, tag, title, author, created_at, cover_gradient FROM posts WHERE published = 1 AND id != ? ORDER BY created_at DESC LIMIT 3',
-    [post.id]
-  )
+  const related = await getRelatedPosts(post.id, 3)
 
   const postDate = new Date(post.created_at)
   const dateStr = postDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })

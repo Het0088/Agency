@@ -233,14 +233,14 @@ function ImageDialog({
             className={`rte-dialog-tab-btn${tab === 'upload' ? ' active' : ''}`}
             onClick={() => setTab('upload')}
           >
-            📁 Upload from Computer
+            Upload from Computer
           </button>
           <button
             type="button"
             className={`rte-dialog-tab-btn${tab === 'url' ? ' active' : ''}`}
             onClick={() => setTab('url')}
           >
-            🌐 Paste Image URL
+            Paste Image URL
           </button>
         </div>
 
@@ -868,7 +868,7 @@ export default function RichTextEditor({ value, onChange, compact = false, place
           </div>
 
           <div className="rte-quickbar-tips">
-            <span>💡 Drop photos directly into text or paste (Ctrl+V)</span>
+            <span>Tip: Drop photos directly into text or paste (Ctrl+V)</span>
           </div>
         </div>
       )}
