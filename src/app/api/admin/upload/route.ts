@@ -78,3 +78,30 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ files: [] })
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  if (!isAuthenticated(req.headers.get('cookie'))) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  try {
+    const { filename } = await req.json()
+    if (!filename || typeof filename !== 'string') {
+      return NextResponse.json({ error: 'Filename is required' }, { status: 400 })
+    }
+
+    // Security check: ensure basename only, prevent path traversal
+    const safeName = path.basename(filename)
+    const filePath = path.join(UPLOAD_DIR, safeName)
+    const fs = await import('fs/promises')
+    await fs.unlink(filePath)
+
+    return NextResponse.json({ ok: true, deleted: safeName })
+  } catch (e) {
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : 'Delete failed' },
+      { status: 500 }
+    )
+  }
+}
+

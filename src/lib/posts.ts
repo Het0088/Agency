@@ -13,11 +13,13 @@ export type PostRecord = {
   read_time: string
   slug: string
   cover_gradient: string
+  cover_image?: string
   featured: number | boolean
   published: number | boolean
   created_at: string
   updated_at: string
 }
+
 
 const POSTS_FILE = path.join(process.cwd(), 'src', 'data', 'posts.json')
 

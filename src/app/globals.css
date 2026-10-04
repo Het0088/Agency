@@ -4360,6 +4360,11 @@ h4 {
   transform: translateY(-4px);
 }
 
+.post:hover .post-cover-img {
+  transform: scale(1.06);
+}
+
+
 .post .img.g1 {
   background: linear-gradient(135deg, #2547e0, #6d3ad6);
 }

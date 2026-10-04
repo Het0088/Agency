@@ -74,7 +74,7 @@ function LinkDialog({
   onInsert: (url: string, text: string, newTab: boolean, noFollow: boolean) => void
   onClose: () => void
 }) {
-  const [url, setUrl] = useState('https://')
+  const [url, setUrl] = useState('')
   const [text, setText] = useState(initialText)
   const [newTab, setNewTab] = useState(true)
   const [noFollow, setNoFollow] = useState(false)
@@ -84,12 +84,23 @@ function LinkDialog({
     inputRef.current?.focus()
   }, [])
 
+  const INTERNAL_LINKS = [
+    { label: 'Glossary', path: '/glossary' },
+    { label: 'Insights', path: '/insights' },
+    { label: 'Services', path: '/services' },
+    { label: 'AI Search & GEO', path: '/services/ai-search' },
+    { label: 'Technical SEO', path: '/services/seo/technical-seo' },
+    { label: 'Web Design', path: '/services/web-design' },
+    { label: 'About', path: '/about' },
+    { label: 'Contact', path: '/contact' },
+  ]
+
   return (
     <div className="rte-dialog-overlay" onMouseDown={onClose}>
-      <div className="rte-dialog" onMouseDown={e => e.stopPropagation()} style={{ maxWidth: 480 }}>
+      <div className="rte-dialog" onMouseDown={e => e.stopPropagation()} style={{ maxWidth: 520 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
           <div className="rte-dialog-title" style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ color: '#2563eb' }}>
+            <span style={{ color: '#FF5A1F' }}>
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.2">
                 <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                 <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
@@ -112,8 +123,41 @@ function LinkDialog({
             ref={inputRef}
             value={url}
             onChange={e => setUrl(e.target.value)}
-            placeholder="https://example.com/target-page"
+            placeholder="https://example.com or /services/ai-search"
           />
+        </div>
+
+        {/* Quick Internal Link Pills */}
+        <div style={{ marginBottom: 14 }}>
+          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#6B6F6A', display: 'block', marginBottom: 6 }}>
+            Quick Internal Links:
+          </span>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            {INTERNAL_LINKS.map(link => (
+              <button
+                key={link.path}
+                type="button"
+                onClick={() => {
+                  setUrl(link.path)
+                  if (!text) setText(link.label)
+                  setNewTab(false)
+                }}
+                style={{
+                  background: url === link.path ? '#FF5A1F' : '#F1EEE6',
+                  color: url === link.path ? '#fff' : '#121613',
+                  border: '1px solid var(--a-line, #E6E0D2)',
+                  borderRadius: 999,
+                  padding: '3px 10px',
+                  fontSize: 11.5,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s'
+                }}
+              >
+                {link.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="rte-dialog-field">
@@ -146,14 +190,14 @@ function LinkDialog({
           <button
             type="button"
             className="adm-btn-primary adm-btn-sm"
-            style={{ width: 'auto', background: '#2563eb' }}
+            style={{ width: 'auto', background: '#FF5A1F', borderColor: '#FF5A1F' }}
             onClick={() => {
-              if (url && url !== 'https://') {
-                onInsert(url, text, newTab, noFollow)
+              if (url && url.trim().length > 0) {
+                onInsert(url.trim(), text.trim(), newTab, noFollow)
               }
               onClose()
             }}
-            disabled={!url || url === 'https://'}
+            disabled={!url || !url.trim()}
           >
             Insert Hyperlink
           </button>
@@ -170,14 +214,29 @@ function ImageDialog({
   onInsert: (url: string, alt: string, caption?: string, align?: string) => void
   onClose: () => void
 }) {
-  const [tab, setTab] = useState<'upload' | 'url'>('upload')
+  const [tab, setTab] = useState<'upload' | 'url' | 'library'>('upload')
   const [url, setUrl] = useState('')
   const [alt, setAlt] = useState('')
   const [caption, setCaption] = useState('')
   const [align, setAlign] = useState<'center' | 'full' | 'left' | 'right'>('center')
   const [uploading, setUploading] = useState(false)
+  const [libraryFiles, setLibraryFiles] = useState<{ filename: string; url: string }[]>([])
+  const [libraryLoading, setLibraryLoading] = useState(false)
   const [error, setError] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (tab === 'library') {
+      setLibraryLoading(true)
+      fetch('/api/admin/upload')
+        .then(r => r.json())
+        .then(d => {
+          if (d.files) setLibraryFiles(d.files)
+        })
+        .catch(() => {})
+        .finally(() => setLibraryLoading(false))
+    }
+  }, [tab])
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -205,10 +264,10 @@ function ImageDialog({
 
   return (
     <div className="rte-dialog-overlay" onMouseDown={onClose}>
-      <div className="rte-dialog" onMouseDown={e => e.stopPropagation()} style={{ maxWidth: 520 }}>
+      <div className="rte-dialog" onMouseDown={e => e.stopPropagation()} style={{ maxWidth: 560 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
           <div className="rte-dialog-title" style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ color: '#ea580c' }}>
+            <span style={{ color: '#FF5A1F' }}>
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.2">
                 <rect x="3" y="3" width="18" height="18" rx="3" />
                 <circle cx="8.5" cy="8.5" r="1.8" />
@@ -226,7 +285,7 @@ function ImageDialog({
           </button>
         </div>
 
-        {/* Tabs: Upload vs URL */}
+        {/* Tabs: Upload vs URL vs Media Library */}
         <div className="rte-dialog-tabs">
           <button
             type="button"
@@ -234,6 +293,13 @@ function ImageDialog({
             onClick={() => setTab('upload')}
           >
             Upload from Computer
+          </button>
+          <button
+            type="button"
+            className={`rte-dialog-tab-btn${tab === 'library' ? ' active' : ''}`}
+            onClick={() => setTab('library')}
+          >
+            Media Library
           </button>
           <button
             type="button"
@@ -270,6 +336,59 @@ function ImageDialog({
                 </div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={url} alt={alt || 'Uploaded preview'} />
+              </div>
+            )}
+          </div>
+        ) : tab === 'library' ? (
+          <div className="rte-dialog-field">
+            <label>Select from Existing Uploads</label>
+            {libraryLoading ? (
+              <p style={{ fontSize: 13, color: '#64748b', textAlign: 'center', padding: 20 }}>Loading media items...</p>
+            ) : libraryFiles.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: 24, background: '#f8fafc', borderRadius: 8 }}>
+                <p style={{ fontSize: 13, color: '#64748b' }}>No images uploaded yet.</p>
+                <button type="button" className="b sm b-primary" onClick={() => setTab('upload')} style={{ marginTop: 8 }}>
+                  Upload your first image
+                </button>
+              </div>
+            ) : (
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: 10,
+                maxHeight: 220,
+                overflowY: 'auto',
+                padding: 4,
+                border: '1px solid #e2e8f0',
+                borderRadius: 8
+              }}>
+                {libraryFiles.map(f => (
+                  <div
+                    key={f.filename}
+                    onClick={() => {
+                      setUrl(f.url)
+                      if (!alt) setAlt(f.filename.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '))
+                    }}
+                    style={{
+                      cursor: 'pointer',
+                      border: url === f.url ? '2px solid #FF5A1F' : '1px solid #e2e8f0',
+                      borderRadius: 6,
+                      overflow: 'hidden',
+                      position: 'relative',
+                      aspectRatio: '1',
+                      background: '#f1f5f9',
+                    }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={f.url} alt={f.filename} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                ))}
+              </div>
+            )}
+            {url && (
+              <div className="rte-image-preview-box" style={{ marginTop: 10 }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={url} alt={alt || 'Selected media'} />
               </div>
             )}
           </div>
@@ -547,11 +666,19 @@ export default function RichTextEditor({ value, onChange, compact = false, place
   function saveSelection() {
     const sel = window.getSelection()
     if (sel && sel.rangeCount > 0) {
-      savedSelection.current = sel.getRangeAt(0).cloneRange()
+      const range = sel.getRangeAt(0)
+      if (editorRef.current && (editorRef.current === range.commonAncestorContainer || editorRef.current.contains(range.commonAncestorContainer))) {
+        savedSelection.current = range.cloneRange()
+        const text = sel.toString().trim()
+        if (text) setSelectedText(text)
+      }
     }
   }
 
   function restoreSelection() {
+    if (editorRef.current) {
+      editorRef.current.focus()
+    }
     const sel = window.getSelection()
     if (sel && savedSelection.current) {
       sel.removeAllRanges()
@@ -586,7 +713,9 @@ export default function RichTextEditor({ value, onChange, compact = false, place
 
   function handleInsertLink(url: string, text: string, newTab: boolean, noFollow: boolean) {
     restoreSelection()
-    const displayText = text || url
+    const sel = window.getSelection()
+    const selected = sel?.toString().trim() || ''
+    const displayText = text || selected || url
     const relParts = []
     if (newTab) relParts.push('noopener', 'noreferrer')
     if (noFollow) relParts.push('nofollow')
@@ -800,11 +929,12 @@ export default function RichTextEditor({ value, onChange, compact = false, place
             <button
               type="button"
               className="rte-quick-btn rte-quick-image"
-              onClick={() => {
+              onMouseDown={(e) => {
+                e.preventDefault()
                 saveSelection()
                 setShowImageDialog(true)
               }}
-              title="Add or upload an image from your computer"
+              title="Add or upload an image from your computer or media library"
             >
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -817,10 +947,11 @@ export default function RichTextEditor({ value, onChange, compact = false, place
             <button
               type="button"
               className="rte-quick-btn rte-quick-link"
-              onClick={() => {
+              onMouseDown={(e) => {
+                e.preventDefault()
                 saveSelection()
                 const sel = window.getSelection()?.toString().trim() || ''
-                setSelectedText(sel)
+                if (sel) setSelectedText(sel)
                 setShowLinkDialog(true)
               }}
               title="Insert a link (highlight words first to link them)"
@@ -835,7 +966,8 @@ export default function RichTextEditor({ value, onChange, compact = false, place
             <button
               type="button"
               className="rte-quick-btn rte-quick-table"
-              onClick={() => {
+              onMouseDown={(e) => {
+                e.preventDefault()
                 saveSelection()
                 setShowTableDialog(true)
               }}
@@ -852,7 +984,8 @@ export default function RichTextEditor({ value, onChange, compact = false, place
               <button
                 type="button"
                 className="rte-quick-btn rte-quick-video"
-                onClick={() => {
+                onMouseDown={(e) => {
+                  e.preventDefault()
                   saveSelection()
                   setShowEmbedDialog(true)
                 }}
@@ -1029,6 +1162,9 @@ export default function RichTextEditor({ value, onChange, compact = false, place
           onInput={handleInput}
           onPaste={handlePaste}
           onKeyDown={handleKeyDown}
+          onMouseUp={saveSelection}
+          onKeyUp={saveSelection}
+          onSelect={saveSelection}
           onBlur={saveSelection}
           data-placeholder={placeholder || 'Start writing... Drag & drop images anywhere'}
           style={{ minHeight: compact ? 100 : 350 }}

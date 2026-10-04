@@ -84,6 +84,36 @@ type MediaItem = {
   url: string
 }
 
+type GlossaryTerm = {
+  id: string
+  title: string
+  slug: string
+  letter: string
+  category: string
+  shortDef: string
+  synonyms: string
+  content: string
+  related: string[]
+  autoLink: boolean
+  published: boolean
+  updatedAt: string
+}
+
+const emptyGlossaryTerm: GlossaryTerm = {
+  id: '',
+  title: '',
+  slug: '',
+  letter: 'A',
+  category: 'AI Search',
+  shortDef: '',
+  synonyms: '',
+  content: '',
+  related: [],
+  autoLink: true,
+  published: true,
+  updatedAt: '',
+}
+
 type Toast = {
   id: number
   msg: string
@@ -92,9 +122,10 @@ type Toast = {
 
 const emptyForm: FormData = {
   id: '', type: 'article', tag: '', title: '', description: '',
-  content: '', author: 'Gen Ranq Team', read_time: '5 min read', slug: '', cover_gradient: 'g1',
+  content: '', author: 'GENRANQ Team', read_time: '5 min read', slug: '', cover_gradient: 'g1',
   featured: false, published: true,
 }
+
 
 const PAGE_LABELS: Record<string, string> = {
   '/': 'Homepage',
@@ -203,7 +234,7 @@ function charHint(val: string, max: number, min = 0) {
 
 // ─── MAIN ADMIN DASHBOARD ──────────────────────────────────────────
 export default function AdminDashboard({ authenticated }: { authenticated: boolean }) {
-  const [view, setView] = useState<'dashboard' | 'posts' | 'content' | 'seo' | 'cities' | 'leads' | 'media' | 'settings' | 'system'>('dashboard')
+  const [view, setView] = useState<'dashboard' | 'posts' | 'glossary' | 'content' | 'seo' | 'cities' | 'leads' | 'media' | 'settings' | 'system'>('dashboard')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [toasts, setToasts] = useState<Toast[]>([])
 
@@ -214,6 +245,13 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
   const [postsSearch, setPostsSearch] = useState('')
   const [postMode, setPostMode] = useState<'list' | 'edit'>('list')
   const [editingPost, setEditingPost] = useState<FormData>(emptyForm)
+
+  // Glossary State
+  const [glossaryTerms, setGlossaryTerms] = useState<GlossaryTerm[]>([])
+  const [glossaryLoading, setGlossaryLoading] = useState(true)
+  const [glossarySearch, setGlossarySearch] = useState('')
+  const [glossaryLetter, setGlossaryLetter] = useState<string | null>(null)
+  const [editingGlossaryTerm, setEditingGlossaryTerm] = useState<GlossaryTerm | null>(null)
 
   // SEO State
   const [seoPages, setSeoPages] = useState<LivePage[]>([])
@@ -244,6 +282,7 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
 
   // Media State
   const [mediaFiles, setMediaFiles] = useState<MediaItem[]>([])
+  const [mediaSearch, setMediaSearch] = useState('')
   const [mediaUploading, setMediaUploading] = useState(false)
 
   // DB Connection Warning
@@ -333,20 +372,33 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
     }
   }, [])
 
+  const fetchGlossary = useCallback(async () => {
+    setGlossaryLoading(true)
+    try {
+      const res = await fetch('/api/admin/glossary')
+      const data = await res.json()
+      if (data.terms) setGlossaryTerms(data.terms)
+    } catch {
+      // ignore
+    }
+    setGlossaryLoading(false)
+  }, [])
+
   useEffect(() => {
     if (authenticated) {
       fetchPosts()
+      fetchGlossary()
       fetchSeo()
       fetchContent()
       fetchCities()
       fetchLeads()
       fetchMedia()
     }
-  }, [authenticated, fetchPosts, fetchSeo, fetchContent, fetchCities, fetchLeads, fetchMedia])
+  }, [authenticated, fetchPosts, fetchGlossary, fetchSeo, fetchContent, fetchCities, fetchLeads, fetchMedia])
 
   if (!authenticated) return <LoginScreen />
 
-  // Quick Action Handler
+  // Quick Action Handlers
   function handleQuickNewPost() {
     setEditingPost(emptyForm)
     setPostMode('edit')
@@ -354,9 +406,92 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
     setMobileMenuOpen(false)
   }
 
+  function handleQuickNewGlossaryTerm() {
+    setEditingGlossaryTerm(emptyGlossaryTerm)
+    setView('glossary')
+    setMobileMenuOpen(false)
+  }
+
   async function handleLogout() {
     await fetch('/api/admin/auth', { method: 'DELETE' })
     window.location.reload()
+  }
+
+  // ─── GLOSSARY HANDLERS ───────────────────────────────────────────
+  async function handleSaveGlossaryTerm(term: GlossaryTerm) {
+    const isNew = !term.id
+    const method = isNew ? 'POST' : 'PUT'
+    try {
+      const res = await fetch('/api/admin/glossary', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(term),
+      })
+      if (res.ok) {
+        notify(isNew ? 'New glossary term created!' : 'Glossary term updated!')
+        setEditingGlossaryTerm(null)
+        fetchGlossary()
+      } else {
+        const err = await res.json()
+        notify(err.error || 'Failed to save glossary term', 'err')
+      }
+    } catch {
+      notify('Network error saving glossary term', 'err')
+    }
+  }
+
+  async function handleDeleteGlossaryTerm(id: string) {
+    if (!confirm('Are you sure you want to delete this glossary term?')) return
+    try {
+      const res = await fetch('/api/admin/glossary', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
+      if (res.ok) {
+        notify('Glossary term deleted')
+        fetchGlossary()
+      } else {
+        notify('Failed to delete term', 'err')
+      }
+    } catch {
+      notify('Error deleting glossary term', 'err')
+    }
+  }
+
+  async function handleToggleGlossaryAutoLink(term: GlossaryTerm) {
+    try {
+      const res = await fetch('/api/admin/glossary', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...term, autoLink: !term.autoLink }),
+      })
+      if (res.ok) {
+        notify(`Auto-link set to ${!term.autoLink ? 'Enabled' : 'Disabled'}`)
+        fetchGlossary()
+      }
+    } catch {
+      notify('Failed to update auto-link', 'err')
+    }
+  }
+
+  async function handleDeleteMedia(filename: string) {
+    if (!confirm(`Are you sure you want to permanently delete "${filename}"?`)) return
+    try {
+      const res = await fetch('/api/admin/upload', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename }),
+      })
+      if (res.ok) {
+        notify('Image deleted from server')
+        setMediaFiles(prev => prev.filter(f => f.filename !== filename))
+      } else {
+        notify('Failed to delete image', 'err')
+      }
+    } catch {
+      notify('Error deleting image', 'err')
+    }
   }
 
   // ─── POSTS HANDLERS ──────────────────────────────────────────────
@@ -594,6 +729,23 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
     })
   }, [leads, leadsFilter, leadsSearch])
 
+  const filteredGlossaryTerms = useMemo(() => {
+    return glossaryTerms.filter(t => {
+      const matchSearch = !glossarySearch ||
+        t.title.toLowerCase().includes(glossarySearch.toLowerCase()) ||
+        t.shortDef.toLowerCase().includes(glossarySearch.toLowerCase()) ||
+        (t.synonyms && t.synonyms.toLowerCase().includes(glossarySearch.toLowerCase()))
+      const firstLetter = (t.title[0] || 'A').toUpperCase()
+      const matchLetter = !glossaryLetter || firstLetter === glossaryLetter
+      return matchSearch && matchLetter
+    })
+  }, [glossaryTerms, glossarySearch, glossaryLetter])
+
+  const filteredMediaFiles = useMemo(() => {
+    return mediaFiles.filter(f => !mediaSearch || f.filename.toLowerCase().includes(mediaSearch.toLowerCase()))
+  }, [mediaFiles, mediaSearch])
+
+
   return (
     <div className="adm">
       <div className={`shell${mobileMenuOpen ? ' menu-open' : ''}`}>
@@ -637,6 +789,15 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                 <span className="ic">▤</span>
                 <span>Blog & Insights</span>
                 {draftCount > 0 && <span className="tag" style={{ marginLeft: 'auto' }}>{draftCount} d</span>}
+              </a>
+              <a
+                href="#"
+                className={view === 'glossary' ? 'on' : ''}
+                onClick={e => { e.preventDefault(); setView('glossary'); setMobileMenuOpen(false) }}
+              >
+                <span className="ic" style={{ fontWeight: 700, fontSize: 13 }}>Aa</span>
+                <span>SEO Glossary</span>
+                {glossaryTerms.length > 0 && <span className="tag" style={{ marginLeft: 'auto' }}>{glossaryTerms.length}</span>}
               </a>
               <a
                 href="#"
@@ -722,6 +883,7 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
 
           <div className="side-foot">
             <a href="/" target="_blank" rel="noopener">View website ↗</a>
+            <a href="/glossary" target="_blank" rel="noopener">View glossary ↗</a>
             <a href="/admin-cms.html" target="_blank" rel="noopener" style={{ color: '#FF5A1F' }}>Launch CMS v3 ↗</a>
             <a href="/sitemap.xml" target="_blank" rel="noopener">sitemap.xml ↗</a>
           </div>
@@ -741,11 +903,12 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
 
             <div className="quick">
               <a href="#" onClick={e => { e.preventDefault(); handleQuickNewPost() }}>+ New Post</a>
+              <a href="#" onClick={e => { e.preventDefault(); handleQuickNewGlossaryTerm() }} style={{ background: '#FFF4ED', borderColor: '#FF5A1F', color: '#E94A10' }}>+ New Term</a>
               <a href="/admin-cms.html" target="_blank" rel="noopener" style={{ background: '#FFE8DC', borderColor: '#FF5A1F', color: '#E94A10' }}>
                 Open CMS v3 ↗
               </a>
               <a href="/" target="_blank" rel="noopener">View Site ↗</a>
-              <a href="#" onClick={e => { e.preventDefault(); fetchPosts(); fetchLeads(); notify('Refreshed latest data') }}>↻ Refresh</a>
+              <a href="#" onClick={e => { e.preventDefault(); fetchPosts(); fetchGlossary(); fetchLeads(); notify('Refreshed latest data') }}>↻ Refresh</a>
             </div>
 
             <div className="me">
@@ -789,6 +952,7 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                   </div>
                   <div className="row">
                     <button className="b b-primary" onClick={handleQuickNewPost}>+ New Post</button>
+                    <button className="b" onClick={handleQuickNewGlossaryTerm}>+ New Glossary Term</button>
                     <a href="/contact" target="_blank" rel="noopener" className="b">Test Form ↗</a>
                   </div>
                 </div>
@@ -807,6 +971,10 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                     <b>{blogCount}</b>
                     <span>Blogs</span>
                   </div>
+                  <div className="kpi" onClick={() => setView('glossary')} style={{ cursor: 'pointer' }}>
+                    <b style={{ color: 'var(--a-orange)' }}>{glossaryTerms.length}</b>
+                    <span>SEO Glossary</span>
+                  </div>
                   <div className="kpi" onClick={() => setView('seo')} style={{ cursor: 'pointer' }}>
                     <b>{seoPages.length || 16}</b>
                     <span>SEO Routes</span>
@@ -815,6 +983,10 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                     <b>{cities.length || '150+'}</b>
                     <span>City Pages</span>
                   </div>
+                  <div className="kpi" onClick={() => setView('media')} style={{ cursor: 'pointer' }}>
+                    <b>{mediaFiles.length}</b>
+                    <span>Media Assets</span>
+                  </div>
                   <div className="kpi" onClick={() => setView('leads')} style={{ cursor: 'pointer' }}>
                     <b style={{ color: newLeadsCount > 0 ? 'var(--a-orange)' : undefined }}>
                       {leads.length}
@@ -822,6 +994,7 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                     <span>Inquiries {newLeadsCount > 0 ? `(${newLeadsCount} new)` : ''}</span>
                   </div>
                 </div>
+
 
                 {/* 2-Column Dashboard Grid */}
                 <div className="dash-grid">
@@ -1284,6 +1457,161 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                       {editingPost.id ? 'Save & Update Post' : 'Create & Publish Post'}
                     </button>
                   </div>
+                </div>
+              </div>
+            )}
+
+            {/* ══════════════════════════════════════════════════════════════
+                VIEW: SEO GLOSSARY MANAGEMENT
+            ══════════════════════════════════════════════════════════════ */}
+            {view === 'glossary' && (
+              <div>
+                <div className="page-head">
+                  <div>
+                    <h1>SEO Glossary</h1>
+                    <p>Manage definitions, synonyms, and auto-linking for 20+ search and AI concepts.</p>
+                  </div>
+                  <div className="row">
+                    <a href="/glossary" target="_blank" rel="noopener" className="b sm">
+                      View Live Glossary ↗
+                    </a>
+                    <button
+                      className="b b-primary"
+                      onClick={() => setEditingGlossaryTerm(emptyGlossaryTerm)}
+                    >
+                      + Add Glossary Term
+                    </button>
+                  </div>
+                </div>
+
+                {/* Filter and Search Bar */}
+                <div className="filters">
+                  <input
+                    className="inp"
+                    type="search"
+                    placeholder="Search terms, synonyms, definitions..."
+                    value={glossarySearch}
+                    onChange={e => setGlossarySearch(e.target.value)}
+                    style={{ maxWidth: 300 }}
+                  />
+                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', alignItems: 'center' }}>
+                    <button
+                      className={`b sm${!glossaryLetter ? ' b-primary' : ''}`}
+                      onClick={() => setGlossaryLetter(null)}
+                    >
+                      All ({glossaryTerms.length})
+                    </button>
+                    {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(char => {
+                      const count = glossaryTerms.filter(t => (t.title[0] || 'A').toUpperCase() === char).length
+                      if (count === 0) return null
+                      return (
+                        <button
+                          key={char}
+                          className={`b sm${glossaryLetter === char ? ' b-primary' : ''}`}
+                          onClick={() => setGlossaryLetter(glossaryLetter === char ? null : char)}
+                        >
+                          {char} ({count})
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Terms Table */}
+                <div className="card table-card">
+                  {glossaryLoading ? (
+                    <div style={{ padding: 40, textAlign: 'center', color: 'var(--a-muted)' }}>
+                      Loading glossary terms...
+                    </div>
+                  ) : filteredGlossaryTerms.length === 0 ? (
+                    <div className="empty">No glossary terms match your search.</div>
+                  ) : (
+                    <table className="tbl">
+                      <thead>
+                        <tr>
+                          <th>Term Title & Slug</th>
+                          <th>Category</th>
+                          <th>Short Definition</th>
+                          <th>Synonyms</th>
+                          <th>Auto-Link</th>
+                          <th>Status</th>
+                          <th style={{ textAlign: 'right' }}>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredGlossaryTerms.map(term => (
+                          <tr key={term.id}>
+                            <td>
+                              <a
+                                href="#"
+                                className="t-title"
+                                onClick={e => { e.preventDefault(); setEditingGlossaryTerm(term) }}
+                              >
+                                {term.title}
+                              </a>
+                              <div className="t-sub">
+                                <code>/glossary/{term.slug}</code>
+                              </div>
+                            </td>
+                            <td>
+                              <span className="tag" style={{ marginLeft: 0 }}>
+                                {term.category}
+                              </span>
+                            </td>
+                            <td style={{ maxWidth: 320 }}>
+                              <p style={{ margin: 0, fontSize: 13, color: 'var(--a-ink)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                {term.shortDef}
+                              </p>
+                            </td>
+                            <td style={{ maxWidth: 180 }}>
+                              <span style={{ fontSize: 12, color: 'var(--a-muted)' }}>
+                                {term.synonyms || '—'}
+                              </span>
+                            </td>
+                            <td>
+                              <label className="toggle" style={{ margin: 0 }} title="Auto-link this term inside blog posts">
+                                <input
+                                  type="checkbox"
+                                  checked={term.autoLink}
+                                  onChange={() => handleToggleGlossaryAutoLink(term)}
+                                />
+                                <span className="sw" />
+                              </label>
+                            </td>
+                            <td>
+                              <span className={`pill ${term.published ? 'ok' : 'draft'}`}>
+                                {term.published ? 'Published' : 'Draft'}
+                              </span>
+                            </td>
+                            <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                              <button
+                                className="b sm"
+                                onClick={() => setEditingGlossaryTerm(term)}
+                                style={{ marginRight: 6 }}
+                              >
+                                Edit
+                              </button>
+                              <a
+                                href={`/glossary/${term.slug}`}
+                                target="_blank"
+                                rel="noopener"
+                                className="b sm"
+                                style={{ marginRight: 6 }}
+                              >
+                                View ↗
+                              </a>
+                              <button
+                                className="b sm b-danger"
+                                onClick={() => handleDeleteGlossaryTerm(term.id)}
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
               </div>
             )}
@@ -1892,27 +2220,55 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
 
                 {/* Media Grid */}
                 <div className="card">
-                  <div className="card-h">
+                  <div className="card-h" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
                     <h3><span>◫</span> Uploaded Assets ({mediaFiles.length})</h3>
-                    <span className="small muted">Click any asset to copy its direct image URL</span>
+                    <input
+                      className="inp"
+                      type="search"
+                      placeholder="Filter files by name..."
+                      value={mediaSearch}
+                      onChange={e => setMediaSearch(e.target.value)}
+                      style={{ maxWidth: 240, padding: '6px 12px', fontSize: 13 }}
+                    />
                   </div>
                   <div className="card-b">
-                    {mediaFiles.length === 0 ? (
-                      <div className="empty">No media files uploaded yet.</div>
+                    {filteredMediaFiles.length === 0 ? (
+                      <div className="empty">No media files match your filter.</div>
                     ) : (
-                      <div className="media-grid big">
-                        {mediaFiles.map(file => (
+                      <div className="media-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
+                        {filteredMediaFiles.map(file => (
                           <div
                             key={file.url}
-                            className="mitem"
-                            onClick={() => {
-                              navigator.clipboard.writeText(file.url)
-                              notify(`Copied URL: ${file.url}`)
-                            }}
-                            title="Click to copy image path"
+                            className="card inner"
+                            style={{ padding: 12, display: 'flex', flexDirection: 'column', gap: 10, background: '#fff', border: '1px solid var(--a-line)' }}
                           >
-                            <img src={file.url} alt={file.filename} />
-                            <span>{file.filename}</span>
+                            <div style={{ aspectRatio: '16 / 11', borderRadius: 8, overflow: 'hidden', background: '#F1EEE6', border: '1px solid #ECE7DC' }}>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={file.url} alt={file.filename} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            </div>
+                            <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--a-ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={file.filename}>
+                              {file.filename}
+                            </span>
+                            <div style={{ display: 'flex', gap: 6, marginTop: 'auto' }}>
+                              <button
+                                type="button"
+                                className="b sm full"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(file.url)
+                                  notify(`Copied URL: ${file.url}`)
+                                }}
+                              >
+                                Copy URL
+                              </button>
+                              <button
+                                type="button"
+                                className="b sm b-danger"
+                                onClick={() => handleDeleteMedia(file.filename)}
+                                title="Delete image from server"
+                              >
+                                ✕
+                              </button>
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -2215,6 +2571,144 @@ ADMIN_PASSWORD=••••••••••••`}
               <div className="modal-f">
                 <button type="button" className="b" onClick={() => setEditingCity(null)}>Cancel</button>
                 <button type="submit" className="b b-primary">Save City</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ─── GLOSSARY EDIT MODAL ───────────────────────────────────── */}
+      {editingGlossaryTerm && (
+        <div className="modal-bg" onClick={() => setEditingGlossaryTerm(null)}>
+          <div className="modal wide" onClick={e => e.stopPropagation()} style={{ width: 'min(840px, 100%)', maxHeight: '90vh' }}>
+            <div className="modal-h">
+              <h3>{editingGlossaryTerm.id ? `Edit Term: ${editingGlossaryTerm.title}` : 'Add New Glossary Term'}</h3>
+              <button className="x" onClick={() => setEditingGlossaryTerm(null)}>×</button>
+            </div>
+            <form
+              onSubmit={e => {
+                e.preventDefault()
+                handleSaveGlossaryTerm(editingGlossaryTerm)
+              }}
+              style={{ display: 'contents' }}
+            >
+              <div className="modal-b" style={{ display: 'grid', gap: 16 }}>
+                <div className="grid2">
+                  <div className="field">
+                    <label className="lbl">Term Name *</label>
+                    <input
+                      className="inp"
+                      required
+                      value={editingGlossaryTerm.title}
+                      onChange={e => {
+                        const val = e.target.value
+                        setEditingGlossaryTerm(prev => prev ? {
+                          ...prev,
+                          title: val,
+                          slug: !prev.id ? val.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') : prev.slug
+                        } : null)
+                      }}
+                      placeholder="e.g. Generative Engine Optimisation (GEO)"
+                    />
+                  </div>
+
+                  <div className="field">
+                    <label className="lbl">URL Slug *</label>
+                    <input
+                      className="inp"
+                      required
+                      value={editingGlossaryTerm.slug}
+                      onChange={e => setEditingGlossaryTerm(prev => prev ? { ...prev, slug: e.target.value } : null)}
+                      placeholder="e.g. generative-engine-optimisation"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid2">
+                  <div className="field">
+                    <label className="lbl">Category</label>
+                    <select
+                      className="inp"
+                      value={editingGlossaryTerm.category}
+                      onChange={e => setEditingGlossaryTerm(prev => prev ? { ...prev, category: e.target.value } : null)}
+                    >
+                      <option value="AI Search">AI Search & GEO</option>
+                      <option value="Technical SEO">Technical SEO</option>
+                      <option value="On-Page SEO">On-Page SEO</option>
+                      <option value="Off-Page SEO">Off-Page SEO & Links</option>
+                      <option value="Content Strategy">Content Strategy & E-E-A-T</option>
+                      <option value="Local SEO">Local SEO</option>
+                      <option value="Analytics">Analytics & Tracking</option>
+                    </select>
+                  </div>
+
+                  <div className="field">
+                    <label className="lbl">Synonyms & Acronyms (Comma Separated)</label>
+                    <input
+                      className="inp"
+                      value={editingGlossaryTerm.synonyms}
+                      onChange={e => setEditingGlossaryTerm(prev => prev ? { ...prev, synonyms: e.target.value } : null)}
+                      placeholder="e.g. GEO, AI SEO, LLM search"
+                    />
+                  </div>
+                </div>
+
+                <div className="field">
+                  <label className="lbl">
+                    <span>Short Definition *</span>
+                    <em style={{ color: editingGlossaryTerm.shortDef.length > 200 ? 'var(--a-amber)' : 'var(--a-muted)' }}>
+                      {editingGlossaryTerm.shortDef.length} chars (aim for 120-180 for AI citations)
+                    </em>
+                  </label>
+                  <textarea
+                    className="inp"
+                    rows={3}
+                    required
+                    value={editingGlossaryTerm.shortDef}
+                    onChange={e => setEditingGlossaryTerm(prev => prev ? { ...prev, shortDef: e.target.value } : null)}
+                    placeholder="Plain-English 1-2 sentence definition answering what this concept is and why it matters."
+                  />
+                </div>
+
+                <div className="field">
+                  <label className="lbl">Full Guide & Technical Explanation (Rich Text)</label>
+                  <RichTextEditor
+                    value={editingGlossaryTerm.content}
+                    onChange={html => setEditingGlossaryTerm(prev => prev ? { ...prev, content: html } : null)}
+                    placeholder="Write detailed explanations, bullet points, checklists, and examples..."
+                  />
+                </div>
+
+                <div className="row" style={{ gap: 24, paddingTop: 8 }}>
+                  <label className="toggle">
+                    <input
+                      type="checkbox"
+                      checked={editingGlossaryTerm.autoLink}
+                      onChange={e => setEditingGlossaryTerm(prev => prev ? { ...prev, autoLink: e.target.checked } : null)}
+                    />
+                    <span className="sw" />
+                    <span>Auto-link this term inside blog & insight articles</span>
+                  </label>
+
+                  <label className="toggle">
+                    <input
+                      type="checkbox"
+                      checked={editingGlossaryTerm.published}
+                      onChange={e => setEditingGlossaryTerm(prev => prev ? { ...prev, published: e.target.checked } : null)}
+                    />
+                    <span className="sw" />
+                    <span>Published (visible on /glossary)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="modal-f">
+                <button type="button" className="b" onClick={() => setEditingGlossaryTerm(null)}>
+                  Cancel
+                </button>
+                <button type="submit" className="b b-primary">
+                  Save Glossary Term
+                </button>
               </div>
             </form>
           </div>

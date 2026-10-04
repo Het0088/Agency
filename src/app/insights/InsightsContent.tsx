@@ -4,8 +4,27 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowDown } from '@/components/Icons'
 
-type Post = { slug: string; gradient: string; label: string; tag: string; title: string; desc: string; author: string; date: string }
-type Featured = { slug: string; tag: string; title: string; desc: string; author: string; date: string; readTime: string } | null
+type Post = {
+  slug: string
+  gradient: string
+  cover_image?: string | null
+  label: string
+  tag: string
+  title: string
+  desc: string
+  author: string
+  date: string
+}
+type Featured = {
+  slug: string
+  tag: string
+  title: string
+  desc: string
+  cover_image?: string | null
+  author: string
+  date: string
+  readTime: string
+} | null
 
 const categories = [
   { name: 'All posts' }, { name: 'AI Search' }, { name: 'Technical SEO' },
@@ -26,7 +45,16 @@ export default function InsightsContent({ posts, featured }: { posts: Post[]; fe
         {featured && (
           <Link href={`/insights/${featured.slug}`} className="blog-feature-link">
             <article className="blog-feature reveal">
-              <div className="img" aria-hidden="true"></div>
+              <div className="img" aria-hidden="true" style={{ overflow: 'hidden', position: 'relative' }}>
+                {featured.cover_image && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={featured.cover_image}
+                    alt={featured.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                )}
+              </div>
               <div>
                 <span className="feature-tag">Featured &middot; {featured.readTime} read</span>
                 <h2>{featured.title}</h2>
@@ -49,17 +77,118 @@ export default function InsightsContent({ posts, featured }: { posts: Post[]; fe
           ))}
         </div>
 
-        <div className="posts-grid">
+        <div className="posts-grid" style={{ alignItems: 'stretch' }}>
           {visible.map((p) => (
-            <Link href={`/insights/${p.slug}`} key={p.slug} className="post-link">
-              <article className="post reveal">
-                <div className={`img ${p.gradient}`}><span className="label">{p.label}</span></div>
-                <span className="tag">{p.tag}</span>
-                <h3>{p.title}</h3>
-                <p>{p.desc}</p>
-                <div className="meta">
-                  <span className="author">{p.author}</span>
-                  <span className="dot"></span><span>{p.date}</span>
+            <Link
+              href={`/insights/${p.slug}`}
+              key={p.slug}
+              className="post-link"
+              style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+            >
+              <article
+                className="post reveal"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                  background: '#fff',
+                  border: '1px solid var(--border)',
+                  borderRadius: 16,
+                  padding: 16,
+                  transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                }}
+              >
+                <div
+                  className={`img ${p.gradient}`}
+                  style={{
+                    position: 'relative',
+                    overflow: 'hidden',
+                    borderRadius: 10,
+                    aspectRatio: '16 / 10',
+                    marginBottom: 16,
+                    background: '#1a1e1b'
+                  }}
+                >
+                  {p.cover_image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={p.cover_image}
+                      alt={p.title}
+                      loading="lazy"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                        transition: 'transform 0.4s ease'
+                      }}
+                      className="post-cover-img"
+                    />
+                  ) : (
+                    <span className="label" style={{ position: 'absolute', top: 12, left: 14, color: '#fff', fontSize: 24, fontStyle: 'italic' }}>
+                      {p.label}
+                    </span>
+                  )}
+                </div>
+
+                <span
+                  className="tag"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 11,
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: '#FF5A1F',
+                    marginBottom: 8,
+                    display: 'inline-block'
+                  }}
+                >
+                  {p.tag}
+                </span>
+
+                <h3
+                  style={{
+                    fontFamily: "'Fraunces', Georgia, serif",
+                    fontSize: 22,
+                    fontWeight: 400,
+                    lineHeight: 1.25,
+                    color: '#121613',
+                    margin: '0 0 10px',
+                    transition: 'color 0.15s'
+                  }}
+                >
+                  {p.title}
+                </h3>
+
+                <p
+                  style={{
+                    fontSize: 14,
+                    lineHeight: 1.55,
+                    color: '#4A4E49',
+                    margin: '0 0 16px',
+                    flex: '1 1 auto',
+                  }}
+                >
+                  {p.desc}
+                </p>
+
+                <div
+                  className="meta"
+                  style={{
+                    marginTop: 'auto',
+                    paddingTop: 14,
+                    borderTop: '1px solid var(--border)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    fontSize: 12,
+                    color: '#6B6F6A'
+                  }}
+                >
+                  <span className="author" style={{ fontWeight: 600, color: '#121613' }}>{p.author}</span>
+                  <span className="dot" style={{ width: 3, height: 3, borderRadius: '50%', background: '#6B6F6A' }}></span>
+                  <span>{p.date}</span>
                 </div>
               </article>
             </Link>

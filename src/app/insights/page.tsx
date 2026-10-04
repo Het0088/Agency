@@ -24,6 +24,7 @@ export default async function InsightsPage() {
   const mapped = posts.map(p => ({
     slug: p.slug.replace('/insights/', ''),
     gradient: p.cover_gradient || 'g1',
+    cover_image: p.cover_image || null,
     label: p.tag.charAt(0).toUpperCase(),
     tag: p.tag,
     title: p.title,
@@ -37,6 +38,7 @@ export default async function InsightsPage() {
     tag: featuredPost.tag,
     title: featuredPost.title,
     desc: featuredPost.description || '',
+    cover_image: featuredPost.cover_image || null,
     author: featuredPost.author,
     date: formatReadable(featuredPost.created_at, featuredPost.read_time),
     readTime: featuredPost.read_time,
