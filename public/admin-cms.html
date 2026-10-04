@@ -9377,8 +9377,8 @@ const stripMd = (t = '') => String(t).replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').re
 const SECTION_DEFAULTS = {
   blog: { label: 'Blog', singular: 'blog post', base: 'blog', icon: '✎', enabled: true, schemaType: 'BlogPosting', intro: 'Expert guides on SEO, AI search, web development, and building great teams.', sidebarForm: true, leadBox: { enabled: true, title: 'Want this done for your business?', text: 'Get a free 30-minute SEO & AI search audit from a senior strategist.', button: 'Get my free audit' } },
   news: { label: 'News', singular: 'news story', base: 'news', icon: '◉', enabled: true, schemaType: 'NewsArticle', intro: 'Company announcements, press releases and media mentions.', sidebarForm: true, leadBox: { enabled: false, title: 'Press & partnership enquiries', text: 'Our communications team replies within one business day.', button: 'Contact the press team' } },
-  glossary: { label: 'Glossary', singular: 'glossary term', base: 'glossary', icon: 'Aa', enabled: true, schemaType: 'DefinedTerm', intro: 'Plain-English definitions of the SEO, AI search and web development terms we use every day.', sidebarForm: true, autoLink: true, leadBox: { enabled: true, title: 'Need help putting this into practice?', text: 'Our strategists explain what it means for your site — free.', button: 'Ask an expert' } },
   whitepapers: { label: 'White papers', singular: 'white paper', base: 'white-papers', icon: '▣', enabled: true, schemaType: 'Report', intro: 'In-depth research reports and playbooks — free to download.', sidebarForm: false, leadBox: { enabled: false, title: '', text: '', button: '' } },
+  glossary: { label: 'Glossary', singular: 'glossary term', base: 'glossary', icon: 'Aa', enabled: true, schemaType: 'DefinedTerm', intro: 'Plain-English definitions of the SEO, AI search and web development terms we use every day.', sidebarForm: true, autoLink: true, leadBox: { enabled: true, title: 'Need help putting this into practice?', text: 'Our strategists explain what it means for your site — free.', button: 'Ask an expert' } },
   publications: { label: 'Publications', singular: 'publication', base: 'publications', icon: '❡', enabled: true, schemaType: 'ScholarlyArticle', intro: 'Research, articles and books by the GENRANQ team.', sidebarForm: true, leadBox: { enabled: false, title: '', text: '', button: '' } },
 };
 const SECTION_KEYS = Object.keys(SECTION_DEFAULTS);
@@ -9632,9 +9632,88 @@ function saveLocal() {
 async function persistDoc(col, doc) {
   if (MODE === 'db') { try { await DB.doc(`${col}/${doc.id}`).set(clone(dehydrate(col, doc))); } catch (e) { toast(`Could not save to the database: ${e.message || e.code}`, 'err'); throw e; } }
   else saveLocal();
+
+  // Sync to Next.js API
+  if (col === 'posts') {
+    try {
+      const isGlossary = doc.section === 'glossary';
+      if (isGlossary) {
+        await fetch('/api/admin/glossary', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: doc.id,
+            title: doc.title,
+            slug: doc.slug,
+            letter: (doc.title[0] || 'A').toUpperCase(),
+            category: doc.category || 'AI Search',
+            shortDef: doc.shortDef || doc.excerpt || '',
+            synonyms: doc.synonyms || '',
+            content: blocksText(doc.blocks),
+            related: doc.related || [],
+            autoLink: doc.autoLink !== false,
+            published: doc.status === 'published'
+          })
+        });
+      } else {
+        await fetch('/api/admin/posts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: doc.id,
+            type: doc.section === 'blog' ? 'blog' : 'article',
+            tag: doc.category || (doc.tags && doc.tags[0]) || 'Insights',
+            title: doc.title,
+            description: doc.seo?.metaDescription || doc.excerpt || '',
+            content: blocksText(doc.blocks),
+            author: doc.author || 'GENRANQ Team',
+            read_time: `${doc.readTime || 5} min read`,
+            slug: doc.slug ? (doc.slug.startsWith('/') ? doc.slug : `/insights/${doc.slug}`) : `/insights/${doc.id}`,
+            cover_gradient: 'g1',
+            featured: false,
+            published: doc.status === 'published'
+          })
+        });
+      }
+    } catch (err) {
+      console.warn('API post sync error', err);
+    }
+  }
 }
 async function persistSettings() { if (MODE === 'db') { try { await DB.doc('config/settings').set(clone(S.settings)); } catch (e) { toast(`Could not save settings: ${e.message || e.code}`, 'err'); throw e; } } else saveLocal(); }
-async function removeDoc(col, id) { S[col] = S[col].filter((x) => x.id !== id); emit(); if (MODE === 'db') await DB.doc(`${col}/${id}`).delete().catch(() => {}); else saveLocal(); }
+async function removeDoc(col, id) {
+  const item = S[col]?.find(x => x.id === id);
+  S[col] = S[col].filter((x) => x.id !== id);
+  emit();
+  if (MODE === 'db') await DB.doc(`${col}/${id}`).delete().catch(() => {});
+  else saveLocal();
+
+  if (col === 'media' && item?.url?.startsWith('/uploads/')) {
+    try {
+      await fetch('/api/admin/upload', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: item.url.replace('/uploads/', '') })
+      });
+    } catch (e) { console.warn('Could not delete upload', e); }
+  } else if (col === 'posts') {
+    try {
+      if (item?.section === 'glossary') {
+        await fetch('/api/admin/glossary', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+      } else {
+        await fetch('/api/admin/posts', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+      }
+    } catch (e) { console.warn('Could not delete post from API', e); }
+  }
+}
 async function upsert(col, doc) {
   const now = new Date().toISOString(); const i = S[col].findIndex((x) => x.id === doc.id);
   if (i >= 0 && !doc._noRev) snapshot(col, doc);
@@ -9666,6 +9745,28 @@ async function loadStorage() {
   const raw = store.get('gq_cms');
   MODE = 'local';
   if (raw) { try { S = JSON.parse(raw); await migrate(); } catch (e) { console.error(e); } }
+  // 3) Sync with server uploads
+  try {
+    fetch('/api/admin/upload').then(r => r.json()).then(data => {
+      if (data && data.files && data.files.length) {
+        let added = false;
+        for (const f of data.files) {
+          if (!S.media.some(m => m.url === f.url)) {
+            S.media.push({
+              id: 'm_' + f.filename.replace(/[^a-z0-9]/gi, '_'),
+              name: f.filename,
+              url: f.url,
+              size: 50000,
+              type: 'image/jpeg',
+              alt: f.filename.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ')
+            });
+            added = true;
+          }
+        }
+        if (added) emit();
+      }
+    }).catch(() => {});
+  } catch {}
   hydrateLinked(); emit(); return 'local';
 }
 /* Upgrade content saved by the first version: new sections, page types, popups, reusable sections. */
@@ -9805,6 +9906,28 @@ const isPdf = (m) => m?.type === 'application/pdf' || /^data:application\/pdf/.t
 async function uploadFiles(files) {
   const out = [];
   for (const f of [...files]) {
+    try {
+      const fd = new FormData();
+      fd.append('file', f);
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.ok && data.url) {
+          const item = await upsert('media', {
+            id: uid('m_'),
+            name: f.name,
+            url: data.url,
+            size: f.size,
+            type: f.type,
+            alt: f.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ')
+          });
+          out.push(item);
+          continue;
+        }
+      }
+    } catch (e) {
+      console.warn('Backend upload failed, falling back to local storage', e);
+    }
     if (f.type === 'application/pdf' || /\.pdf$/i.test(f.name)) {
       if (f.size > 190000) { toast(`${f.name} is larger than 190 KB — paste a link to the PDF instead`, 'err'); continue; }
       const url = await new Promise((res) => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.readAsDataURL(f); });
@@ -10381,18 +10504,19 @@ function MetaManager({ go }) {
   const rows = docs.filter((d) => !q || (d.title + docPath(d)).toLowerCase().includes(q.toLowerCase())).filter((d) => only === 'all' || (only === 'nodesc' ? !val(d, 'metaDescription') : only === 'nokw' ? !val(d, 'focusKeyword') : String(val(d, 'metaTitle')).length > 60 || String(val(d, 'metaDescription')).length > 160));
   const saveAll = async () => { for (const [id, p] of Object.entries(edits)) { const d = docs.find((x) => x.id === id); await upsert(d.type === 'post' ? 'posts' : 'pages', { ...d, seo: { ...d.seo, ...p } }); } toast(`Saved ${Object.keys(edits).length} page(s)`); setEdits({}); };
   return html`<div><div class="filters"><${Input} value=${q} onChange=${setQ} placeholder="Search…" /><${Select} value=${only} onChange=${setOnly} options=${[{ value: 'all', label: 'All pages & posts' }, { value: 'nodesc', label: 'Missing meta description' }, { value: 'nokw', label: 'Missing focus keyword' }, { value: 'long', label: 'Title or description too long' }]} /><${Btn} kind="primary" disabled=${!Object.keys(edits).length} onClick=${saveAll}>Save ${Object.keys(edits).length || ''} changes<//></div>
-    <div class="card table-card"><table class="tbl meta-tbl"><thead><tr><th>Page</th><th>Focus keyword</th><th>Meta title</th><th>Meta description</th><th>Index</th></tr></thead><tbody>${rows.map((d) => html`<tr class=${edits[d.id] ? 'edited' : ''}><td><a href="#" class="t-title" onClick=${(e) => { e.preventDefault(); go({ view: 'edit', kind: d.type === 'post' ? 'posts' : 'pages', id: d.id }); }}>${d.title}</a><div class="t-sub">${docPath(d)}</div></td>
+    <div class="card table-card"><table class="tbl meta-tbl"><thead><tr><th>Page</th><th>Focus keyword</th><th>Meta title</th><th>Meta description</th><th>Index</th><th>Action</th></tr></thead><tbody>${rows.map((d) => html`<tr class=${edits[d.id] ? 'edited' : ''}><td><a href="#" class="t-title" onClick=${(e) => { e.preventDefault(); go({ view: 'edit', kind: d.type === 'post' ? 'posts' : 'pages', id: d.id }); }}>${d.title}</a><div class="t-sub">${docPath(d)}</div></td>
       <td><input class="inp" value=${val(d, 'focusKeyword')} onInput=${(e) => set(d, 'focusKeyword', e.target.value)} /></td>
       <td><input class="inp" value=${val(d, 'metaTitle')} placeholder=${d.title} onInput=${(e) => set(d, 'metaTitle', e.target.value)} /><small class=${String(val(d, 'metaTitle')).length > 60 ? 'over' : 'muted'}>${String(val(d, 'metaTitle')).length}/60</small></td>
       <td><textarea class="inp" rows="2" value=${val(d, 'metaDescription')} onInput=${(e) => set(d, 'metaDescription', e.target.value)}></textarea><small class=${String(val(d, 'metaDescription')).length > 160 ? 'over' : 'muted'}>${String(val(d, 'metaDescription')).length}/160</small></td>
-      <td><input type="checkbox" checked=${!(edits[d.id]?.noindex ?? d.seo?.noindex)} onChange=${(e) => set(d, 'noindex', !e.target.checked)} /></td></tr>`)}</tbody></table></div></div>`;
+      <td><input type="checkbox" checked=${!(edits[d.id]?.noindex ?? d.seo?.noindex)} onChange=${(e) => set(d, 'noindex', !e.target.checked)} /></td>
+      <td class="acts"><a href="${docPath(d)}" target="_blank" rel="noopener" class="b sm" style="color:#FF5A1F;text-decoration:none;padding:5px 9px;font-size:12px">View ↗</a><button type="button" class="b sm" style="margin-left:4px" onClick=${() => go({ view: 'edit', kind: d.type === 'post' ? 'posts' : 'pages', id: d.id })}>Edit</button></td></tr>`)}</tbody></table></div></div>`;
 }
 function LinksTab({ seo, set, go }) {
   const s = useStore(); const cfg = seo.internalLinks || { enabled: true, maxPerPage: 5, rules: [] }; const setCfg = (p) => set({ ...seo, internalLinks: { ...cfg, ...p } });
   return html`<div class="stack"><${Card} title="Automatic internal linking" actions=${html`<${Toggle} checked=${cfg.enabled} onChange=${(x) => setCfg({ enabled: x })} label="Enabled" />`}><p class="muted">The first mention of each keyword on a page is linked to its target (never inside headings or existing links, never to the page itself). Save, then open any blog post to see it.</p>
       <${Field} label="Maximum auto links per page"><${Input} type="number" value=${cfg.maxPerPage} onChange=${(x) => setCfg({ maxPerPage: Number(x) })} /><//>
       <${Repeater} items=${cfg.rules || []} onChange=${(rules) => setCfg({ rules })} addLabel="Add keyword rule" make=${() => ({ id: uid('r_'), keyword: '', url: '', enabled: true })} render=${(r, u) => html`<div class="grid3"><${Input} value=${r.keyword} onChange=${(x) => u({ ...r, keyword: x })} placeholder="Keyword" /><${UrlInput} value=${r.url} onChange=${(x) => u({ ...r, url: x })} /><${Toggle} checked=${r.enabled} onChange=${(x) => u({ ...r, enabled: x })} label="Active" /></div>`} /><//>
-    <${Card} title="Internal link report"><p class="muted">Pages with 0 inbound links that are not in the menu or footer are <b>orphans</b>.</p><div class="scroll-x"><table class="tbl"><thead><tr><th>Page</th><th>Links in</th><th>Links out</th><th>In menu/footer</th></tr></thead><tbody>${linkReport(s).map(({ d, in: i, out, nav }) => { const orphan = i === 0 && !nav && docPath(d) !== '/'; return html`<tr><td><a href="#" class="t-title" onClick=${(e) => { e.preventDefault(); go({ view: 'edit', kind: d.type === 'post' ? 'posts' : 'pages', id: d.id }); }}>${d.title}</a><div class="t-sub">${docPath(d)}</div></td><td><span class=${cx('pill', orphan ? 'bad' : 'ok')}>${i}${orphan ? ' · orphan' : ''}</span></td><td>${out}</td><td>${nav ? '✓' : '—'}</td></tr>`; })}</tbody></table></div><//></div>`;
+    <${Card} title="Internal link report"><p class="muted">Pages with 0 inbound links that are not in the menu or footer are <b>orphans</b>.</p><div class="scroll-x"><table class="tbl"><thead><tr><th>Page</th><th>Links in</th><th>Links out</th><th>In menu/footer</th><th></th></tr></thead><tbody>${linkReport(s).map(({ d, in: i, out, nav }) => { const orphan = i === 0 && !nav && docPath(d) !== '/'; return html`<tr><td><a href="#" class="t-title" onClick=${(e) => { e.preventDefault(); go({ view: 'edit', kind: d.type === 'post' ? 'posts' : 'pages', id: d.id }); }}>${d.title}</a><div class="t-sub">${docPath(d)}</div></td><td><span class=${cx('pill', orphan ? 'bad' : 'ok')}>${i}${orphan ? ' · orphan' : ''}</span></td><td>${out}</td><td>${nav ? '✓' : '—'}</td><td><a href="${docPath(d)}" target="_blank" rel="noopener" class="b sm" style="color:#FF5A1F;text-decoration:none;padding:4px 8px;font-size:11.5px">View ↗</a></td></tr>`; })}</tbody></table></div><//></div>`;
 }
 function Redirects({ seo, set }) {
   const [bulk, setBulk] = useState(''); const list = seo.redirects || [];
@@ -10408,7 +10532,7 @@ function MediaPage() {
     <label class=${cx('drop big', drag && 'over')} onDragOver=${(e) => { e.preventDefault(); setDrag(true); }} onDragLeave=${() => setDrag(false)} onDrop=${(e) => { e.preventDefault(); setDrag(false); up(e.dataTransfer.files); }}><input type="file" multiple hidden accept="image/*,application/pdf" onChange=${(e) => up(e.target.files)} /><b>${busy ? 'Uploading…' : 'Drop images or PDFs here, or click to upload'}</b><span>PNG, JPG, WebP, GIF, SVG, ICO — large photos are resized automatically. PDFs up to 190 KB.</span></label>
     <div class="media-grid big">${s.media.map((m) => html`<button type="button" key=${m.id} class="mitem" onClick=${() => setSel(clone(m))}>${isPdf(m) ? html`<span class="pdf-tile">PDF</span>` : html`<img src=${m.url} alt=${m.alt || ''} />`}<span>${m.name}</span>${!m.alt ? html`<em class="noalt">no alt</em>` : null}</button>`)}</div>
     ${!s.media.length ? html`<${Empty}>No media yet — upload your first image above.<//>` : null}
-    <${Modal} open=${!!sel} onClose=${() => setSel(null)} title=${sel?.name} footer=${html`<${DangerBtn} onConfirm=${async () => { await removeDoc('media', sel.id); setSel(null); toast('Deleted'); }}>Delete<//><${Btn} kind="primary" onClick=${async () => { await upsert('media', sel); toast('Saved'); setSel(null); }}>Save<//>`}>${sel ? html`<div class="stack">${isPdf(sel) ? html`<span class="pdf-tile big">PDF</span>` : html`<img src=${sel.url} alt="" class="media-big" />`}<${Field} label="Default alt text"><${Input} value=${sel.alt} onChange=${(x) => setSel({ ...sel, alt: x })} /><//><p class="muted">${Math.round((sel.size || 0) / 1024)} KB</p></div>` : null}<//></div>`;
+    <${Modal} open=${!!sel} onClose=${() => setSel(null)} title=${sel?.name} footer=${html`<button type="button" class="b sm" style="margin-right:auto;background:#FFF4ED;color:#FF5A1F;border-color:#FFD9C6" onClick=${() => { navigator.clipboard?.writeText(window.location.origin + sel.url); toast('Copied URL to clipboard! ✓'); }}>Copy URL</button><${DangerBtn} onConfirm=${async () => { await removeDoc('media', sel.id); setSel(null); toast('Deleted'); }}>Delete<//><${Btn} kind="primary" onClick=${async () => { await upsert('media', sel); toast('Saved'); setSel(null); }}>Save<//>`}>${sel ? html`<div class="stack">${isPdf(sel) ? html`<span class="pdf-tile big">PDF</span>` : html`<img src=${sel.url} alt="" class="media-big" />`}<${Field} label="Default alt text"><${Input} value=${sel.alt} onChange=${(x) => setSel({ ...sel, alt: x })} /><//><p class="muted">${Math.round((sel.size || 0) / 1024)} KB · <code style="user-select:all">${sel.url}</code></p></div>` : null}<//></div>`;
 }
 const leadKind = (l) => { if (l.sourceKind) return l.sourceKind; const path = '/' + String(l.source || '').replace(/^\/+|\/+$/g, ''); const d = [...S.pages, ...S.posts].find((x) => docPath(x) === path); return d ? srcKind(d) : 'standard'; };
 const LEAD_SOURCES = [

@@ -1,5 +1,22 @@
 [
   {
+    "id": "p_mutrud5v6cm9c",
+    "type": "blog",
+    "tag": "Insights",
+    "title": "2026 Guide to AI Search & Entity Knowledge Graphs",
+    "description": "",
+    "content": "This is a live test of the GENRANQ CMS writing engine with full rich formatting and image insertion. Quick summary Key takeaways, reviewed by our strategists Aspect Details What this covers Who should read this On this page First section Frequently asked questions i_mutrsiha1780w",
+    "author": "Admin",
+    "read_time": "5 min read",
+    "slug": "/insights/ai-search-entity-knowledge-graphs-guide",
+    "cover_gradient": "g1",
+    "cover_image": "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=900&q=80",
+    "featured": 0,
+    "published": 1,
+    "created_at": "2026-10-04T12:02:45.836Z",
+    "updated_at": "2026-10-04T12:03:01.372Z"
+  },
+  {
     "id": "ai-search-playbook-2026",
     "type": "article",
     "tag": "AI Search",
