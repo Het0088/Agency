@@ -19,11 +19,11 @@ export default function BigCta({
   return (
     <section className="section">
       <div className="wrap">
-        <div className="big-cta reveal">
-          <h2>
-            {heading} <em>{em}</em>
+        <div className="big-cta reveal" style={{ background: '#0e1410', color: '#ffffff' }}>
+          <h2 style={{ color: '#ffffff' }}>
+            {heading} <em style={{ color: 'var(--accent, #FF5A1F)', fontStyle: 'italic' }}>{em}</em>
           </h2>
-          <p>{text}</p>
+          <p style={{ color: '#D4CEBF' }}>{text}</p>
           <div className="ctas">
             <Link href={btnHref} className="btn btn-primary">
               {btnText}
@@ -33,7 +33,7 @@ export default function BigCta({
               <Link
                 href={secondBtn.href}
                 className="btn"
-                style={{ background: 'transparent', color: 'var(--dark-ink)', border: '1px solid var(--dark-border)' }}
+                style={{ background: 'transparent', color: '#D4CEBF', border: '1px solid var(--dark-border)' }}
               >
                 {secondBtn.text}
               </Link>

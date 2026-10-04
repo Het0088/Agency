@@ -2924,8 +2924,8 @@ h4 {
    Big CTA
    ============================================ */
 .big-cta {
-  background: var(--ink);
-  color: var(--dark-ink);
+  background: var(--ink, #0e1410) !important;
+  color: #ffffff !important;
   border-radius: var(--radius-lg);
   padding: 80px 60px;
   text-align: center;
@@ -2954,16 +2954,17 @@ h4 {
   max-width: 14ch;
   letter-spacing: -0.02em;
   position: relative;
+  color: #ffffff !important;
 }
 
 .big-cta h2 em {
-  color: var(--accent);
+  color: var(--accent, #FF5A1F) !important;
   font-style: italic;
 }
 
 .big-cta p {
   font-size: 17px;
-  color: var(--dark-ink-soft);
+  color: #D4CEBF !important;
   max-width: 480px;
   margin: 0 auto 36px;
   position: relative;

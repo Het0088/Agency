@@ -1,16 +1,97 @@
+import React from 'react'
+
+const brands = [
+  {
+    name: 'Stripe',
+    svg: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#635BFF">
+        <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697.5 12.873.5 7.64.5 4.092 3.253 4.092 7.822c0 5.485 5.578 6.442 8.529 7.66 2.015.82 2.825 1.554 2.825 2.502 0 .973-.83 1.528-2.222 1.528-2.617 0-5.467-1.127-7.25-2.091L5 23.013c1.921 1.053 4.887 1.487 7.747 1.487 5.503 0 9.27-2.67 9.27-7.391 0-5.748-5.61-6.792-8.041-7.959z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Shopify',
+    svg: (
+      <svg width="20" height="20" viewBox="0 0 24 24">
+        <path fill="#95BF47" d="M19.38 5.09c-.06-.43-.44-.73-.87-.73-.05 0-1.74-.03-1.74-.03s-1.15-1.13-1.44-1.41a2.38 2.38 0 0 0-1.68-.72c-.14 0-.29 0-.44.03-.43-1.25-1.45-2.07-2.79-2.07-.15 0-.3.01-.46.04C8.75.38 7.57 1.43 7.23 2.76c-.84.26-1.45.97-1.57 1.83l-3.34 2.58A1.19 1.19 0 0 0 2 8.16l2.97 14.21A1.73 1.73 0 0 0 6.67 24h10.66a1.73 1.73 0 0 0 1.7-1.63L22 8.16c.04-.37-.09-.74-.35-.99l-2.27-2.08zm-7.92-3.18c.67 0 1.25.4 1.5 1.01l-2.48.74c.2-.95.72-1.75 1.4-1.75l-.42.0zM10.46 3.6l2.39-.71c.21.36.4.77.53 1.22l-2.92.87c0-.49 0-.96 0-1.38zm1.09 13.9c-.1 0-.2-.02-.28-.06l-2.14-.95a.69.69 0 0 1-.38-.62V12.4c0-.38.31-.69.69-.69.38 0 .69.31.69.69v2.85l1.62.72c.35.15.51.56.35.91-.12.28-.38.44-.66.44z"/>
+        <path fill="#5E8E3E" d="M19.38 5.09l-2.61.78v16.5c.53-.16.94-.61 1.02-1.16L22 8.16a1.18 1.18 0 0 0-.35-.99l-2.27-2.08z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Webflow',
+    svg: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#146EF5">
+        <path d="M17.844 7.224h-.05a4.015 4.015 0 0 0-3.834 2.825l-2.062 6.55-2.521-8.156A3.94 3.94 0 0 0 5.61 5.666h-.04A3.935 3.935 0 0 0 1.8 8.441L0 18.334h4.156l1.326-6.697 2.457 6.697h3.766l2.585-8.154 1.93 8.154h4.156l3.624-11.11z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Vercel',
+    svg: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 1L24 22H0L12 1z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Supabase',
+    svg: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#3ECF8E">
+        <path d="M21.362 9.354H12V.396a.396.396 0 0 0-.716-.233L.32 13.914a.792.792 0 0 0 .616 1.282H12v8.958a.396.396 0 0 0 .716.233l10.964-13.75a.792.792 0 0 0-.318-1.283z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Linear',
+    svg: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#5E6AD2">
+        <path d="M2.5 12a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0zm9.5-7.5a7.5 7.5 0 0 0-5.303 12.803l10.606-10.606A7.468 7.468 0 0 0 12 4.5z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'HubSpot',
+    svg: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF7A59">
+        <path d="M18.164 7.95V5.518a2.158 2.158 0 1 0-1.849 0v2.433a5.534 5.534 0 0 0-2.88 2.015L7.26 6.134a2.235 2.235 0 1 0-1.488 1.104l6.082 3.784a5.556 5.556 0 0 0-.256 1.666c0 .6.1 1.177.284 1.716l-6.176 3.84a2.233 2.233 0 1 0 1.486 1.106l6.242-3.883a5.545 5.545 0 1 0 4.73-7.517zm-.924 8.232a2.95 2.95 0 1 1 0-5.9 2.95 2.95 0 0 1 0 5.9z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Cloudflare',
+    svg: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#F38020">
+        <path d="M18.2 9.5c-.3-2.6-2.5-4.6-5.2-4.6-2.2 0-4.1 1.4-4.8 3.4-1.9.2-3.4 1.8-3.4 3.7 0 .3 0 .7.1 1H1.5C.7 13 0 13.7 0 14.5S.7 16 1.5 16h16.7c1.8 0 3.3-1.5 3.3-3.3 0-1.6-1.1-2.9-2.6-3.2l-.7 0z"/>
+      </svg>
+    ),
+  },
+]
+
 export default function LogosSection({ content }: { content?: Record<string, string> }) {
   return (
     <section className="logos">
       <div className="wrap">
-        <div className="logos-label">{content?.logos_label || 'Trusted by 600+ small businesses worldwide'}</div>
-        <div className="logos-row">
-          <span className="logo-item">Maple <span className="sub">&amp; Oak</span></span>
-          <span className="logo-item serif-i">Northbound</span>
-          <span className="logo-item">FERN<span className="sub">Studios</span></span>
-          <span className="logo-item">Habitat <span className="sub">Goods Co.</span></span>
-          <span className="logo-item serif-i">Cresta</span>
-          <span className="logo-item">SOLACE<span className="sub">Yoga</span></span>
-          <span className="logo-item">Birch<span className="sub">Architects</span></span>
+        <div className="logos-label">{content?.logos_label || 'Trusted by 600+ businesses worldwide'}</div>
+        <div className="logos-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '36px', flexWrap: 'wrap' }}>
+          {brands.map((b) => (
+            <span
+              key={b.name}
+              className="logo-item"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '10px',
+                fontSize: '18px',
+                fontWeight: 600,
+                color: 'var(--ink, #121613)',
+                letterSpacing: '-0.01em',
+              }}
+            >
+              {b.svg}
+              <span>{b.name}</span>
+            </span>
+          ))}
         </div>
       </div>
     </section>
