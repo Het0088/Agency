@@ -5,6 +5,7 @@ import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import { ArrowRight, CheckIcon } from '@/components/Icons'
+import { buildFaqSchema } from '@/lib/schema'
 
 export async function generateMetadata(): Promise<Metadata> {
   const m = await getPageMeta('/about')
@@ -57,6 +58,35 @@ export default async function AboutPage() {
       email: 'hello@genranq.com',
     },
   }
+
+  const aboutFaqs = [
+    {
+      q: 'Who owns GENRANQ Software LLP and how long have you been in business?',
+      a: 'GENRANQ Software LLP is an independent, bootstrapped software and digital growth firm founded in 2014, headquartered in Vadodara, Gujarat, India. Over the last 12 years, we have grown organically to a 120+ person cross-functional team delivering search optimization and full-stack software development for 600+ businesses across 42 countries.',
+    },
+    {
+      q: 'How is GENRANQ different from traditional digital marketing agencies?',
+      a: 'Most digital agencies are marketing-only shops that produce slide decks and tell your engineers what to fix. GENRANQ Software LLP integrates senior search strategists with in-house software engineers. When our audits identify Core Web Vitals bottlenecks, indexation flaws, schema opportunities, or API integrations, our engineers write and deploy the production code directly.',
+    },
+    {
+      q: 'Why do you enforce a strict senior-only delivery model?',
+      a: 'In modern search and software development, junior staff learning on client accounts leads to missed deadlines and costly algorithmic penalties. Every GENRANQ client account is led by practitioners with at least 8+ years of specialized experience in search architecture, engineering, or editorial strategy, ensuring immediate institutional competence from day one.',
+    },
+    {
+      q: 'How do you handle real-time collaboration with overseas clients?',
+      a: 'We structure our working hours to provide a guaranteed 4 to 5 hour daily overlap with North American, European, and Australian business schedules. We integrate directly into your company Slack, Microsoft Teams, Jira, or Linear workspaces with transparent weekly video sprint demos.',
+    },
+    {
+      q: 'Who owns the code, intellectual property, and content produced?',
+      a: 'You own 100% of the code, designs, content, schema, custom scripts, and data dashboards we build. All source files are pushed directly to your Git repositories and Figma workspaces. If you ever pause or transition, you walk away with everything with zero proprietary lock-in.',
+    },
+    {
+      q: 'What are your standard contract terms and cancellation policies?',
+      a: 'We believe in earning our partnership every single month. Following an initial 90-day baseline sprint to establish foundational architecture and benchmarks, all our retainers operate on flexible month-to-month terms with a simple 30-day notice period.',
+    },
+  ]
+
+  const faqSchema = buildFaqSchema(aboutFaqs)
 
   const counters = [
     { value: '412', suffix: '%', label: 'Average organic traffic growth in 12 months' },
@@ -201,6 +231,10 @@ export default async function AboutPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <Topbar text="● Now offering AI Search & GEO optimisation." linkText="Learn more →" linkHref="/services/ai-search" />
@@ -474,7 +508,33 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* ===== 7. CTA SECTION ===== */}
+      {/* ===== 7. FAQ SECTION ===== */}
+      <section className="pad" id="faq">
+        <div className="wrap" style={{ maxWidth: 900 }}>
+          <div className="sec-head reveal">
+            <span className="eyebrow">Agency FAQs</span>
+            <h2>Frequently asked questions about <em className="accent">GENRANQ.</em></h2>
+            <p className="lead" style={{ marginTop: 12 }}>
+              Everything you need to know about our corporate registration, team composition, timezone workflows, and contract terms.
+            </p>
+          </div>
+          <div className="faq-list reveal">
+            {aboutFaqs.map((item, i) => (
+              <details className="faq" key={item.q} open={i === 0}>
+                <summary>
+                  <span>{item.q}</span>
+                  <span className="faq-icon">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
+                  </span>
+                </summary>
+                <div className="faq-body">{item.a}</div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 8. CTA SECTION ===== */}
       <section className="pad" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <div className="cta-box cta-dark">

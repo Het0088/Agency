@@ -140,6 +140,7 @@ const allSubServices: SubService[] = [
     faqs: [
       { q: 'How do you handle enterprise dev queues?', a: 'We write implementation specs that your developers can ship independently. We also integrate with Jira, Asana, and Monday to track SEO tickets inside your existing workflow.' },
       { q: 'Do you handle site migrations?', a: 'Yes. We have managed 12 enterprise migrations with zero traffic loss. Migration planning is one of our core specializations.' },
+      { q: 'How do you handle international SEO and multilingual indexation?', a: 'We architect robust hreflang clustering, ccTLD and subdirectory structures, geo-targeted sitemaps, and localized content canonicals to prevent cross-language keyword cannibalization across multinational domains.' },
     ],
   },
   {
@@ -171,6 +172,7 @@ const allSubServices: SubService[] = [
     faqs: [
       { q: 'Do I need a retainer to get an audit?', a: 'No. The audit is a standalone deliverable. Walk away with a roadmap your team can execute independently.' },
       { q: 'How long does the audit take?', a: 'From access to delivery: approximately three weeks. The strategy call is scheduled within one week of report delivery.' },
+      { q: 'What tools and crawlers do you use during the forensic audit?', a: 'We employ enterprise crawl engines including Screaming Frog and Sitebulb alongside server log analysis, Ahrefs, Semrush, Google Search Console API exports, and Google Lighthouse/CrUX field data.' },
     ],
   },
   {
@@ -200,6 +202,7 @@ const allSubServices: SubService[] = [
     faqs: [
       { q: 'Can you guarantee ChatGPT mentions?', a: 'No honest agency can. What we guarantee is a systematic, proven approach. Our clients see an average 340% increase within 120 days.' },
       { q: 'How do you track AI mentions?', a: 'We run automated prompt testing weekly across ChatGPT, tracking citation frequency, accuracy, and sentiment over time.' },
+      { q: 'What structural changes make web content easily cited by ChatGPT?', a: 'We implement direct answer-first paragraph structuring, clear tabular data comparisons, schema entity disambiguation, and authoritative statistical citations that LLM retrieval-augmented generation (RAG) models prioritize.' },
     ],
   },
   {
@@ -220,6 +223,11 @@ const allSubServices: SubService[] = [
       { value: '6x', label: 'Higher CTR from AIO citations' },
       { value: '85%', label: 'Client AIO visibility increase' },
     ],
+    faqs: [
+      { q: 'How do Google AI Overviews differ from traditional featured snippets?', a: 'Featured snippets pull a single block of text from one top-ranking URL. AI Overviews synthesize multi-source information using Gemini LLM models, prioritizing pages with clear semantic entities, structured data, and high E-E-A-T credentials.' },
+      { q: 'Does appearing in an AI Overview reduce click-through rates?', a: 'While simple factual queries may result in zero-click answers, commercial and investigative queries in AI Overviews display prominent carousel citation cards that generate substantially higher qualified buyer intent and lower bounce rates.' },
+      { q: 'How quickly can our pages be indexed into Google AI Overviews?', a: 'Once content is re-structured with modular summary blocks, structured tables, and clean semantic schema, Google re-evaluates the query cluster within 2 to 4 weeks depending on site authority and crawl frequency.' },
+    ],
   },
   {
     slug: 'gemini', category: 'ai-search', parentTitle: 'AI Search & GEO', title: 'Gemini Optimization',
@@ -238,6 +246,11 @@ const allSubServices: SubService[] = [
       { value: '90', label: 'Days to panel activation' },
       { value: '3', label: 'Platforms covered (Search, Workspace, Android)' },
       { value: '100%', label: 'Entity audit coverage' },
+    ],
+    faqs: [
+      { q: 'How does Gemini Optimization affect visibility across Google products?', a: 'Gemini powers Google Search AI, Android assistants, and Google Workspace integrations. Optimizing for Gemini strengthens your Google Knowledge Graph entity, ensuring accurate brand representation across all Google surface areas.' },
+      { q: 'What role does Google Knowledge Panel claim and verification play?', a: 'Knowledge Panels provide the factual ground truth that Gemini references. We establish authoritative Wikidata entries, disambiguate parent organization hierarchies, and secure verified entity panels for your leadership and company.' },
+      { q: 'How do you track Gemini recommendations and brand sentiment?', a: 'We run scheduled prompt testing across Gemini Advanced querying high-intent buyer searches in your vertical, logging brand mention frequency, recommended alternatives, and factual accuracy.' },
     ],
   },
   {
@@ -258,6 +271,11 @@ const allSubServices: SubService[] = [
       { value: '3x', label: 'Higher trust vs. traditional results' },
       { value: '90%', label: 'Source accuracy rate' },
     ],
+    faqs: [
+      { q: 'Why is Perplexity SEO particularly valuable for B2B and SaaS brands?', a: 'Perplexity caters heavily to researchers, developers, tech founders, and enterprise buyers who research software and service decisions. Perplexity always cites numbered citations, sending direct, high-intent referral traffic to sources.' },
+      { q: 'What content formats perform best on Perplexity?', a: 'Original data studies, transparent comparison pages, comprehensive documentation, and objective pros-and-cons teardowns format exceptionally well for Perplexity retrieval agents.' },
+      { q: 'Can we optimize existing blog posts for Perplexity indexing?', a: 'Yes. We re-engineer existing content by adding concise executive summaries, question-and-answer headers, verifiable data points, and explicit entity definitions that make citation extraction seamless.' },
+    ],
   },
   {
     slug: 'seo-writing', category: 'content-marketing', parentTitle: 'Content Marketing', title: 'SEO Content Writing',
@@ -276,6 +294,11 @@ const allSubServices: SubService[] = [
       { value: '8', label: 'Articles per month (standard retainer)' },
       { value: '92%', label: 'First-page ranking rate within 90 days' },
       { value: '0', label: 'AI-generated content. All human-written.' },
+    ],
+    faqs: [
+      { q: 'How do your writers conduct keyword and competitor search intent research?', a: 'We analyze top-10 SERP ranking patterns, People Also Ask (PAA) questions, user forums, and customer search queries to build comprehensive topical briefs that address both informational intent and commercial conversion.' },
+      { q: 'Are your SEO articles 100% original and verified for plagiarism?', a: 'Yes. Every article is written from scratch by experienced industry copywriters and rigorously checked through plagiarism and AI-detection tools before editorial delivery.' },
+      { q: 'How do you ensure proper internal linking and on-page optimization?', a: 'Every brief identifies specific anchor text targets pointing to your money pages and related cluster articles, accompanied by optimized title tags, meta descriptions, header structures, and image alt text.' },
     ],
   },
   {
@@ -296,6 +319,11 @@ const allSubServices: SubService[] = [
       { value: '12', label: 'Avg. posts published per month' },
       { value: '96%', label: 'On-time delivery rate' },
     ],
+    faqs: [
+      { q: 'Who manages the editorial calendar and topic ideation?', a: 'Our content strategists build a 3-month rolling editorial roadmap based on keyword search volume, seasonal trends, and product roadmaps, presenting it for your sign-off before writer assignment.' },
+      { q: 'Can you publish directly to our CMS platform?', a: 'Yes. Our team directly formats, tags, and schedules posts inside WordPress, Webflow, Contentful, Ghost, Shopify, or GitHub-based Markdown repositories.' },
+      { q: 'What happens if we need revisions on a published post?', a: 'All retainers include unlimited revisions during the drafting phase and free quarterly refreshes on established articles that show signs of organic traffic decay.' },
+    ],
   },
   {
     slug: 'copywriting', category: 'content-marketing', parentTitle: 'Content Marketing', title: 'Copywriting',
@@ -315,6 +343,11 @@ const allSubServices: SubService[] = [
       { value: '24h', label: 'Turnaround on urgent copy' },
       { value: '4.8', label: 'Avg. client satisfaction score' },
     ],
+    faqs: [
+      { q: 'How do you approach landing page copywriting to balance SEO and conversions?', a: 'We employ high-converting persuasion frameworks (such as PAS and AIDA) for user engagement, while integrating high-value primary and secondary keywords naturally into H1/H2 headings and body copy without keyword stuffing.' },
+      { q: 'What information do you need from our team to start copywriting?', a: 'We conduct a 45-minute intake interview to gather your ideal customer profile (ICP), value propositions, pain points, objection lists, and brand tone guidelines, along with any existing competitor teardowns.' },
+      { q: 'Do you write conversion-focused A/B test variations?', a: 'Yes. We craft alternative headline variations, CTA button copy, hero benefit statements, and social proof sections for multivariate and split testing programs.' },
+    ],
   },
   {
     slug: 'email-marketing', category: 'content-marketing', parentTitle: 'Content Marketing', title: 'Email Marketing',
@@ -333,6 +366,11 @@ const allSubServices: SubService[] = [
       { value: '3.8%', label: 'Avg. click-through rate' },
       { value: '28x', label: 'Avg. email ROI' },
       { value: '99.2%', label: 'Avg. deliverability rate' },
+    ],
+    faqs: [
+      { q: 'Which email service providers (ESPs) do you support?', a: 'We work across all enterprise and growth platforms including Klaviyo, HubSpot, ActiveCampaign, Mailchimp, Customer.io, and Braze.' },
+      { q: 'How do you protect domain sender reputation and email deliverability?', a: 'We configure and verify SPF, DKIM, DMARC, and BIMI DNS records, monitor spam complaint rates, execute gradual IP warming sequences, and implement automated unengaged subscriber sunset policies.' },
+      { q: 'What types of automated email flows do you set up?', a: 'We engineer high-converting welcome series, abandoned cart recovery sequences, post-purchase onboarding, win-back flows, and lead nurture drips tailored to your customer journey.' },
     ],
   },
   {
@@ -355,6 +393,11 @@ const allSubServices: SubService[] = [
       { value: '90', label: 'Days to measurable ROAS lift' },
       { value: '94%', label: 'Client retention' },
     ],
+    faqs: [
+      { q: 'How do you structure Google Ads campaigns for optimal budget efficiency?', a: 'We isolate campaigns by search intent—separating high-intent exact match keywords, branded terms, and broad-match exploratory ad groups with strict negative keyword lists to prevent budget bleed.' },
+      { q: 'Do you manage Performance Max (PMax) campaigns?', a: 'Yes. We build structured PMax campaigns with high-quality audience signals, custom asset groups, and brand exclusion lists, preventing PMax from cannibalizing organic brand search.' },
+      { q: 'How do you track conversions accurately with privacy changes?', a: 'We implement Google Tag Manager with enhanced conversions, server-side tagging, and Consent Mode v2 to ensure maximum tracking fidelity while staying fully compliant.' },
+    ],
   },
   {
     slug: 'meta-ads', category: 'ppc', parentTitle: 'PPC & Paid Ads', title: 'Meta Ads',
@@ -369,6 +412,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 2.8x ROAS across e-commerce clients.',
     stats: [{ value: '2.8x', label: 'Avg. ROAS' }, { value: '45%', label: 'Lower CPA vs. industry avg' }, { value: '200+', label: 'Campaigns managed' }, { value: '87%', label: 'Creative test win rate' }],
+    faqs: [
+      { q: 'How do you navigate iOS 14+ tracking limitations on Meta Ads?', a: 'We deploy Meta Conversions API (CAPI) through server-side GTM, deduplicating browser and server events to ensure complete attribution and reliable algorithmic optimization.' },
+      { q: 'What is your creative testing methodology on Facebook and Instagram?', a: 'We run iterative dynamic creative testing (DCT) sprints, isolating hooks, visual styles (UGC vs polished graphic vs founder video), and calls-to-action before scaling winning assets with increased budget.' },
+      { q: 'What budget is recommended to begin Meta Ads campaigns?', a: 'We recommend a minimum media budget of $3,000 to $5,000 per month to allow Meta machine learning algorithms to complete the initial learning phase and achieve statistical significance.' },
+    ],
   },
   {
     slug: 'youtube-ads', category: 'ppc', parentTitle: 'PPC & Paid Ads', title: 'YouTube Ads',
@@ -383,6 +431,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 65% lower cost-per-view vs. industry benchmarks.',
     stats: [{ value: '65%', label: 'Lower CPV vs. benchmarks' }, { value: '4.2%', label: 'Avg. view-through rate' }, { value: '120+', label: 'Video campaigns managed' }, { value: '2.1x', label: 'Avg. brand lift' }],
+    faqs: [
+      { q: 'What video formats work best for YouTube advertising campaigns?', a: 'We focus on Skippable In-Stream ads using the ABCD creative framework (Attract, Brand, Connect, Direct) with strong 5-second hooks, complemented by non-skippable bumper ads for frequency capping.' },
+      { q: 'Do you assist with YouTube video creative and scripting?', a: 'Yes. We craft high-converting video storyboard scripts, advise on visual pacing, and can edit raw customer footage or studio video into performance ad variants.' },
+      { q: 'How do you measure business lift from YouTube view-through conversions?', a: 'We configure Google Ads view-through attribution windows, brand search lift studies, and post-purchase attribution surveys to evaluate direct and indirect revenue contribution.' },
+    ],
   },
   {
     slug: 'programmatic', category: 'ppc', parentTitle: 'PPC & Paid Ads', title: 'Programmatic Advertising',
@@ -397,6 +450,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 40% improvement in media efficiency vs. direct buys.',
     stats: [{ value: '40%', label: 'Avg. media efficiency gain' }, { value: '95%', label: 'Viewability rate' }, { value: '0.08%', label: 'Avg. invalid traffic rate' }, { value: '3.5x', label: 'Reach efficiency vs. direct' }],
+    faqs: [
+      { q: 'What demand-side platforms (DSPs) do you utilize?', a: 'We leverage Google Display & Video 360 (DV360) and The Trade Desk for enterprise media buys, alongside specialized CTV and native ad networks.' },
+      { q: 'How do you prevent ad fraud and non-human bot traffic in programmatic campaigns?', a: 'We enforce pre-bid fraud filters through IAS (Integral Ad Science) or DoubleVerify, maintain private marketplace (PMP) deal IDs with premium publishers, and exclude low-quality app inventories.' },
+      { q: 'What is the difference between programmatic display and Google Display Network?', a: 'While GDN is limited to Google partner sites, programmatic DSPs give access to 95%+ of global web inventory, Connected TV (Hulu, Roku), digital audio (Spotify), and advanced first-party data onboarding.' },
+    ],
   },
   {
     slug: 'management', category: 'social-media', parentTitle: 'Social Media', title: 'Social Media Management',
@@ -411,6 +469,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 156% follower growth and 3.2x engagement increase in 6 months.',
     stats: [{ value: '156%', label: 'Avg. follower growth' }, { value: '3.2x', label: 'Engagement increase' }, { value: '40+', label: 'Brands managed' }, { value: '98%', label: 'On-time content delivery' }],
+    faqs: [
+      { q: 'How many posts per week are included in social management packages?', a: 'Depending on your retainer tier, we publish between 3 to 7 tailored posts per week per platform, combining carousels, short-form reels, industry thought leadership, and text discussions.' },
+      { q: 'Do we need to supply all photos and video assets?', a: 'Not necessarily. While authentic behind-the-scenes footage from your team is highly encouraged, our creative team designs custom graphics, motion animations, typography carousels, and curated visual assets.' },
+      { q: 'How do you handle crisis communication or negative social comments?', a: 'We develop an approved escalation playbook during onboarding. Minor issues receive brand-aligned polite de-escalation, while high-severity matters are escalated to your internal leadership within 30 minutes.' },
+    ],
   },
   {
     slug: 'advertising', category: 'social-media', parentTitle: 'Social Media', title: 'Social Advertising',
@@ -425,6 +488,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 2.4x ROAS across all social platforms.',
     stats: [{ value: '2.4x', label: 'Avg. ROAS' }, { value: '35%', label: 'Lower CPL vs. benchmarks' }, { value: '500+', label: 'Ad creatives tested' }, { value: '89%', label: 'Client retention' }],
+    faqs: [
+      { q: 'Which social channels deliver the lowest cost per customer acquisition?', a: 'This varies by sector: LinkedIn delivers the highest-quality qualified leads for high-ticket B2B services, while Meta and TikTok dominate direct-to-consumer e-commerce acquisition costs.' },
+      { q: 'How do you scale ad spend without driving up customer acquisition costs?', a: 'We employ horizontal scaling (expanding into new lookalike and interest audiences) and creative diversification, preventing ad fatigue and maintaining stable CPAs as spend rises.' },
+      { q: 'What reporting frequency can we expect for paid social campaigns?', a: 'You receive weekly automated performance dashboards and bi-weekly strategic calls with your dedicated paid media director to review spend, ROAS, and creative testing results.' },
+    ],
   },
   {
     slug: 'brand', category: 'social-media', parentTitle: 'Social Media', title: 'Brand Management',
@@ -439,6 +507,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 78% improvement in brand sentiment scores.',
     stats: [{ value: '78%', label: 'Brand sentiment improvement' }, { value: '24/7', label: 'Reputation monitoring' }, { value: '60+', label: 'Brands managed' }, { value: '4.9', label: 'Client satisfaction score' }],
+    faqs: [
+      { q: 'What deliverables are included in digital brand management?', a: 'We provide comprehensive visual identity guidelines, digital tone of voice manuals, social media asset design kits, executive personal branding templates, and online reputation management.' },
+      { q: 'How do you monitor brand reputation across the web and social media?', a: 'We utilize enterprise listening tools (Brandwatch, Mention) to monitor brand keywords, competitor mentions, executive names, and sentiment trends in real time across forums, social media, and news outlets.' },
+      { q: 'Can you help rehabilitate a damaged brand reputation or outdated image?', a: 'Yes. We develop multi-phase brand revitalization campaigns: auditing public perception, revamping visual assets, deploying positive digital PR, and suppressing negative search results with high-authority branded properties.' },
+    ],
   },
   {
     slug: 'custom', category: 'web-design', parentTitle: 'Web Design', title: 'Custom Web Design',
@@ -453,6 +526,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 52% conversion rate improvement on redesigned sites.',
     stats: [{ value: '52%', label: 'Avg. conversion lift' }, { value: '200+', label: 'Sites designed' }, { value: '< 2s', label: 'Avg. page load time' }, { value: '100', label: 'Lighthouse performance score target' }],
+    faqs: [
+      { q: 'Do you use pre-made templates or build custom websites from scratch?', a: 'Every website we build is 100% custom-designed in Figma based on your specific brand identity, conversion objectives, and user experience requirements. We never use generic pre-bought templates.' },
+      { q: 'How do you ensure our custom website is fast and mobile-responsive?', a: 'We design mobile-first across all modern device breakpoints (mobile, tablet, desktop, ultrawide). Our front-end engineering adheres to strict Core Web Vitals performance benchmarks (<1.2s LCP).' },
+      { q: 'What deliverables do we receive at the conclusion of the web design phase?', a: 'You receive fully organized Figma source files, interactive clickable prototypes, an atomic design system with typography and color tokens, exported SVGs, and complete developer handoff documentation.' },
+    ],
   },
   {
     slug: 'wordpress', category: 'web-design', parentTitle: 'Web Design', title: 'WordPress Design',
@@ -467,6 +545,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 3x speed improvement vs. template-based WordPress sites.',
     stats: [{ value: '3x', label: 'Speed improvement vs. templates' }, { value: '150+', label: 'WordPress sites built' }, { value: '99.9%', label: 'Uptime guarantee' }, { value: 'A+', label: 'Security rating' }],
+    faqs: [
+      { q: 'Why do you build custom WordPress themes instead of using Elementor or Divi?', a: 'Heavy page builders bloat code, inject hundreds of external CSS/JS scripts, and severely damage Google PageSpeed scores. Our lightweight custom Gutenberg or ACF themes load in under 1 second and offer a frictionless editing experience.' },
+      { q: 'Can non-technical team members easily update content and add blog posts?', a: 'Yes. We configure custom fields and tailored block patterns so your marketing team can easily change copy, swap images, and create new landing pages without writing code or breaking layouts.' },
+      { q: 'How do you keep WordPress websites secure from malware and vulnerabilities?', a: 'We implement enterprise security headers, two-factor authentication, Cloudflare WAF protection, automated daily off-site backups, and strict plugin curation to prevent vulnerabilities.' },
+    ],
   },
   {
     slug: 'ecommerce', category: 'web-design', parentTitle: 'Web Design', title: 'E-commerce Design',
@@ -481,6 +564,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 45% increase in online revenue within 90 days of launch.',
     stats: [{ value: '45%', label: 'Avg. revenue increase' }, { value: '100+', label: 'Stores launched' }, { value: '3.2%', label: 'Avg. conversion rate achieved' }, { value: '< 1.5s', label: 'Avg. mobile load time' }],
+    faqs: [
+      { q: 'Which e-commerce platforms do you specialize in designing for?', a: 'We specialize in custom Shopify, Shopify Plus, WooCommerce, and headless commerce architectures (Next.js commerce connected to Shopify or Medusa backends).' },
+      { q: 'How do you optimize product pages for maximum average order value (AOV)?', a: 'We incorporate strategic cross-sell and upsell modules, volume discount tiers, sticky add-to-cart buttons, trust badges, customer reviews, and rapid express checkout flows (Shop Pay, Apple Pay).' },
+      { q: 'Can you integrate our custom inventory, ERP, or shipping software?', a: 'Yes. Our developers integrate third-party logistics (3PL), ERP systems, CRM platforms (HubSpot, Salesforce), and custom payment gateways through secure REST or GraphQL APIs.' },
+    ],
   },
   {
     slug: 'redesign', category: 'web-design', parentTitle: 'Web Design', title: 'Website Redesign',
@@ -495,6 +583,11 @@ const allSubServices: SubService[] = [
     ],
     result: '100% of redesign clients maintained or improved organic traffic.',
     stats: [{ value: '0%', label: 'Traffic loss on redesigns' }, { value: '80+', label: 'Redesigns completed' }, { value: '28%', label: 'Avg. traffic increase post-redesign' }, { value: '100%', label: 'Redirect coverage' }],
+    faqs: [
+      { q: 'How do you guarantee we will not lose our Google organic search rankings during a redesign?', a: 'We conduct a comprehensive pre-launch URL inventory, map 100% of old URLs to new counterparts with permanent 301 redirects, preserve existing on-page header and metadata structures, and test redirect chains in staging before DNS cutover.' },
+      { q: 'How long does a full website redesign typically take?', a: 'A standard marketing website redesign requires 6 to 10 weeks from discovery to launch, split into discovery, wireframing, high-fidelity UI design, development, content migration, QA testing, and launch.' },
+      { q: 'Can we retain our existing blog posts and customer data during the redesign?', a: 'Yes. We execute automated database migrations for all legacy articles, customer accounts, and order histories, ensuring complete data continuity.' },
+    ],
   },
   {
     slug: 'digital-pr', category: 'link-building', parentTitle: 'Link Building', title: 'Digital PR',
@@ -509,6 +602,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 15 editorial placements per campaign.',
     stats: [{ value: '15', label: 'Avg. placements per campaign' }, { value: 'DR 60+', label: 'Avg. linking domain rating' }, { value: '200+', label: 'Media relationships' }, { value: '92%', label: 'Campaign success rate' }],
+    faqs: [
+      { q: 'What types of stories and campaigns do you create for digital PR?', a: 'We build proprietary industry survey reports, data journalism studies, interactive calculators, and expert commentary pitches that provide genuine newsworthy value to journalists and editors.' },
+      { q: 'What publications have your digital PR campaigns been featured in?', a: 'Our campaigns have earned editorial coverage in top-tier publications including Forbes, TechCrunch, Business Insider, Fast Company, Inc., and major national news outlets.' },
+      { q: 'Are digital PR links guaranteed to be dofollow?', a: 'While editorial discretion rests with the publishing journalist, over 85% of our earned placements feature contextual dofollow links that directly pass topical authority and PageRank.' },
+    ],
   },
   {
     slug: 'guest-posting', category: 'link-building', parentTitle: 'Link Building', title: 'Guest Posting',
@@ -523,6 +621,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average DR 55+ for guest post placements.',
     stats: [{ value: 'DR 55+', label: 'Avg. placement quality' }, { value: '8-12', label: 'Placements per month' }, { value: '100%', label: 'Editorial placements (no PBNs)' }, { value: '0', label: 'Link penalties. Ever.' }],
+    faqs: [
+      { q: 'How do you ensure guest post sites are authoritative and not link farms?', a: 'We manually review every domain: checking for steady organic Google traffic trends, strict editorial guidelines, real author bios, and diverse inbound link profiles. We strictly ban PBNs and public blog directories.' },
+      { q: 'Who writes the guest post articles?', a: 'Our in-house editorial team of subject-matter writers crafts in-depth, educational articles (1,200–2,000 words) tailored to the specific publishing website audience guidelines.' },
+      { q: 'Can we choose the anchor text for our backlinks?', a: 'Yes. We plan a balanced anchor text mix (branded, topical partial-match, and natural URL anchors) to ensure search engine safety and maximize contextual relevance.' },
+    ],
   },
   {
     slug: 'outreach', category: 'link-building', parentTitle: 'Link Building', title: 'Outreach Campaigns',
@@ -537,6 +640,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 20 new referring domains per month.',
     stats: [{ value: '20', label: 'New referring domains per month' }, { value: '35%', label: 'Response rate on outreach' }, { value: '500+', label: 'Outreach campaigns run' }, { value: '0', label: 'Spam links. Ever.' }],
+    faqs: [
+      { q: 'What outreach strategies do you use beyond standard cold pitching?', a: 'We utilize broken link building, resource page curation pitches, unlinked brand mention reclamation, and skyscraper content upgrades that provide genuine value to webmasters.' },
+      { q: 'How do you personalize outreach emails to get high response rates?', a: 'Every pitch is sent from a real team member who researches the author recent articles and specific site needs. We never blast automated unpersonalized spam templates.' },
+      { q: 'What reporting do you provide during an outreach campaign?', a: 'You receive live access to our outreach tracker showing contacted prospects, response rates, negotiated placements, and live verified links with domain authority metrics.' },
+    ],
   },
   {
     slug: 'cro-audits', category: 'analytics', parentTitle: 'Analytics & CRO', title: 'CRO Audits',
@@ -551,6 +659,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 28% conversion rate improvement from audit recommendations.',
     stats: [{ value: '28%', label: 'Avg. conversion lift' }, { value: '150+', label: 'CRO audits delivered' }, { value: '72h', label: 'Turnaround on urgent audits' }, { value: '3.2x', label: 'Avg. ROI from recommendations' }],
+    faqs: [
+      { q: 'What tools and methodologies do you use during a CRO audit?', a: 'We combine quantitative analytics (GA4 conversion funnels, heatmaps, scroll maps) with qualitative behavioral insights (session recordings, user feedback polls, and heuristic usability evaluations).' },
+      { q: 'How do you prioritize conversion recommendations?', a: 'We score every finding using the ICE framework (Impact, Confidence, Ease), ensuring your team tackles low-hanging fruit with high revenue upside first.' },
+      { q: 'What kind of conversion lift can we expect from audit fixes?', a: 'Clients typically experience an immediate 15% to 35% conversion lift after implementing our top-tier UX, checkout, and landing page recommendations.' },
+    ],
   },
   {
     slug: 'ab-testing', category: 'analytics', parentTitle: 'Analytics & CRO', title: 'A/B Testing',
@@ -565,6 +678,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 85% test validity rate with clear winners.',
     stats: [{ value: '85%', label: 'Test validity rate' }, { value: '500+', label: 'Tests run' }, { value: '22%', label: 'Avg. lift from winning tests' }, { value: '95%', label: 'Statistical confidence threshold' }],
+    faqs: [
+      { q: 'How do you know when an A/B test has reached statistical significance?', a: 'We maintain a strict 95% statistical confidence threshold with adequate sample size and full business cycle duration (minimum 2–4 weeks) to rule out false positives or seasonality anomalies.' },
+      { q: 'Which experimentation platforms do you support?', a: 'We implement and manage tests in VWO, Optimizely, Kameleoon, AB Tasty, and custom server-side testing frameworks.' },
+      { q: 'What happens when a test variation loses?', a: 'Losing tests provide invaluable customer behavior insights. We document the learnings, refine our customer hypothesis, and iterate on new variations without risking core business revenue.' },
+    ],
   },
   {
     slug: 'dashboards', category: 'analytics', parentTitle: 'Analytics & CRO', title: 'Reporting Dashboards',
@@ -579,6 +697,11 @@ const allSubServices: SubService[] = [
     ],
     result: 'Average 60% reduction in reporting time for marketing teams.',
     stats: [{ value: '60%', label: 'Reduction in reporting time' }, { value: '100+', label: 'Dashboards built' }, { value: 'Real-time', label: 'Data refresh frequency' }, { value: '4.9', label: 'Client satisfaction score' }],
+    faqs: [
+      { q: 'Which data sources can you connect into our reporting dashboard?', a: 'We integrate Google Analytics 4, Google Search Console, Google Ads, Meta Ads, LinkedIn Ads, Shopify, Stripe, HubSpot, Salesforce, and custom SQL databases.' },
+      { q: 'How often does dashboard data refresh?', a: 'Dashboards refresh automatically in real-time or every 15 to 60 minutes depending on API limits, providing continuous 24/7 visibility into key performance indicators.' },
+      { q: 'Can we share executive-level summaries with our leadership or board?', a: 'Yes. We build high-level executive summary views with clean visual charts and automated monthly PDF report delivery scheduled directly to your stakeholders.' },
+    ],
   },
 ]
 

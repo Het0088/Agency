@@ -7,6 +7,7 @@ import BigCta from '@/components/BigCta'
 import { ArrowRight, IconZap, IconLock, IconCode, IconTrendingUp } from '@/components/Icons'
 import { getPageMeta } from '@/lib/get-meta'
 import { getContent } from '@/lib/get-content'
+import { buildFaqSchema } from '@/lib/schema'
 
 export async function generateMetadata(): Promise<Metadata> {
   const m = await getPageMeta('/our-team')
@@ -169,11 +170,40 @@ export default async function OurTeamPage() {
     ],
   }
 
+  const teamFaqs = [
+    {
+      q: 'What technical background and seniority do your team members possess?',
+      a: 'Every team member on client accounts has a minimum of 5 to 12 years of hands-on experience in technical SEO, full-stack engineering, or digital PR. We do not hire entry-level generalists; our team consists of specialized systems architects, data analysts, and former investigative tech writers.',
+    },
+    {
+      q: 'How are dedicated client pods organized and assigned?',
+      a: 'We configure cross-functional pods custom-matched to your technical stack and commercial goals. A typical pod pairs a Senior Search Strategist with a Dedicated Full-Stack Engineer (Next.js, React, or Laravel), an Analytics Specialist, and an Editorial PR Lead, reporting directly to you via dedicated Slack or Linear channels.',
+    },
+    {
+      q: 'Can our in-house engineering and marketing teams communicate directly with your developers?',
+      a: 'Yes. We deliberately eliminate middle-tier account managers who slow down communication. Your developers can jump on screen-shares, review GitHub pull requests, and collaborate asynchronously with our engineers directly.',
+    },
+    {
+      q: 'What is your hiring and vetting process for open engineering and search roles?',
+      a: 'We receive thousands of applications annually and accept fewer than 1.5%. Our rigorous 4-stage evaluation includes a portfolio audit, blind technical coding challenge, real-time algorithmic diagnostic simulation, and executive culture interview.',
+    },
+    {
+      q: 'Do you offer staff augmentation for dedicated full-time engineering resources?',
+      a: 'Yes. Through our dedicated developer division, businesses can hire full-time dedicated developers (Next.js, Laravel, Shopify Plus, React, Python) working exclusively for your company 40 hours per week with a 7-day risk-free trial.',
+    },
+  ]
+
+  const faqSchema = buildFaqSchema(teamFaqs)
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <Topbar
         text={c.topbar_text || 'Now hiring senior technical SEOs and GEO research engineers.'}
@@ -309,6 +339,30 @@ export default async function OurTeamPage() {
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── FAQ Section ── */}
+        <section className="section" id="faq">
+          <div className="wrap" style={{ maxWidth: 900 }}>
+            <div className="sec-head reveal text-center" style={{ marginBottom: 48 }}>
+              <span className="eyebrow">Team &amp; Culture FAQs</span>
+              <h2 className="serif">Questions about working with <em>our specialists.</em></h2>
+              <p className="sub">Direct answers about our talent vetting standards, pod assignment, and direct engineer communication.</p>
+            </div>
+            <div className="faq-list reveal">
+              {teamFaqs.map((item, i) => (
+                <details className="faq" key={item.q} open={i === 0}>
+                  <summary>
+                    <span>{item.q}</span>
+                    <span className="faq-icon">
+                      <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
+                    </span>
+                  </summary>
+                  <div className="faq-body">{item.a}</div>
+                </details>
+              ))}
             </div>
           </div>
         </section>

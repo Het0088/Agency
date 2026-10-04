@@ -23,7 +23,7 @@ export default function HomeFaq({ content }: { content?: Record<string, string> 
           {faqs.map((f, i) => (
             <details className="faq" key={f.q} open={i === 0}>
               <summary>
-                {f.q}
+                <span>{f.q}</span>
                 <span className="faq-icon">
                   <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
                 </span>

@@ -18,6 +18,7 @@ import BigCta from '@/components/BigCta'
 import ServiceCards from '@/components/ServiceCards'
 import { ArrowRight } from '@/components/Icons'
 import { getContent } from '@/lib/get-content'
+import { buildFaqSchema } from '@/lib/schema'
 
 export default async function AiSearchPage() {
   const c = await getContent('/services/ai-search')
@@ -30,18 +31,45 @@ export default async function AiSearchPage() {
   ]
 
   const faqItems = [
-    { q: c.faq_1_q, a: c.faq_1_a },
-    { q: c.faq_2_q, a: c.faq_2_a },
-    { q: c.faq_3_q, a: c.faq_3_a },
+    {
+      q: 'What is Generative Engine Optimization (GEO) and how does it differ from traditional SEO?',
+      a: 'Traditional SEO focuses on earning ranking positions on search result pages. GEO (Generative Engine Optimization) optimizes your brand\'s digital entities, authoritative mentions, and semantic relationships so conversational models like ChatGPT, Perplexity, Google AI Overviews, and Gemini actively cite and recommend your brand when prospective customers ask open-ended questions.',
+    },
+    {
+      q: 'How do you get our brand cited in ChatGPT, Perplexity, and Google AI Overviews?',
+      a: 'We execute a three-part framework: (1) Knowledge Graph entity reconciliation across trusted registries and databases; (2) High-tier digital PR and authoritative editorial placements that LLM training corpora ingest; and (3) Re-architecting on-site content into citable data structures and schema markup that real-time retrieval-augmented generation (RAG) engines index.',
+    },
+    {
+      q: 'How long does it take to see citations appear in AI search responses?',
+      a: 'Answer engines utilizing live web retrieval (like Perplexity and Google AI Overviews) can start citing newly optimized, authoritative pages within 2 to 4 weeks. Offline base models reflect brand authority during weight updates. We benchmark and track your brand citations monthly across 50+ industry-specific prompts.',
+    },
+    {
+      q: 'Can you monitor and correct brand hallucinations or inaccuracies in LLMs?',
+      a: 'Yes. We run synthetic prompt testing across multiple AI models to audit what they say about your products, pricing, and leadership. When inaccurate data or hallucinations are detected, we publish authoritative structured corrections and earn high-authority citations to steer the model\'s consensus.',
+    },
+    {
+      q: 'Will AI search cannibalize our traditional organic website traffic?',
+      a: 'While top-of-funnel definitions are increasingly answered directly in AI summaries, commercial queries that require decisions, purchases, and quotes still generate massive click-through traffic. Brands cited prominently inside AI summaries earn the highest-trust, highest-converting visitors.',
+    },
+    {
+      q: 'Do you offer GEO as a standalone service or integrated with SEO?',
+      a: 'Both. We offer specialized GEO sprints focused entirely on LLM entity engineering, or fully integrated GEO programs included as a standard pillar in all GENRANQ SEO retainers.',
+    },
   ]
+
+  const faqSchema = buildFaqSchema(faqItems)
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <Topbar text={c.topbar_text} linkText={c.topbar_link} linkHref="/contact" />
       <Nav active="services" />
       <header className="svc-page-hero">
         <div className="wrap">
-          <div className="crumb"><Link href="/">Home</Link> / <Link href="/services">Services</Link> / AI</div>
+          <div className="crumb"><Link href="/">Home</Link> / <Link href="/services">Services</Link> / AI Search &amp; GEO</div>
           <div className="svc-page-hero-grid">
             <div className="reveal in">
               <span className="eyebrow">{c.hero_eyebrow}</span>
@@ -71,11 +99,23 @@ export default async function AiSearchPage() {
         </div>
       </section>
       <section className="section">
-        <div className="wrap">
-          <div className="sec-head reveal"><h2>Common <em>questions.</em></h2></div>
-          <div className="faq-list">
-            {faqItems.map(item => (
-              <details className="faq reveal" key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>
+        <div className="wrap" style={{ maxWidth: 900 }}>
+          <div className="sec-head reveal">
+            <span className="eyebrow">AI Search FAQs</span>
+            <h2>Frequently asked questions about <em>AI Search &amp; GEO.</em></h2>
+            <p className="sub">How we position your brand to win recommendations across LLMs and generative search engines.</p>
+          </div>
+          <div className="faq-list reveal">
+            {faqItems.map((item, i) => (
+              <details className="faq" key={item.q} open={i === 0}>
+                <summary>
+                  <span>{item.q}</span>
+                  <span className="faq-icon">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
+                  </span>
+                </summary>
+                <div className="faq-body">{item.a}</div>
+              </details>
             ))}
           </div>
         </div>
@@ -85,3 +125,4 @@ export default async function AiSearchPage() {
     </>
   )
 }
+

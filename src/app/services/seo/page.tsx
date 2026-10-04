@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getPageMeta } from '@/lib/get-meta'
 import { getContent } from '@/lib/get-content'
+import { buildFaqSchema } from '@/lib/schema'
 
 export async function generateMetadata(): Promise<Metadata> {
   const m = await getPageMeta('/services/seo')
@@ -66,12 +67,41 @@ export default async function SeoServicesPage() {
     { initial: c.rev_3_name?.[0] || 'S', color: '#1a6b4d', name: c.rev_3_name, ago: c.rev_3_time, text: c.rev_3_text },
   ]
 
-  const faqs = Array.from({length: 5}, (_, i) => ({
-    q: c[`faq_${i+1}_q`], a: c[`faq_${i+1}_a`],
-  }))
+  const faqs = [
+    {
+      q: 'How long does SEO take to show measurable rankings and revenue growth?',
+      a: 'Most clients see initial keyword movement and crawl efficiency gains within the first 60 to 90 days. Significant organic traffic and revenue acceleration typically occurs between months 4 and 6 as technical fixes compound and content clusters mature. Brand-new domains generally require 6 to 9 months to establish foundational domain authority.',
+    },
+    {
+      q: 'What makes GENRANQ\'s technical and search approach different from other agencies?',
+      a: 'Three key pillars: (1) Senior-only execution — accounts are led by strategists with 8+ years experience, not junior coordinators; (2) Dual-search optimization — we optimize simultaneously for traditional Google rankings and conversational AI citations (ChatGPT, Perplexity, Gemini); and (3) Full-stack code ownership — our engineers implement fixes directly rather than handing you spreadsheets.',
+    },
+    {
+      q: 'Do you guarantee #1 or first-page rankings on Google?',
+      a: 'No legitimate agency can guarantee exact rank positions because Google\'s ranking algorithms consider hundreds of dynamic variables and competitor actions. What we guarantee is rigorous execution, transparent weekly progress, white-hat compliance, and strategies proven across 600+ client engagements. We maintain a 94% annual client retention rate because we produce tangible business outcomes.',
+    },
+    {
+      q: 'How do you safeguard our website against Google Core Algorithm updates?',
+      a: 'We build exclusively white-hat, user-first search assets: deep original research, clean semantic HTML structure, comprehensive topical authority, and authentic digital PR editorial citations. When Google updates its Helpful Content or Core algorithms, our clients consistently maintain stability or gain visibility because their sites satisfy real search intent.',
+    },
+    {
+      q: 'Do you require long-term contracts or lock-in commitments?',
+      a: 'We ask for an initial 90-day onboarding period to diagnose technical debt, execute high-priority fixes, and publish initial content sprints. After 90 days, all retainers transition to flexible month-to-month terms. We earn your renewal every single month through performance, not legal lock-ins.',
+    },
+    {
+      q: 'What is included in the free 200-point SEO audit?',
+      a: 'You receive a comprehensive audit conducted by a senior technical strategist: a full site crawl report, Core Web Vitals diagnostics, indexation budget evaluation, backlink toxicity check, keyword gap analysis, and AI search readiness score — presented in a live 30-minute consultation with zero obligation.',
+    },
+  ]
+
+  const faqSchema = buildFaqSchema(faqs)
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <Topbar text={c.topbar_text} linkText={c.topbar_link} linkHref="/contact" />
       <Nav active="services" />
 

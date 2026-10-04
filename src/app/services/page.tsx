@@ -16,7 +16,8 @@ import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import BigCta from '@/components/BigCta'
-import ServiceFaq from './ServiceFaq'
+import ServiceFaq, { servicesFaqs } from './ServiceFaq'
+import { buildFaqSchema } from '@/lib/schema'
 import { ArrowRight } from '@/components/Icons'
 
 
@@ -168,8 +169,14 @@ export default async function ServicesPage() {
   const compareHeading = content.compare_heading || 'Us vs. typical agencies.'
   const compareSubtext = content.compare_subtext || 'Not throwing shade. Just being clear about how we\'re built differently.'
 
+  const faqSchema = buildFaqSchema(servicesFaqs)
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <Topbar text="Free SEO audit · 30 minutes · No obligation." linkText="Book →" linkHref="/contact" />
       <Nav active="services" />
 

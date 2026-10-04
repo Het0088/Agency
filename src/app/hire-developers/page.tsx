@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import HireResourceClient from '../hire-resource/HireResourceClient'
+import { hireFaqs } from '../hire-resource/page'
+import { buildFaqSchema } from '@/lib/schema'
 
 export const metadata: Metadata = {
   title: 'Hire Dedicated Developers | Top 1% Engineers — GENRANQ Software LLP',
@@ -8,5 +10,14 @@ export const metadata: Metadata = {
 }
 
 export default function HireDevelopersPage() {
-  return <HireResourceClient />
+  const faqSchema = buildFaqSchema(hireFaqs)
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <HireResourceClient />
+    </>
+  )
 }

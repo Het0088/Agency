@@ -44,6 +44,7 @@ export function buildBreadcrumbSchema(city: CityRow) {
 }
 
 export function buildFaqSchema(faqs: { q: string; a: string }[]) {
+  if (!Array.isArray(faqs) || faqs.length === 0) return null
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',

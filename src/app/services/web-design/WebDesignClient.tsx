@@ -186,38 +186,38 @@ const processSteps = [
   },
 ]
 
-const webDesignFaqs = [
+export const webDesignFaqs = [
   {
-    q: 'How much does a custom website or Shopify store design cost?',
-    a: 'Our web design projects typically range from $4,000 to $18,000 depending on project scope, number of unique page templates, custom animations, and integrations (e.g., custom Shopify apps or complex headless architectures). We provide fixed-price proposals with zero surprise fees after our initial discovery call.',
+    q: 'What design deliverables are included with our project (Figma design systems, tokens, assets)?',
+    a: 'You receive complete, production-ready Figma design files including an atomic component library, responsive layout grids, scalable typography hierarchies, color token variables, custom iconography, micro-interaction guidelines, and clickable interactive prototypes for both mobile and desktop viewports.',
   },
   {
-    q: 'How long does a complete website design and development project take?',
-    a: 'Most custom websites launch within 4 to 8 weeks. Simple high-impact landing pages take 1-2 weeks, while large-scale e-commerce stores with custom migrations take 6-10 weeks. We work in transparent 2-week sprints so you see live progress every week.',
+    q: 'How many design revision rounds are included in your process?',
+    a: 'We provide unlimited design iterations during the wireframing and initial style-direction phase. Once a core aesthetic direction is chosen, each high-fidelity page template includes up to three rounds of focused revisions. We never advance to frontend development until you have explicitly reviewed and approved 100% of the Figma designs.',
   },
   {
-    q: 'Do you design custom themes or use pre-made templates?',
-    a: 'We design 100% bespoke websites tailored to your exact brand and conversion goals. We do not use bloated pre-made templates. Every line of CSS and every Figma layout is crafted specifically for your business, ensuring fast load speeds and distinct market positioning.',
+    q: 'How do you approach UX research, competitor audits, and customer journey mapping?',
+    a: 'Before sketching layouts, our design architects analyze your current website heatmaps, drop-off points, and conversion analytics. We conduct deep competitor teardowns across your vertical and interview key customer personas to construct low-friction user journeys, intuitive navigation architectures, and clear value-proposition hierarchies.',
   },
   {
-    q: 'Will my new website be optimized for SEO and Google AI Overviews?',
-    a: 'Yes, absolutely. Every site we build includes semantic HTML5 hierarchy, structured JSON-LD Schema markup, optimized Core Web Vitals (sub-second LCP), automated XML sitemaps, Open Graph social tags, and clean URLs that search engines and AI engines can crawl effortlessly.',
+    q: 'How do your designs translate into code without losing visual fidelity or micro-animations?',
+    a: 'Because our UI/UX designers and frontend engineers work as an integrated in-house team, there is zero disconnect between Figma and the final browser build. Developers inspect component tokens directly and implement silky CSS animations, hover states, and responsive breakpoints with 1-to-1 pixel precision. Every build undergoes rigorous design QA before release.',
   },
   {
-    q: 'Can our team easily edit text, add blog posts, and change images after launch?',
-    a: 'Yes. We provide an intuitive CMS setup (custom WordPress Gutenberg blocks, Shopify section builders, or headless admin panels) accompanied by video walkthrough documentation so anyone on your team can edit content without touching code.',
+    q: 'What makes your e-commerce and Shopify store designs convert higher than standard themes?',
+    a: 'Standard commercial themes are bloated with generic code and unoptimized conversion funnels. We engineer bespoke Shopify stores focused on Average Order Value (AOV) and conversion rate: streamlined 1-click cart drawers, sticky mobile add-to-cart buttons, dynamic product bundle builders, prominent trust badges, and lightning-fast checkout paths.',
   },
   {
-    q: 'Do you offer ongoing website maintenance and support?',
-    a: 'Yes. We provide flexible post-launch support retainers covering security monitoring, speed maintenance, CRO A/B testing, design updates, and new feature rollouts. Every client also receives a complimentary 30-day bug warranty post-launch.',
+    q: 'Do you design responsive viewports for mobile phones, tablets, and ultrawide screens?',
+    a: 'Yes. Over 65% of modern web traffic arrives on handheld devices. We design every page layout mobile-first with thumb-friendly tap targets, legible typographic scales, and fluid responsive breakpoints tested across iOS, Android, tablets, laptops, and 4K desktop displays.',
   },
   {
-    q: 'Who owns the website and design files once the project is finished?',
-    a: 'You do. Upon project completion and final milestone settlement, 100% of all intellectual property, Figma design files, source code repositories, and assets are transferred entirely to your company.',
+    q: 'Can you modernize our brand identity and website without confusing our existing loyal customers?',
+    a: 'Yes. Evolutionary redesign is our specialty. We preserve your recognized brand equity, core colors, and familiar navigation conventions while dramatically elevating typography, spacing, visual contrast, visual hierarchy, and modern micro-interactions so your brand feels forward-thinking, authoritative, and trustworthy.',
   },
   {
-    q: 'Will you sign a non-disclosure agreement (NDA) before we discuss details?',
-    a: 'Yes. We frequently work with confidential startups, challenger brands, and proprietary tech. We are pleased to execute our standard mutual NDA or review yours prior to our initial discovery session.',
+    q: 'Who owns the design files, Figma components, typography licenses, and creative assets?',
+    a: 'You do. Upon project completion and final milestone clearance, 100% of all intellectual property, Figma design files, custom illustrations, graphic assets, and style guides are transferred completely to your company. You have full commercial ownership with zero recurring royalty fees.',
   },
 ]
 

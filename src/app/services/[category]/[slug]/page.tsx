@@ -8,6 +8,7 @@ import BigCta from '@/components/BigCta'
 import { ArrowRight } from '@/components/Icons'
 import { getSubService, getSubServiceSlugs, getSubServicesByCategory } from '@/lib/services-data'
 import OldVsNewSeo from '@/app/sections/OldVsNewSeo'
+import { buildFaqSchema } from '@/lib/schema'
 
 export function generateStaticParams() {
   return getSubServiceSlugs().map(([category, slug]) => ({ category, slug }))
@@ -53,12 +54,20 @@ export default async function SubServicePage({ params }: { params: Promise<{ cat
     ],
   }
 
+  const faqSchema = svc.faqs && svc.faqs.length > 0 ? buildFaqSchema(svc.faqs) : null
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       <Topbar text={`Expert ${svc.title} services. Free audit available.`} linkText="Book →" linkHref="/contact" />
       <Nav active="services" />
 
@@ -147,15 +156,22 @@ export default async function SubServicePage({ params }: { params: Promise<{ cat
 
       {svc.faqs && svc.faqs.length > 0 && (
         <section className="section">
-          <div className="wrap">
+          <div className="wrap" style={{ maxWidth: 900 }}>
             <div className="sec-head reveal">
-              <h2>Common <em>questions.</em></h2>
+              <span className="eyebrow">{svc.title} FAQs</span>
+              <h2>Common questions about <em>{svc.title.toLowerCase()}.</em></h2>
+              <p className="sub">Direct answers about our technical delivery, strategic deliverables, and measurable outcomes.</p>
             </div>
-            <div className="faq-list">
-              {svc.faqs.map(item => (
-                <details className="faq reveal" key={item.q}>
-                  <summary>{item.q}</summary>
-                  <p>{item.a}</p>
+            <div className="faq-list reveal">
+              {svc.faqs.map((item, i) => (
+                <details className="faq" key={item.q} open={i === 0}>
+                  <summary>
+                    <span>{item.q}</span>
+                    <span className="faq-icon">
+                      <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
+                    </span>
+                  </summary>
+                  <div className="faq-body">{item.a}</div>
                 </details>
               ))}
             </div>

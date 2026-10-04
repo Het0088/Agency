@@ -59,10 +59,11 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
   const breadcrumbSchema = buildBreadcrumbSchema(c)
 
   const faqs = [
-    { q: `How much does SEO cost in ${c.city}?`, a: `Our retainers for ${c.city} businesses start at $4,000/month. Every engagement includes a custom scope — we don't sell cookie-cutter packages. The price depends on your market, competition, and goals.` },
-    { q: `How long until I see results in ${c.city}?`, a: `Most ${c.city} clients see measurable ranking improvements within 8–12 weeks. Significant revenue impact typically shows by month 4–6. SEO compounds — month 12 is always better than month 6.` },
-    { q: `Do you work with small businesses in ${c.city}?`, a: `Yes. Most of our ${c.city} clients are 5–200 person companies. We're built for ambitious small businesses, not enterprise bureaucracy.` },
-    { q: `Can I meet your team in ${c.city}?`, a: c.address ? `We have presence at ${c.address}. We're happy to meet in person or work remotely — most of our client communication happens over video calls and shared dashboards.` : `We work remotely with ${c.city} clients via video calls and shared dashboards. Our team is distributed across Melbourne, London, and Bangalore.` },
+    { q: `How much does ${c.service} cost in ${c.city}?`, a: `Our retainers for ${c.city} businesses start at $4,000/month. Every engagement includes a bespoke scope — we never sell cookie-cutter packages. The exact investment depends on your competitive SERP landscape, technical debt, and revenue targets.` },
+    { q: `How long until I see rankings and revenue results in ${c.city}?`, a: `Most ${c.city} clients see measurable indexation and ranking velocity within 8–12 weeks. Substantial organic pipeline and revenue impact typically manifests by months 4–6 as search equity compounds.` },
+    { q: `Do you work with small and mid-market businesses in ${c.city}?`, a: `Yes. The majority of our ${c.city} clients are 5-to-200 person companies seeking agile, high-impact search growth without corporate bureaucracy or junior account handlers.` },
+    { q: `How do you optimize for Google Maps 3-Pack and local search intent in ${c.city}?`, a: `We optimize your Google Business Profile, audit local NAP citation consistency, build localized landing pages with Geo-coordinates and LocalBusiness schema, and secure local editorial links from authoritative regional publications.` },
+    { q: `Can I meet your team or how do we collaborate from ${c.city}?`, a: c.address ? `We maintain regional presence at ${c.address}. Our primary engineering headquarters is GENRANQ Software LLP in Vadodara, India, where our senior practitioners provide direct video standups, dedicated Slack channels, and synchronized working hours for ${c.city}.` : `GENRANQ Software LLP collaborates seamlessly with ${c.city} clients through synchronized video consultations, dedicated Slack or Linear channels, and live Looker Studio dashboards. Our 120+ person search hub in Vadodara, India guarantees daily working overlap with your business hours.` },
   ]
 
   const faqSchema = buildFaqSchema(faqs)
@@ -236,7 +237,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
             {faqs.map((f, i) => (
               <details className="faq" key={f.q} open={i === 0}>
                 <summary>
-                  {f.q}
+                  <span>{f.q}</span>
                   <span className="faq-icon">
                     <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
                   </span>

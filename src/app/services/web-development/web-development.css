@@ -320,13 +320,16 @@ em.accent{font-style:italic;color:var(--orange)}
 /* ===== FAQ ===== */
 .faq-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:72px}
 .faq-wrap h2{margin:18px 0 20px}
-.faq-list{display:grid;gap:12px}
-.faq{background:#fff;border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden}
-.faq button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 24px;background:none;border:none;cursor:pointer;text-align:left;font-family:var(--f-display);font-size:20px;color:var(--ink)}
-.faq .plus{width:32px;height:32px;border-radius:50%;background:var(--cream);display:grid;place-items:center;flex:none;transition:all .3s;font-family:var(--f-body);font-size:18px}
-.faq.open .plus{transform:rotate(45deg);background:var(--orange);color:#fff}
-.faq .ans{max-height:0;overflow:hidden;transition:max-height .35s}
-.faq .ans p{padding:0 24px 22px;color:var(--muted);font-size:15.5px}
+.faq-list{display:grid;gap:14px}
+.faq{background:#fff;border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden;transition:border-color .25s,box-shadow .25s}
+.faq:hover{border-color:rgba(255,90,31,.35);box-shadow:0 4px 16px rgba(0,0,0,.04)}
+.faq.open{border-color:var(--orange);box-shadow:0 6px 20px rgba(255,90,31,.08)}
+.faq button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 24px;background:none;border:none;cursor:pointer;text-align:left;font-family:var(--f-display);font-size:19px;font-weight:500;color:var(--ink);transition:color .2s}
+.faq button:hover{color:var(--orange)}
+.faq .plus{width:32px;height:32px;border-radius:50%;background:var(--cream);border:1px solid var(--line);display:grid;place-items:center;flex:none;transition:all .3s cubic-bezier(0.16,1,0.3,1);font-family:var(--f-body);font-size:18px;font-weight:600;color:var(--ink-soft)}
+.faq.open .plus{transform:rotate(45deg);background:var(--orange);border-color:var(--orange);color:#fff}
+.faq .ans{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(0.16,1,0.3,1)}
+.faq .ans p{padding:0 24px 22px;color:var(--muted);font-size:15px;line-height:1.65;margin:0}
 
 /* ===== BLOG ===== */
 .post{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:all .25s}

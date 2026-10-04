@@ -5,6 +5,7 @@ import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import ContactForm from './ContactForm'
+import { buildFaqSchema } from '@/lib/schema'
 
 export async function generateMetadata(): Promise<Metadata> {
   const m = await getPageMeta('/contact')
@@ -36,31 +37,41 @@ export default async function ContactPage() {
   const contactFaqs = [
     {
       q: 'How fast will you reply?',
-      a: 'A senior strategist or developer replies within 4 business hours, Monday to Friday (09:30 – 18:30 IST). The response will be from someone who can evaluate your site and tech stack, not an SDR.',
+      a: 'A senior strategist or lead engineer replies within 4 business hours, Monday to Friday (09:30 – 18:30 IST). The response will be from an expert who can evaluate your site architecture and growth bottlenecks, not an SDR.',
     },
     {
-      q: 'Do you sign an NDA?',
-      a: 'Yes. We routinely sign non-disclosure agreements before reviewing source code, analytics, keyword targets, or proprietary systems.',
+      q: 'Do you sign an NDA before reviewing our data or code?',
+      a: 'Yes. We routinely execute mutual non-disclosure agreements before reviewing source repositories, analytics properties, customer data, or internal product roadmaps.',
     },
     {
-      q: 'Where are you based?',
-      a: 'GENRANQ Software LLP is based in Vadodara, Gujarat, India. Our 120+ person team serves ambitious clients across 42 countries, overlapping smoothly with US, UK, European, and Australian business hours.',
+      q: 'Where are you based and what time zones do you support?',
+      a: 'GENRANQ Software LLP is headquartered in Vadodara, Gujarat, India. Our team supports clients across 42 countries, guaranteeing a 4 to 5 hour daily working overlap with North American, European, and Australian business hours.',
     },
     {
-      q: 'Is the 200-point audit really free?',
-      a: 'Yes. We run a comprehensive technical crawl, Core Web Vitals assessment, backlink toxicity review, and generative engine citation audit. It is 100% yours to keep whether you engage us or not.',
+      q: 'What is included in the free 200-point audit?',
+      a: 'We conduct a technical crawl, Core Web Vitals assessment, Google Search Console indexation review, backlink health check, and generative AI citation audit. You receive a prioritized roadmap that is yours to keep with zero obligation.',
     },
     {
-      q: 'Do I have to sign a long-term contract?',
-      a: 'No. All our retainers and engineering pods transition to flexible month-to-month terms after an initial 90-day baseline setup. We earn your partnership every single month.',
+      q: 'What should we prepare before our discovery call?',
+      a: 'Just bring your website URL, primary growth bottlenecks, and any target milestones. If you have access to Google Search Console or Analytics, sharing view-only access beforehand allows us to conduct real data analysis prior to the call.',
+    },
+    {
+      q: 'Do you require long-term lock-in contracts?',
+      a: 'No. Following an initial 90-day baseline setup phase, all our retainers and dedicated engineering pods transition to flexible month-to-month terms. We earn your partnership through verified revenue results every single month.',
     },
   ]
+
+  const faqSchema = buildFaqSchema(contactFaqs)
 
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <Topbar text="● Most enquiries answered within 4 business hours." linkText="Direct call →" linkHref="tel:+918045074242" />
@@ -173,34 +184,15 @@ export default async function ContactPage() {
                 <details
                   key={faq.q}
                   className="faq"
-                  style={{
-                    background: '#fff',
-                    border: '1px solid var(--line)',
-                    borderRadius: 'var(--radius-sm)',
-                    overflow: 'hidden',
-                    marginBottom: 12,
-                    padding: 0,
-                  }}
                   open={i === 0}
                 >
-                  <summary
-                    style={{
-                      padding: '22px 24px',
-                      cursor: 'pointer',
-                      listStyle: 'none',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      fontFamily: 'var(--f-display)',
-                      fontSize: 20,
-                      fontWeight: 500,
-                      color: 'var(--ink)',
-                    }}
-                  >
+                  <summary>
                     <span>{faq.q}</span>
-                    <span style={{ fontSize: 22, color: 'var(--orange)', marginLeft: 16 }}>+</span>
+                    <span className="faq-icon">
+                      <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
+                    </span>
                   </summary>
-                  <div style={{ padding: '0 24px 22px', color: 'var(--muted)', fontSize: 15.5, lineHeight: 1.6 }}>
+                  <div className="faq-body">
                     {faq.a}
                   </div>
                 </details>
