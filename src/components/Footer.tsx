@@ -18,8 +18,8 @@ export default function Footer() {
       <div className="wrap">
         <div className="footer-top">
           <div className="footer-brand">
-            <Link href="/" className="logo" aria-label="Gen Ranq Home">
-              <img src="/logo.png" alt="Gen Ranq Software LLP" className="logo-img" />
+            <Link href="/" className="logo" aria-label="GENRANQ Home">
+              <img src="/logo.png" alt="GENRANQ Software LLP" className="logo-img" />
             </Link>
             <p>A 38-person SEO studio for ambitious small businesses. Global team, monthly retainers, no long contracts, no agency BS.</p>
             <Link href="/contact" className="btn btn-dark btn-sm">Get a free audit</Link>
@@ -73,7 +73,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <div>&copy; 2026 Gen Ranq Software LLP &middot; All rights reserved</div>
+          <div>&copy; 2026 GENRANQ Software LLP &middot; All rights reserved</div>
           <div className="socials">
             <a href="https://linkedin.com/company/genranq" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><LinkedInIcon /></a>
             <a href="https://x.com/genranq" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><XIcon /></a>

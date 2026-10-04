@@ -134,8 +134,8 @@ export default function Nav({ active }: { active?: string }) {
   return (
     <nav className="nav" role="navigation" aria-label="Main navigation">
       <div className="nav-inner">
-        <Link href="/" className="logo" aria-label="Gen Ranq Home">
-          <img src="/logo.png" alt="Gen Ranq Software LLP" className="logo-img" />
+        <Link href="/" className="logo" aria-label="GENRANQ Home">
+          <img src="/logo.png" alt="GENRANQ Software LLP" className="logo-img" />
         </Link>
 
         <ul className="nav-links">
@@ -211,31 +211,31 @@ export default function Nav({ active }: { active?: string }) {
             <div className={`nav-dropdown-menu${resourcesOpen ? ' open' : ''}`}>
               <div className="nav-dropdown-inner">
                 <Link href="/resources/blog" className="nav-dropdown-item" onClick={() => setResourcesOpen(false)}>
-                  <span className="nav-dropdown-icon"><IconFileText /></span>
-                  <div>
+                  <div className="nav-dropdown-icon"><IconFileText /></div>
+                  <div className="nav-dropdown-text">
                     <strong>Blog &amp; Insights</strong>
-                    <span>Guides, deep-dives &amp; tactical SEO playbooks</span>
+                    <span className="nav-dropdown-desc">Guides, deep-dives &amp; tactical SEO playbooks</span>
                   </div>
                 </Link>
                 <Link href="/resources/news" className="nav-dropdown-item" onClick={() => setResourcesOpen(false)}>
-                  <span className="nav-dropdown-icon"><IconFileText /></span>
-                  <div>
+                  <div className="nav-dropdown-icon"><IconFileText /></div>
+                  <div className="nav-dropdown-text">
                     <strong>News &amp; Press Releases</strong>
-                    <span>Company milestones &amp; announcements</span>
+                    <span className="nav-dropdown-desc">Company milestones &amp; announcements</span>
                   </div>
                 </Link>
                 <Link href="/resources/publications" className="nav-dropdown-item" onClick={() => setResourcesOpen(false)}>
-                  <span className="nav-dropdown-icon"><IconBookOpen /></span>
-                  <div>
+                  <div className="nav-dropdown-icon"><IconBookOpen /></div>
+                  <div className="nav-dropdown-text">
                     <strong>Publications &amp; Research</strong>
-                    <span>Original research, white papers &amp; teardowns</span>
+                    <span className="nav-dropdown-desc">Original research, white papers &amp; teardowns</span>
                   </div>
                 </Link>
                 <Link href="/our-team" className="nav-dropdown-item" onClick={() => setResourcesOpen(false)}>
-                  <span className="nav-dropdown-icon"><IconUsers /></span>
-                  <div>
+                  <div className="nav-dropdown-icon"><IconUsers /></div>
+                  <div className="nav-dropdown-text">
                     <strong>Our Team</strong>
-                    <span>Meet the senior strategists and engineers</span>
+                    <span className="nav-dropdown-desc">Meet the senior strategists and engineers</span>
                   </div>
                 </Link>
                 <div className="nav-dropdown-footer">

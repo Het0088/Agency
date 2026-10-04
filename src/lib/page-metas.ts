@@ -30,7 +30,7 @@ export const pageMetas: PageMeta[] = [
     filePath: 'src/app/about/page.tsx',
     fields: {
       title: 'About Us — Search Expertise & Leadership',
-      description: 'Meet the team behind Gen Ranq. 10+ years of search expertise, 600+ brands grown, and a 94% client retention rate.',
+      description: 'Meet the team behind GENRANQ. 10+ years of search expertise, 600+ brands grown, and a 94% client retention rate.',
       canonical: 'https://genranq.com/about',
     },
   },
@@ -70,7 +70,7 @@ export const pageMetas: PageMeta[] = [
     filePath: 'src/app/services/ai-search/page.tsx',
     fields: {
       title: 'AI Search Optimisation & GEO — ChatGPT, Gemini, Perplexity',
-      description: 'Optimise your brand to appear in ChatGPT, Google AI Overviews, Gemini and Perplexity. GEO and AEO services by Gen Ranq.',
+      description: 'Optimise your brand to appear in ChatGPT, Google AI Overviews, Gemini and Perplexity. GEO and AEO services by GENRANQ.',
       canonical: 'https://genranq.com/services/ai-search',
     },
   },
@@ -140,7 +140,7 @@ export const pageMetas: PageMeta[] = [
     filePath: 'src/app/insights/page.tsx',
     fields: {
       title: 'SEO Insights, Research & Tactical Guides',
-      description: 'Expert SEO insights, guides, and research from the Gen Ranq team. Stay ahead of algorithm updates and AI search trends.',
+      description: 'Expert SEO insights, guides, and research from the GENRANQ team. Stay ahead of algorithm updates and AI search trends.',
       canonical: 'https://genranq.com/insights',
     },
   },
@@ -183,7 +183,7 @@ export const pageMetas: PageMeta[] = [
     filePath: 'src/app/our-team/page.tsx',
     fields: {
       title: 'Our Team — Meet The Senior SEO Strategists & Engineers',
-      description: 'Meet the 38 senior strategists, technical SEOs, and developers behind Gen Ranq. No account managers, just direct collaboration with practitioners.',
+      description: 'Meet the 38 senior strategists, technical SEOs, and developers behind GENRANQ. No account managers, just direct collaboration with practitioners.',
       canonical: 'https://genranq.com/our-team',
     },
   },

@@ -60,6 +60,9 @@ em.accent{font-style:italic;color:var(--orange)}
 .nav-links a{position:relative}
 .nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--orange);transition:width .25s}
 .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-links .has-caret::after,.mega-menu a::after,.nav-dropdown-menu a::after{display:none !important}
+.nav-dropdown-icon{width:34px !important;height:34px !important;border-radius:8px;background:rgba(255,90,31,.08);border:1px solid rgba(255,90,31,.15);color:var(--orange);display:flex !important;align-items:center !important;justify-content:center !important;flex-shrink:0}
+.nav-dropdown-icon svg{width:17px !important;height:17px !important;display:block !important;margin:auto !important}
 .menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:10px;width:44px;height:44px;align-items:center;justify-content:center}
 .logo{display:flex;align-items:center;gap:12px}
 .logo-mark{width:46px;height:46px;flex:none}

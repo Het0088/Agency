@@ -6,7 +6,7 @@ export function buildLocalBusinessSchema(city: CityRow) {
   return {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
-    name: `Gen Ranq — ${city.service} ${city.city}`,
+    name: `GENRANQ — ${city.service} ${city.city}`,
     description: city.metaDescription || city.description,
     url: `${BASE_URL}/${city.slug}`,
     telephone: city.phone,

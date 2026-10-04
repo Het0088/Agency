@@ -7,10 +7,10 @@ const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://genranq.com'
 export const metadata: Metadata = {
   metadataBase: new URL(BASE),
   title: {
-    default: 'Gen Ranq — SEO that drives real revenue',
-    template: '%s | Gen Ranq',
+    default: 'GENRANQ Software LLP — SEO & Website Design Studio',
+    template: '%s | GENRANQ',
   },
-  description: 'A global SEO agency for ambitious small businesses. We use AI-augmented strategy, technical depth, and editorial craft to climb rankings and grow revenue.',
+  description: 'A global SEO and web development studio for ambitious small businesses. We design and build fast, SEO-ready websites and growth systems.',
   icons: {
     icon: '/logo-icon.png',
     apple: '/logo-icon.png',
@@ -19,14 +19,14 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: BASE,
-    siteName: 'Gen Ranq',
-    title: 'Gen Ranq — SEO that drives real revenue',
-    description: 'A global SEO agency for ambitious small businesses.',
+    siteName: 'GENRANQ Software LLP',
+    title: 'GENRANQ Software LLP — SEO & Website Design Studio',
+    description: 'A global SEO and web development studio for ambitious small businesses.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Gen Ranq — SEO that drives real revenue',
-    description: 'A global SEO agency for ambitious small businesses.',
+    title: 'GENRANQ Software LLP — SEO & Website Design Studio',
+    description: 'A global SEO and web development studio for ambitious small businesses.',
   },
   robots: {
     index: true,
