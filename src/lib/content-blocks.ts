@@ -3,7 +3,7 @@ export type ContentBlock = {
   section: string
   key: string
   label: string
-  type: 'text' | 'textarea'
+  type: 'text' | 'textarea' | 'image'
   value: string
 }
 
@@ -413,6 +413,8 @@ export const defaultContent: ContentBlock[] = [
   { page: '/services/seo', section: 'Hero', key: 'hero_stat3_label', label: 'Stat 3 Label', type: 'text', value: 'Client retention' },
   { page: '/services/seo', section: 'Hero', key: 'hero_stat4_num', label: 'Stat 4 Number', type: 'text', value: '8.5×' },
   { page: '/services/seo', section: 'Hero', key: 'hero_stat4_label', label: 'Stat 4 Label', type: 'text', value: 'Avg. retainer ROI' },
+  { page: '/services/seo', section: 'Hero', key: 'hero_img_main', label: 'Hero Primary Graphic (Main Image)', type: 'image', value: '/images/hero-seo-main.jpg' },
+  { page: '/services/seo', section: 'Hero', key: 'hero_img_sub', label: 'Hero Secondary Graphic (Team Inset)', type: 'image', value: '/images/hero-seo-team.jpg' },
 
   // ─── /services/seo: Contact Banner ───
   { page: '/services/seo', section: 'Contact Banner', key: 'contact_heading', label: 'Banner Heading', type: 'text', value: 'Get your free SEO audit today.' },
@@ -426,6 +428,8 @@ export const defaultContent: ContentBlock[] = [
   { page: '/services/seo', section: 'Intro', key: 'intro_p2', label: 'Paragraph 2', type: 'textarea', value: "When Google's AI Overviews, ChatGPT citations, and Perplexity search changed the rules, we were ready. GENRANQ deploys proven AI-powered tools and strategies to put your brand in front of buyers — not just browsers." },
   { page: '/services/seo', section: 'Intro', key: 'intro_p3', label: 'Paragraph 3', type: 'textarea', value: 'If you want to stay ahead by investing in emerging technologies and revolutionary strategies, it is time to look at AI SEO.' },
   { page: '/services/seo', section: 'Intro', key: 'intro_cta', label: 'CTA Link', type: 'text', value: 'See our AI SEO process →' },
+  { page: '/services/seo', section: 'Intro', key: 'intro_img_main', label: 'Intro Primary Graphic (Analytics UI)', type: 'image', value: '/images/intro-strategy.jpg' },
+  { page: '/services/seo', section: 'Intro', key: 'intro_img_sub', label: 'Intro Secondary Graphic (Office Inset)', type: 'image', value: '/images/intro-office.jpg' },
 
   // ─── /services/seo: Process ───
   { page: '/services/seo', section: 'Process', key: 'proc_eyebrow', label: 'Eyebrow', type: 'text', value: 'Our Method' },
@@ -551,6 +555,7 @@ export const defaultContent: ContentBlock[] = [
   { page: '/services/seo', section: 'Testimonials', key: 'rev_3_name', label: 'Review 3 Name', type: 'text', value: 'Sarah Mitchell' },
   { page: '/services/seo', section: 'Testimonials', key: 'rev_3_time', label: 'Review 3 Time', type: 'text', value: '3 months ago' },
   { page: '/services/seo', section: 'Testimonials', key: 'rev_3_text', label: 'Review 3 Text', type: 'textarea', value: "Our organic traffic grew by 280% in the first 90 days. The AI SEO approach is genuinely different — we're now appearing in ChatGPT and Google AI Overviews too." },
+  { page: '/services/seo', section: 'Testimonials', key: 'video_thumb', label: 'Client Success Video Thumbnail', type: 'image', value: '/images/video-testimonial-thumb.jpg' },
 
   // ─── /services/seo: FAQs ───
   { page: '/services/seo', section: 'FAQ', key: 'faq_1_q', label: 'FAQ 1 Question', type: 'text', value: 'How long does SEO take to show results?' },

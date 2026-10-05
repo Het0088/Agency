@@ -265,6 +265,7 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
   const [selectedContentPage, setSelectedContentPage] = useState<string>('/')
   const [contentSearch, setContentSearch] = useState('')
   const [contentLoading, setContentLoading] = useState(true)
+  const [contentUploadingKey, setContentUploadingKey] = useState<string | null>(null)
 
   // Cities State
   const [cities, setCities] = useState<CityRecord[]>([])
@@ -702,6 +703,34 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
     }
     setMediaUploading(false)
     e.target.value = ''
+  }
+
+  // ─── CONTENT BLOCK IMAGE UPLOAD HANDLER ──────────────────────────
+  async function handleContentImageUpload(file: File, blockKey: string, pageRoute: string) {
+    if (!file) return
+    setContentUploadingKey(blockKey)
+    const fd = new FormData()
+    fd.append('file', file)
+    try {
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (res.ok && data.url) {
+        setContentBlocks(prev => ({
+          ...prev,
+          [pageRoute]: {
+            ...(prev[pageRoute] || {}),
+            [blockKey]: data.url
+          }
+        }))
+        setMediaFiles(mf => [{ filename: data.filename, url: data.url }, ...mf])
+        notify('Image uploaded and set successfully!')
+      } else {
+        notify(data.error || 'Upload failed', 'err')
+      }
+    } catch {
+      notify('Upload request failed', 'err')
+    }
+    setContentUploadingKey(null)
   }
 
   // ─── DERIVED METRICS ──────────────────────────────────────────────
@@ -1706,7 +1735,82 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                         </span>
                                         <code>{b.key}</code>
                                       </div>
-                                      {b.type === 'textarea' ? (
+                                      {b.type === 'image' ? (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                                          {/* Preview & Current Value */}
+                                          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                                            {val ? (
+                                              <div style={{ position: 'relative', width: 90, height: 60, borderRadius: 8, overflow: 'hidden', border: '1px solid var(--a-border)', flexShrink: 0, background: '#111' }}>
+                                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                                <img src={val} alt={b.label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                              </div>
+                                            ) : (
+                                              <div style={{ width: 90, height: 60, borderRadius: 8, background: 'var(--a-subtle)', border: '1px dashed var(--a-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: 'var(--a-muted)', flexShrink: 0 }}>
+                                                No image
+                                              </div>
+                                            )}
+                                            <input
+                                              className="inp"
+                                              placeholder="/images/... or https://..."
+                                              value={val}
+                                              onChange={e => {
+                                                const newVal = e.target.value
+                                                setContentBlocks(prev => ({
+                                                  ...prev,
+                                                  [selectedContentPage]: {
+                                                    ...(prev[selectedContentPage] || {}),
+                                                    [b.key]: newVal
+                                                  }
+                                                }))
+                                              }}
+                                              style={{ flex: 1 }}
+                                            />
+                                          </div>
+
+                                          {/* Drag and Drop Zone */}
+                                          <div
+                                            onDragOver={e => { e.preventDefault(); e.stopPropagation(); }}
+                                            onDragEnter={e => { e.preventDefault(); e.stopPropagation(); }}
+                                            onDrop={e => {
+                                              e.preventDefault()
+                                              e.stopPropagation()
+                                              const file = e.dataTransfer.files?.[0]
+                                              if (file) handleContentImageUpload(file, b.key, selectedContentPage)
+                                            }}
+                                            style={{
+                                              border: '2px dashed var(--a-border)',
+                                              borderRadius: 10,
+                                              padding: '16px 20px',
+                                              textAlign: 'center',
+                                              background: contentUploadingKey === b.key ? '#FFF7F2' : 'var(--a-subtle)',
+                                              cursor: 'pointer',
+                                              transition: 'border-color .15s ease, background-color .15s ease'
+                                            }}
+                                            onClick={() => {
+                                              const input = document.getElementById(`upload-${b.key}`) as HTMLInputElement
+                                              input?.click()
+                                            }}
+                                          >
+                                            <input
+                                              id={`upload-${b.key}`}
+                                              type="file"
+                                              accept="image/*"
+                                              style={{ display: 'none' }}
+                                              onChange={e => {
+                                                const file = e.target.files?.[0]
+                                                if (file) handleContentImageUpload(file, b.key, selectedContentPage)
+                                                e.target.value = ''
+                                              }}
+                                            />
+                                            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--a-text)', marginBottom: 2 }}>
+                                              {contentUploadingKey === b.key ? 'Uploading image...' : 'Drag & drop image here, or click to browse'}
+                                            </div>
+                                            <div style={{ fontSize: 11, color: 'var(--a-muted)' }}>
+                                              PNG, JPG, WEBP, SVG or GIF up to 10MB · Automatically uploads & updates this block
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ) : b.type === 'textarea' ? (
                                         <textarea
                                           className="inp"
                                           rows={3}

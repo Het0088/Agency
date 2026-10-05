@@ -127,10 +127,10 @@ export default async function SeoServicesPage() {
             </div>
             <div className="ref-hero-visual">
               <div className="ref-hero-img-main">
-                <Image src="/images/hero-seo-main.jpg" alt="AI SEO Strategy & Analysis" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
+                <Image src={c.hero_img_main || '/images/hero-seo-main.jpg'} alt="AI SEO Strategy & Analysis" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
               </div>
               <div className="ref-hero-img-sub">
-                <Image src="/images/hero-seo-team.jpg" alt="Team & Collaboration" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
+                <Image src={c.hero_img_sub || '/images/hero-seo-team.jpg'} alt="Team & Collaboration" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
               </div>
               <div className="ref-hero-badge"><IconTarget /></div>
             </div>
@@ -166,10 +166,10 @@ export default async function SeoServicesPage() {
           <div className="ref-intro-grid">
             <div className="ref-intro-images">
               <div className="ref-intro-img-lg">
-                <Image src="/images/intro-strategy.jpg" alt="AI Strategy & Team" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
+                <Image src={c.intro_img_main || '/images/intro-strategy.jpg'} alt="AI Strategy & Team" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
               </div>
               <div className="ref-intro-img-sm">
-                <Image src="/images/intro-office.jpg" alt="Office & Work" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
+                <Image src={c.intro_img_sub || '/images/intro-office.jpg'} alt="Office & Work" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
               </div>
               <div className="ref-intro-float" style={{ top: '205px', left: '58%' }}><IconSearch /></div>
               <div className="ref-intro-float" style={{ bottom: '140px', left: '18px' }}><IconZap /></div>
@@ -360,12 +360,33 @@ export default async function SeoServicesPage() {
               ))}
             </div>
             <div className="ref-video-panel reveal">
-              <div className="ref-video-thumb">
+              <div
+                className="ref-video-thumb"
+                style={{
+                  position: 'relative',
+                  overflow: 'hidden',
+                  backgroundImage: `linear-gradient(to top, rgba(18,22,19,0.85) 0%, rgba(18,22,19,0.2) 60%), url(${c.video_thumb || '/images/video-testimonial-thumb.jpg'})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              >
                 <div className="ref-video-play">▶</div>
                 <div className="ref-video-label">Client Success Story — Watch Now</div>
               </div>
               <div className="ref-video-thumbs-row">
-                {[0,1,2,3].map(i => <div className="ref-video-mini" key={i}>▶</div>)}
+                {[0,1,2,3].map(i => (
+                  <div
+                    className="ref-video-mini"
+                    key={i}
+                    style={{
+                      backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url(${c.video_thumb || '/images/video-testimonial-thumb.jpg'})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}
+                  >
+                    ▶
+                  </div>
+                ))}
               </div>
             </div>
           </div>

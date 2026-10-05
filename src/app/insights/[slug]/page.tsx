@@ -77,24 +77,36 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <BlogPostClient html={post.content || ''} />
 
       {related.length > 0 && (
-        <section className="section" style={{ background: 'var(--surface)' }}>
+        <section className="related-reading-section">
           <div className="wrap">
-            <div className="sec-head reveal">
+            <div className="sec-head reveal" style={{ marginBottom: 36 }}>
               <h2>Related <em>reading.</em></h2>
             </div>
-            <div className="posts-grid">
+            <div className="related-grid">
               {related.map(r => {
                 const rSlug = r.slug.replace('/insights/', '')
-                const rDate = new Date(r.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                const rDate = new Date(r.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                 return (
-                  <Link href={`/insights/${rSlug}`} key={r.id} className="post-link">
-                    <article className="post reveal">
-                      <div className={`img ${r.cover_gradient || 'g2'}`}><span className="label">{r.tag.charAt(0)}</span></div>
-                      <span className="tag">{r.tag}</span>
-                      <h3>{r.title}</h3>
-                      <div className="meta">
-                        <span className="author">{r.author}</span>
-                        <span className="dot"></span><span>{rDate}</span>
+                  <Link href={`/insights/${rSlug}`} key={r.id} className="related-card-link">
+                    <article className="related-card reveal">
+                      <div className={`related-thumb ${r.cover_gradient || 'g2'}`}>
+                        {r.cover_image ? (
+                          <img src={r.cover_image} alt={r.title} className="related-cover-img" />
+                        ) : (
+                          <>
+                            <span className="related-thumb-tag">{r.tag}</span>
+                            <span className="related-thumb-initial">{r.tag.charAt(0)}</span>
+                          </>
+                        )}
+                      </div>
+                      <div className="related-body">
+                        <span className="related-tag">{r.tag}</span>
+                        <h3 className="related-title">{r.title}</h3>
+                        <div className="related-meta">
+                          <span className="related-author">{r.author}</span>
+                          <span className="related-dot">&middot;</span>
+                          <span className="related-date">{rDate}</span>
+                        </div>
                       </div>
                     </article>
                   </Link>
