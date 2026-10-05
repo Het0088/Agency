@@ -501,3 +501,8 @@
 .adm .hdr-preview .gq-cta.cta-dark{background:#121613;color:#fff;text-transform:none;letter-spacing:0;padding:8px 14px}
 .adm .hdr-preview .gq-cta.cta-primary{background:#FF5A1F;border-color:#FF5A1F;color:#fff;text-transform:none;letter-spacing:0;padding:8px 14px}
 
+@media(max-width:960px){
+  .adm .ed-grid{grid-template-columns:1fr}
+  .adm .ed-side{position:static}
+}
+

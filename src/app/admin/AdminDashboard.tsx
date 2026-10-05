@@ -232,6 +232,114 @@ function charHint(val: string, max: number, min = 0) {
   return { text: `${len} / ${max} (+${len - max} over)`, color: 'var(--a-red)', state: 'bad' }
 }
 
+function timeAgo(dateInput?: string | number | Date | null): string {
+  if (!dateInput) return 'just now'
+  const time = typeof dateInput === 'object' ? dateInput.getTime() : new Date(dateInput).getTime()
+  if (isNaN(time)) return 'just now'
+  const diffSec = Math.max(0, Math.floor((Date.now() - time) / 1000))
+  if (diffSec < 45) return 'just now'
+  if (diffSec < 90) return '1 min ago'
+  const diffMin = Math.floor(diffSec / 60)
+  if (diffMin < 60) return `${diffMin} min ago`
+  const diffHr = Math.floor(diffMin / 60)
+  if (diffHr < 24) return `${diffHr} hr${diffHr > 1 ? 's' : ''} ago`
+  const diffDays = Math.floor(diffHr / 24)
+  if (diffDays === 1) return 'yesterday'
+  if (diffDays < 30) return `${diffDays} days ago`
+  return new Date(time).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+}
+
+function scoreColor(score: number): string {
+  if (score >= 80) return '#1F9D55'
+  if (score >= 50) return '#C98A00'
+  return '#D64545'
+}
+
+type SeoCheck = {
+  label: string
+  status: 'good' | 'warn' | 'bad'
+  tip: string
+}
+
+function calculatePostSeo(post: FormData): { score: number; checks: SeoCheck[] } {
+  const checks: SeoCheck[] = []
+  let score = 0
+
+  // 1. Meta title length (recommended: 40-60 chars)
+  const titleLen = (post.title || '').trim().length
+  if (titleLen >= 40 && titleLen <= 65) {
+    score += 20
+    checks.push({ label: `Meta title length (${titleLen} chars)`, status: 'good', tip: 'Optimal length between 40 and 65 characters' })
+  } else if (titleLen > 0 && titleLen < 40) {
+    score += 10
+    checks.push({ label: `Meta title length (${titleLen} chars)`, status: 'warn', tip: 'A bit short. Aim for 40-60 characters for better CTR' })
+  } else if (titleLen > 65) {
+    score += 10
+    checks.push({ label: `Meta title length (${titleLen} chars)`, status: 'warn', tip: 'Over 65 chars, Google may truncate it in search results' })
+  } else {
+    checks.push({ label: 'Meta title missing', status: 'bad', tip: 'Add a compelling title to rank on Google' })
+  }
+
+  // 2. Meta description length (recommended: 120-160 chars)
+  const descLen = (post.description || '').trim().length
+  if (descLen >= 120 && descLen <= 165) {
+    score += 20
+    checks.push({ label: `Meta description length (${descLen} chars)`, status: 'good', tip: 'Optimal length for search snippets (120-165 chars)' })
+  } else if (descLen >= 50 && descLen < 120) {
+    score += 12
+    checks.push({ label: `Meta description length (${descLen} chars)`, status: 'warn', tip: 'Aim for 120-160 chars to maximize SERP snippet real estate' })
+  } else if (descLen > 165) {
+    score += 12
+    checks.push({ label: `Meta description length (${descLen} chars)`, status: 'warn', tip: 'Longer than 165 chars; Google will truncate with an ellipsis' })
+  } else {
+    checks.push({ label: 'Meta description missing', status: 'bad', tip: 'Add a summary so Google does not pick random text' })
+  }
+
+  // 3. Clean search slug
+  const slug = (post.slug || '').trim()
+  if (slug && /^\/insights\/[a-z0-9-]+$/.test(slug)) {
+    score += 15
+    checks.push({ label: 'Clean search-friendly URL slug', status: 'good', tip: 'Lowercase with hyphens, ideal for indexing' })
+  } else if (slug) {
+    score += 8
+    checks.push({ label: 'URL slug format', status: 'warn', tip: 'Ensure slug starts with /insights/ and uses lowercase letters' })
+  } else {
+    checks.push({ label: 'URL slug missing', status: 'bad', tip: 'Slug is required for post URL routing' })
+  }
+
+  // 4. Content body word count
+  const rawText = (post.content || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+  const words = rawText ? rawText.split(' ').filter(Boolean).length : 0
+  if (words >= 300) {
+    score += 20
+    checks.push({ label: `Content depth (${words} words)`, status: 'good', tip: 'Good in-depth content (300+ words)' })
+  } else if (words >= 80) {
+    score += 10
+    checks.push({ label: `Content depth (${words} words)`, status: 'warn', tip: 'Content is short. In-depth articles (300+ words) rank higher' })
+  } else {
+    checks.push({ label: 'Thin or empty content', status: 'bad', tip: 'Add substantive paragraphs and insights for Google indexing' })
+  }
+
+  // 5. Headings (H2 / H3 tags)
+  const hasHeadings = /<h[2-4][^>]*>/i.test(post.content || '')
+  if (hasHeadings) {
+    score += 15
+    checks.push({ label: 'Semantic sub-headings (H2/H3)', status: 'good', tip: 'Proper heading hierarchy found in content' })
+  } else {
+    checks.push({ label: 'Semantic sub-headings missing', status: 'warn', tip: 'Break up content with H2 and H3 tags for readability and SEO' })
+  }
+
+  // 6. Category / Tag
+  if ((post.tag || '').trim()) {
+    score += 10
+    checks.push({ label: `Categorized as “${post.tag}”`, status: 'good', tip: 'Enables topical clustering & internal navigation' })
+  } else {
+    checks.push({ label: 'Category / Tag missing', status: 'warn', tip: 'Assign a topic or category tag for topical authority' })
+  }
+
+  return { score: Math.min(100, score), checks }
+}
+
 // ─── MAIN ADMIN DASHBOARD ──────────────────────────────────────────
 export default function AdminDashboard({ authenticated }: { authenticated: boolean }) {
   const [view, setView] = useState<'dashboard' | 'posts' | 'glossary' | 'content' | 'seo' | 'cities' | 'leads' | 'media' | 'settings' | 'system'>('dashboard')
@@ -245,6 +353,15 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
   const [postsSearch, setPostsSearch] = useState('')
   const [postMode, setPostMode] = useState<'list' | 'edit'>('list')
   const [editingPost, setEditingPost] = useState<FormData>(emptyForm)
+  const [postDirty, setPostDirty] = useState(false)
+  const [postLastSaved, setPostLastSaved] = useState<Date | string | null>(null)
+  const [, setLiveTick] = useState(0)
+
+  // Live timer tick every 10 seconds so "Saved X min ago" updates live in real-time
+  useEffect(() => {
+    const timer = setInterval(() => setLiveTick(t => t + 1), 10000)
+    return () => clearInterval(timer)
+  }, [])
 
   // Glossary State
   const [glossaryTerms, setGlossaryTerms] = useState<GlossaryTerm[]>([])
@@ -402,9 +519,75 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
   // Quick Action Handlers
   function handleQuickNewPost() {
     setEditingPost(emptyForm)
+    setPostDirty(false)
+    setPostLastSaved(null)
     setPostMode('edit')
     setView('posts')
     setMobileMenuOpen(false)
+  }
+
+  function handleOpenEditPost(post: Post) {
+    setEditingPost({
+      id: post.id,
+      type: post.type,
+      tag: post.tag,
+      title: post.title,
+      description: post.description || '',
+      content: post.content || '',
+      author: post.author,
+      read_time: post.read_time,
+      slug: post.slug,
+      cover_gradient: post.cover_gradient,
+      featured: !!post.featured,
+      published: !!post.published,
+    })
+    setPostDirty(false)
+    setPostLastSaved(post.updated_at || post.created_at || new Date())
+    setPostMode('edit')
+  }
+
+  async function handleDuplicatePost(post: FormData | Post) {
+    const copyTitle = `${post.title || 'Untitled'} (Copy)`
+    const copySlug = `/insights/${(post.slug || 'copy').replace(/^\/insights\//, '').replace(/[^a-z0-9-]+/gi, '')}-${Date.now().toString().slice(-4)}`
+    const newDoc: FormData = {
+      id: '',
+      type: (post.type as 'article' | 'blog') || 'article',
+      tag: post.tag || '',
+      title: copyTitle,
+      description: post.description || '',
+      content: post.content || '',
+      author: post.author || 'Gen Ranq Team',
+      read_time: post.read_time || '5 min read',
+      slug: copySlug,
+      cover_gradient: post.cover_gradient || 'g1',
+      featured: false,
+      published: false,
+    }
+
+    try {
+      const res = await fetch('/api/admin/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...newDoc,
+          featured: 0,
+          published: false,
+        }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        notify('Post duplicated as draft ✓')
+        setEditingPost({ ...newDoc, id: data.id || '' })
+        setPostDirty(false)
+        setPostLastSaved(new Date())
+        setPostMode('edit')
+        await fetchPosts()
+      } else {
+        notify('Failed to duplicate post', 'err')
+      }
+    } catch {
+      notify('Network error duplicating post', 'err')
+    }
   }
 
   function handleQuickNewGlossaryTerm() {
@@ -496,23 +679,35 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
   }
 
   // ─── POSTS HANDLERS ──────────────────────────────────────────────
-  async function handleSavePost(data: FormData) {
+  async function handleSavePost(data: FormData, stayInEditor = false, overridePublished?: boolean) {
     const isEdit = !!data.id
     const method = isEdit ? 'PUT' : 'POST'
+    const targetPublished = overridePublished !== undefined ? overridePublished : data.published
+    const payload = {
+      ...data,
+      published: targetPublished,
+      featured: data.featured ? 1 : 0,
+    }
+
     try {
       const res = await fetch('/api/admin/posts', {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...data,
-          featured: data.featured ? 1 : 0,
-          published: data.published,
-        }),
+        body: JSON.stringify(payload),
       })
       if (res.ok) {
-        notify(isEdit ? 'Post updated successfully' : 'New post created successfully')
-        setPostMode('list')
-        setEditingPost(emptyForm)
+        const resData = await res.json()
+        const newId = resData.id || data.id
+        notify(overridePublished === false ? 'Post unpublished (saved as draft)' : isEdit ? 'Post updated successfully ✓' : 'New post published successfully ✓')
+        setPostDirty(false)
+        setPostLastSaved(new Date())
+
+        if (stayInEditor) {
+          setEditingPost(p => ({ ...p, id: newId, published: targetPublished }))
+        } else {
+          setPostMode('list')
+          setEditingPost(emptyForm)
+        }
         await fetchPosts()
       } else {
         const err = await res.json()
@@ -1262,15 +1457,7 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                             <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
                               <button
                                 className="b sm"
-                                onClick={() => {
-                                  setEditingPost({
-                                    id: post.id, type: post.type, tag: post.tag, title: post.title,
-                                    description: post.description || '', content: post.content || '',
-                                    author: post.author, read_time: post.read_time, slug: post.slug,
-                                    cover_gradient: post.cover_gradient, featured: !!post.featured, published: !!post.published,
-                                  })
-                                  setPostMode('edit')
-                                }}
+                                onClick={() => handleOpenEditPost(post)}
                                 style={{ marginRight: 6 }}
                               >
                                 Edit
@@ -1292,203 +1479,444 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
             )}
 
             {/* ══════════════════════════════════════════════════════════════
-                VIEW 2 (SUBVIEW): POST EDITOR WITH RICHTEXTEDITOR
+                VIEW 2 (SUBVIEW): POST EDITOR WITH RICHTEXTEDITOR & REAL-TIME SEO
             ══════════════════════════════════════════════════════════════ */}
-            {view === 'posts' && postMode === 'edit' && (
-              <div>
-                <div className="page-head">
-                  <div className="row">
-                    <button
-                      className="b sm"
-                      onClick={() => { setPostMode('list'); setEditingPost(emptyForm) }}
-                    >
-                      ← Back to Posts
-                    </button>
-                    <h1 style={{ fontSize: 24, margin: 0 }}>
-                      {editingPost.id ? `Edit: ${editingPost.title || 'Untitled'}` : 'Create New Post'}
-                    </h1>
-                  </div>
-                  <div className="row">
-                    <button
-                      className="b"
-                      onClick={() => { setPostMode('list'); setEditingPost(emptyForm) }}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      className="b b-primary"
-                      onClick={() => handleSavePost(editingPost)}
-                    >
-                      {editingPost.id ? 'Save Changes' : 'Publish Post'}
-                    </button>
-                  </div>
-                </div>
+            {view === 'posts' && postMode === 'edit' && (() => {
+              const seoReport = calculatePostSeo(editingPost)
+              const previewUrl = editingPost.slug || '/insights'
 
-                <div className="stack">
-                  {/* Meta Card */}
-                  <div className="card">
-                    <div className="card-h">
-                      <h3><span>▤</span> Post Configuration</h3>
-                      <div className="row">
-                        <label className="toggle">
-                          <input
-                            type="checkbox"
-                            checked={editingPost.published}
-                            onChange={e => setEditingPost(p => ({ ...p, published: e.target.checked }))}
-                          />
-                          <span className="sw" />
-                          <span>Published</span>
-                        </label>
-                        <label className="toggle" style={{ marginLeft: 16 }}>
-                          <input
-                            type="checkbox"
-                            checked={editingPost.featured}
-                            onChange={e => setEditingPost(p => ({ ...p, featured: e.target.checked }))}
-                          />
-                          <span className="sw" />
-                          <span>Featured on Home</span>
-                        </label>
+              return (
+                <div className="editor">
+                  {/* Top Action Bar matching user screenshot & reference genranq-cms-dashboard.html */}
+                  <div className="page-head" style={{ marginBottom: 18 }}>
+                    <div className="row" style={{ gap: 12 }}>
+                      <button
+                        className="b sm"
+                        onClick={() => { setPostMode('list'); setEditingPost(emptyForm); setPostDirty(false) }}
+                        title="Back to post listing"
+                      >
+                        ← Posts
+                      </button>
+                      <div>
+                        <h1 style={{ fontSize: 24, margin: 0, lineHeight: 1.2 }}>
+                          {editingPost.id ? (editingPost.title || 'Untitled') : 'Create New Post'}
+                        </h1>
+                        <p style={{ margin: '4px 0 0', fontSize: 13, color: 'var(--a-muted)' }}>
+                          <span className="pill" style={{ marginRight: 8 }}>{editingPost.type}</span>
+                          <a
+                            href={previewUrl}
+                            target="_blank"
+                            rel="noopener"
+                            style={{ color: 'var(--a-orange)', textDecoration: 'none' }}
+                          >
+                            {previewUrl} ↗
+                          </a>
+                        </p>
                       </div>
                     </div>
-                    <div className="card-b">
-                      <div className="grid2">
-                        <div className="field">
-                          <label className="lbl">Post Type</label>
-                          <select
-                            className="inp"
-                            value={editingPost.type}
-                            onChange={e => setEditingPost(p => ({ ...p, type: e.target.value as 'article' | 'blog' }))}
-                          >
-                            <option value="article">Article / Deep Dive</option>
-                            <option value="blog">Blog / Editorial Post</option>
-                          </select>
-                        </div>
-                        <div className="field">
-                          <label className="lbl">Category / Tag</label>
-                          <input
-                            className="inp"
-                            placeholder="AI Search, Technical SEO, Case Study..."
-                            value={editingPost.tag}
-                            onChange={e => setEditingPost(p => ({ ...p, tag: e.target.value }))}
-                          />
-                        </div>
-                      </div>
 
-                      <div className="field">
-                        <label className="lbl">Title</label>
-                        <input
-                          className="inp"
-                          placeholder="Compelling headline..."
-                          value={editingPost.title}
-                          onChange={e => {
-                            const title = e.target.value
-                            setEditingPost(p => ({
-                              ...p,
-                              title,
-                              slug: p.id ? p.slug : ('/insights/' + title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80))
-                            }))
+                    <div className="row wrap-row" style={{ gap: 8, alignItems: 'center' }}>
+                      {/* Real-time Saved status indicator */}
+                      {postDirty ? (
+                        <span className="pill warn" style={{ fontWeight: 600 }}>
+                          ● Unsaved changes
+                        </span>
+                      ) : postLastSaved ? (
+                        <span
+                          className="muted small"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            background: '#F1EEE6',
+                            padding: '4px 10px',
+                            borderRadius: 999,
+                            fontWeight: 500,
+                            color: '#555C53'
                           }}
-                          style={{ fontSize: 16, fontWeight: 600 }}
-                        />
+                        >
+                          Saved {timeAgo(postLastSaved)}
+                        </span>
+                      ) : null}
+
+                      {/* Duplicate Button */}
+                      {editingPost.id ? (
+                        <button
+                          type="button"
+                          className="b"
+                          onClick={() => handleDuplicatePost(editingPost)}
+                          title="Duplicate this post as a draft"
+                        >
+                          <span style={{ fontSize: 13, marginRight: 2 }}>⧉</span> Duplicate
+                        </button>
+                      ) : null}
+
+                      {/* Preview Button */}
+                      <button
+                        type="button"
+                        className="b"
+                        onClick={() => window.open(previewUrl, '_blank')}
+                        title="Open live preview in new window"
+                      >
+                        Preview
+                      </button>
+
+                      {/* Unpublish Button (shown if post is published) */}
+                      {editingPost.id && editingPost.published ? (
+                        <button
+                          type="button"
+                          className="b"
+                          onClick={() => handleSavePost(editingPost, true, false)}
+                          title="Set post to draft mode"
+                        >
+                          Unpublish
+                        </button>
+                      ) : null}
+
+                      {/* Update / Publish Button */}
+                      <button
+                        type="button"
+                        className="b b-primary"
+                        onClick={() => handleSavePost(editingPost, true, true)}
+                        style={{ minWidth: 92, fontWeight: 700 }}
+                      >
+                        {editingPost.id ? 'Update' : 'Publish'}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* 2-Column Grid: Main Content + Side SEO Score */}
+                  <div className="ed-grid">
+                    <div className="ed-main stack">
+                      {/* Post Configuration */}
+                      <div className="card">
+                        <div className="card-h">
+                          <h3><span>▤</span> Post Configuration</h3>
+                          <div className="row">
+                            <label className="toggle">
+                              <input
+                                type="checkbox"
+                                checked={editingPost.published}
+                                onChange={e => {
+                                  setEditingPost(p => ({ ...p, published: e.target.checked }))
+                                  setPostDirty(true)
+                                }}
+                              />
+                              <span className="sw" />
+                              <span>Published</span>
+                            </label>
+                            <label className="toggle" style={{ marginLeft: 16 }}>
+                              <input
+                                type="checkbox"
+                                checked={editingPost.featured}
+                                onChange={e => {
+                                  setEditingPost(p => ({ ...p, featured: e.target.checked }))
+                                  setPostDirty(true)
+                                }}
+                              />
+                              <span className="sw" />
+                              <span>Featured on Home</span>
+                            </label>
+                          </div>
+                        </div>
+                        <div className="card-b">
+                          <div className="grid2">
+                            <div className="field">
+                              <label className="lbl">Post Type</label>
+                              <select
+                                className="inp"
+                                value={editingPost.type}
+                                onChange={e => {
+                                  setEditingPost(p => ({ ...p, type: e.target.value as 'article' | 'blog' }))
+                                  setPostDirty(true)
+                                }}
+                              >
+                                <option value="article">Article / Deep Dive</option>
+                                <option value="blog">Blog / Editorial Post</option>
+                              </select>
+                            </div>
+                            <div className="field">
+                              <label className="lbl">Category / Tag</label>
+                              <input
+                                className="inp"
+                                placeholder="AI Search, Technical SEO, Case Study..."
+                                value={editingPost.tag}
+                                onChange={e => {
+                                  setEditingPost(p => ({ ...p, tag: e.target.value }))
+                                  setPostDirty(true)
+                                }}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="field">
+                            <label className="lbl">
+                              <span>Title</span>
+                              <em className={editingPost.title.length > 65 ? 'over' : ''}>
+                                {editingPost.title.length} / 60
+                              </em>
+                            </label>
+                            <input
+                              className="inp"
+                              placeholder="Compelling headline..."
+                              value={editingPost.title}
+                              onChange={e => {
+                                const title = e.target.value
+                                setEditingPost(p => ({
+                                  ...p,
+                                  title,
+                                  slug: p.id ? p.slug : ('/insights/' + title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80))
+                                }))
+                                setPostDirty(true)
+                              }}
+                              style={{ fontSize: 16, fontWeight: 600 }}
+                            />
+                          </div>
+
+                          <div className="grid2">
+                            <div className="field">
+                              <label className="lbl">URL Slug</label>
+                              <input
+                                className="inp code"
+                                placeholder="/insights/post-slug"
+                                value={editingPost.slug}
+                                onChange={e => {
+                                  setEditingPost(p => ({ ...p, slug: e.target.value }))
+                                  setPostDirty(true)
+                                }}
+                              />
+                            </div>
+                            <div className="field">
+                              <label className="lbl">Author Name</label>
+                              <input
+                                className="inp"
+                                placeholder="Gen Ranq Team"
+                                value={editingPost.author}
+                                onChange={e => {
+                                  setEditingPost(p => ({ ...p, author: e.target.value }))
+                                  setPostDirty(true)
+                                }}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="grid2">
+                            <div className="field">
+                              <label className="lbl">Read Time</label>
+                              <input
+                                className="inp"
+                                placeholder="5 min read"
+                                value={editingPost.read_time}
+                                onChange={e => {
+                                  setEditingPost(p => ({ ...p, read_time: e.target.value }))
+                                  setPostDirty(true)
+                                }}
+                              />
+                            </div>
+                            <div className="field">
+                              <label className="lbl">Card Cover Style</label>
+                              <select
+                                className="inp"
+                                value={editingPost.cover_gradient}
+                                onChange={e => {
+                                  setEditingPost(p => ({ ...p, cover_gradient: e.target.value }))
+                                  setPostDirty(true)
+                                }}
+                              >
+                                <option value="g1">Dark Charcoal Minimal (g1)</option>
+                                <option value="g2">Deep Orange Gradient (g2)</option>
+                                <option value="g3">Warm Cream Clean (g3)</option>
+                                <option value="g4">Forest Slate Emerald (g4)</option>
+                                <option value="g5">Midnight Navy Tech (g5)</option>
+                                <option value="g6">Sunset Studio Radial (g6)</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div className="field">
+                            <label className="lbl">
+                              <span>Meta Description (Search & Social Preview)</span>
+                              <em className={editingPost.description.length > 165 ? 'over' : ''}>
+                                {editingPost.description.length} / 160
+                              </em>
+                            </label>
+                            <textarea
+                              className="inp"
+                              rows={2}
+                              placeholder="Brief 150-character summary for Google search results and sharing..."
+                              value={editingPost.description}
+                              onChange={e => {
+                                setEditingPost(p => ({ ...p, description: e.target.value }))
+                                setPostDirty(true)
+                              }}
+                            />
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="grid2">
-                        <div className="field">
-                          <label className="lbl">URL Slug</label>
-                          <input
-                            className="inp code"
-                            placeholder="/insights/post-slug"
-                            value={editingPost.slug}
-                            onChange={e => setEditingPost(p => ({ ...p, slug: e.target.value }))}
-                          />
+                      {/* Rich Text Editor Card */}
+                      <div className="card">
+                        <div className="card-h">
+                          <h3><span>✏</span> Post Content & Rich Editor</h3>
+                          <span className="small muted">
+                            Supports headings, bold, links, bullet lists, blockquotes, and instant image uploads!
+                          </span>
                         </div>
-                        <div className="field">
-                          <label className="lbl">Author Name</label>
-                          <input
-                            className="inp"
-                            placeholder="Gen Ranq Team"
-                            value={editingPost.author}
-                            onChange={e => setEditingPost(p => ({ ...p, author: e.target.value }))}
+                        <div className="card-b" style={{ padding: 14 }}>
+                          <RichTextEditor
+                            value={editingPost.content}
+                            onChange={html => {
+                              setEditingPost(p => ({ ...p, content: html }))
+                              setPostDirty(true)
+                            }}
+                            placeholder="Write your article body here... Use toolbar buttons above to format text, add hyperlinks, and upload media images."
                           />
                         </div>
                       </div>
 
-                      <div className="grid2">
-                        <div className="field">
-                          <label className="lbl">Read Time</label>
-                          <input
-                            className="inp"
-                            placeholder="5 min read"
-                            value={editingPost.read_time}
-                            onChange={e => setEditingPost(p => ({ ...p, read_time: e.target.value }))}
-                          />
-                        </div>
-                        <div className="field">
-                          <label className="lbl">Card Cover Style</label>
-                          <select
-                            className="inp"
-                            value={editingPost.cover_gradient}
-                            onChange={e => setEditingPost(p => ({ ...p, cover_gradient: e.target.value }))}
+                      {/* Bottom Action Bar */}
+                      <div className="row between" style={{ paddingTop: 10, paddingBottom: 20 }}>
+                        <button
+                          className="b"
+                          onClick={() => { setPostMode('list'); setEditingPost(emptyForm); setPostDirty(false) }}
+                        >
+                          ← Back to post list
+                        </button>
+                        <div className="row" style={{ gap: 8 }}>
+                          {editingPost.id && editingPost.published ? (
+                            <button
+                              type="button"
+                              className="b"
+                              onClick={() => handleSavePost(editingPost, true, false)}
+                            >
+                              Unpublish
+                            </button>
+                          ) : null}
+                          <button
+                            className="b b-primary"
+                            onClick={() => handleSavePost(editingPost, true, true)}
+                            style={{ padding: '10px 22px' }}
                           >
-                            <option value="g1">Dark Charcoal Minimal (g1)</option>
-                            <option value="g2">Deep Orange Gradient (g2)</option>
-                            <option value="g3">Warm Cream Clean (g3)</option>
-                            <option value="g4">Forest Slate Emerald (g4)</option>
-                            <option value="g5">Midnight Navy Tech (g5)</option>
-                            <option value="g6">Sunset Studio Radial (g6)</option>
-                          </select>
+                            {editingPost.id ? 'Save & Update Post' : 'Create & Publish Post'}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Side Column: Real-Time Live SEO Score Widget */}
+                    <aside className="ed-side stack">
+                      <div className="card">
+                        <div className="card-h">
+                          <h3>SEO score</h3>
+                          <div className="row">
+                            <span
+                              className="score"
+                              style={{
+                                ['--c' as any]: scoreColor(seoReport.score),
+                                color: scoreColor(seoReport.score),
+                                border: `3px solid ${scoreColor(seoReport.score)}`,
+                                borderRadius: '50%',
+                                width: 44,
+                                height: 44,
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontWeight: 800,
+                                fontSize: 16,
+                                background: '#fff',
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+                              }}
+                            >
+                              {seoReport.score}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="card-b" style={{ padding: '14px 16px' }}>
+                          <ul className="checks" style={{ display: 'grid', gap: 10 }}>
+                            {seoReport.checks.map((c, idx) => (
+                              <li
+                                key={idx}
+                                className={c.status}
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'flex-start',
+                                  gap: 8,
+                                  fontSize: 13,
+                                  lineHeight: 1.4
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    width: 10,
+                                    height: 10,
+                                    borderRadius: '50%',
+                                    marginTop: 4,
+                                    flexShrink: 0,
+                                    backgroundColor: c.status === 'good' ? '#1F9D55' : c.status === 'warn' ? '#C98A00' : '#D64545'
+                                  }}
+                                />
+                                <div>
+                                  <div style={{ fontWeight: 600, color: 'var(--a-ink)' }}>{c.label}</div>
+                                  {c.status !== 'good' && (
+                                    <small style={{ color: 'var(--a-muted)', display: 'block', fontSize: 11.5, marginTop: 1 }}>
+                                      {c.tip}
+                                    </small>
+                                  )}
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
                       </div>
 
-                      <div className="field">
-                        <label className="lbl">Meta Description (Search & Social Preview)</label>
-                        <textarea
-                          className="inp"
-                          rows={2}
-                          placeholder="Brief 150-character summary for Google search results and sharing..."
-                          value={editingPost.description}
-                          onChange={e => setEditingPost(p => ({ ...p, description: e.target.value }))}
-                        />
+                      {/* Google Search Live Preview Card */}
+                      <div className="card">
+                        <div className="card-h">
+                          <h4 className="mini-h" style={{ margin: 0 }}>SERP Snippet Preview</h4>
+                        </div>
+                        <div className="card-b" style={{ padding: 14 }}>
+                          <div className="serp" style={{ fontSize: 12 }}>
+                            <span className="serp-url" style={{ fontSize: 11 }}>
+                              genranq.com › insights {editingPost.slug ? `› ${editingPost.slug.replace(/^\/insights\/?/, '')}` : ''}
+                            </span>
+                            <span className="serp-title" style={{ fontSize: 16, fontWeight: 500, color: '#1a0dab' }}>
+                              {(editingPost.title || 'Untitled Post').slice(0, 60)}
+                              {editingPost.title.length > 60 ? '…' : ''}
+                            </span>
+                            <span className="serp-desc" style={{ fontSize: 12, color: '#4d5156', lineHeight: 1.4 }}>
+                              {(editingPost.description || 'Add a meta description to see how Google search results will display this article to visitors.').slice(0, 160)}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
 
-                  {/* Rich Text Editor Card */}
-                  <div className="card">
-                    <div className="card-h">
-                      <h3><span>✏</span> Post Content & Rich Editor</h3>
-                      <span className="small muted">
-                        Supports headings, bold, links, bullet lists, blockquotes, and instant image uploads!
-                      </span>
-                    </div>
-                    <div className="card-b" style={{ padding: 14 }}>
-                      <RichTextEditor
-                        value={editingPost.content}
-                        onChange={html => setEditingPost(p => ({ ...p, content: html }))}
-                        placeholder="Write your article body here... Use toolbar buttons above to format text, add hyperlinks, and upload media images."
-                      />
-                    </div>
-                  </div>
-
-                  {/* Bottom Action Bar */}
-                  <div className="row between" style={{ paddingTop: 10 }}>
-                    <button
-                      className="b"
-                      onClick={() => { setPostMode('list'); setEditingPost(emptyForm) }}
-                    >
-                      ← Back to list
-                    </button>
-                    <button
-                      className="b b-primary"
-                      onClick={() => handleSavePost(editingPost)}
-                      style={{ padding: '12px 24px' }}
-                    >
-                      {editingPost.id ? 'Save & Update Post' : 'Create & Publish Post'}
-                    </button>
+                      {/* Quick Meta Stats Card */}
+                      <div className="card">
+                        <div className="card-h">
+                          <h4 className="mini-h" style={{ margin: 0 }}>Content Health</h4>
+                        </div>
+                        <div className="card-b" style={{ padding: 14 }}>
+                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                            <div style={{ background: '#FAF8F3', padding: '10px 12px', borderRadius: 8 }}>
+                              <div style={{ fontSize: 11, color: 'var(--a-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Words</div>
+                              <div style={{ fontSize: 18, fontWeight: 700, marginTop: 2 }}>
+                                {(editingPost.content || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().split(' ').filter(Boolean).length}
+                              </div>
+                            </div>
+                            <div style={{ background: '#FAF8F3', padding: '10px 12px', borderRadius: 8 }}>
+                              <div style={{ fontSize: 11, color: 'var(--a-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Status</div>
+                              <div style={{ fontSize: 14, fontWeight: 700, marginTop: 4, color: editingPost.published ? 'var(--a-green)' : 'var(--a-amber)' }}>
+                                {editingPost.published ? 'Published' : 'Draft'}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </aside>
                   </div>
                 </div>
-              </div>
-            )}
+              )
+            })()}
+
 
             {/* ══════════════════════════════════════════════════════════════
                 VIEW: SEO GLOSSARY MANAGEMENT
