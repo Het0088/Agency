@@ -1811,12 +1811,9 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                           </div>
                                         </div>
                                       ) : b.type === 'textarea' ? (
-                                        <textarea
-                                          className="inp"
-                                          rows={3}
+                                        <RichTextEditor
                                           value={val}
-                                          onChange={e => {
-                                            const newVal = e.target.value
+                                          onChange={newVal => {
                                             setContentBlocks(prev => ({
                                               ...prev,
                                               [selectedContentPage]: {
