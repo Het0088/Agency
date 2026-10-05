@@ -8538,6 +8538,8 @@ h4 {
   .ref-features-grid { grid-template-columns: repeat(2, 1fr); }
   .ref-process-grid { grid-template-columns: repeat(2, 1fr); }
   .ref-industries-grid { grid-template-columns: repeat(3, 1fr); }
+  .ref-intro-grid { gap: 40px; }
+  .ref-hero-inner { gap: 40px; }
 }
 
 @media (max-width: 768px) {
@@ -8549,12 +8551,91 @@ h4 {
   .ref-testimonials-header,
   .ref-testimonials-grid { grid-template-columns: 1fr; }
 
-  .ref-hero-visual { display: none; }
+  .ref-hero-visual {
+    display: block;
+    height: 320px;
+    width: 100%;
+    max-width: 480px;
+    margin: 24px auto 0;
+  }
+  .ref-hero-img-main {
+    width: 85%;
+    height: 220px;
+  }
+  .ref-hero-img-sub {
+    width: 65%;
+    height: 160px;
+  }
+  .ref-hero-badge {
+    top: 160px;
+  }
+
+  .ref-intro-images {
+    height: 300px;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .ref-intro-img-lg {
+    width: 85%;
+    height: 200px;
+  }
+  .ref-intro-img-sm {
+    width: 60%;
+    height: 150px;
+  }
+  .ref-intro-float[style*="top: 205px"] {
+    top: 150px !important;
+  }
+  .ref-intro-float[style*="bottom: 140px"] {
+    bottom: 90px !important;
+  }
+
   .ref-features-grid { grid-template-columns: 1fr; }
   .ref-process-grid { grid-template-columns: 1fr; }
   .ref-industries-grid { grid-template-columns: repeat(2, 1fr); }
   .ref-contact-form { grid-template-columns: 1fr; }
   .ref-rules-header { gap: 24px; }
+  .ref-video-thumbs-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .ref-hero-visual {
+    height: 260px;
+  }
+  .ref-hero-img-main {
+    width: 88%;
+    height: 180px;
+  }
+  .ref-hero-img-sub {
+    width: 68%;
+    height: 130px;
+  }
+  .ref-hero-badge {
+    top: 130px;
+    width: 42px;
+    height: 42px;
+  }
+  .ref-hero-badge svg {
+    width: 20px;
+    height: 20px;
+  }
+  .ref-intro-images {
+    height: 250px;
+  }
+  .ref-intro-img-lg {
+    width: 88%;
+    height: 170px;
+  }
+  .ref-intro-img-sm {
+    width: 68%;
+    height: 125px;
+  }
+  .ref-hero-stats {
+    gap: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 /* ============================================
