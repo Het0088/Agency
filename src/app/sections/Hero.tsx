@@ -125,9 +125,10 @@ export default function HeroSection({
             <span className="eyebrow">{finalEyebrow}</span>
             {title ? (
               title
-            ) : (
-              <h1 dangerouslySetInnerHTML={{ __html: heading.replace('unmissable.', '<em>unmissable.</em>') }} />
-            )}
+            ) : (() => {
+              const Tag = (content?.hero_heading_tag || 'h1') as React.ElementType
+              return <Tag dangerouslySetInnerHTML={{ __html: heading.replace('unmissable.', '<em>unmissable.</em>') }} />
+            })()}
             <p className="lede">{subtext}</p>
             <div className="hero-ctas">
               <Link href="/contact" className="btn btn-primary">

@@ -172,15 +172,37 @@ function LinkDialog({
           </span>
         </div>
 
-        <div style={{ background: '#f8fafc', padding: '12px 14px', borderRadius: 8, margin: '14px 0 18px', border: '1px solid #e2e8f0' }}>
-          <label className="rte-dialog-check" style={{ marginBottom: 8 }}>
-            <input type="checkbox" checked={newTab} onChange={e => setNewTab(e.target.checked)} />
-            Open link in a new browser tab (recommended for external links)
+        <div style={{ background: '#f8fafc', padding: '14px 16px', borderRadius: 8, margin: '14px 0 18px', border: '1px solid #e2e8f0' }}>
+          <label style={{ fontSize: 12, fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: 8 }}>
+            Link Relationship (SEO Rel Attribute):
           </label>
-          <label className="rte-dialog-check" style={{ marginBottom: 0 }}>
-            <input type="checkbox" checked={noFollow} onChange={e => setNoFollow(e.target.checked)} />
-            Add rel=&quot;nofollow&quot; (for sponsor or unendorsed external links)
-          </label>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12.5, cursor: 'pointer' }}>
+              <input
+                type="radio"
+                name="linkRelType"
+                checked={!noFollow}
+                onChange={() => setNoFollow(false)}
+              />
+              <span><strong>Dofollow</strong> (Standard link pass equity)</span>
+            </label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12.5, cursor: 'pointer' }}>
+              <input
+                type="radio"
+                name="linkRelType"
+                checked={noFollow}
+                onChange={() => setNoFollow(true)}
+              />
+              <span><strong>Nofollow</strong> (rel=&quot;nofollow&quot;)</span>
+            </label>
+          </div>
+
+          <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: 10 }}>
+            <label className="rte-dialog-check" style={{ marginBottom: 0 }}>
+              <input type="checkbox" checked={newTab} onChange={e => setNewTab(e.target.checked)} />
+              Open link in a new browser tab (target=&quot;_blank&quot;)
+            </label>
+          </div>
         </div>
 
         <div className="rte-dialog-actions">

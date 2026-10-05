@@ -110,9 +110,14 @@ export default async function SeoServicesPage() {
           <div className="ref-hero-inner">
             <div className="ref-hero-copy">
               <span className="ref-eyebrow">{c.hero_eyebrow}</span>
-              <h1>{c.hero_heading?.split(/artificial intelligence/i).map((part, i, arr) =>
-                i < arr.length - 1 ? <span key={i}>{part}<em>artificial intelligence.</em></span> : part
-              ) || c.hero_heading}</h1>
+              {(() => {
+                const HeroTag = (c.hero_heading_tag || 'h1') as any
+                return (
+                  <HeroTag>{c.hero_heading?.split(/artificial intelligence/i).map((part, i, arr) =>
+                    i < arr.length - 1 ? <span key={i}>{part}<em>artificial intelligence.</em></span> : part
+                  ) || c.hero_heading}</HeroTag>
+                )
+              })()}
               <p className="ref-hero-sub">{c.hero_subtext}</p>
               <div className="ref-hero-actions">
                 <Link href="/contact" className="btn btn-primary">{c.hero_cta1} <span className="arr"><ArrowRight /></span></Link>

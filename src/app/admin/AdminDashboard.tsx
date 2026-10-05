@@ -1824,20 +1824,57 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                           }}
                                         />
                                       ) : (
-                                        <input
-                                          className="inp"
-                                          value={val}
-                                          onChange={e => {
-                                            const newVal = e.target.value
-                                            setContentBlocks(prev => ({
-                                              ...prev,
-                                              [selectedContentPage]: {
-                                                ...(prev[selectedContentPage] || {}),
-                                                [b.key]: newVal
-                                              }
-                                            }))
-                                          }}
-                                        />
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                                            {(b.key.includes('heading') || b.key.includes('title') || b.label.toLowerCase().includes('heading') || b.label.toLowerCase().includes('title')) && (
+                                              <select
+                                                className="inp"
+                                                style={{ width: 85, fontWeight: 700, fontFamily: 'monospace', color: 'var(--a-orange)', background: '#FFF9F3', flexShrink: 0 }}
+                                                title="Choose SEO heading tag for this block"
+                                                value={contentBlocks[selectedContentPage]?.[`${b.key}_tag`] || (b.key.includes('hero_heading') ? 'h1' : b.key.includes('heading') ? 'h2' : 'h3')}
+                                                onChange={e => {
+                                                  const tagVal = e.target.value
+                                                  setContentBlocks(prev => ({
+                                                    ...prev,
+                                                    [selectedContentPage]: {
+                                                      ...(prev[selectedContentPage] || {}),
+                                                      [`${b.key}_tag`]: tagVal
+                                                    }
+                                                  }))
+                                                }}
+                                              >
+                                                <option value="h1">H1</option>
+                                                <option value="h2">H2</option>
+                                                <option value="h3">H3</option>
+                                                <option value="h4">H4</option>
+                                                <option value="h5">H5</option>
+                                                <option value="h6">H6</option>
+                                                <option value="p">p</option>
+                                                <option value="span">span</option>
+                                              </select>
+                                            )}
+                                            <input
+                                              className="inp"
+                                              value={val}
+                                              onChange={e => {
+                                                const newVal = e.target.value
+                                                setContentBlocks(prev => ({
+                                                  ...prev,
+                                                  [selectedContentPage]: {
+                                                    ...(prev[selectedContentPage] || {}),
+                                                    [b.key]: newVal
+                                                  }
+                                                }))
+                                              }}
+                                              style={{ flex: 1 }}
+                                            />
+                                          </div>
+                                          {(b.key.includes('heading') || b.key.includes('title') || b.label.toLowerCase().includes('heading') || b.label.toLowerCase().includes('title')) && (
+                                            <span style={{ fontSize: 11, color: 'var(--a-muted)' }}>
+                                              SEO Tag: currently renders as <code>&lt;{contentBlocks[selectedContentPage]?.[`${b.key}_tag`] || (b.key.includes('hero_heading') ? 'h1' : b.key.includes('heading') ? 'h2' : 'h3')}&gt;</code> for Google hierarchy.
+                                            </span>
+                                          )}
+                                        </div>
                                       )}
                                     </div>
                                   )
