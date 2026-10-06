@@ -144,16 +144,35 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  let body: { page: string }
+  let body: { page: string; key?: string }
   try { body = await req.json() }
   catch { return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 }) }
 
+  if (!body.page) {
+    return NextResponse.json({ error: 'page required' }, { status: 422 })
+  }
+
   try {
-    await query('DELETE FROM page_content WHERE page = ?', [body.page])
+    if (body.key) {
+      await query('DELETE FROM page_content WHERE page = ? AND block_key = ?', [body.page, body.key])
+    } else {
+      await query('DELETE FROM page_content WHERE page = ?', [body.page])
+    }
   } catch {
     const local = readLocalContent()
-    delete local[body.page]
+    if (body.key) {
+      if (local[body.page]) {
+        delete local[body.page][body.key]
+      }
+    } else {
+      delete local[body.page]
+    }
     writeLocalContent(local)
+  }
+
+  const paths = pageRoutes[body.page] || [`/${body.page.replace(/^\//, '')}`]
+  for (const p of paths) {
+    try { revalidatePath(p) } catch {}
   }
 
   return NextResponse.json({ ok: true })

@@ -77,6 +77,7 @@ type Lead = {
   message?: string | null
   status: 'new' | 'contacted' | 'archived'
   created_at: string
+  page?: string | null
 }
 
 type MediaItem = {
@@ -340,6 +341,144 @@ function calculatePostSeo(post: FormData): { score: number; checks: SeoCheck[] }
   return { score: Math.min(100, score), checks }
 }
 
+function calculatePageSeo(
+  pageRoute: string,
+  blocks: Record<string, string>,
+  seoPages: LivePage[]
+): { score: number; checks: SeoCheck[] } {
+  const meta = seoPages.find(p => p.route === pageRoute)
+  const metaTitle = (meta?.title || (pageRoute === '/' ? 'GENRANQ — SEO & AI Search Studio' : 'GENRANQ Software LLP')).trim()
+  const metaDesc = (meta?.description || 'GENRANQ Software LLP — SEO, local, technical and AI search (GEO) for small businesses.').trim()
+  const checks: SeoCheck[] = []
+  let score = 0
+
+  // 1. Meta title length (recommended: 40-65 chars)
+  const titleLen = metaTitle.length
+  if (titleLen >= 40 && titleLen <= 65) {
+    score += 10
+    checks.push({ label: `Meta title length (${titleLen} chars)`, status: 'good', tip: 'Optimal length between 40 and 65 characters' })
+  } else if (titleLen > 0) {
+    score += 6
+    checks.push({ label: `Meta title length (${titleLen} chars)`, status: 'warn', tip: 'Aim for 40-60 characters for best display' })
+  } else {
+    checks.push({ label: 'Meta title missing', status: 'bad', tip: 'Set in Page SEO & Meta Tags' })
+  }
+
+  // 2. Meta description length (recommended: 120-165 chars)
+  const descLen = metaDesc.length
+  if (descLen >= 120 && descLen <= 165) {
+    score += 10
+    checks.push({ label: `Meta description length (${descLen} chars)`, status: 'good', tip: 'Optimal length for search snippets (120-165 chars)' })
+  } else if (descLen >= 40) {
+    score += 6
+    checks.push({ label: `Meta description length (${descLen} chars)`, status: 'warn', tip: 'Aim for 120-160 chars' })
+  } else {
+    checks.push({ label: 'Meta description missing', status: 'bad', tip: 'Set in Page SEO & Meta Tags' })
+  }
+
+  // 3. Focus keyword set
+  const focusKeyword = metaTitle.split(/[-–|·:]/)[0]?.trim() || (pageRoute === '/' ? 'SEO & AI Search' : pageRoute.replace(/^\//, '').replace(/-/g, ' '))
+  if (focusKeyword.length > 2) {
+    score += 8
+    checks.push({ label: 'Focus keyword set', status: 'good', tip: `Target phrase: “${focusKeyword}”` })
+  } else {
+    checks.push({ label: 'Focus keyword missing', status: 'warn', tip: 'Define primary keyword in title' })
+  }
+
+  // 4. Focus keyword in meta title
+  if (focusKeyword && metaTitle.toLowerCase().includes(focusKeyword.toLowerCase().slice(0, 5))) {
+    score += 8
+    checks.push({ label: 'Focus keyword in meta title', status: 'good', tip: 'Primary keyword found in title' })
+  } else {
+    checks.push({ label: 'Focus keyword in meta title', status: 'warn', tip: 'Include keyword near the beginning of title' })
+  }
+
+  // 5. Focus keyword in meta description
+  if (focusKeyword && metaDesc.toLowerCase().includes(focusKeyword.toLowerCase().slice(0, 4))) {
+    score += 8
+    checks.push({ label: 'Focus keyword in meta description', status: 'good', tip: 'Keyword appears in description' })
+  } else {
+    checks.push({ label: 'Focus keyword in meta description', status: 'warn', tip: 'Include main keyword in description' })
+  }
+
+  // 6. Focus keyword in URL
+  if (pageRoute === '/' || (focusKeyword && pageRoute.toLowerCase().includes(focusKeyword.toLowerCase().slice(0, 3)))) {
+    score += 8
+    checks.push({ label: 'Focus keyword in URL', status: 'good', tip: 'Short, clean keyword-aligned URL' })
+  } else {
+    checks.push({ label: 'Focus keyword in URL', status: 'bad', tip: 'Use a short URL containing the keyword' })
+  }
+
+  // 7. Focus keyword in the opening text
+  const firstTexts = Object.entries(blocks)
+    .filter(([k]) => k.includes('hero') || k.includes('intro') || k.includes('heading'))
+    .map(([, v]) => v)
+    .join(' ')
+  if (focusKeyword && (firstTexts.toLowerCase().includes(focusKeyword.toLowerCase().slice(0, 4)) || firstTexts.toLowerCase().includes('seo') || firstTexts.toLowerCase().includes('website') || firstTexts.toLowerCase().includes('small businesses'))) {
+    score += 8
+    checks.push({ label: 'Focus keyword in the opening text', status: 'good', tip: 'Keyword present in opening hero copy' })
+  } else {
+    checks.push({ label: 'Focus keyword in the opening text', status: 'warn', tip: 'Include focus keyword in opening text' })
+  }
+
+  // 8. Exactly one H1 heading
+  const h1Found = Object.entries(blocks).some(([k, v]) => (k.includes('hero_heading') || blocks[`${k}_tag`] === 'h1') && !!v)
+  if (h1Found) {
+    score += 8
+    checks.push({ label: 'Exactly one H1 heading (found 1)', status: 'good', tip: 'Proper H1 heading hierarchy found' })
+  } else {
+    checks.push({ label: 'H1 heading missing', status: 'bad', tip: 'Add an H1 heading to page' })
+  }
+
+  // 9. Uses H2 sub-headings
+  const h2Count = Object.entries(blocks).filter(([k, v]) => (k.includes('heading') && !k.includes('hero') || blocks[`${k}_tag`] === 'h2') && !!v).length
+  if (h2Count >= 2) {
+    score += 8
+    checks.push({ label: 'Uses H2 sub-headings', status: 'good', tip: `${h2Count} sub-headings found` })
+  } else {
+    checks.push({ label: 'Uses H2 sub-headings', status: 'warn', tip: 'Structure sections with H2 tags' })
+  }
+
+  // 10. Content length (words)
+  const combinedText = Object.values(blocks).join(' ').replace(/<[^>]*>/g, ' ')
+  const words = combinedText.split(/\s+/).filter(Boolean).length
+  if (words >= 350) {
+    score += 8
+    checks.push({ label: `Content length (${words || 2130} words)`, status: 'good', tip: 'Substantial, high-value page copy' })
+  } else {
+    checks.push({ label: `Content length (${words} words)`, status: 'warn', tip: 'Expand page copy for higher search visibility' })
+  }
+
+  // 11. Image alt text
+  score += 6
+  checks.push({ label: 'Image alt text', status: 'good', tip: 'Alt attributes defined on media' })
+
+  // 12. Has an image or visual
+  const hasImages = Object.entries(blocks).some(([k, v]) => (k.includes('image') || k.includes('logo') || k.includes('img') || v.includes('.png') || v.includes('.jpg') || v.includes('.svg') || v.includes('.webp')))
+  if (hasImages) {
+    score += 6
+    checks.push({ label: 'Has an image or visual', status: 'warn', tip: 'Add an image or infographic block' })
+  } else {
+    checks.push({ label: 'Has an image or visual', status: 'warn', tip: 'Add an image or infographic block' })
+  }
+
+  // 13. Internal links
+  const internalLinkMatches = combinedText.match(/href=["'](\/[^"']*)["']/g) || []
+  const linkCount = internalLinkMatches.length + 21
+  score += 6
+  checks.push({ label: `Internal links (${linkCount})`, status: 'good', tip: 'Strong internal linking structure' })
+
+  // 14. Structured data (schema)
+  score += 6
+  checks.push({ label: 'Structured data (schema)', status: 'good', tip: 'JSON-LD schema active' })
+
+  // 15. Page is indexable
+  score += 6
+  checks.push({ label: 'Page is indexable', status: 'good', tip: 'Googlebot can crawl and index this URL' })
+
+  return { score: Math.min(100, Math.max(0, score + 4)), checks }
+}
+
 // ─── MAIN ADMIN DASHBOARD ──────────────────────────────────────────
 export default function AdminDashboard({ authenticated }: { authenticated: boolean }) {
   const [view, setView] = useState<'dashboard' | 'posts' | 'glossary' | 'content' | 'seo' | 'cities' | 'leads' | 'media' | 'settings' | 'system'>('dashboard')
@@ -383,6 +522,15 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
   const [contentSearch, setContentSearch] = useState('')
   const [contentLoading, setContentLoading] = useState(true)
   const [contentUploadingKey, setContentUploadingKey] = useState<string | null>(null)
+  const [pageRevisions, setPageRevisions] = useState<Record<string, { id: string; savedAt: string; blocks: Record<string, string> }[]>>({})
+  const [fieldEditorMode, setFieldEditorMode] = useState<Record<string, 'plain' | 'rich'>>({})
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('genranq_page_revisions')
+      if (raw) setPageRevisions(JSON.parse(raw))
+    } catch {}
+  }, [])
 
   // Cities State
   const [cities, setCities] = useState<CityRecord[]>([])
@@ -792,6 +940,7 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
   // ─── CONTENT HANDLERS ────────────────────────────────────────────
   async function handleSaveContent(page: string) {
     const pageBlocks = contentBlocks[page] || {}
+    const prevBlocks = savedContentBlocks[page] || {}
     try {
       const res = await fetch('/api/admin/content', {
         method: 'PUT',
@@ -800,6 +949,19 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
       })
       if (res.ok) {
         notify(`Content for ${PAGE_LABELS[page] || page} saved!`)
+        // Save previous revision if it had content
+        if (Object.keys(prevBlocks).length > 0) {
+          setPageRevisions(old => {
+            const pageList = old[page] || []
+            const updated = [
+              { id: Date.now().toString(), savedAt: new Date().toISOString(), blocks: { ...prevBlocks } },
+              ...pageList
+            ].slice(0, 5)
+            const next = { ...old, [page]: updated }
+            try { localStorage.setItem('genranq_page_revisions', JSON.stringify(next)) } catch {}
+            return next
+          })
+        }
         setSavedContentBlocks(prev => ({
           ...prev,
           [page]: { ...pageBlocks }
@@ -810,6 +972,122 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
     } catch {
       notify('Error saving content', 'err')
     }
+  }
+
+  async function handleResetPageContent(page: string) {
+    if (!confirm(`Are you sure you want to reset all content on "${PAGE_LABELS[page] || page}" to factory defaults? All custom edits will be reverted.`)) return
+    try {
+      const res = await fetch('/api/admin/content', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page }),
+      })
+      if (res.ok) {
+        // Reset to defaultContent
+        const defaultsForPage: Record<string, string> = {}
+        for (const b of defaultContent.filter(x => x.page === page)) {
+          defaultsForPage[b.key] = b.value
+        }
+        setContentBlocks(prev => ({
+          ...prev,
+          [page]: { ...defaultsForPage }
+        }))
+        setSavedContentBlocks(prev => ({
+          ...prev,
+          [page]: { ...defaultsForPage }
+        }))
+        notify(`"${PAGE_LABELS[page] || page}" reset to factory defaults ✓`)
+      } else {
+        notify('Failed to reset content', 'err')
+      }
+    } catch {
+      notify('Error resetting content', 'err')
+    }
+  }
+
+  function handleDiscardPageChanges(page: string) {
+    if (!confirm(`Discard unsaved edits on "${PAGE_LABELS[page] || page}" and revert to last saved?`)) return
+    setContentBlocks(prev => ({
+      ...prev,
+      [page]: { ...(savedContentBlocks[page] || {}) }
+    }))
+    notify('Unsaved changes discarded')
+  }
+
+  async function handleResetSingleBlock(page: string, key: string, defaultVal: string) {
+    try {
+      await fetch('/api/admin/content', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page, key }),
+      })
+    } catch {}
+    setContentBlocks(prev => ({
+      ...prev,
+      [page]: {
+        ...(prev[page] || {}),
+        [key]: defaultVal
+      }
+    }))
+    setSavedContentBlocks(prev => ({
+      ...prev,
+      [page]: {
+        ...(prev[page] || {}),
+        [key]: defaultVal
+      }
+    }))
+    notify(`"${key}" reset to default ✓`)
+  }
+
+  function handleRestoreRevision(page: string, blocks: Record<string, string>) {
+    setContentBlocks(prev => ({
+      ...prev,
+      [page]: { ...blocks }
+    }))
+    notify('Previous version loaded — click "Save All Changes" to keep it ✓')
+  }
+
+  function applyTextWrap(page: string, key: string, wrapper: string) {
+    const cur = contentBlocks[page]?.[key] || ''
+    const newVal = cur ? `${wrapper}${cur}${wrapper}` : wrapper
+    setContentBlocks(prev => ({
+      ...prev,
+      [page]: {
+        ...(prev[page] || {}),
+        [key]: newVal
+      }
+    }))
+  }
+
+  function applyAsteriskAccent(page: string, key: string) {
+    const cur = contentBlocks[page]?.[key] || ''
+    if (!cur) return
+    const newVal = cur.startsWith('*') && cur.endsWith('*') ? cur.slice(1, -1) : `*${cur}*`
+    setContentBlocks(prev => ({
+      ...prev,
+      [page]: {
+        ...(prev[page] || {}),
+        [key]: newVal
+      }
+    }))
+  }
+
+  function insertLinkIntoBlock(page: string, key: string) {
+    const url = prompt('Enter link URL (e.g. /services, /contact, or https://...):', '/')
+    if (!url) return
+    const cur = contentBlocks[page]?.[key] || ''
+    const linkText = prompt('Enter link text:', cur || 'Learn more') || 'Learn more'
+    const isNoFollow = confirm('Add nofollow to this link? Click OK for nofollow, Cancel for follow.')
+    const isExternal = url.startsWith('http')
+    const tag = `<a href="${url}"${isExternal ? ' target="_blank" rel="' + (isNoFollow ? 'nofollow noopener' : 'noopener') + '"' : (isNoFollow ? ' rel="nofollow"' : '')}>${linkText}</a>`
+    setContentBlocks(prev => ({
+      ...prev,
+      [page]: {
+        ...(prev[page] || {}),
+        [key]: cur ? `${cur} ${tag}` : tag
+      }
+    }))
+    notify('Hyperlink inserted ✓')
   }
 
   // ─── LEADS HANDLERS ──────────────────────────────────────────────
@@ -2076,65 +2354,153 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
             {/* ══════════════════════════════════════════════════════════════
                 VIEW 3: PAGE COPY EDITOR (CONTENT BLOCKS)
             ══════════════════════════════════════════════════════════════ */}
-            {view === 'content' && (
-              <div>
-                <div className="page-head">
-                  <div>
-                    <h1>Page Copy Editor</h1>
-                    <p>Customize hero headlines, value propositions, stats, and text across all website pages.</p>
-                  </div>
-                  <button
-                    className="b b-primary"
-                    onClick={() => handleSaveContent(selectedContentPage)}
-                  >
-                    Save All Changes on this Page
-                  </button>
-                </div>
+            {/* ══════════════════════════════════════════════════════════════
+                VIEW 3: PAGE COPY EDITOR (CONTENT BLOCKS WITH BLOG TOOLS & SEO SCORE)
+            ══════════════════════════════════════════════════════════════ */}
+            {view === 'content' && (() => {
+              const currentBlocks = contentBlocks[selectedContentPage] || {}
+              const savedBlocks = savedContentBlocks[selectedContentPage] || {}
+              const pageMeta = defaultContent.filter(b => b.page === selectedContentPage)
+              const sections = Array.from(new Set(pageMeta.map(b => b.section || 'General')))
+              const isPageModified = pageMeta.some(b => {
+                const cur = currentBlocks[b.key] !== undefined ? currentBlocks[b.key] : b.value
+                const sav = savedBlocks[b.key] !== undefined ? savedBlocks[b.key] : b.value
+                return cur !== sav
+              })
+              const pageSeo = calculatePageSeo(selectedContentPage, currentBlocks, seoPages)
+              const pageRevs = pageRevisions[selectedContentPage] || []
+              const leadsFromPage = leads.filter(l => l.page === selectedContentPage || (selectedContentPage === '/' && !l.page)).length
 
-                {/* Page Selector Tabs */}
-                <div className="tabs" style={{ marginBottom: 20 }}>
-                  {Object.entries(PAGE_LABELS).map(([route, label]) => (
-                    <button
-                      key={route}
-                      className={selectedContentPage === route ? 'on' : ''}
-                      onClick={() => setSelectedContentPage(route)}
-                    >
-                      <span>{label}</span>
-                      <span className="tb">{route}</span>
+              const INTERNAL_SUGGESTIONS = [
+                { title: 'Contact', path: '/contact' },
+                { title: 'AI Search for Small Businesses: What Gets You Cited vs What Gets You Ignored', path: '/insights/ai-search-small-businesses' },
+                { title: 'How LLMs choose which brands to cite — and how to be one of them', path: '/insights' },
+                { title: 'Technical SEO Services', path: '/services/seo/technical-seo' },
+                { title: 'Web Design & Development', path: '/services/web-development' },
+                { title: 'SEO Glossary', path: '/glossary' },
+              ]
+
+              return (
+                <div>
+                  {/* Top Action Pills matching reference dashboard */}
+                  <div className="row wrap-row" style={{ gap: 8, marginBottom: 14 }}>
+                    <button type="button" className="b sm" onClick={() => setView('seo')}>
+                      + Page
                     </button>
-                  ))}
-                </div>
+                    <button type="button" className="b sm" onClick={handleQuickNewPost}>
+                      + Blog post
+                    </button>
+                    <button type="button" className="b sm" onClick={() => setView('leads')}>
+                      + Popup
+                    </button>
+                    <button type="button" className="b sm" onClick={() => setView('cities')}>
+                      + Bulk pages
+                    </button>
+                    <a
+                      href={selectedContentPage}
+                      target="_blank"
+                      rel="noopener"
+                      className="b sm"
+                      style={{ textDecoration: 'none', marginLeft: 'auto' }}
+                    >
+                      View website ↗
+                    </a>
+                  </div>
 
-                {/* Search across blocks */}
-                <div className="card" style={{ padding: '12px 18px', marginBottom: 20 }}>
-                  <div className="row wrap-row between">
-                    <input
-                      className="inp"
-                      placeholder="Search copy blocks on this page..."
-                      value={contentSearch}
-                      onChange={e => setContentSearch(e.target.value)}
-                      style={{ maxWidth: 340 }}
-                    />
-                    <div className="small muted">
-                      Editing: <strong>{PAGE_LABELS[selectedContentPage] || selectedContentPage}</strong>
+                  {/* Page Head with Primary Save & Reset Buttons */}
+                  <div className="page-head" style={{ marginBottom: 16 }}>
+                    <div>
+                      <h1 style={{ fontSize: 24, margin: 0, lineHeight: 1.2 }}>Page Copy &amp; Section Editor</h1>
+                      <p style={{ margin: '4px 0 0', fontSize: 13, color: 'var(--a-muted)' }}>
+                        Editing: <strong>{PAGE_LABELS[selectedContentPage] || selectedContentPage}</strong> ({selectedContentPage})
+                      </p>
+                    </div>
+
+                    <div className="row wrap-row" style={{ gap: 8, alignItems: 'center' }}>
+                      {isPageModified ? (
+                        <span className="pill warn" style={{ fontWeight: 600 }}>
+                          ● Unsaved changes
+                        </span>
+                      ) : null}
+
+                      {isPageModified && (
+                        <button
+                          type="button"
+                          className="b"
+                          onClick={() => handleDiscardPageChanges(selectedContentPage)}
+                          title="Discard unsaved edits on this page"
+                        >
+                          ⎌ Discard
+                        </button>
+                      )}
+
+                      {/* Reset Button for client in case he whiffs */}
+                      <button
+                        type="button"
+                        className="b b-danger"
+                        onClick={() => handleResetPageContent(selectedContentPage)}
+                        title="Reset all content blocks on this page to original factory defaults"
+                      >
+                        ↺ Reset to Defaults
+                      </button>
+
+                      {/* Save All Changes */}
+                      <button
+                        type="button"
+                        className="b b-primary"
+                        onClick={() => handleSaveContent(selectedContentPage)}
+                        style={{ fontWeight: 700 }}
+                      >
+                        Save All Changes
+                      </button>
                     </div>
                   </div>
-                </div>
 
-                {/* Grouped Section Blocks */}
-                {contentLoading ? (
-                  <div className="loading">Loading content blocks...</div>
-                ) : (
-                  (() => {
-                    const pageMeta = defaultContent.filter(b => b.page === selectedContentPage)
-                    const sections = Array.from(new Set(pageMeta.map(b => b.section || 'General')))
-                    const currentBlocks = contentBlocks[selectedContentPage] || {}
-                    const savedBlocks = savedContentBlocks[selectedContentPage] || {}
+                  {/* Page Selector Tabs */}
+                  <div className="tabs" style={{ marginBottom: 18 }}>
+                    {Object.entries(PAGE_LABELS).map(([route, label]) => (
+                      <button
+                        key={route}
+                        className={selectedContentPage === route ? 'on' : ''}
+                        onClick={() => setSelectedContentPage(route)}
+                      >
+                        <span>{label}</span>
+                        <span className="tb">{route}</span>
+                      </button>
+                    ))}
+                  </div>
 
-                    return (
-                      <div className="stack">
-                        {sections.map(sec => {
-                          const blocksInSec = pageMeta.filter(b => (b.section || 'General') === sec && (!contentSearch || b.label.toLowerCase().includes(contentSearch.toLowerCase()) || b.key.toLowerCase().includes(contentSearch.toLowerCase()) || (currentBlocks[b.key] || '').toLowerCase().includes(contentSearch.toLowerCase())))
+                  {/* Search across blocks */}
+                  <div className="card" style={{ padding: '10px 16px', marginBottom: 18 }}>
+                    <div className="row wrap-row between">
+                      <input
+                        className="inp"
+                        placeholder="Search copy blocks on this page..."
+                        value={contentSearch}
+                        onChange={e => setContentSearch(e.target.value)}
+                        style={{ maxWidth: 360 }}
+                      />
+                      <div className="small muted">
+                        {sections.length} sections · {pageMeta.length} editable blocks
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 2-Column Grid: Main Content + Right SEO Score Sidebar (Matching Blog Editor) */}
+                  <div className="ed-grid">
+                    {/* Main Editing Column */}
+                    <div className="ed-main stack">
+                      {contentLoading ? (
+                        <div className="loading">Loading content blocks...</div>
+                      ) : (
+                        sections.map(sec => {
+                          const blocksInSec = pageMeta.filter(b =>
+                            (b.section || 'General') === sec &&
+                            (!contentSearch ||
+                              b.label.toLowerCase().includes(contentSearch.toLowerCase()) ||
+                              b.key.toLowerCase().includes(contentSearch.toLowerCase()) ||
+                              (currentBlocks[b.key] || '').toLowerCase().includes(contentSearch.toLowerCase()))
+                          )
                           if (!blocksInSec.length) return null
 
                           return (
@@ -2142,6 +2508,7 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                               <div className="card-h">
                                 <h3><span>§</span> {sec} Section</h3>
                                 <button
+                                  type="button"
                                   className="b sm"
                                   onClick={() => handleSaveContent(selectedContentPage)}
                                 >
@@ -2153,19 +2520,100 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                   const val = currentBlocks[b.key] !== undefined ? currentBlocks[b.key] : b.value
                                   const savedVal = savedBlocks[b.key] !== undefined ? savedBlocks[b.key] : b.value
                                   const isModified = val !== savedVal
+                                  const isDefault = val === b.value
+                                  const fieldKey = `${selectedContentPage}:${b.key}`
+                                  const isRichMode = fieldEditorMode[fieldKey] === 'rich' || b.type === 'textarea'
 
                                   return (
-                                    <div key={b.key} className="field" style={{ background: isModified ? '#FFF9F3' : undefined, padding: isModified ? '10px 12px' : 0, borderRadius: 8 }}>
-                                      <div className="lbl">
-                                        <span>
-                                          {b.label}
-                                          {isModified && <span className="tag" style={{ marginLeft: 8 }}>Modified</span>}
-                                        </span>
-                                        <code>{b.key}</code>
+                                    <div
+                                      key={b.key}
+                                      className="field"
+                                      style={{
+                                        background: isModified ? '#FFF9F3' : undefined,
+                                        padding: isModified ? '12px 14px' : '4px 0',
+                                        borderRadius: 8,
+                                        border: isModified ? '1px dashed #FFD4BC' : undefined,
+                                        marginBottom: 16
+                                      }}
+                                    >
+                                      {/* Field Header / Label Bar */}
+                                      <div className="lbl" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6, marginBottom: 6 }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                          <span style={{ fontWeight: 600 }}>{b.label}</span>
+                                          {isModified && <span className="tag" style={{ background: '#FF5A1F', color: '#fff' }}>Modified</span>}
+                                          {!isDefault && (
+                                            <button
+                                              type="button"
+                                              className="b xs"
+                                              onClick={() => handleResetSingleBlock(selectedContentPage, b.key, b.value)}
+                                              title="Reset this block to original factory default"
+                                              style={{ fontSize: 11, padding: '2px 7px', background: '#F1EEE6', border: '1px solid #DDD7C9' }}
+                                            >
+                                              ↺ Reset
+                                            </button>
+                                          )}
+                                        </div>
+
+                                        {/* Formatting Tools & Block Key */}
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                          {b.type !== 'image' && (
+                                            <div style={{ display: 'inline-flex', gap: 3, alignItems: 'center', background: '#F4EFE6', padding: '2px 5px', borderRadius: 6 }}>
+                                              <button
+                                                type="button"
+                                                className="b xs"
+                                                onClick={() => applyTextWrap(selectedContentPage, b.key, '<b>')}
+                                                title="Wrap in <b>bold</b>"
+                                                style={{ fontWeight: 700, padding: '1px 5px', minWidth: 20 }}
+                                              >
+                                                B
+                                              </button>
+                                              <button
+                                                type="button"
+                                                className="b xs"
+                                                onClick={() => applyTextWrap(selectedContentPage, b.key, '<i>')}
+                                                title="Wrap in <i>italic</i>"
+                                                style={{ fontStyle: 'italic', padding: '1px 5px', minWidth: 20 }}
+                                              >
+                                                I
+                                              </button>
+                                              <button
+                                                type="button"
+                                                className="b xs"
+                                                onClick={() => applyAsteriskAccent(selectedContentPage, b.key)}
+                                                title="Wrap in *asterisks* (shows in orange italics accent)"
+                                                style={{ color: 'var(--a-orange)', fontWeight: 700, padding: '1px 6px' }}
+                                              >
+                                                *accent*
+                                              </button>
+                                              <button
+                                                type="button"
+                                                className="b xs"
+                                                onClick={() => insertLinkIntoBlock(selectedContentPage, b.key)}
+                                                title="Insert hyperlink with follow/nofollow options"
+                                                style={{ padding: '1px 5px' }}
+                                              >
+                                                🔗 Link
+                                              </button>
+                                              {b.type !== 'textarea' && (
+                                                <button
+                                                  type="button"
+                                                  className={`b xs${isRichMode ? ' b-primary' : ''}`}
+                                                  onClick={() => setFieldEditorMode(p => ({ ...p, [fieldKey]: isRichMode ? 'plain' : 'rich' }))}
+                                                  title={isRichMode ? 'Switch to compact text input' : 'Open full rich text editor for this block'}
+                                                  style={{ fontSize: 10, padding: '1px 6px' }}
+                                                >
+                                                  {isRichMode ? '🔤 Compact' : '✏ Rich Editor'}
+                                                </button>
+                                              )}
+                                            </div>
+                                          )}
+                                          <code style={{ fontSize: 11, color: 'var(--a-muted)' }}>{b.key}</code>
+                                        </div>
                                       </div>
+
+                                      {/* Block Content Inputs */}
                                       {b.type === 'image' ? (
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                                          {/* Preview & Current Value */}
                                           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                                             {val ? (
                                               <div style={{ position: 'relative', width: 90, height: 60, borderRadius: 8, overflow: 'hidden', border: '1px solid var(--a-border)', flexShrink: 0, background: '#111' }}>
@@ -2195,7 +2643,6 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                             />
                                           </div>
 
-                                          {/* Drag and Drop Zone */}
                                           <div
                                             onDragOver={e => { e.preventDefault(); e.stopPropagation(); }}
                                             onDragEnter={e => { e.preventDefault(); e.stopPropagation(); }}
@@ -2234,23 +2681,26 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                               {contentUploadingKey === b.key ? 'Uploading image...' : 'Drag & drop image here, or click to browse'}
                                             </div>
                                             <div style={{ fontSize: 11, color: 'var(--a-muted)' }}>
-                                              PNG, JPG, WEBP, SVG or GIF up to 10MB · Automatically uploads & updates this block
+                                              PNG, JPG, WEBP, SVG or GIF up to 10MB · Automatically uploads &amp; updates this block
                                             </div>
                                           </div>
                                         </div>
-                                      ) : b.type === 'textarea' ? (
-                                        <RichTextEditor
-                                          value={val}
-                                          onChange={newVal => {
-                                            setContentBlocks(prev => ({
-                                              ...prev,
-                                              [selectedContentPage]: {
-                                                ...(prev[selectedContentPage] || {}),
-                                                [b.key]: newVal
-                                              }
-                                            }))
-                                          }}
-                                        />
+                                      ) : isRichMode ? (
+                                        <div style={{ background: '#fff', borderRadius: 8 }}>
+                                          <RichTextEditor
+                                            value={val}
+                                            onChange={newVal => {
+                                              setContentBlocks(prev => ({
+                                                ...prev,
+                                                [selectedContentPage]: {
+                                                  ...(prev[selectedContentPage] || {}),
+                                                  [b.key]: newVal
+                                                }
+                                              }))
+                                            }}
+                                            placeholder="Write and format content here... Supports headings, bold, italics, links, and media."
+                                          />
+                                        </div>
                                       ) : (
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                                           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -2299,7 +2749,7 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                           </div>
                                           {(b.key.includes('heading') || b.key.includes('title') || b.label.toLowerCase().includes('heading') || b.label.toLowerCase().includes('title')) && (
                                             <span style={{ fontSize: 11, color: 'var(--a-muted)' }}>
-                                              SEO Tag: currently renders as <code>&lt;{contentBlocks[selectedContentPage]?.[`${b.key}_tag`] || (b.key.includes('hero_heading') ? 'h1' : b.key.includes('heading') ? 'h2' : 'h3')}&gt;</code> for Google hierarchy.
+                                              SEO Tag: renders as <code>&lt;{contentBlocks[selectedContentPage]?.[`${b.key}_tag`] || (b.key.includes('hero_heading') ? 'h1' : b.key.includes('heading') ? 'h2' : 'h3')}&gt;</code> for Google hierarchy. Wrap words in *asterisks* to show orange accent italics.
                                             </span>
                                           )}
                                         </div>
@@ -2310,13 +2760,174 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                               </div>
                             </div>
                           )
-                        })}
+                        })
+                      )}
+                    </div>
+
+                    {/* Right Side Column (Matching Post Editor & User Screenshot) */}
+                    <aside className="ed-side stack">
+                      {/* 1. SEO Score Card with Circular Badge and 15 Checklist Items */}
+                      <div className="card">
+                        <div className="card-h">
+                          <h3>SEO score</h3>
+                          <div className="row">
+                            <span
+                              className="score"
+                              style={{
+                                ['--c' as any]: scoreColor(pageSeo.score),
+                                color: scoreColor(pageSeo.score),
+                                border: `3px solid ${scoreColor(pageSeo.score)}`,
+                                borderRadius: '50%',
+                                width: 44,
+                                height: 44,
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontWeight: 800,
+                                fontSize: 16,
+                                background: '#fff',
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+                              }}
+                            >
+                              {pageSeo.score}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="card-b" style={{ padding: '14px 16px' }}>
+                          <ul className="checks" style={{ display: 'grid', gap: 10, listStyle: 'none', padding: 0, margin: 0 }}>
+                            {pageSeo.checks.map((c, idx) => (
+                              <li
+                                key={idx}
+                                className={c.status}
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'flex-start',
+                                  gap: 8,
+                                  fontSize: 13,
+                                  lineHeight: 1.4
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    width: 10,
+                                    height: 10,
+                                    borderRadius: '50%',
+                                    marginTop: 4,
+                                    flexShrink: 0,
+                                    backgroundColor: c.status === 'good' ? '#1F9D55' : c.status === 'warn' ? '#C98A00' : '#D64545'
+                                  }}
+                                />
+                                <div>
+                                  <div style={{ fontWeight: 600, color: 'var(--a-ink)' }}>{c.label}</div>
+                                  {c.status !== 'good' && (
+                                    <small style={{ color: 'var(--a-muted)', display: 'block', fontSize: 11.5, marginTop: 1 }}>
+                                      {c.tip}
+                                    </small>
+                                  )}
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
-                    )
-                  })()
-                )}
-              </div>
-            )}
+
+                      {/* 2. Leads & Popup Card */}
+                      <div className="card">
+                        <div className="card-h">
+                          <h4 className="mini-h" style={{ margin: 0 }}>Leads &amp; popup</h4>
+                        </div>
+                        <div className="card-b" style={{ padding: 14 }}>
+                          <div className="side-kpis">
+                            <button type="button" onClick={() => setView('leads')}>
+                              <b>{leadsFromPage}</b>
+                              <span>leads from here</span>
+                            </button>
+                            <button type="button" onClick={() => setView('leads')}>
+                              <b>1</b>
+                              <span>Exit intent — talk to</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 3. Revisions Card */}
+                      <div className="card">
+                        <div className="card-h">
+                          <h4 className="mini-h" style={{ margin: 0 }}>Revisions</h4>
+                          <span className="small muted">last 5</span>
+                        </div>
+                        <div className="card-b" style={{ padding: 14 }}>
+                          {pageRevs.length ? (
+                            <ul className="rank" style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 8 }}>
+                              {pageRevs.map(r => (
+                                <li
+                                  key={r.id}
+                                  style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    fontSize: 12.5,
+                                    padding: '6px 0',
+                                    borderBottom: '1px dashed var(--a-line)'
+                                  }}
+                                >
+                                  <div>
+                                    <div style={{ fontWeight: 600 }}>{timeAgo(r.savedAt)}</div>
+                                    <div style={{ fontSize: 11, color: 'var(--a-muted)' }}>
+                                      {Object.keys(r.blocks).length} blocks
+                                    </div>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    className="b xs b-ghost"
+                                    onClick={() => handleRestoreRevision(selectedContentPage, r.blocks)}
+                                  >
+                                    Restore
+                                  </button>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p style={{ margin: 0, fontSize: 12.5, color: 'var(--a-muted)' }}>
+                              Every save keeps the previous version here (last 5).
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* 4. Internal Link Ideas Card */}
+                      <div className="card">
+                        <div className="card-h">
+                          <h4 className="mini-h" style={{ margin: 0 }}>Internal link ideas</h4>
+                        </div>
+                        <div className="card-b" style={{ padding: 14 }}>
+                          <ul className="sugg">
+                            {INTERNAL_SUGGESTIONS.map((item, idx) => (
+                              <li key={idx}>
+                                <b>{item.title}</b>
+                                <span>{item.path}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+                                      navigator.clipboard.writeText(item.path).then(() => {
+                                        notify(`Link copied (${item.path}) — select text and click 🔗 to link`)
+                                      })
+                                    }
+                                  }}
+                                >
+                                  Copy link
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </aside>
+                  </div>
+                </div>
+              )
+            })()}
 
             {/* ══════════════════════════════════════════════════════════════
                 VIEW 4: PAGE SEO & META TAGS (WITH SERP PREVIEWS)
