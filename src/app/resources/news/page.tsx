@@ -144,6 +144,72 @@ export default function NewsIndexPage() {
             </div>
           </div>
 
+          {/* Product Launch Press Release */}
+          <div style={{
+            background: '#ffffff',
+            border: '1px solid #E9E3D6',
+            borderRadius: 18,
+            padding: '36px',
+            marginBottom: 48,
+            boxShadow: '0 8px 30px rgba(0,0,0,0.04)',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: 32,
+            alignItems: 'center'
+          }}>
+            <div>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 14 }}>
+                <span style={{
+                  background: '#FF5A1F',
+                  color: '#fff',
+                  fontSize: 11,
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  padding: '4px 10px',
+                  borderRadius: 6
+                }}>
+                  Product Launch
+                </span>
+                <span style={{ fontSize: 13, color: '#6B6F6A' }}>October 2026</span>
+              </div>
+
+              <h2 style={{
+                fontFamily: 'var(--f-display, serif)',
+                fontSize: 'clamp(22px, 2.8vw, 28px)',
+                fontWeight: 400,
+                color: '#121613',
+                lineHeight: 1.25,
+                marginBottom: 14
+              }}>
+                <Link href="/resources/news/enterprise-ai-search-indexing-platform" style={{ color: 'inherit', textDecoration: 'none' }}>
+                  GENRANQ Launches Proprietary Neural-Rank AI Search Indexing Platform for Global Enterprise Brands
+                </Link>
+              </h2>
+
+              <p style={{ fontSize: 15, color: '#4A4F4B', lineHeight: 1.6, marginBottom: 20 }}>
+                Automated multi-engine audit suite tracking over 250,000 enterprise citations across ChatGPT, Perplexity Pro, Google AI Overviews, and Gemini.
+              </p>
+
+              <Link
+                href="/resources/news/enterprise-ai-search-indexing-platform"
+                className="btn btn-primary"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
+              >
+                Read Press Release <ArrowRight />
+              </Link>
+            </div>
+
+            <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid #E9E3D6' }}>
+              <img
+                src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80"
+                alt="Neural-Rank AI Search Indexing"
+                style={{ width: '100%', height: 220, objectFit: 'cover', display: 'block' }}
+              />
+            </div>
+          </div>
+
           {/* Media Contact Card */}
           <div style={{
             background: '#ffffff',

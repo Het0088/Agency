@@ -217,6 +217,13 @@ export default function Nav({ active }: { active?: string }) {
                     <span className="nav-dropdown-desc">Guides, deep-dives &amp; tactical SEO playbooks</span>
                   </div>
                 </Link>
+                <Link href="/glossary" className="nav-dropdown-item" onClick={() => setResourcesOpen(false)}>
+                  <div className="nav-dropdown-icon"><span style={{ fontWeight: 700, fontSize: 16 }}>Aa</span></div>
+                  <div className="nav-dropdown-text">
+                    <strong>SEO &amp; AI Search Glossary</strong>
+                    <span className="nav-dropdown-desc">Definitions for modern search, LLMs &amp; GEO</span>
+                  </div>
+                </Link>
                 <Link href="/resources/news" className="nav-dropdown-item" onClick={() => setResourcesOpen(false)}>
                   <div className="nav-dropdown-icon"><IconFileText /></div>
                   <div className="nav-dropdown-text">
@@ -322,6 +329,20 @@ export default function Nav({ active }: { active?: string }) {
                         onClick={() => setMobileOpen(false)}
                       >
                         Blog &amp; Insights
+                      </Link>
+                      <Link
+                        href="/glossary"
+                        className="mobile-cat-title"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        SEO &amp; AI Search Glossary
+                      </Link>
+                      <Link
+                        href="/resources/news"
+                        className="mobile-cat-title"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        News &amp; Press Releases
                       </Link>
                       <Link
                         href="/resources/publications"

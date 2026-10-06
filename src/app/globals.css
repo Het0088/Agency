@@ -72,6 +72,7 @@ body {
   color: var(--ink);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
+  -webkit-overflow-scrolling: touch;
   text-rendering: optimizeLegibility;
 }
 

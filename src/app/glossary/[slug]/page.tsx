@@ -5,6 +5,7 @@ import Topbar from '@/components/Topbar'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import { getAllGlossaryTerms, getGlossaryTermBySlug } from '@/lib/glossary'
+import { buildGlossaryTermSchema } from '@/lib/schema'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -59,6 +60,10 @@ export default async function GlossaryDetailPage({ params }: Props) {
     <>
       <Topbar text="Discover modern search frameworks and playbooks." linkText="Consult with our strategists →" linkHref="/contact" />
       <Nav active="resources" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildGlossaryTermSchema(term)) }}
+      />
 
       {/* Hero Section */}
       <header className="page-hero" style={{ background: '#FAF8F4', paddingBottom: 48, borderBottom: '1px solid var(--border)' }}>

@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import BigCta from '@/components/BigCta'
 import BlogPostClient from './BlogPostClient'
 import { getPostBySlug, getRelatedPosts, type PostRecord } from '@/lib/posts'
+import { buildArticleSchema } from '@/lib/schema'
 
 export const dynamic = 'force-dynamic'
 
@@ -55,6 +56,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     <>
       <Topbar text="New insights published weekly." linkText="Read →" linkHref="/insights" />
       <Nav active="insights" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildArticleSchema(post)) }}
+      />
 
       <header className="article-hero">
         <div className="wrap">
