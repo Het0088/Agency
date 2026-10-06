@@ -541,16 +541,52 @@ body{margin:0}
 .site a:not(.dz *),.site .dz .cms a{color:inherit;text-decoration:none}
 .site img:not(.dz *),.site .dz .cms img{max-width:100%;display:block}
 .site button:not(.dz *),.site .dz .cms button,.site input:not(.dz *),.site .dz .cms input,.site select:not(.dz *),.site .dz .cms select,.site textarea:not(.dz *),.site .dz .cms textarea{font:inherit}
-.site h1:not(.dz *),.site .dz .cms h1,.site h2:not(.dz *),.site .dz .cms h2,.site h3:not(.dz *),.site .dz .cms h3,.site h4:not(.dz *),.site .dz .cms h4,.site h5:not(.dz *),.site .dz .cms h5,.site h6:not(.dz *),.site .dz .cms h6,.site p:not(.dz *),.site .dz .cms p,.site figure:not(.dz *),.site .dz .cms figure,.site ul:not(.dz *),.site .dz .cms ul,.site ol:not(.dz *),.site .dz .cms ol,.site blockquote:not(.dz *),.site .dz .cms blockquote{margin:0}
-.site .wrap:not(.dz *),.site .dz .cms .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
-.site .wrap.narrow:not(.dz *),.site .dz .cms .wrap.narrow{max-width:860px}
-.site h1:not(.dz *),.site .dz .cms h1,.site h2:not(.dz *),.site .dz .cms h2,.site h3:not(.dz *),.site .dz .cms h3,.site h4:not(.dz *),.site .dz .cms h4{font-family:var(--f-display);font-weight:400;color:var(--ink);letter-spacing:-.02em;line-height:1.1}
-.site h1:not(.dz *),.site .dz .cms h1{font-size:clamp(40px,5.4vw,68px)}
-.site h2:not(.dz *),.site .dz .cms h2{font-size:clamp(30px,3.6vw,46px)}
-.site h3:not(.dz *),.site .dz .cms h3{font-size:22px;font-weight:500;line-height:1.25}
-.site em.accent:not(.dz *),.site .dz .cms em.accent{font-style:italic;color:var(--orange)}
-.site .eyebrow:not(.dz *),.site .dz .cms .eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:10px;margin-bottom:16px}
-.site .eyebrow:not(.dz *)::before,.site .dz .cms .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px rgba(255,90,31,.15)}
+.site h1, .site h2, .site h3, .site h4, .site h5, .site h6,
+.site [data-h=h1], .site [data-h=h2], .site [data-h=h3], .site [data-h=h4], .site [data-h=h5], .site [data-h=h6],
+.site .card h3, .site .card h4, .site .lead-form h3, .site .modal h3, .site .modal h4, .site .popup h3, .site .popup h4,
+.site .faq button, .site .faq summary {
+  font-family: var(--f-display) !important;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  font-variation-settings: "opsz" 144;
+}
+.site h1, .site .dz h1 { font-size: clamp(40px, 5.4vw, 68px); }
+.site h2, .site .dz h2 { font-size: clamp(30px, 3.6vw, 46px); }
+.site h3, .site .dz h3 { font-size: 22px; font-weight: 500; line-height: 1.25; }
+.site h1 em, .site h2 em, .site h3 em, .site h4 em, .site h5 em, .site h6 em,
+.site em.accent, .site .accent, .site em {
+  font-family: var(--f-display) !important;
+  font-style: italic !important;
+  color: var(--orange) !important;
+  font-variation-settings: "opsz" 144;
+}
+.site .eyebrow, .site .badge, .site .pill, .site .tag, .site code {
+  font-family: var(--f-mono) !important;
+}
+.site .eyebrow {
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.site .eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 0 4px rgba(255, 90, 31, .15);
+}
+.site .logo-word, .site .brand b {
+  font-family: var(--f-logo) !important;
+  color: var(--orange);
+}
 .site .btn:not(.dz *),.site .dz .cms .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;font-weight:600;font-size:15px;border:1px solid transparent;cursor:pointer;transition:all .2s}
 .site .btn:hover svg:not(.dz *),.site .dz .cms .btn:hover svg{transform:translateX(3px)}
 .site .btn svg:not(.dz *),.site .dz .cms .btn svg{transition:transform .2s}
@@ -9794,6 +9830,7 @@ async function loadStorage() {
         if (added) emit();
       }
     }).catch(() => {});
+  } catch (e) {}
   // 4) Sync leads and popups from server so website submissions appear in admin panel
   try {
     fetch('/api/admin/leads?sync=1', { headers: { 'x-cms-sync': '1' } }).then(r => r.json()).then(data => {
