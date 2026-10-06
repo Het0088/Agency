@@ -751,6 +751,173 @@
   color: #fff;
 }
 
+/* ================= SERVICE HOVER TILES ================= */
+.home-root .tile {
+  position: relative;
+  height: 380px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: linear-gradient(135deg, #2A322C, var(--ink));
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  isolation: isolate;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(18, 22, 19, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform .35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow .35s ease, border-color .35s ease;
+}
+
+.home-root .tile:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px -12px rgba(18, 22, 19, 0.35);
+  border-color: rgba(255, 90, 31, 0.5);
+}
+
+.home-root .tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  transition: transform .65s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.home-root .tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(18, 22, 19, 0.25) 15%, rgba(18, 22, 19, 0.72) 55%, rgba(18, 22, 19, 0.95) 100%);
+  transition: background .35s ease;
+}
+
+.home-root .tile:hover img {
+  transform: scale(1.08);
+}
+
+.home-root .tile:hover::before {
+  background: linear-gradient(180deg, rgba(18, 22, 19, 0.45) 15%, rgba(18, 22, 19, 0.84) 55%, rgba(18, 22, 19, 0.98) 100%);
+}
+
+.home-root .tile .t-num {
+  position: absolute;
+  top: 20px;
+  left: 22px;
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  letter-spacing: 0.04em;
+  z-index: 2;
+}
+
+.home-root .tile .t-go {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  transform: rotate(-45deg);
+  transition: transform .35s cubic-bezier(0.2, 0.8, 0.2, 1), background .25s ease;
+  box-shadow: 0 4px 14px rgba(255, 90, 31, 0.4);
+  z-index: 2;
+}
+
+.home-root .tile .t-go svg {
+  width: 16px;
+  height: 16px;
+}
+
+.home-root .tile:hover .t-go {
+  transform: rotate(0deg) scale(1.06);
+  background: #E94A10;
+}
+
+.home-root .tile .t-body {
+  padding: 24px 26px 26px;
+  z-index: 2;
+}
+
+.home-root .tile h3 {
+  color: #fff;
+  font-family: var(--f-display);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.22;
+  margin: 0;
+  transition: color .25s ease;
+}
+
+.home-root .tile:hover h3 {
+  color: #FFF4ED;
+}
+
+.home-root .tile p {
+  font-size: 14px;
+  color: #D6D8D2;
+  line-height: 1.55;
+  margin: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height .45s cubic-bezier(0.2, 0.8, 0.2, 1), opacity .4s ease, margin .4s ease;
+}
+
+.home-root .tile:hover p {
+  max-height: 140px;
+  opacity: 1;
+  margin-top: 10px;
+}
+
+.home-root .tile .t-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.home-root .tile .t-tags span {
+  font-size: 11px;
+  font-family: var(--f-mono);
+  background: rgba(255, 255, 255, 0.12);
+  color: #E2E4DE;
+  padding: 3px 8px;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 900px) {
+  .home-root .tile {
+    height: 330px;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-root .tile {
+    height: 320px;
+  }
+  .home-root .tile p {
+    max-height: none;
+    opacity: 1;
+    margin-top: 8px;
+  }
+}
+
 /* ================= CTA BANDS ================= */
 .home-root .cta-band {
   padding: 0 0 0;

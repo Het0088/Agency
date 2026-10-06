@@ -436,50 +436,205 @@ export default function HomeClient() {
               <span className="eyebrow">Services</span>
               <h2>What we do, in <em className="accent">plain English.</em></h2>
             </div>
-            <p>Six tightly-scoped services that compound when run together. No bloated retainers, no work-for-the-sake-of-work.</p>
+            <p>Full-spectrum search, engineering, and digital growth services that compound when run together. No bloated retainers, no work-for-the-sake-of-work.</p>
           </div>
           <div className="grid-3">
-            <Link href="/services/seo" className="card svc reveal">
-              <div className="tag">01 / <b>Search</b></div>
-              <h3>SEO foundations</h3>
-              <p>The on-page, technical, and content fundamentals that make Google trust you. Our flagship — and what every other service builds on.</p>
-              <ul><li>On-page</li><li>Keyword map</li><li>Site structure</li></ul>
-              <span className="go"><span><svg width="14" height="14"><use href="#arrow" /></svg></span>Explore</span>
+            {/* 01: SEO Foundations */}
+            <Link href="/services/seo" className="tile reveal">
+              <img
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
+                alt="SEO Foundations"
+                loading="lazy"
+              />
+              <span className="t-num">01 / Search</span>
+              <span className="t-go">
+                <svg><use href="#arrow" /></svg>
+              </span>
+              <div className="t-body">
+                <h3>SEO foundations</h3>
+                <p>The on-page, technical, and content fundamentals that make Google trust you. Keyword mapping, site hierarchy, and rank compounding.</p>
+                <div className="t-tags">
+                  <span>On-page</span>
+                  <span>Keyword map</span>
+                  <span>Site structure</span>
+                </div>
+              </div>
             </Link>
-            <Link href="/services/seo" className="card svc reveal">
-              <div className="tag">02 / <b>Local</b></div>
-              <h3>Local &amp; Maps</h3>
-              <p>Win the 3-pack and the &quot;near me&quot; queries that drive walk-ins, calls, and bookings — across multi-location businesses too.</p>
-              <ul><li>GBP</li><li>Citations</li><li>Reviews</li></ul>
-              <span className="go"><span><svg width="14" height="14"><use href="#arrow" /></svg></span>Explore</span>
+
+            {/* 02: Local SEO & Maps */}
+            <Link href="/services/seo/local-seo" className="tile reveal">
+              <img
+                src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80"
+                alt="Local SEO & Maps"
+                loading="lazy"
+              />
+              <span className="t-num">02 / Local</span>
+              <span className="t-go">
+                <svg><use href="#arrow" /></svg>
+              </span>
+              <div className="t-body">
+                <h3>Local &amp; Maps</h3>
+                <p>Win the 3-pack and high-intent &quot;near me&quot; queries that drive walk-ins, calls, and bookings — across single and multi-location businesses.</p>
+                <div className="t-tags">
+                  <span>GBP</span>
+                  <span>Citations</span>
+                  <span>Reviews</span>
+                </div>
+              </div>
             </Link>
-            <Link href="/services/seo/technical-seo" className="card svc reveal">
-              <div className="tag">03 / <b>Technical</b></div>
-              <h3>Technical SEO</h3>
-              <p>Core Web Vitals, crawl budget, schema, faceted nav, JS rendering. The plumbing nobody else wants to touch — we love it.</p>
-              <ul><li>CWV</li><li>Schema</li><li>Crawl</li></ul>
-              <span className="go"><span><svg width="14" height="14"><use href="#arrow" /></svg></span>Explore</span>
+
+            {/* 03: Technical SEO */}
+            <Link href="/services/seo/technical-seo" className="tile reveal">
+              <img
+                src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"
+                alt="Technical SEO"
+                loading="lazy"
+              />
+              <span className="t-num">03 / Technical</span>
+              <span className="t-go">
+                <svg><use href="#arrow" /></svg>
+              </span>
+              <div className="t-body">
+                <h3>Technical SEO</h3>
+                <p>Core Web Vitals, crawl budget, schema markup, faceted nav, and JS rendering. The deep plumbing nobody else wants to touch — we love it.</p>
+                <div className="t-tags">
+                  <span>CWV</span>
+                  <span>Schema</span>
+                  <span>Crawl</span>
+                </div>
+              </div>
             </Link>
-            <Link href="/services/content-marketing" className="card svc reveal">
-              <div className="tag">04 / <b>Content</b></div>
-              <h3>Editorial &amp; content</h3>
-              <p>Long-form, programmatic, and answer-first content written by humans who know your industry — not interns and not AI slop.</p>
-              <ul><li>Long-form</li><li>Programmatic</li><li>Refresh</li></ul>
-              <span className="go"><span><svg width="14" height="14"><use href="#arrow" /></svg></span>Explore</span>
+
+            {/* 04: Editorial & Content */}
+            <Link href="/services/content-marketing" className="tile reveal">
+              <img
+                src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80"
+                alt="Editorial & Content"
+                loading="lazy"
+              />
+              <span className="t-num">04 / Content</span>
+              <span className="t-go">
+                <svg><use href="#arrow" /></svg>
+              </span>
+              <div className="t-body">
+                <h3>Editorial &amp; content</h3>
+                <p>Long-form, programmatic, and answer-first content written by humans who know your industry — not interns and not AI slop.</p>
+                <div className="t-tags">
+                  <span>Long-form</span>
+                  <span>Programmatic</span>
+                  <span>Refresh</span>
+                </div>
+              </div>
             </Link>
-            <Link href="/services/link-building" className="card svc reveal">
-              <div className="tag">05 / <b>Authority</b></div>
-              <h3>Digital PR &amp; links</h3>
-              <p>Editorial backlinks from publications your customers actually read. No PBNs, no link farms, no shortcuts that backfire.</p>
-              <ul><li>Digital PR</li><li>Outreach</li><li>Mentions</li></ul>
-              <span className="go"><span><svg width="14" height="14"><use href="#arrow" /></svg></span>Explore</span>
+
+            {/* 05: Digital PR & Links */}
+            <Link href="/services/link-building" className="tile reveal">
+              <img
+                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
+                alt="Digital PR & Links"
+                loading="lazy"
+              />
+              <span className="t-num">05 / Authority</span>
+              <span className="t-go">
+                <svg><use href="#arrow" /></svg>
+              </span>
+              <div className="t-body">
+                <h3>Digital PR &amp; links</h3>
+                <p>Editorial backlinks from publications your customers actually read. No PBNs, no link farms, no shortcuts that backfire.</p>
+                <div className="t-tags">
+                  <span>Digital PR</span>
+                  <span>Outreach</span>
+                  <span>Mentions</span>
+                </div>
+              </div>
             </Link>
-            <Link href="/services/ai-search" className="card svc reveal">
-              <div className="tag">06 / <b>AI / GEO</b></div>
-              <h3>AI Search &amp; GEO</h3>
-              <p>Get cited inside ChatGPT, Perplexity, Google AI Overviews, and Gemini. The new rules of being found — already in motion.</p>
-              <ul><li>LLM citations</li><li>Entities</li><li>AIO</li></ul>
-              <span className="go"><span><svg width="14" height="14"><use href="#arrow" /></svg></span>Explore</span>
+
+            {/* 06: AI Search & GEO */}
+            <Link href="/services/ai-search" className="tile reveal">
+              <img
+                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"
+                alt="AI Search & GEO"
+                loading="lazy"
+              />
+              <span className="t-num">06 / AI &amp; GEO</span>
+              <span className="t-go">
+                <svg><use href="#arrow" /></svg>
+              </span>
+              <div className="t-body">
+                <h3>AI Search &amp; GEO</h3>
+                <p>Get cited inside ChatGPT, Perplexity, Google AI Overviews, and Gemini. The new rules of being found — already in motion.</p>
+                <div className="t-tags">
+                  <span>LLM citations</span>
+                  <span>Entities</span>
+                  <span>AIO</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* 07: Custom Web Design */}
+            <Link href="/services/web-design" className="tile reveal">
+              <img
+                src="https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=800&q=80"
+                alt="Custom Website Design"
+                loading="lazy"
+              />
+              <span className="t-num">07 / Design</span>
+              <span className="t-go">
+                <svg><use href="#arrow" /></svg>
+              </span>
+              <div className="t-body">
+                <h3>Custom website design</h3>
+                <p>Brand-led UI/UX design built around conversion intent — responsive wireframes, Figma prototypes, and pixel-perfect design systems.</p>
+                <div className="t-tags">
+                  <span>UI/UX</span>
+                  <span>Figma</span>
+                  <span>Prototyping</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* 08: Web Development */}
+            <Link href="/services/web-development" className="tile reveal">
+              <img
+                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80"
+                alt="Website Development"
+                loading="lazy"
+              />
+              <span className="t-num">08 / Development</span>
+              <span className="t-go">
+                <svg><use href="#arrow" /></svg>
+              </span>
+              <div className="t-body">
+                <h3>Website development</h3>
+                <p>Clean engineering with Next.js, WordPress, or Shopify. Built SEO-ready from day one with sub-second speeds and 95+ PageSpeed scores.</p>
+                <div className="t-tags">
+                  <span>Next.js</span>
+                  <span>WordPress</span>
+                  <span>Shopify Plus</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* 09: Hire Dedicated Developers */}
+            <Link href="/hire-resource" className="tile reveal">
+              <img
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
+                alt="Hire Dedicated Developers"
+                loading="lazy"
+              />
+              <span className="t-num">09 / Dedicated</span>
+              <span className="t-go">
+                <svg><use href="#arrow" /></svg>
+              </span>
+              <div className="t-body">
+                <h3>Hire dedicated developers</h3>
+                <p>Pre-vetted senior React, Next.js, Laravel, and Python engineers dedicated to your project. Aligned to your timezone, onboarded in 48 hours.</p>
+                <div className="t-tags">
+                  <span>Dedicated pods</span>
+                  <span>48h kick-off</span>
+                  <span>Zero overhead</span>
+                </div>
+              </div>
             </Link>
           </div>
         </div>
