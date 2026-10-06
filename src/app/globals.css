@@ -4726,6 +4726,7 @@ h4 {
 
 .newsletter form {
   display: flex;
+  align-items: center;
   gap: 8px;
   position: relative;
   background: var(--dark-2);
@@ -4735,7 +4736,8 @@ h4 {
 }
 
 .newsletter input {
-  flex: 1;
+  flex: 1 1 auto;
+  min-width: 0;
   background: transparent;
   border: 0;
   padding: 12px 18px;
@@ -4753,14 +4755,17 @@ h4 {
 }
 
 .newsletter button {
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  white-space: nowrap;
   background: var(--accent);
   color: var(--accent-ink);
-  padding: 12px 20px;
+  padding: 12px 22px;
   border-radius: 999px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.15s;
 }
 
 .newsletter button:hover {
