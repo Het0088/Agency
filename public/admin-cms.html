@@ -198,14 +198,24 @@
 .adm .chips code.ok{background:#E3F6EA;color:var(--a-green)}
 .adm .chips code.bad{background:#FDEAEA;color:var(--a-red)}
 .adm .rte{border:1px solid var(--a-line);border-radius:10px;background:#fff;overflow:hidden}
-.adm .rte-bar{display:flex;flex-wrap:wrap;gap:2px;padding:6px;border-bottom:1px solid var(--a-line);background:#FCFBF8;position:sticky;top:0}
+.adm .rte.rte-headline .rte-body{padding:9px 12px;font-size:16px;font-weight:600;line-height:1.4;font-family:'Fraunces',Georgia,serif}
+.adm .rte.rte-lead .rte-body{padding:10px 14px;font-size:14.5px;line-height:1.6}
+.adm .rte-bar{display:flex;flex-wrap:wrap;gap:2px;padding:6px;border-bottom:1px solid var(--a-line);background:#FCFBF8;position:sticky;top:0;z-index:2}
 .adm .rte-bar button{background:none;border:1px solid transparent;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:12.5px;font-weight:700;color:#44493F}
 .adm .rte-bar button:hover{background:#fff;border-color:var(--a-line)}
+.adm .rte-bar .btn-accent{color:#FF5A1F;background:#FFF4ED;border-color:#FFD9C6}
+.adm .rte-bar .btn-accent:hover{background:#FFEADB;border-color:#FF5A1F}
+.adm .rte-bar button.rte-col{padding:3px 6px;font-size:11.5px}
 .adm .rte-bar .src{margin-left:auto}
 .adm .rte-bar .src.on{background:var(--a-ink);color:#fff}
 .adm .rte-body{padding:14px 16px;outline:none;font-size:15px;line-height:1.7}
 .adm .rte-body:empty::before{content:attr(data-ph);color:#aaa}
 .adm .rte textarea{border:none;border-radius:0}
+.adm .linktext-wrap{display:flex;flex-direction:column;width:100%}
+.adm .lt-bar{display:flex;flex-wrap:wrap;gap:3px;align-items:center;margin-bottom:5px}
+.adm .lt-bar button{background:#F7F5F0;border:1px solid var(--a-line);border-radius:5px;padding:2px 7px;font-size:11.5px;font-weight:700;cursor:pointer;color:#444}
+.adm .lt-bar button:hover{background:#fff;border-color:var(--a-orange);color:var(--a-orange)}
+.adm .lt-bar .btn-accent{color:#FF5A1F;background:#FFF4ED;border-color:#FFD9C6}
 .adm .prose-admin p+p,.adm .prose-admin ul,.adm .prose-admin ol{margin-top:10px}
 .adm .prose-admin h2,.adm .prose-admin h3,.adm .prose-admin h4{font-family:'Fraunces',serif;font-weight:500;margin:14px 0 6px}
 .adm .prose-admin a{color:var(--a-orange);text-decoration:underline}
@@ -9881,13 +9891,23 @@ function Repeater({ items = [], onChange, render: r, make, addLabel = 'Add item'
   const dnd = useDnd((from, to) => onChange(moveItem(items, from, to)));
   return html`<div class="rep">${items.map((it, i) => html`<div class=${cx('rep-item', dnd.cls(i))} key=${it?.id || i} ...${dnd.item(i)}><div class="rep-tools"><span class="row"><span ...${dnd.handle()}>⠿</span>${title ? html`<b>${typeof title === 'function' ? title(it, i) : `${title} ${i + 1}`}</b>` : null}</span><span class="row"><button type="button" title="Move up" onClick=${() => move(i, -1)}>↑</button><button type="button" title="Move down" onClick=${() => move(i, 1)}>↓</button><button type="button" title="Duplicate" onClick=${() => { const a = [...items]; a.splice(i + 1, 0, it && typeof it === 'object' ? { ...clone(it), id: uid('i_') } : it); onChange(a); }}>⧉</button><button type="button" title="Remove" class="del" onClick=${() => onChange(items.filter((_, k) => k !== i))}>✕</button></span></div>${r(it, (v) => set(i, v), i)}</div>`)}<${Btn} small onClick=${() => onChange([...items, make()])}>+ ${addLabel}<//></div>`;
 }
-/* Textarea / input with a 🔗 button that inserts an internal link as [text](/url) at the cursor. */
+/* Textarea / input with a font toolbar and 🔗 button that inserts internal/external links and formatting. */
 function LinkText({ value, onChange, rows = 2, placeholder, single }) {
   const s = useStore(); const ref = useRef(); const [open, setOpen] = useState(false); const [q, setQ] = useState(''); const [sel, setSel] = useState([0, 0]);
   const remember = () => { const el = ref.current; if (el) setSel([el.selectionStart, el.selectionEnd]); };
+  const wrap = (before, after = before) => {
+    const el = ref.current; if (!el) return;
+    const a = el.selectionStart, z = el.selectionEnd;
+    const v = value || '';
+    const selected = v.slice(a, z);
+    const next = v.slice(0, a) + before + (selected || 'text') + after + v.slice(z);
+    onChange(next);
+    setTimeout(() => { try { el.focus(); el.setSelectionRange(a + before.length, z + before.length + (selected ? 0 : 4)); } catch {} }, 10);
+  };
   const insert = (t) => { const v = value || ''; const [a, z] = sel; const label = v.slice(a, z) || t.label; onChange(v.slice(0, a) + `[${label}](${t.url})` + v.slice(z)); setOpen(false); setQ(''); };
   const list = linkTargets(s).filter((t) => !q || (t.label + t.url).toLowerCase().includes(q.toLowerCase())).slice(0, 40);
-  return html`<div class="linktext">${single ? html`<input ref=${ref} class="inp" value=${value ?? ''} placeholder=${placeholder} onInput=${(e) => onChange(e.target.value)} onKeyUp=${remember} onMouseUp=${remember} onBlur=${remember} />` : html`<textarea ref=${ref} class="inp" rows=${rows} value=${value ?? ''} placeholder=${placeholder} onInput=${(e) => onChange(e.target.value)} onKeyUp=${remember} onMouseUp=${remember} onBlur=${remember}></textarea>`}<button type="button" class="lt-btn" title="Insert an internal link (select text first)" onMouseDown=${remember} onClick=${() => setOpen(true)}>🔗</button>
+  return html`<div class="linktext-wrap"><div class="lt-bar"><button type="button" title="Bold (**bold**)" onMouseDown=${(e) => { e.preventDefault(); wrap('**'); }}>B</button><button type="button" title="Italic (*italic*)" onMouseDown=${(e) => { e.preventDefault(); wrap('*'); }}><i>I</i></button><button type="button" title="Underline (<u>text</u>)" onMouseDown=${(e) => { e.preventDefault(); wrap('<u>', '</u>'); }}><u>U</u></button><button type="button" class="btn-accent" title="Orange accent (*word*)" onMouseDown=${(e) => { e.preventDefault(); wrap('*'); }}>*accent*</button><button type="button" title="Insert internal link" onMouseDown=${(e) => { e.preventDefault(); remember(); setOpen(true); }}>🔗 Link</button><button type="button" title="Clear markdown" onMouseDown=${(e) => { e.preventDefault(); onChange((value || '').replace(/[*_#`[\]()]/g, '')); }}>⌫</button></div>
+    <div class="linktext">${single ? html`<input ref=${ref} class="inp" value=${value ?? ''} placeholder=${placeholder} onInput=${(e) => onChange(e.target.value)} onKeyUp=${remember} onMouseUp=${remember} onBlur=${remember} />` : html`<textarea ref=${ref} class="inp" rows=${rows} value=${value ?? ''} placeholder=${placeholder} onInput=${(e) => onChange(e.target.value)} onKeyUp=${remember} onMouseUp=${remember} onBlur=${remember}></textarea>`}<button type="button" class="lt-btn" title="Insert an internal link (select text first)" onMouseDown=${remember} onClick=${() => setOpen(true)}>🔗</button></div>
     <${Modal} open=${open} onClose=${() => setOpen(false)} title="Insert internal link"><p class="muted">Selected text becomes the link. Links are written as <code>[text](/url)</code> and show as normal links on the site.</p><${Input} value=${q} onChange=${setQ} placeholder="Search pages, posts, glossary…" /><div class="pop-list tall">${list.map((t) => html`<button type="button" onClick=${() => insert(t)}><b>${t.label}</b><span>${t.kind} · ${t.url}</span></button>`)}</div><//></div>`;
 }
 function readImage(file, max = 1400) {
@@ -9964,20 +9984,64 @@ function UrlInput({ value, onChange, placeholder = '/page-url or https://…' })
 }
 
 /* ================= rich text ================= */
-function cleanPaste(h) { return h.replace(/<!--[\s\S]*?-->/g, '').replace(/<(meta|style|script|link)[^>]*>[\s\S]*?<\/\1>/gi, '').replace(/<(meta|link)[^>]*>/gi, '').replace(/\s(style|class|id|dir|lang|data-[\w-]+)="[^"]*"/gi, '').replace(/<\/?(span|font|o:p)[^>]*>/gi, '').replace(/<div>/gi, '<p>').replace(/<\/div>/gi, '</p>').replace(/<p>\s*<\/p>/gi, ''); }
-function RichText({ value, onChange, minHeight = 140 }) {
+function cleanPaste(h) { return h.replace(/<!--[\s\S]*?-->/g, '').replace(/<(meta|style|script|link)[^>]*>[\s\S]*?<\/\1>/gi, '').replace(/<(meta|link)[^>]*>/gi, '').replace(/\s(id|dir|lang|data-[\w-]+)="[^"]*"/gi, '').replace(/<div>/gi, '<p>').replace(/<\/div>/gi, '</p>').replace(/<p>\s*<\/p>/gi, ''); }
+function RichText({ value, onChange, minHeight = 140, mode = 'full', placeholder }) {
   const s = useStore(); const ref = useRef(); const saved = useRef(null);
   const [src, setSrc] = useState(false); const [media, setMedia] = useState(false); const [imgUrl, setImgUrl] = useState(''); const [alt, setAlt] = useState('');
   const [linkOpen, setLinkOpen] = useState(false); const [linkUrl, setLinkUrl] = useState(''); const [q, setQ] = useState(''); const [newTab, setNewTab] = useState(false);
   useEffect(() => { if (!src && ref.current && ref.current.innerHTML !== (value || '') && document.activeElement !== ref.current) ref.current.innerHTML = value || ''; }, [value, src]);
-  const emitHtml = () => onChange(ref.current.innerHTML);
+  const emitHtml = () => { if (!ref.current) return; const h = ref.current.innerHTML; onChange(h === '<br>' || h === '<p><br></p>' ? '' : h); };
   const save = () => { const sel = getSelection(); if (sel.rangeCount && ref.current?.contains(sel.anchorNode)) saved.current = sel.getRangeAt(0).cloneRange(); };
-  const restore = () => { ref.current.focus(); if (saved.current) { const sel = getSelection(); sel.removeAllRanges(); sel.addRange(saved.current); } };
+  const restore = () => { ref.current?.focus(); if (saved.current) { const sel = getSelection(); sel.removeAllRanges(); sel.addRange(saved.current); } };
   const cmd = (c, v = null) => { restore(); document.execCommand(c, false, v); emitHtml(); save(); };
   const insertLink = (url) => { restore(); const t = getSelection().toString(); const label = t || linkTargets(s).find((x) => x.url === url)?.label || url; document.execCommand('insertHTML', false, `<a href="${esc(url)}"${newTab ? ' target="_blank" rel="noopener"' : ''}>${esc(label)}</a>`); emitHtml(); setLinkOpen(false); setLinkUrl(''); setQ(''); };
-  const tools = [['B', () => cmd('bold'), 'Bold'], ['I', () => cmd('italic'), 'Italic'], ['U', () => cmd('underline'), 'Underline'], ['H2', () => cmd('formatBlock', 'H2'), 'Heading 2'], ['H3', () => cmd('formatBlock', 'H3'), 'Heading 3'], ['H4', () => cmd('formatBlock', 'H4'), 'Heading 4'], ['H5', () => cmd('formatBlock', 'H5'), 'Heading 5'], ['H6', () => cmd('formatBlock', 'H6'), 'Heading 6'], ['¶', () => cmd('formatBlock', 'P'), 'Paragraph'], ['• List', () => cmd('insertUnorderedList'), 'Bullet list'], ['1. List', () => cmd('insertOrderedList'), 'Numbered list'], ['❝', () => cmd('formatBlock', 'BLOCKQUOTE'), 'Quote'], ['🔗 Link', () => { save(); setLinkOpen(true); }, 'Insert link'], ['⛓ Unlink', () => cmd('unlink'), 'Remove link'], ['🖼 Image', () => { save(); setMedia(true); }, 'Insert image'], ['⌫ Clear', () => cmd('removeFormat'), 'Clear formatting']];
-  return html`<div class="rte"><div class="rte-bar">${!src ? tools.map(([l, f, t]) => html`<button type="button" title=${t} onMouseDown=${(e) => { e.preventDefault(); save(); }} onClick=${f}>${l}</button>`) : null}<button type="button" class=${cx('src', src && 'on')} onClick=${() => setSrc(!src)}>${'</> HTML'}</button></div>
-    ${src ? html`<textarea class="inp code" style=${{ minHeight }} value=${value || ''} onInput=${(e) => onChange(e.target.value)}></textarea>` : html`<div ref=${ref} class="rte-body prose-admin" contentEditable="true" data-ph="Start writing…" style=${{ minHeight }} onInput=${emitHtml} onBlur=${() => { save(); emitHtml(); }} onKeyUp=${save} onMouseUp=${save} onPaste=${(e) => { const h = e.clipboardData.getData('text/html'); if (h) { e.preventDefault(); document.execCommand('insertHTML', false, cleanPaste(h)); emitHtml(); } }}></div>`}
+  const insertAccent = () => { restore(); const t = getSelection().toString(); if (t) document.execCommand('insertHTML', false, `<em class="accent">${esc(t)}</em>`); else document.execCommand('insertHTML', false, `<em class="accent">accent</em>`); emitHtml(); save(); };
+  const applyColor = (hex) => { cmd('foreColor', hex); };
+  
+  const headlineTools = [
+    ['B', () => cmd('bold'), 'Bold'],
+    ['I', () => cmd('italic'), 'Italic'],
+    ['U', () => cmd('underline'), 'Underline'],
+    ['H1', () => cmd('formatBlock', 'H1'), 'Heading 1 (Main page title)'],
+    ['H2', () => cmd('formatBlock', 'H2'), 'Heading 2 (Section heading)'],
+    ['H3', () => cmd('formatBlock', 'H3'), 'Heading 3 (Card / sub-heading)'],
+    ['H4', () => cmd('formatBlock', 'H4'), 'Heading 4'],
+    ['*accent*', insertAccent, 'Orange italic accent (*word*)'],
+    ['🟠', () => applyColor('#FF5A1F'), 'Brand orange color'],
+    ['⚫', () => applyColor('#0F172A'), 'Dark slate color'],
+    ['🔗 Link', () => { save(); setLinkOpen(true); }, 'Insert link'],
+    ['⛓ Unlink', () => cmd('unlink'), 'Remove link'],
+    ['⌫ Clear', () => cmd('removeFormat'), 'Clear formatting']
+  ];
+  
+  const fullTools = [
+    ['B', () => cmd('bold'), 'Bold'],
+    ['I', () => cmd('italic'), 'Italic'],
+    ['U', () => cmd('underline'), 'Underline'],
+    ['H1', () => cmd('formatBlock', 'H1'), 'Heading 1'],
+    ['H2', () => cmd('formatBlock', 'H2'), 'Heading 2'],
+    ['H3', () => cmd('formatBlock', 'H3'), 'Heading 3'],
+    ['H4', () => cmd('formatBlock', 'H4'), 'Heading 4'],
+    ['H5', () => cmd('formatBlock', 'H5'), 'Heading 5'],
+    ['H6', () => cmd('formatBlock', 'H6'), 'Heading 6'],
+    ['¶', () => cmd('formatBlock', 'P'), 'Paragraph'],
+    ['• List', () => cmd('insertUnorderedList'), 'Bullet list'],
+    ['1. List', () => cmd('insertOrderedList'), 'Numbered list'],
+    ['“', () => cmd('formatBlock', 'BLOCKQUOTE'), 'Quote'],
+    ['*accent*', insertAccent, 'Orange italic accent (*word*)'],
+    ['🟠', () => applyColor('#FF5A1F'), 'Brand orange color'],
+    ['⚫', () => applyColor('#0F172A'), 'Dark slate color'],
+    ['🔗 Link', () => { save(); setLinkOpen(true); }, 'Insert link'],
+    ['⛓ Unlink', () => cmd('unlink'), 'Remove link'],
+    ['🖼 Image', () => { save(); setMedia(true); }, 'Insert image'],
+    ['⌫ Clear', () => cmd('removeFormat'), 'Clear formatting']
+  ];
+
+  const tools = mode === 'headline' ? headlineTools : fullTools;
+  const rteClass = cx('rte', mode === 'headline' && 'rte-headline', mode === 'lead' && 'rte-lead');
+
+  return html`<div class=${rteClass}><div class="rte-bar">${!src ? tools.map(([l, f, t]) => html`<button type="button" class=${cx(l === '*accent*' && 'btn-accent', /^[🟠⚫]$/.test(l) && 'rte-col')} title=${t} onMouseDown=${(e) => { e.preventDefault(); save(); }} onClick=${f}>${l}</button>`) : null}<button type="button" class=${cx('src', src && 'on')} onClick=${() => setSrc(!src)} title="Toggle raw HTML source">${'</> HTML'}</button></div>
+    ${src ? html`<textarea class="inp code" style=${{ minHeight }} value=${value || ''} placeholder=${placeholder} onInput=${(e) => onChange(e.target.value)}></textarea>` : html`<div ref=${ref} class="rte-body prose-admin" contentEditable="true" data-ph=${placeholder || 'Start writing…'} style=${{ minHeight }} onInput=${emitHtml} onBlur=${() => { save(); emitHtml(); }} onKeyUp=${save} onMouseUp=${save} onPaste=${(e) => { const h = e.clipboardData.getData('text/html'); if (h) { e.preventDefault(); document.execCommand('insertHTML', false, cleanPaste(h)); emitHtml(); } }}></div>`}
     <${MediaPicker} open=${media && !imgUrl} onClose=${() => setMedia(false)} onPick=${(u, m) => { setImgUrl(u); setAlt(m?.alt || ''); }} />
     <${Modal} open=${!!imgUrl} onClose=${() => { setImgUrl(''); setMedia(false); }} title="Image alt text" footer=${html`<${Btn} onClick=${() => { setImgUrl(''); setMedia(false); }}>Cancel<//><${Btn} kind="primary" onClick=${() => { restore(); document.execCommand('insertHTML', false, `<img src="${imgUrl}" alt="${esc(alt)}" loading="lazy" />`); emitHtml(); setImgUrl(''); setMedia(false); }}>Insert image<//>`}>
       <img src=${imgUrl} alt="" class="media-big" /><${Field} label="Describe the image (for SEO & screen readers)"><${Input} value=${alt} onChange=${setAlt} /><//><//>
@@ -10069,8 +10133,8 @@ function BlockForm({ b: bk, set }) {
     case 'hero': return html`<div class="grid2">
       <${Field} label="Style"><${Select} value=${d.variant} onChange=${up('variant')} options=${[{ value: 'cream', label: 'Cream (light)' }, { value: 'dark', label: 'Dark' }, { value: 'orange', label: 'Orange' }]} /><//>
       <${Field} label="Eyebrow / badge"><${Input} value=${d.eyebrow} onChange=${up('eyebrow')} /><//>
-      <${Field} label="Headline (H1 when first block)" hint=${AH} full><${Input} value=${d.title} onChange=${up('title')} /><//>
-      <${Field} label="Intro text" hint=${LH} full><${LinkText} value=${d.lead} onChange=${up('lead')} rows=${3} /><//>
+      <${Field} label="Headline (H1 when first block)" hint="Format headline fonts with Bold, Italic, Headings, Accent or HTML." full><${RichText} value=${d.title} onChange=${up('title')} minHeight=${48} mode="headline" placeholder="Headline…" /><//>
+      <${Field} label="Intro text" hint="Font toolkit enabled — Bold, Italics, Headings, Lists, Links, Colors & HTML." full><${RichText} value=${d.lead} onChange=${up('lead')} minHeight=${72} mode="lead" placeholder="Intro text…" /><//>
       <${Field} label="Primary button text"><${Input} value=${d.primaryLabel} onChange=${up('primaryLabel')} /><//>
       <${Field} label="Primary button link" hint="Pick a page — or a popup to open it on click."><${UrlInput} value=${d.primaryUrl} onChange=${up('primaryUrl')} /><//>
       <${Field} label="Secondary button text"><${Input} value=${d.secondaryLabel} onChange=${up('secondaryLabel')} /><//>
@@ -10078,11 +10142,11 @@ function BlockForm({ b: bk, set }) {
       <div class="full"><${ImageField} label="Hero image" value=${d.image} onChange=${up('image')} /></div>
       <div class="full"><h4 class="mini-h">Stat chips</h4><${Repeater} items=${d.stats || []} onChange=${up('stats')} make=${() => ({ ...it(), value: '', label: '' })} addLabel="Add stat" render=${(st, u) => html`<div class="grid2"><${Input} value=${st.value} onChange=${(v) => u({ ...st, value: v })} placeholder="412%" /><${Input} value=${st.label} onChange=${(v) => u({ ...st, label: v })} placeholder="Label" /></div>`} /></div>
       <${Field} label="Anchor ID (optional)"><${Input} value=${d.anchor} onChange=${up('anchor')} /><//></div>`;
-    case 'heading': return html`<div class="grid3"><${Field} label="Level"><${Select} value=${String(d.level)} onChange=${(v) => set({ ...d, level: /^\d$/.test(v) ? Number(v) : v })} options=${[{ value: '1', label: 'H1 — page title (use once)' }, { value: '2', label: 'H2 — section' }, { value: '3', label: 'H3 — sub-section' }, { value: '4', label: 'H4' }, { value: '5', label: 'H5' }, { value: '6', label: 'H6' }, { value: 'p', label: 'p — paragraph (looks like H2)' }, { value: 'div', label: 'div — no heading semantics' }]} /><//><${Field} label="Heading text" hint=${AH}><${Input} value=${d.text} onChange=${up('text')} /><//><${Field} label="Anchor ID" hint="Auto from text if empty"><${Input} value=${d.anchor} onChange=${up('anchor')} /><//></div>`;
+    case 'heading': return html`<div class="grid3"><${Field} label="Level"><${Select} value=${String(d.level)} onChange=${(v) => set({ ...d, level: /^\d$/.test(v) ? Number(v) : v })} options=${[{ value: '1', label: 'H1 — page title (use once)' }, { value: '2', label: 'H2 — section' }, { value: '3', label: 'H3 — sub-section' }, { value: '4', label: 'H4' }, { value: '5', label: 'H5' }, { value: '6', label: 'H6' }, { value: 'p', label: 'p — paragraph (looks like H2)' }, { value: 'div', label: 'div — no heading semantics' }]} /><//><${Field} label="Heading text" hint="Format heading font" full><${RichText} value=${d.text} onChange=${up('text')} minHeight=${44} mode="headline" placeholder="Heading text…" /><//><${Field} label="Anchor ID" hint="Auto from text if empty"><${Input} value=${d.anchor} onChange=${up('anchor')} /><//></div>`;
     case 'paragraph': return html`<${RichText} value=${d.html} onChange=${up('html')} />`;
     case 'list': return html`<${Field} label="Style"><${Select} value=${d.style} onChange=${up('style')} options=${[{ value: 'check', label: 'Check marks' }, { value: 'bullet', label: 'Arrows' }, { value: 'number', label: 'Numbered' }]} /><//><${Field} label="Items — one per line" hint="Use **double asterisks** for bold. Select text and press 🔗 to add a link."><${LinkText} rows=${6} value=${(d.items || []).join('\n')} onChange=${(v) => set({ ...d, items: v.split('\n') })} /><//>`;
-    case 'quote': return html`<div class="grid2"><${Field} label="Quote" full><${Textarea} value=${d.text} onChange=${up('text')} /><//><${Field} label="Person"><${Input} value=${d.author} onChange=${up('author')} /><//><${Field} label="Role / company"><${Input} value=${d.role} onChange=${up('role')} /><//><${Field} label="Style"><${Select} value=${d.variant} onChange=${up('variant')} options=${['dark', 'light']} /><//></div>`;
-    case 'callout': return html`<div class="grid2"><${Field} label="Label"><${Input} value=${d.label} onChange=${up('label')} /><//><${Field} label="Style"><${Select} value=${d.variant} onChange=${up('variant')} options=${['light', 'dark', 'note']} /><//><${Field} label="Title" full><${Input} value=${d.title} onChange=${up('title')} /><//><${Field} label="Text" hint=${LH} full><${LinkText} value=${d.text} onChange=${up('text')} rows=${3} /><//></div>`;
+    case 'quote': return html`<div class="grid2"><${Field} label="Quote" full><${RichText} value=${d.text} onChange=${up('text')} minHeight=${72} mode="lead" placeholder="Quote text…" /><//><${Field} label="Person"><${Input} value=${d.author} onChange=${up('author')} /><//><${Field} label="Role / company"><${Input} value=${d.role} onChange=${up('role')} /><//><${Field} label="Style"><${Select} value=${d.variant} onChange=${up('variant')} options=${['dark', 'light']} /><//></div>`;
+    case 'callout': return html`<div class="grid2"><${Field} label="Label"><${Input} value=${d.label} onChange=${up('label')} /><//><${Field} label="Style"><${Select} value=${d.variant} onChange=${up('variant')} options=${['light', 'dark', 'note']} /><//><${Field} label="Title" full><${RichText} value=${d.title} onChange=${up('title')} minHeight=${44} mode="headline" placeholder="Callout title…" /><//><${Field} label="Text" hint="Font toolkit enabled" full><${RichText} value=${d.text} onChange=${up('text')} minHeight=${72} mode="lead" placeholder="Callout text…" /><//></div>`;
     case 'button': return html`<${Field} label="Alignment"><${Select} value=${d.align} onChange=${up('align')} options=${['left', 'center']} /><//><${Items} d=${d} up=${up} title="Button" make=${() => ({ ...it(), label: '', url: '', style: 'primary' })} addLabel="Add button" render=${(x, u) => html`<div class="grid3"><${Input} value=${x.label} onChange=${(v) => u({ ...x, label: v })} placeholder="Button text" /><${UrlInput} value=${x.url} onChange=${(v) => u({ ...x, url: v })} /><${Select} value=${x.style} onChange=${(v) => u({ ...x, style: v })} options=${[{ value: 'primary', label: 'Orange' }, { value: 'dark', label: 'Dark' }, { value: 'ghost', label: 'Outline' }, { value: 'link', label: 'Text link' }]} /></div>`} /><p class="muted small">Tip: link a button to a popup (🔗 → “Open popup”) to show a lead form on click.</p>`;
     case 'toc': return html`<${Field} label="Title" hint="Lists every H2/H3 heading block automatically."><${Input} value=${d.title} onChange=${up('title')} /><//>`;
     case 'image': return html`<div class="grid2"><div class="full"><${ImageField} label="Image" value=${d.src} onChange=${(u, m) => set({ ...d, src: u, ...(m?.alt && !d.alt ? { alt: m.alt } : {}) })} /></div><${Field} label="Alt text (required for SEO)" hint=${d.src && !d.alt ? '⚠ Missing — describe the image.' : ''} full><div class="row"><${Input} value=${d.alt} onChange=${up('alt')} placeholder="Describe the image" /><${AiBtn} label="✨ Suggest" run=${async () => up('alt')((await aiComplete('Write concise descriptive alt text (max 12 words) for this image. Reply with the alt text only.', d.src)).replace(/^"|"$/g, ''))} /></div><//><${Field} label="Caption"><${Input} value=${d.caption} onChange=${up('caption')} /><//><${Field} label="Badge on the image (optional)"><${Input} value=${d.badge} onChange=${up('badge')} /><//>
@@ -10090,18 +10154,18 @@ function BlockForm({ b: bk, set }) {
       <${Field} label="Shape / aspect ratio"><${Select} value=${d.ratio || ''} onChange=${up('ratio')} options=${[{ value: '', label: 'Original' }, { value: '16/9', label: '16:9 wide' }, { value: '4/3', label: '4:3' }, { value: '1/1', label: 'Square' }, { value: '3/4', label: 'Portrait 3:4' }, { value: '21/9', label: 'Cinema 21:9' }]} /><//><${Field} label="Fixed height (px, optional)"><${Input} type="number" value=${d.height} onChange=${(v) => up('height')(v === '' ? '' : Number(v))} /><//>
       <${Field} label="Fit"><${Select} value=${d.fit || 'cover'} onChange=${up('fit')} options=${[{ value: 'cover', label: 'Cover (crop)' }, { value: 'contain', label: 'Contain (whole image)' }]} /><//><${Field} label="Corners"><${Select} value=${String(d.radius ?? 18)} onChange=${(v) => up('radius')(Number(v))} options=${[{ value: '0', label: 'Square' }, { value: '10', label: 'Slightly rounded' }, { value: '18', label: 'Rounded' }, { value: '28', label: 'Very rounded' }]} /><//>
       <${Field} label="Loading"><${Select} value=${d.loading || 'lazy'} onChange=${up('loading')} options=${[{ value: 'lazy', label: 'Lazy (below the fold)' }, { value: 'eager', label: 'Eager (hero / above the fold)' }]} /><//><${Field} label="Title (tooltip, optional)"><${Input} value=${d.title} onChange=${up('title')} /><//><${Field} label="Link (optional)" full><${UrlInput} value=${d.link} onChange=${up('link')} /><//></div>`;
-    case 'columns': return html`<div class="grid2"><div class="full"><${ImageField} label="Image" value=${d.image} onChange=${up('image')} /></div><${Field} label="Alt text"><${Input} value=${d.alt} onChange=${up('alt')} /><//><${Field} label="Image side"><${Select} value=${d.imageSide} onChange=${up('imageSide')} options=${['left', 'right']} /><//><${Field} label="Eyebrow"><${Input} value=${d.eyebrow} onChange=${up('eyebrow')} /><//><${Field} label="Title (H2)" hint=${AH}><${Input} value=${d.title} onChange=${up('title')} /><//><div class="full"><${RichText} value=${d.html} onChange=${up('html')} minHeight=${110} /></div><${Field} label="Button text"><${Input} value=${d.buttonLabel} onChange=${up('buttonLabel')} /><//><${Field} label="Button link"><${UrlInput} value=${d.buttonUrl} onChange=${up('buttonUrl')} /><//></div>`;
+    case 'columns': return html`<div class="grid2"><div class="full"><${ImageField} label="Image" value=${d.image} onChange=${up('image')} /></div><${Field} label="Alt text"><${Input} value=${d.alt} onChange=${up('alt')} /><//><${Field} label="Image side"><${Select} value=${d.imageSide} onChange=${up('imageSide')} options=${['left', 'right']} /><//><${Field} label="Eyebrow"><${Input} value=${d.eyebrow} onChange=${up('eyebrow')} /><//><${Field} label="Title (H2)" full><${RichText} value=${d.title} onChange=${up('title')} minHeight=${44} mode="headline" /><//><div class="full"><${RichText} value=${d.html} onChange=${up('html')} minHeight=${110} /></div><${Field} label="Button text"><${Input} value=${d.buttonLabel} onChange=${up('buttonLabel')} /><//><${Field} label="Button link"><${UrlInput} value=${d.buttonUrl} onChange=${up('buttonUrl')} /><//></div>`;
     case 'gallery': return html`<div class="grid2"><${Field} label="Title (optional)"><${Input} value=${d.title} onChange=${up('title')} /><//><${Field} label="Columns"><${Select} value=${String(d.columns || 3)} onChange=${(v) => set({ ...d, columns: Number(v) })} options=${['2', '3', '4']} /><//></div><${Items} d=${d} up=${up} title="Image" make=${() => ({ ...it(), src: '', alt: '', caption: '', link: '' })} addLabel="Add image" render=${(x, u) => html`<div class="grid2"><div class="full"><${ImageField} label="" value=${x.src} onChange=${(v) => u({ ...x, src: v })} /></div><${Input} value=${x.alt} onChange=${(v) => u({ ...x, alt: v })} placeholder="Alt text" /><${Input} value=${x.caption} onChange=${(v) => u({ ...x, caption: v })} placeholder="Caption" /><div class="full"><${UrlInput} value=${x.link} onChange=${(v) => u({ ...x, link: v })} placeholder="Link (optional)" /></div></div>`} />`;
     case 'table': return html`<${TableForm} d=${d} set=${set} />`;
-    case 'stats': return html`<div class="grid2"><${Field} label="Eyebrow"><${Input} value=${d.eyebrow} onChange=${up('eyebrow')} /><//><${Field} label="Title" hint=${AH}><${Input} value=${d.title} onChange=${up('title')} /><//></div><${Items} d=${d} up=${up} make=${() => ({ ...it(), value: '', label: '' })} addLabel="Add number" render=${(st, u) => html`<div class="grid2"><${Input} value=${st.value} onChange=${(v) => u({ ...st, value: v })} placeholder="600+" /><${Input} value=${st.label} onChange=${(v) => u({ ...st, label: v })} placeholder="Clients served" /></div>`} />`;
+    case 'stats': return html`<div class="grid2"><${Field} label="Eyebrow"><${Input} value=${d.eyebrow} onChange=${up('eyebrow')} /><//><${Field} label="Title" full><${RichText} value=${d.title} onChange=${up('title')} minHeight=${44} mode="headline" /><//></div><${Items} d=${d} up=${up} make=${() => ({ ...it(), value: '', label: '' })} addLabel="Add number" render=${(st, u) => html`<div class="grid2"><${Input} value=${st.value} onChange=${(v) => u({ ...st, value: v })} placeholder="600+" /><${Input} value=${st.label} onChange=${(v) => u({ ...st, label: v })} placeholder="Clients served" /></div>`} />`;
     case 'bars': case 'donut': return html`<div class="grid2"><${Field} label="Chart title"><${Input} value=${d.title} onChange=${up('title')} /><//><${Field} label="Value suffix"><${Input} value=${d.suffix} onChange=${up('suffix')} placeholder="%" /><//></div><${Items} d=${d} up=${up} make=${() => ({ ...it(), label: '', value: 0 })} addLabel=${bk.type === 'donut' ? 'Add slice' : 'Add bar'} render=${(st, u) => html`<div class="grid2"><${Input} value=${st.label} onChange=${(v) => u({ ...st, label: v })} placeholder="Label" /><${Input} type="number" value=${st.value} onChange=${(v) => u({ ...st, value: Number(v) })} /></div>`} />${bk.type === 'donut' ? html`<p class="muted small">Slices are sized by their share of the total.</p>` : null}`;
-    case 'steps': return html`<div class="grid2"><${Field} label="Eyebrow"><${Input} value=${d.eyebrow} onChange=${up('eyebrow')} /><//><${Field} label="Title" hint=${AH}><${Input} value=${d.title} onChange=${up('title')} /><//></div><${Items} d=${d} up=${up} title="Step" make=${() => ({ ...it(), title: '', text: '' })} addLabel="Add step" render=${(st, u) => html`<${Input} value=${st.title} onChange=${(v) => u({ ...st, title: v })} placeholder="Step title" /><${LinkText} value=${st.text} onChange=${(v) => u({ ...st, text: v })} placeholder="Description" />`} />`;
-    case 'timeline': return html`<div class="grid2"><${Field} label="Eyebrow"><${Input} value=${d.eyebrow} onChange=${up('eyebrow')} /><//><${Field} label="Title" hint=${AH}><${Input} value=${d.title} onChange=${up('title')} /><//></div><${Items} d=${d} up=${up} title=${(x, i) => x.date || `Milestone ${i + 1}`} make=${() => ({ ...it(), date: '', title: '', text: '' })} addLabel="Add milestone" render=${(x, u) => html`<div class="grid2"><${Input} value=${x.date} onChange=${(v) => u({ ...x, date: v })} placeholder="Year / date" /><${Input} value=${x.title} onChange=${(v) => u({ ...x, title: v })} placeholder="Milestone" /><div class="full"><${LinkText} value=${x.text} onChange=${(v) => u({ ...x, text: v })} placeholder="Description" /></div></div>`} />`;
-    case 'compare': return html`<div class="grid3"><${Field} label="Title" hint=${AH}><${Input} value=${d.title} onChange=${up('title')} /><//><${Field} label="Left column (others)"><${Input} value=${d.leftTitle} onChange=${up('leftTitle')} /><//><${Field} label="Right column (you)"><${Input} value=${d.rightTitle} onChange=${up('rightTitle')} /><//></div><${Repeater} items=${d.rows || []} onChange=${up('rows')} title="Row" make=${() => ({ ...it(), label: '', left: '', right: '' })} addLabel="Add row" render=${(x, u) => html`<div class="grid3"><${Input} value=${x.label} onChange=${(v) => u({ ...x, label: v })} placeholder="Feature" /><${Input} value=${x.left} onChange=${(v) => u({ ...x, left: v })} placeholder="Others" /><${Input} value=${x.right} onChange=${(v) => u({ ...x, right: v })} placeholder="You" /></div>`} />`;
-    case 'cards': return html`<div class="grid3"><${Field} label="Eyebrow"><${Input} value=${d.eyebrow} onChange=${up('eyebrow')} /><//><${Field} label="Title" hint=${AH}><${Input} value=${d.title} onChange=${up('title')} /><//><${Field} label="Columns"><${Select} value=${String(d.columns || 3)} onChange=${(v) => set({ ...d, columns: Number(v) })} options=${['2', '3', '4']} /><//></div><${Field} label="Intro"><${Textarea} rows=${2} value=${d.intro} onChange=${up('intro')} /><//>
+    case 'steps': return html`<div class="grid2"><${Field} label="Eyebrow"><${Input} value=${d.eyebrow} onChange=${up('eyebrow')} /><//><${Field} label="Title" full><${RichText} value=${d.title} onChange=${up('title')} minHeight=${44} mode="headline" /><//></div><${Items} d=${d} up=${up} title="Step" make=${() => ({ ...it(), title: '', text: '' })} addLabel="Add step" render=${(st, u) => html`<${Input} value=${st.title} onChange=${(v) => u({ ...st, title: v })} placeholder="Step title" /><${LinkText} value=${st.text} onChange=${(v) => u({ ...st, text: v })} placeholder="Description" />`} />`;
+    case 'timeline': return html`<div class="grid2"><${Field} label="Eyebrow"><${Input} value=${d.eyebrow} onChange=${up('eyebrow')} /><//><${Field} label="Title" full><${RichText} value=${d.title} onChange=${up('title')} minHeight=${44} mode="headline" /><//></div><${Items} d=${d} up=${up} title=${(x, i) => x.date || `Milestone ${i + 1}`} make=${() => ({ ...it(), date: '', title: '', text: '' })} addLabel="Add milestone" render=${(x, u) => html`<div class="grid2"><${Input} value=${x.date} onChange=${(v) => u({ ...x, date: v })} placeholder="Year / date" /><${Input} value=${x.title} onChange=${(v) => u({ ...x, title: v })} placeholder="Milestone" /><div class="full"><${LinkText} value=${x.text} onChange=${(v) => u({ ...x, text: v })} placeholder="Description" /></div></div>`} />`;
+    case 'compare': return html`<div class="grid3"><${Field} label="Title" full><${RichText} value=${d.title} onChange=${up('title')} minHeight=${44} mode="headline" /><//><${Field} label="Left column (others)"><${Input} value=${d.leftTitle} onChange=${up('leftTitle')} /><//><${Field} label="Right column (you)"><${Input} value=${d.rightTitle} onChange=${up('rightTitle')} /><//></div><${Repeater} items=${d.rows || []} onChange=${up('rows')} title="Row" make=${() => ({ ...it(), label: '', left: '', right: '' })} addLabel="Add row" render=${(x, u) => html`<div class="grid3"><${Input} value=${x.label} onChange=${(v) => u({ ...x, label: v })} placeholder="Feature" /><${Input} value=${x.left} onChange=${(v) => u({ ...x, left: v })} placeholder="Others" /><${Input} value=${x.right} onChange=${(v) => u({ ...x, right: v })} placeholder="You" /></div>`} />`;
+    case 'cards': return html`<div class="grid3"><${Field} label="Eyebrow"><${Input} value=${d.eyebrow} onChange=${up('eyebrow')} /><//><${Field} label="Title" full><${RichText} value=${d.title} onChange=${up('title')} minHeight=${44} mode="headline" /><//><${Field} label="Columns"><${Select} value=${String(d.columns || 3)} onChange=${(v) => set({ ...d, columns: Number(v) })} options=${['2', '3', '4']} /><//></div><${Field} label="Intro" full><${RichText} value=${d.intro} onChange=${up('intro')} minHeight=${60} mode="lead" placeholder="Section intro…" /><//>
       <${Items} d=${d} up=${up} title="Card" make=${() => ({ ...it(), icon: '', title: '', text: '', url: '', image: '' })} addLabel="Add card" render=${(st, u) => html`<div class="grid2"><${Input} value=${st.title} onChange=${(v) => u({ ...st, title: v })} placeholder="Card title" /><${Input} value=${st.icon} onChange=${(v) => u({ ...st, icon: v })} placeholder="Icon text e.g. 01, AI" /><div class="full"><${LinkText} value=${st.text} onChange=${(v) => u({ ...st, text: v })} placeholder="Text" /></div><${UrlInput} value=${st.url} onChange=${(v) => u({ ...st, url: v })} /><${ImageField} label="" value=${st.image} onChange=${(v) => u({ ...st, image: v })} /></div>`} />`;
-    case 'faq': return html`<${Field} label="Section title"><${Input} value=${d.title} onChange=${up('title')} /><//><${Items} d=${d} up=${up} title="Question" make=${() => ({ ...it(), q: '', a: '' })} addLabel="Add question" render=${(st, u) => html`<${Input} value=${st.q} onChange=${(v) => u({ ...st, q: v })} placeholder="Question" /><${LinkText} rows=${3} value=${st.a} onChange=${(v) => u({ ...st, a: v })} placeholder="Answer" />`} />`;
-    case 'cta': return html`<div class="grid2"><${Field} label="Style"><${Select} value=${d.variant} onChange=${up('variant')} options=${['orange', 'dark', 'light']} /><//><${Field} label="Title" hint=${AH}><${Input} value=${d.title} onChange=${up('title')} /><//><${Field} label="Text" hint=${LH} full><${LinkText} rows=${2} value=${d.text} onChange=${up('text')} /><//><${Field} label="Button text"><${Input} value=${d.buttonLabel} onChange=${up('buttonLabel')} /><//><${Field} label="Button link" hint="A page, or a popup to open on click"><${UrlInput} value=${d.buttonUrl} onChange=${up('buttonUrl')} /><//></div>`;
+    case 'faq': return html`<${Field} label="Section title" full><${RichText} value=${d.title} onChange=${up('title')} minHeight=${44} mode="headline" /><//><${Items} d=${d} up=${up} title="Question" make=${() => ({ ...it(), q: '', a: '' })} addLabel="Add question" render=${(st, u) => html`<${Input} value=${st.q} onChange=${(v) => u({ ...st, q: v })} placeholder="Question" /><${LinkText} rows=${3} value=${st.a} onChange=${(v) => u({ ...st, a: v })} placeholder="Answer" />`} />`;
+    case 'cta': return html`<div class="grid2"><${Field} label="Style"><${Select} value=${d.variant} onChange=${up('variant')} options=${['orange', 'dark', 'light']} /><//><${Field} label="Title" full><${RichText} value=${d.title} onChange=${up('title')} minHeight=${44} mode="headline" /><//><${Field} label="Text" hint="Font toolkit enabled" full><${RichText} minHeight=${72} mode="lead" value=${d.text} onChange=${up('text')} placeholder="Call to action text…" /><//><${Field} label="Button text"><${Input} value=${d.buttonLabel} onChange=${up('buttonLabel')} /><//><${Field} label="Button link" hint="A page, or a popup to open on click"><${UrlInput} value=${d.buttonUrl} onChange=${up('buttonUrl')} /><//></div>`;
     case 'form': { const f = d.fields || { phone: true, company: true, message: true }; const uf = (k) => (v) => set({ ...d, fields: { ...f, [k]: v } }); return html`<div class="grid2"><${Field} label="Design"><${Select} value=${d.style || 'card'} onChange=${up('style')} options=${[{ value: 'card', label: 'Card form' }, { value: 'band', label: 'Inline band (email capture)' }, { value: 'split', label: 'Split — text left, form right' }]} /><//><${Field} label="Button text"><${Input} value=${d.buttonLabel} onChange=${up('buttonLabel')} /><//><${Field} label="Form title (also the lead's form name)"><${Input} value=${d.title} onChange=${up('title')} /><//><${Field} label="Intro text"><${Input} value=${d.text} onChange=${up('text')} /><//>
       <div class="full"><h4 class="mini-h">Fields (name & email are always included)</h4><div class="row wrap-row"><${Toggle} checked=${f.phone} onChange=${uf('phone')} label="Phone" /><${Toggle} checked=${f.company} onChange=${uf('company')} label="Company / website" /><${Toggle} checked=${f.message} onChange=${uf('message')} label="Message" /><${Toggle} checked=${f.service} onChange=${uf('service')} label="“Service interested in” dropdown" /></div></div>
       ${f.service ? html`<${Field} label="Service options" hint="Comma separated. Empty = your service pages." full><${Input} value=${d.serviceOptions} onChange=${up('serviceOptions')} /><//>` : null}<p class="muted full">Each submission is saved in Leads with this page, its page type and the form name.</p></div>`; }
@@ -10917,11 +10981,22 @@ function App() {
    spacing, anchor, visibility, image sizing and custom CSS to every section. */
 
 /* ---------- formatting helpers ---------- */
-const fmt = (t = '') => esc(String(t ?? ''))
-  .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, l, u) => `<a href="${u}"${/^https?:/.test(u) ? ' target="_blank" rel="noopener"' : ''}>${l}</a>`)
-  .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
-  .replace(/\*(.+?)\*/g, '<em class="accent">$1</em>')
-  .replace(/\n/g, '<br />');
+const fmt = (t = '') => {
+  if (t == null || t === '') return '';
+  let str = String(t);
+  str = str.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, l, u) => `<a href="${u}"${/^https?:/.test(u) ? ' target="_blank" rel="noopener"' : ''}>${l}</a>`);
+  str = str.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+  str = str.replace(/(^|[^*])\*([^*\n]+?)\*([^*]|$)/g, '$1<em class="accent">$2</em>$3');
+
+  if (/<[a-z][\s\S]*>/i.test(str)) {
+    return str
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+      .replace(/on\w+="[^"]*"/gi, '')
+      .replace(/on\w+='[^']*'/gi, '');
+  }
+  return esc(str).replace(/\n/g, '<br />');
+};
 const AR = (s) => html`<svg width=${s} height=${s} viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>`;
 const CHEV = (s = 14) => html`<svg width=${s} height=${s} viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>`;
 const PLAY = () => html`<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff" /></svg>`;
@@ -10931,7 +11006,12 @@ const IMG = (src, alt = '', extra = {}) => (src ? html`<img src=${src} alt=${alt
 /* element whose tag can be changed from the dashboard; data-h keeps the original look */
 function TX(tag, def, t, props = {}) {
   if (t == null || t === '') return null;
-  return html`<${tag || def} data-h=${tag && tag !== def ? def : undefined} ...${props} dangerouslySetInnerHTML=${{ __html: props.raw ? t : fmt(t) }} />`;
+  let formatted = props.raw ? t : fmt(t);
+  const targetTag = String(tag || def).toLowerCase();
+  if (/^(p|h[1-6]|span)$/.test(targetTag)) {
+    formatted = formatted.replace(/^<p>\s*([\s\S]*?)\s*<\/p>$/i, '$1');
+  }
+  return html`<${tag || def} data-h=${tag && tag !== def ? def : undefined} ...${props} dangerouslySetInnerHTML=${{ __html: formatted }} />`;
 }
 const tagsOf = (d, def = {}) => { const sx = d.sx || {}; return { h: sx.hTag || def.h || 'h2', i: sx.iTag || def.i || 'h3', p: sx.pTag || def.p || 'p', e: sx.eTag || 'span' }; };
 function BTN(b, extra = {}) {
@@ -11286,10 +11366,10 @@ function SchemaForm({ fields, value, onChange }) {
   return html`<div class="grid2 sf">${fields.map(([k, t, label, sub, itemName]) => {
     switch (t) {
       case 't': return html`<${Field} label=${label}><${Input} value=${v[k]} onChange=${set(k)} /><//>`;
-      case 'a': return html`<${Field} label=${label} hint=${AH} full><${Input} value=${v[k]} onChange=${set(k)} /><//>`;
-      case 'l': return html`<${Field} label=${label} hint=${LH} full><${LinkText} rows=${2} value=${v[k]} onChange=${set(k)} /><//>`;
-      case 'ta': return html`<${Field} label=${label} full><${LinkText} rows=${4} value=${v[k]} onChange=${set(k)} /><//>`;
-      case 'rich': return html`<div class="full"><h4 class="mini-h">${label}</h4><${RichText} value=${v[k]} onChange=${set(k)} minHeight=${120} /></div>`;
+      case 'a': return html`<${Field} label=${label} hint="Format headline fonts with Bold, Italic, Headings, Accent or HTML." full><${RichText} value=${v[k]} onChange=${set(k)} minHeight=${48} mode="headline" placeholder="Headline…" /><//>`;
+      case 'l': return html`<${Field} label=${label} hint="Font toolkit enabled — Bold, Italics, Headings, Lists, Links, Colors & HTML." full><${RichText} value=${v[k]} onChange=${set(k)} minHeight=${72} mode="lead" placeholder="Intro / body text…" /><//>`;
+      case 'ta': return html`<${Field} label=${label} hint="Font toolkit enabled — Bold, Italics, Headings, Lists, Links, Colors & HTML." full><${RichText} value=${v[k]} onChange=${set(k)} minHeight=${110} mode="full" placeholder="Write content…" /><//>`;
+      case 'rich': return html`<div class="full"><h4 class="mini-h">${label}</h4><${RichText} value=${v[k]} onChange=${set(k)} minHeight=${140} mode="full" /></div>`;
       case 'url': return html`<${Field} label=${label}><${UrlInput} value=${v[k]} onChange=${set(k)} /><//>`;
       case 'img': return html`<${ImgField} k=${k} v=${v} onChange=${onChange} label=${label} />`;
       case 'num': return html`<${Field} label=${label}><${Input} type="number" value=${v[k]} onChange=${(x) => set(k)(x === '' ? '' : Number(x))} /><//>`;

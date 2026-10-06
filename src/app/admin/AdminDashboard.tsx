@@ -2763,6 +2763,7 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                                 <div style={{ display: 'inline-flex', gap: 4 }}>
                                                   <button type="button" className="b xs" onClick={() => applyTextWrap(selectedContentPage, b.key, '<b>')} title="Bold">B</button>
                                                   <button type="button" className="b xs" onClick={() => applyTextWrap(selectedContentPage, b.key, '<i>')} title="Italic"><i>I</i></button>
+                                                  <button type="button" className="b xs" onClick={() => applyTextWrap(selectedContentPage, b.key, '<u>')} title="Underline"><u>U</u></button>
                                                   <button type="button" className="b xs" onClick={() => applyAsteriskAccent(selectedContentPage, b.key)} title="Wrap in *asterisks* (orange accent)">*accent*</button>
                                                 </div>
                                               </div>
@@ -2966,6 +2967,7 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                               <div style={{ display: 'flex', gap: 4, marginBottom: 6, flexWrap: 'wrap' }}>
                                                 <button type="button" className="b xs" onClick={() => applyTextWrap(selectedContentPage, b.key, '<b>')} title="Bold">B</button>
                                                 <button type="button" className="b xs" onClick={() => applyTextWrap(selectedContentPage, b.key, '<i>')} title="Italic"><i>I</i></button>
+                                                <button type="button" className="b xs" onClick={() => applyTextWrap(selectedContentPage, b.key, '<u>')} title="Underline"><u>U</u></button>
                                                 <button type="button" className="b xs" onClick={() => applyAsteriskAccent(selectedContentPage, b.key)} title="Wrap in *asterisks* (orange accent)">*accent*</button>
                                                 <button type="button" className="b xs" onClick={() => handleOpenLinkModal(selectedContentPage, b.key, true, b.label)} title="Insert hyperlink">🔗 Link</button>
                                               </div>
