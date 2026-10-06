@@ -9596,7 +9596,7 @@ function sampleExtras(now = new Date().toISOString()) {
   const T = (type, delay = 5, scroll = 50) => ({ type, delay, scroll });
   const tgt = (o) => ({ all: false, pageTypes: [], sections: [], include: [], exclude: [], ...o });
   const popups = [
-    { id: 'pp_audit', name: 'Free SEO audit — service pages', enabled: true, layout: 'center', theme: 'dark', image: '', eyebrow: 'Free · 30 minutes', title: 'Get a free *SEO & AI search audit*', text: 'A senior strategist reviews your site and sends you the three things to fix first.', bullets: ['200-point technical check', 'AI visibility snapshot', 'No obligation'], fields: { name: true, email: true, phone: true, company: true, message: false, service: true }, buttonLabel: 'Book my free audit', successTitle: "Thank you — we'll be in touch", successText: 'Expect a reply within 4 business hours.', dismissLabel: 'No thanks', trigger: T('delay', 6), frequency: 'session', device: 'all', target: tgt({ pageTypes: ['service', 'location'] }), priority: 1, createdAt: now, updatedAt: now },
+    { id: 'pp_audit', name: 'Free SEO audit — service pages', enabled: true, layout: 'center', theme: 'dark', image: '', eyebrow: 'Free · 30 minutes', title: 'Get a free *SEO & AI search audit*', text: 'A senior strategist reviews your site and sends you the three things to fix first.', bullets: ['200-point technical check', 'AI visibility snapshot', 'No obligation'], fields: { name: true, email: true, phone: true, company: true, message: false, service: true }, buttonLabel: 'Book my free audit', successTitle: "Thank you — we'll be in touch", successText: 'Expect a reply within 4 business hours.', dismissLabel: 'No thanks', trigger: T('delay', 3), frequency: 'session', device: 'all', target: tgt({ all: true, pageTypes: ['home', 'service', 'location', 'standard'], exclude: ['p_contact'] }), priority: 1, createdAt: now, updatedAt: now },
     { id: 'pp_blog', name: 'AI search playbook — blog & glossary', enabled: true, layout: 'slide', theme: 'light', image: '', eyebrow: 'Free playbook', title: 'The *AI search* playbook', text: 'Our 12-step checklist for getting cited by ChatGPT, Gemini and Perplexity — sent to your inbox.', bullets: [], fields: { name: true, email: true, phone: false, company: false, message: false, service: false }, buttonLabel: 'Send me the playbook', successTitle: 'Check your inbox ✓', successText: 'The playbook is on its way.', dismissLabel: 'Maybe later', trigger: T('scroll', 5, 40), frequency: 'session', device: 'all', target: tgt({ sections: ['blog', 'glossary'] }), priority: 1, createdAt: now, updatedAt: now },
     { id: 'pp_news', name: 'News alerts bar', enabled: true, layout: 'bar', theme: 'orange', image: '', eyebrow: '', title: 'Get GENRANQ news in your inbox', text: 'One email a month. No spam.', bullets: [], fields: { name: false, email: true, phone: false, company: false, message: false, service: false }, buttonLabel: 'Subscribe', successTitle: "You're subscribed ✓", successText: '', dismissLabel: '×', trigger: T('delay', 2), frequency: 'session', device: 'all', target: tgt({ sections: ['news'] }), priority: 1, createdAt: now, updatedAt: now },
     { id: 'pp_exit', name: 'Exit intent — talk to an expert', enabled: true, layout: 'center', theme: 'light', image: '', eyebrow: 'Before you go', title: 'Have a question about *your* website?', text: 'Leave your details and a strategist will call you back today.', bullets: [], fields: { name: true, email: true, phone: true, company: false, message: true, service: false }, buttonLabel: 'Request a call back', successTitle: 'Thanks — talk soon', successText: 'We call back within 4 business hours.', dismissLabel: 'No thanks', trigger: T('exit'), frequency: 'session', device: 'desktop', target: tgt({ all: true, exclude: ['p_contact'] }), priority: 5, createdAt: now, updatedAt: now },
@@ -9688,6 +9688,16 @@ async function persistDoc(col, doc) {
     } catch (err) {
       console.warn('API post sync error', err);
     }
+  } else if (col === 'popups') {
+    try {
+      await fetch('/api/admin/popups', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(doc)
+      });
+    } catch (err) {
+      console.warn('API popup sync error', err);
+    }
   }
 }
 async function persistSettings() { if (MODE === 'db') { try { await DB.doc('config/settings').set(clone(S.settings)); } catch (e) { toast(`Could not save settings: ${e.message || e.code}`, 'err'); throw e; } } else saveLocal(); }
@@ -9722,6 +9732,14 @@ async function removeDoc(col, id) {
         });
       }
     } catch (e) { console.warn('Could not delete post from API', e); }
+  } else if (col === 'popups') {
+    try {
+      await fetch('/api/admin/popups', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      });
+    } catch (e) { console.warn('Could not delete popup from API', e); }
   }
 }
 async function upsert(col, doc) {
@@ -9774,6 +9792,56 @@ async function loadStorage() {
           }
         }
         if (added) emit();
+      }
+    }).catch(() => {});
+  // 4) Sync leads and popups from server so website submissions appear in admin panel
+  try {
+    fetch('/api/admin/leads?sync=1', { headers: { 'x-cms-sync': '1' } }).then(r => r.json()).then(data => {
+      if (data && Array.isArray(data.leads)) {
+        let added = false;
+        for (const srvLead of data.leads) {
+          if (!S.leads.some(l => l.id === srvLead.id)) {
+            S.leads.unshift({
+              id: srvLead.id,
+              name: srvLead.name || '',
+              email: srvLead.email || '',
+              phone: srvLead.phone || '',
+              company: srvLead.company || srvLead.website || '',
+              service: srvLead.service || '',
+              message: srvLead.message || '',
+              status: srvLead.status || 'new',
+              source: srvLead.source || '/',
+              sourceTitle: srvLead.sourceTitle || 'Website',
+              sourceKind: srvLead.sourceKind || 'home',
+              form: srvLead.form || 'popup',
+              formName: srvLead.formName || '',
+              popupId: srvLead.popupId || '',
+              notes: '',
+              createdAt: srvLead.created_at || srvLead.createdAt || new Date().toISOString(),
+              updatedAt: srvLead.updated_at || srvLead.updatedAt || new Date().toISOString()
+            });
+            added = true;
+          }
+        }
+        if (added) { saveLocal(); emit(); }
+      }
+    }).catch(() => {});
+  } catch {}
+  try {
+    fetch('/api/admin/popups').then(r => r.json()).then(data => {
+      if (data && Array.isArray(data.popups) && data.popups.length) {
+        let updated = false;
+        for (const srvPop of data.popups) {
+          const idx = S.popups.findIndex(p => p.id === srvPop.id);
+          if (idx < 0) {
+            S.popups.push(srvPop);
+            updated = true;
+          } else if (srvPop.updatedAt && new Date(srvPop.updatedAt) > new Date(S.popups[idx].updatedAt || 0)) {
+            S.popups[idx] = srvPop;
+            updated = true;
+          }
+        }
+        if (updated) { saveLocal(); emit(); }
       }
     }).catch(() => {});
   } catch {}
@@ -10275,13 +10343,20 @@ function DuplicateModal({ doc, onClose, go }) {
   const run = async () => { setBusy(true); const { saved, col } = await duplicateDoc(doc, target, title); setBusy(false); toast('Duplicated as a draft ✓ — design, SEO and schema copied'); onClose(); go({ view: 'edit', kind: col, id: saved.id }); };
   return html`<${Modal} open=${true} onClose=${onClose} title="Duplicate" footer=${html`<${Btn} onClick=${onClose}>Cancel<//><${Btn} kind="primary" disabled=${busy} onClick=${run}>Duplicate & open<//>`}><p class="muted">Copies every section, image, internal link, SEO field and schema. The copy starts as a draft.</p><${Field} label="New title"><${Input} value=${title} onChange=${setTitle} /><//>${!isTpl ? html`<${Field} label="Create it as" hint="Turn a page into a blog post, a blog post into a glossary term, and so on."><${Select} value=${target} onChange=${setTarget} options=${opts} /><//>` : null}<//>`;
 }
-function matchedPopup(s, doc) {
-  if (!doc) return null;
-  if (doc.popup === 'none') return null;
-  if (doc.popup && doc.popup !== 'auto') return (s.popups || []).find((p) => p.id === doc.popup) || null;
-  const kind = srcKind(doc); const sec = doc.type === 'post' ? doc.section || 'blog' : null;
-  const cands = (s.popups || []).filter((p) => p.enabled).map((p) => { const t = p.target || {}; if ((t.exclude || []).includes(doc.id)) return null; const rank = (t.include || []).includes(doc.id) ? 0 : (sec ? (t.sections || []).includes(sec) : (t.pageTypes || []).includes(kind)) ? 1 : t.all ? 2 : null; return rank == null ? null : { p, rank }; }).filter(Boolean);
-  cands.sort((a, b) => a.rank - b.rank || (a.p.priority || 5) - (b.p.priority || 5)); return cands[0]?.p || null;
+function matchedPopup(s, doc, secKey) {
+  if (doc && doc.popup === 'none') return null;
+  if (doc && doc.popup && doc.popup !== 'auto') return (s.popups || []).find((p) => p.id === doc.popup) || null;
+  const kind = doc ? srcKind(doc) : (secKey ? 'post' : 'home');
+  const sec = doc ? (doc.type === 'post' ? doc.section || 'blog' : null) : secKey;
+  const docId = doc?.id || '';
+  const cands = (s.popups || []).filter((p) => p.enabled).map((p) => {
+    const t = p.target || {};
+    if (docId && (t.exclude || []).includes(docId)) return null;
+    const rank = (docId && (t.include || []).includes(docId)) ? 0 : (sec ? (t.sections || []).includes(sec) : (t.pageTypes || []).includes(kind)) ? 1 : t.all ? 2 : null;
+    return rank == null ? null : { p, rank };
+  }).filter(Boolean);
+  cands.sort((a, b) => a.rank - b.rank || (a.p.priority || 5) - (b.p.priority || 5));
+  return cands[0]?.p || null;
 }
 const triggerLabel = (p) => { const t = p?.trigger || {}; return t.type === 'delay' ? `after ${t.delay || 0}s` : t.type === 'scroll' ? `at ${t.scroll || 50}% scroll` : t.type === 'exit' ? 'on exit intent (mouse leaves the top of the window)' : 'only when a button links to it'; };
 function DocEditor({ kind, id, go, section: sec0, preset }) {
@@ -10633,7 +10708,7 @@ function Leads({ go, docId: doc0, src: src0, popup }) {
 
 /* ================= popups ================= */
 const POPUP_LAYOUTS = [{ value: 'center', label: 'Centre modal' }, { value: 'slide', label: 'Slide-in (bottom right)' }, { value: 'bar', label: 'Top bar' }, { value: 'full', label: 'Full screen' }];
-const blankPopup = () => ({ name: 'New popup', enabled: false, layout: 'center', theme: 'light', image: '', eyebrow: 'Free consultation', title: 'Talk to an *expert* today', text: 'Leave your details and we will get back to you within 4 business hours.', bullets: [], fields: { name: true, email: true, phone: true, company: false, message: false, service: false }, buttonLabel: 'Get in touch', successTitle: 'Thank you!', successText: "We'll be in touch shortly.", dismissLabel: 'No thanks', trigger: { type: 'delay', delay: 5, scroll: 50 }, frequency: 'session', device: 'all', target: { all: false, pageTypes: ['service'], sections: [], include: [], exclude: [] }, priority: 3 });
+const blankPopup = () => ({ name: 'New popup', enabled: true, layout: 'center', theme: 'light', image: '', eyebrow: 'Free consultation', title: 'Talk to an *expert* today', text: 'Leave your details and we will get back to you within 4 business hours.', bullets: [], fields: { name: true, email: true, phone: true, company: false, message: false, service: false }, buttonLabel: 'Get in touch', successTitle: 'Thank you!', successText: "We'll be in touch shortly.", dismissLabel: 'No thanks', trigger: { type: 'delay', delay: 3, scroll: 40 }, frequency: 'session', device: 'all', target: { all: true, pageTypes: ['home', 'service', 'location', 'standard'], sections: [], include: [], exclude: [] }, priority: 3 });
 const targetSummary = (p, s) => { const t = p.target || {}; const bits = []; if (t.all) bits.push('every page'); (t.pageTypes || []).forEach((x) => bits.push(pageTypeLabel(x).replace(/ page$/i, '') + ' pages')); (t.sections || []).forEach((x) => bits.push(secConf(x, s).label)); if ((t.include || []).length) bits.push(`${t.include.length} chosen page${t.include.length > 1 ? 's' : ''}`); const doc = bits.join(', ') || 'nowhere yet'; return (t.exclude || []).length ? `${doc} · except ${t.exclude.length}` : doc; };
 function DocPicker({ value = [], onChange, placeholder = 'Add a page or post…' }) {
   const s = useStore(); const [q, setQ] = useState(''); const all = [...s.pages, ...s.posts];
@@ -10672,7 +10747,7 @@ function PopupEditor({ go, id }) {
         <${Field} label="Thank-you title"><${Input} value=${p.successTitle} onChange=${up('successTitle')} /><//><${Field} label="Thank-you text"><${Input} value=${p.successText} onChange=${up('successText')} /><//></div></div>` : null}
       ${tab === 'form' ? html`<div class="card"><div class="card-b stack"><p class="muted">Email is always collected. Every submission lands in Leads, tagged with this popup and the page it appeared on.</p><div class="row wrap-row">${[['name', 'Name'], ['phone', 'Phone'], ['company', 'Company / website'], ['message', 'Message'], ['service', '“Service interested in” (pre-filled from the page)']].map(([k, l]) => html`<${Toggle} checked=${p.fields?.[k]} onChange=${upF(k)} label=${l} />`)}</div></div></div>` : null}
       ${tab === 'when' ? html`<div class="card"><div class="card-b grid2">
-        <${Field} label="Trigger"><${Select} value=${p.trigger?.type} onChange=${upT('type')} options=${[{ value: 'delay', label: 'After a delay' }, { value: 'scroll', label: 'When the visitor scrolls down' }, { value: 'exit', label: 'Exit intent (mouse leaves the window)' }, { value: 'click', label: 'Only when a button links to it' }]} /><//>
+        <${Field} label="Trigger"><${Select} value=${p.trigger?.type} onChange=${upT('type')} options=${[{ value: 'delay', label: 'After a delay' }, { value: 'load', label: 'Immediately on page load' }, { value: 'scroll', label: 'When the visitor scrolls down' }, { value: 'exit', label: 'Exit intent (mouse leaves the window)' }, { value: 'click', label: 'Only when a button links to it' }]} /><//>
         ${p.trigger?.type === 'delay' ? html`<${Field} label="Delay (seconds)"><${Input} type="number" value=${p.trigger.delay} onChange=${(v) => upT('delay')(Number(v))} /><//>` : p.trigger?.type === 'scroll' ? html`<${Field} label="Scroll depth (%)"><${Input} type="number" value=${p.trigger.scroll} onChange=${(v) => upT('scroll')(Number(v))} /><//>` : html`<span></span>`}
         <${Field} label="How often"><${Select} value=${p.frequency} onChange=${up('frequency')} options=${[{ value: 'session', label: 'Once per visit' }, { value: 'always', label: 'Every page view' }, { value: 'once', label: 'Only once per visitor' }]} /><//>
         <${Field} label="Devices"><${Select} value=${p.device} onChange=${up('device')} options=${[{ value: 'all', label: 'Desktop & mobile' }, { value: 'desktop', label: 'Desktop only' }, { value: 'mobile', label: 'Mobile only' }]} /><//>
@@ -10868,19 +10943,23 @@ function PopupBox({ p, doc, onClose, preview, mini }) {
     : html`<div class=${cx('pp-card', p.image && ['center', 'full'].includes(p.layout) && 'has-img')}>${p.image && ['center', 'full'].includes(p.layout) ? html`<div class="pp-img"><img src=${p.image} alt="" /></div>` : null}<div class="pp-body"><button type="button" class="pp-x" aria-label="Close" onClick=${close}>×</button>${p.eyebrow ? html`<span class="pp-eye">${p.eyebrow}</span>` : null}<h3 dangerouslySetInnerHTML=${{ __html: accent(p.title || '') }} />${p.text ? html`<p class="pp-text" dangerouslySetInnerHTML=${{ __html: inlineMd(p.text) }} />` : null}${(p.bullets || []).length ? html`<ul class="pp-bul">${p.bullets.map((x) => html`<li>${x}</li>`)}</ul>` : null}${form}${p.dismissLabel && !done && p.dismissLabel !== '×' ? html`<button type="button" class="pp-dismiss" onClick=${close}>${p.dismissLabel}</button>` : null}</div></div>`;
   return html`<div class=${cx('pp', 'pp-' + p.layout, 'pp-t-' + (p.theme || 'light'), preview && 'pp-inline', mini && 'pp-mini-in')} role="dialog" aria-label=${p.name}>${['center', 'full'].includes(p.layout) && !preview ? html`<div class="pp-shade" onClick=${close}></div>` : null}${inner}</div>`;
 }
-function PopupHost({ doc, s, force, replay }) {
-  const auto = force ? (s.popups || []).find((p) => p.id === force) : matchedPopup(s, doc); const [cur, setCur] = useState(null);
+function PopupHost({ doc, list, s, force, replay }) {
+  const auto = force ? (s.popups || []).find((p) => p.id === force) : matchedPopup(s, doc, list); const [cur, setCur] = useState(null);
   useEffect(() => {
     setCur(null); const p = auto; if (!p) return;
     if (force) { const t = setTimeout(() => setCur(p), 400); return () => clearTimeout(t); }
     if (!p.enabled) return; const mobile = innerWidth < 760; if ((p.device === 'desktop' && mobile) || (p.device === 'mobile' && !mobile)) return;
     if (p.frequency === 'session' && seenPopups.has(p.id)) return; if (p.frequency === 'once' && store.get('gq_pp_' + p.id)) return;
     const show = () => { seenPopups.add(p.id); if (p.frequency === 'once') store.set('gq_pp_' + p.id, '1'); setCur(p); cleanup(); };
-    const t = p.trigger || {}; let timer; const onScroll = () => { const h = document.documentElement.scrollHeight - innerHeight; if (h <= 0 || (scrollY / h) * 100 >= (t.scroll || 50)) show(); }; const onOut = (e) => { if (!e.relatedTarget && e.clientY < 14) show(); };
+    const t = p.trigger || {}; let timer; const onScroll = () => { const h = document.documentElement.scrollHeight - innerHeight; if (h <= 0 || (scrollY / h) * 100 >= (t.scroll || 40)) show(); }; const onOut = (e) => { if (!e.relatedTarget && e.clientY < 14) show(); };
     const cleanup = () => { clearTimeout(timer); removeEventListener('scroll', onScroll); document.removeEventListener('mouseout', onOut); };
-    if (t.type === 'delay') timer = setTimeout(show, (t.delay || 0) * 1000); else if (t.type === 'scroll') addEventListener('scroll', onScroll, { passive: true }); else if (t.type === 'exit') document.addEventListener('mouseout', onOut);
+    if (t.type === 'load') timer = setTimeout(show, 400);
+    else if (t.type === 'delay') timer = setTimeout(show, Math.max(300, (t.delay ?? 3) * 1000));
+    else if (t.type === 'scroll') addEventListener('scroll', onScroll, { passive: true });
+    else if (t.type === 'exit') { document.addEventListener('mouseout', onOut); timer = setTimeout(show, 15000); }
+    else timer = setTimeout(show, 3000);
     return cleanup;
-  }, [doc?.id, auto?.id, force, replay]);
+  }, [doc?.id, list, auto?.id, force, replay]);
   useEffect(() => { const h = (e) => { const p = (s.popups || []).find((x) => x.id === e.detail) || auto; if (p) setCur(p); }; addEventListener('gq-popup', h); return () => removeEventListener('gq-popup', h); }, [auto?.id, s.popups]);
   return cur ? html`<${PopupBox} p=${cur} doc=${doc} onClose=${() => setCur(null)} key=${cur.id} />` : null;
 }
@@ -10915,7 +10994,7 @@ function SiteView({ path, previewId, go, forcePopup }) {
   const [addr, setAddr] = useState(path); useEffect(() => setAddr(path), [path]);
   const doc = r.doc; const draft = doc && !isLive(doc);
   const meta = doc ? { title: doc.seo?.metaTitle || doc.title + s.settings.site.titleSuffix, desc: doc.seo?.metaDescription || doc.excerpt || s.settings.site.defaultDescription } : null;
-  const pp = forcePopup ? (s.popups || []).find((p) => p.id === forcePopup) : matchedPopup(s, doc);
+  const pp = forcePopup ? (s.popups || []).find((p) => p.id === forcePopup) : matchedPopup(s, doc, r.list);
   useEffect(() => { document.title = meta ? meta.title : 'GENRANQ CMS'; return () => { document.title = 'GENRANQ CMS'; }; }, [meta?.title]);
   return html`<div class="viewer"><div class="adm vtop"><div class="viewer-bar">
       <button class="b sm" onClick=${() => go({ view: 'dashboard' })}>← Dashboard</button>
@@ -10926,7 +11005,7 @@ function SiteView({ path, previewId, go, forcePopup }) {
     ${draft ? html`<div class="viewer-note warn">${doc.status === 'scheduled' ? `Scheduled — goes live ${new Date(doc.publishedAt).toLocaleString('en-IN')}.` : 'Draft preview — this page is not public yet.'}</div>` : null}
     ${meta ? html`<details class="viewer-meta"><summary>SEO tags on this page</summary><div><code>&lt;title&gt;</code> ${meta.title}<br /><code>description</code> ${meta.desc}<br /><code>canonical</code> ${doc.seo?.canonical || s.settings.site.url.replace(/\/$/, '') + docPath(doc)}<br /><code>robots</code> ${doc.seo?.noindex ? 'noindex' : 'index'}, ${doc.seo?.nofollow ? 'nofollow' : 'follow'}<pre class="codeview">${buildSchema(doc, s).map((x) => JSON.stringify(x, null, 2)).join('\n\n')}</pre></div></details>` : null}</div>
     <div class="site" ref=${ref} onClick=${click}>
-      ${r.text != null ? html`<pre class="rawfile">${r.text}</pre>` : html`<${SiteBody} s=${s} r=${r} /><${PopupHost} doc=${r.doc} s=${s} force=${forcePopup} replay=${replay} />`}</div></div>`;
+      ${r.text != null ? html`<pre class="rawfile">${r.text}</pre>` : html`<${SiteBody} s=${s} r=${r} /><${PopupHost} doc=${r.doc} list=${r.list} s=${s} force=${forcePopup} replay=${replay} />`}</div></div>`;
 }
 /* ================= login + shell ================= */
 function Login({ onIn }) {
@@ -11719,6 +11798,13 @@ async function saveLead(data, meta) {
   const doc = meta.doc; const lead = { name: '', phone: '', company: '', message: '', service: '', ...Object.fromEntries(known.map((k) => [k, data[k] || ''])), extra, status: 'new', notes: '', source: doc ? docPath(doc) : meta.path || '/', sourceTitle: doc?.title || meta.title || 'Website', sourceKind: srcKind(doc), docId: doc?.id || '', form: meta.kind || 'page form', formName: meta.formName || '', popupId: meta.popupId || '' };
   if (!lead.service && doc && doc.type === 'page' && ['service', 'location'].includes(doc.pageType)) lead.service = doc.title;
   const saved = await upsert('leads', lead); toast(`Lead saved — Leads › ${kindLabel(srcKind(doc))}`);
+  try {
+    fetch('/api/admin/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(saved)
+    }).catch(() => {});
+  } catch {}
   deliverLead(saved).then((r) => { if (r.length) { upsert('leads', { ...S.leads.find((x) => x.id === saved.id), deliveries: r.map((x) => ({ ...x, at: new Date().toISOString() })) }); const bad = r.filter((x) => !x.ok); if (bad.length) toast(`Lead saved, but ${bad.map((b) => b.to).join(', ')} failed: ${bad[0].error}`, 'err'); } });
   return saved;
 }

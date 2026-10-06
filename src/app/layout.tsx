@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import RevealProvider from '@/components/RevealProvider'
+import SitePopup from '@/components/SitePopup'
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://genranq.com'
 
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body suppressHydrationWarning>
         <RevealProvider />
         {children}
+        <SitePopup />
       </body>
     </html>
   )

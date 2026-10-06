@@ -1,0 +1,170 @@
+[
+  {
+    "id": "pp_audit",
+    "name": "Free SEO audit — service pages",
+    "enabled": true,
+    "layout": "center",
+    "theme": "dark",
+    "image": "",
+    "eyebrow": "Free · 30 minutes",
+    "title": "Get a free *SEO & AI search audit*",
+    "text": "A senior strategist reviews your site and sends you the three things to fix first.",
+    "bullets": [
+      "200-point technical check",
+      "AI visibility snapshot (ChatGPT, Gemini, Perplexity)",
+      "Clear next steps with no obligation"
+    ],
+    "fields": {
+      "name": true,
+      "email": true,
+      "phone": true,
+      "company": true,
+      "message": false,
+      "service": true
+    },
+    "buttonLabel": "Book my free audit",
+    "successTitle": "Thank you — we'll be in touch",
+    "successText": "Expect a reply within 4 business hours.",
+    "dismissLabel": "No thanks",
+    "trigger": {
+      "type": "delay",
+      "delay": 3,
+      "scroll": 40
+    },
+    "frequency": "session",
+    "device": "all",
+    "target": {
+      "all": true,
+      "pageTypes": ["home", "service", "location", "standard"],
+      "sections": [],
+      "include": [],
+      "exclude": ["p_contact"]
+    },
+    "priority": 1,
+    "createdAt": "2026-10-06T12:00:00.000Z",
+    "updatedAt": "2026-10-06T12:00:00.000Z"
+  },
+  {
+    "id": "pp_blog",
+    "name": "AI search playbook — blog & glossary",
+    "enabled": true,
+    "layout": "slide",
+    "theme": "light",
+    "image": "",
+    "eyebrow": "Free playbook",
+    "title": "The *AI search* playbook",
+    "text": "Our 12-step checklist for getting cited by ChatGPT, Gemini and Perplexity — sent to your inbox.",
+    "bullets": [],
+    "fields": {
+      "name": true,
+      "email": true,
+      "phone": false,
+      "company": false,
+      "message": false,
+      "service": false
+    },
+    "buttonLabel": "Send me the playbook",
+    "successTitle": "Check your inbox ✓",
+    "successText": "The playbook is on its way.",
+    "dismissLabel": "Maybe later",
+    "trigger": {
+      "type": "scroll",
+      "delay": 5,
+      "scroll": 35
+    },
+    "frequency": "session",
+    "device": "all",
+    "target": {
+      "all": false,
+      "pageTypes": [],
+      "sections": ["blog", "glossary", "insights"],
+      "include": [],
+      "exclude": []
+    },
+    "priority": 2,
+    "createdAt": "2026-10-06T12:00:00.000Z",
+    "updatedAt": "2026-10-06T12:00:00.000Z"
+  },
+  {
+    "id": "pp_news",
+    "name": "News alerts bar",
+    "enabled": true,
+    "layout": "bar",
+    "theme": "orange",
+    "image": "",
+    "eyebrow": "",
+    "title": "Get GENRANQ news in your inbox",
+    "text": "One email a month. No spam.",
+    "bullets": [],
+    "fields": {
+      "name": false,
+      "email": true,
+      "phone": false,
+      "company": false,
+      "message": false,
+      "service": false
+    },
+    "buttonLabel": "Subscribe",
+    "successTitle": "You're subscribed ✓",
+    "successText": "",
+    "dismissLabel": "×",
+    "trigger": {
+      "type": "delay",
+      "delay": 2,
+      "scroll": 50
+    },
+    "frequency": "session",
+    "device": "all",
+    "target": {
+      "all": false,
+      "pageTypes": [],
+      "sections": ["news"],
+      "include": [],
+      "exclude": []
+    },
+    "priority": 3,
+    "createdAt": "2026-10-06T12:00:00.000Z",
+    "updatedAt": "2026-10-06T12:00:00.000Z"
+  },
+  {
+    "id": "pp_exit",
+    "name": "Exit intent — talk to an expert",
+    "enabled": true,
+    "layout": "center",
+    "theme": "light",
+    "image": "",
+    "eyebrow": "Before you go",
+    "title": "Have a question about *your* website?",
+    "text": "Leave your details and a strategist will call you back today.",
+    "bullets": [],
+    "fields": {
+      "name": true,
+      "email": true,
+      "phone": true,
+      "company": false,
+      "message": true,
+      "service": false
+    },
+    "buttonLabel": "Request a call back",
+    "successTitle": "Thanks — talk soon",
+    "successText": "We call back within 4 business hours.",
+    "dismissLabel": "No thanks",
+    "trigger": {
+      "type": "exit",
+      "delay": 0,
+      "scroll": 50
+    },
+    "frequency": "session",
+    "device": "desktop",
+    "target": {
+      "all": true,
+      "pageTypes": [],
+      "sections": [],
+      "include": [],
+      "exclude": ["p_contact"]
+    },
+    "priority": 5,
+    "createdAt": "2026-10-06T12:00:00.000Z",
+    "updatedAt": "2026-10-06T12:00:00.000Z"
+  }
+]
