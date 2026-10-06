@@ -1522,6 +1522,9 @@
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  height: auto;
 }
 
 .home-root .feed-head {
@@ -1531,6 +1534,7 @@
   padding: 24px 30px;
   border-bottom: 1px solid var(--line);
   background: var(--cream);
+  flex-shrink: 0;
 }
 
 .home-root .feed-head .eyebrow {
@@ -1550,16 +1554,20 @@
 }
 
 .home-root .post {
-  display: grid;
-  grid-template-columns: 40px 1fr 40px;
-  gap: 18px;
-  padding: 32px 34px;
-  border-bottom: 1px solid var(--line);
-  transition: background .2s;
+  display: grid !important;
+  grid-template-columns: 40px 1fr 40px !important;
+  gap: 18px !important;
+  padding: 28px 32px !important;
+  border-bottom: 1px solid var(--line) !important;
+  transition: background .2s ease !important;
+  height: auto !important;
+  min-height: 0 !important;
+  flex: 0 0 auto !important;
+  box-sizing: border-box !important;
 }
 
 .home-root .post:last-child {
-  border-bottom: none;
+  border-bottom: none !important;
 }
 
 .home-root .post:hover {
@@ -2277,10 +2285,10 @@
     grid-template-columns: 1fr;
   }
   .home-root .post {
-    grid-template-columns: 28px 1fr;
-    padding: 24px 20px;
+    grid-template-columns: 28px 1fr !important;
+    padding: 22px 18px !important;
   }
   .home-root .post .arrow {
-    display: none;
+    display: none !important;
   }
 }

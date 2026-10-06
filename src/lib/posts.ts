@@ -4,7 +4,7 @@ import path from 'path'
 
 export type PostRecord = {
   id: string
-  type: 'article' | 'blog'
+  type: 'article' | 'blog' | 'news'
   tag: string
   title: string
   description: string

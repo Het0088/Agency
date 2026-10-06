@@ -4,7 +4,98 @@ import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import './home.css'
 
-export default function HomeClient() {
+export type FeedPostItem = {
+  id: string
+  num?: string
+  cat: string
+  title: string
+  desc: string
+  author: string
+  date: string
+  read: string
+  slug: string
+}
+
+interface HomeClientProps {
+  articles?: FeedPostItem[]
+  blogs?: FeedPostItem[]
+}
+
+const defaultArticles: FeedPostItem[] = [
+  {
+    id: 'ai-search-playbook-2026',
+    num: '01',
+    cat: 'AI Search & GEO',
+    title: 'How LLMs choose which brands to cite — and how to be one of them.',
+    desc: 'A teardown of 4,200 AI answers across ChatGPT, Perplexity, and Gemini.',
+    author: 'Tomas Beltran',
+    date: 'Apr 28',
+    read: '15 min read',
+    slug: '/insights/ai-search-playbook-2026',
+  },
+  {
+    id: 'core-web-vitals-2026',
+    num: '02',
+    cat: 'Technical SEO',
+    title: 'The Core Web Vitals checklist most agencies still get wrong in 2026.',
+    desc: 'INP replaced FID a year ago. Half the audits we see still measure the wrong thing.',
+    author: 'Daniel Whitford',
+    date: 'Apr 22',
+    read: '11 min read',
+    slug: '/insights/core-web-vitals-2026',
+  },
+  {
+    id: 'multi-location-seo',
+    num: '03',
+    cat: 'Local SEO',
+    title: 'Multi-location SEO at scale: lessons from 22 yoga studios.',
+    desc: 'How we built a programmatic local system that turned 4 studios into 22.',
+    author: 'Farah Khoury',
+    date: 'Apr 17',
+    read: '9 min read',
+    slug: '/insights/multi-location-seo',
+  },
+]
+
+const defaultBlogs: FeedPostItem[] = [
+  {
+    id: 'ai-content-workflows',
+    num: '01',
+    cat: 'Editorial & Content',
+    title: 'Why "AI-written content" tanks — and what hybrid workflows look like.',
+    desc: 'We tested four content workflows across 80 articles. The winner was surprising.',
+    author: 'Marisol Acevedo',
+    date: 'Apr 11',
+    read: '16 min read',
+    slug: '/insights/ai-content-workflows',
+  },
+  {
+    id: 'death-of-guest-post',
+    num: '02',
+    cat: 'Digital PR',
+    title: 'The death of the guest post (and what replaced it for our clients).',
+    desc: 'Earned editorial mentions are now 4x more valuable than guest posts.',
+    author: 'Kemi Adeyemi',
+    date: 'Apr 4',
+    read: '8 min read',
+    slug: '/insights/death-of-guest-post',
+  },
+  {
+    id: 'maple-oak-case-study',
+    num: '03',
+    cat: 'Case Study',
+    title: 'How we got Maple & Oak from local-only to a national brand.',
+    desc: 'The full 18-month playbook: audit, fixes, content, digital PR, AI-search.',
+    author: 'Anaya Sharma',
+    date: 'Mar 28',
+    read: '22 min read',
+    slug: '/insights/maple-oak-case-study',
+  },
+]
+
+export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
+  const articlesList = articles && articles.length > 0 ? articles : defaultArticles
+  const blogsList = blogs && blogs.length > 0 ? blogs : defaultBlogs
   const [navOpen, setNavOpen] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [auditSubmitting, setAuditSubmitting] = useState(false)
@@ -1072,73 +1163,37 @@ export default function HomeClient() {
                 <span className="eyebrow">Articles</span>
                 <Link href="/insights">View all <svg width="14" height="14"><use href="#arrow" /></svg></Link>
               </div>
-              <Link href="/insights" className="post">
-                <span className="n">01</span>
-                <div>
-                  <span className="cat">AI Search</span>
-                  <h4>How LLMs choose which brands to cite — and how to be one of them.</h4>
-                  <p>A teardown of 4,200 AI answers across ChatGPT, Perplexity, and Gemini.</p>
-                  <div className="by"><b>Tomas Beltran</b> · Apr 28 · 14 min</div>
-                </div>
-                <span className="arrow"><svg width="14" height="14"><use href="#arrow" /></svg></span>
-              </Link>
-              <Link href="/insights" className="post">
-                <span className="n">02</span>
-                <div>
-                  <span className="cat">Technical SEO</span>
-                  <h4>The Core Web Vitals checklist most agencies still get wrong in 2026.</h4>
-                  <p>INP replaced FID a year ago. Half the audits we see still measure the wrong thing.</p>
-                  <div className="by"><b>Daniel Whitford</b> · Apr 22 · 11 min</div>
-                </div>
-                <span className="arrow"><svg width="14" height="14"><use href="#arrow" /></svg></span>
-              </Link>
-              <Link href="/insights" className="post">
-                <span className="n">03</span>
-                <div>
-                  <span className="cat">Local SEO</span>
-                  <h4>Multi-location SEO at scale: lessons from 22 yoga studios.</h4>
-                  <p>How we built a programmatic local system that turned 4 studios into 22.</p>
-                  <div className="by"><b>Farah Khoury</b> · Apr 17 · 9 min</div>
-                </div>
-                <span className="arrow"><svg width="14" height="14"><use href="#arrow" /></svg></span>
-              </Link>
+              {articlesList.map((item, idx) => (
+                <Link href={item.slug} className="post" key={item.id || idx}>
+                  <span className="n">{item.num || String(idx + 1).padStart(2, '0')}</span>
+                  <div>
+                    <span className="cat">{item.cat}</span>
+                    <h4>{item.title}</h4>
+                    <p>{item.desc}</p>
+                    <div className="by"><b>{item.author}</b> · {item.date} · {item.read}</div>
+                  </div>
+                  <span className="arrow"><svg width="14" height="14"><use href="#arrow" /></svg></span>
+                </Link>
+              ))}
             </div>
 
             <div className="feed reveal">
               <div className="feed-head">
-                <span className="eyebrow">News</span>
+                <span className="eyebrow">News &amp; Blogs</span>
                 <Link href="/insights">View all <svg width="14" height="14"><use href="#arrow" /></svg></Link>
               </div>
-              <Link href="/insights" className="post">
-                <span className="n">01</span>
-                <div>
-                  <span className="cat">Editorial</span>
-                  <h4>Why &quot;AI-written content&quot; tanks — and what hybrid workflows look like.</h4>
-                  <p>We tested four content workflows across 80 articles. The winner was surprising.</p>
-                  <div className="by"><b>Marisol Acevedo</b> · Apr 11 · 16 min</div>
-                </div>
-                <span className="arrow"><svg width="14" height="14"><use href="#arrow" /></svg></span>
-              </Link>
-              <Link href="/insights" className="post">
-                <span className="n">02</span>
-                <div>
-                  <span className="cat">Digital PR</span>
-                  <h4>The death of the guest post (and what replaced it for our clients).</h4>
-                  <p>Earned editorial mentions are now 4× more valuable than guest posts.</p>
-                  <div className="by"><b>Kemi Adeyemi</b> · Apr 4 · 8 min</div>
-                </div>
-                <span className="arrow"><svg width="14" height="14"><use href="#arrow" /></svg></span>
-              </Link>
-              <Link href="/insights" className="post">
-                <span className="n">03</span>
-                <div>
-                  <span className="cat">Case Study</span>
-                  <h4>How we got Maple &amp; Oak from local-only to a national brand.</h4>
-                  <p>The full 18-month playbook: audit, fixes, content, digital PR, AI-search.</p>
-                  <div className="by"><b>Anaya Sharma</b> · Mar 28 · 22 min</div>
-                </div>
-                <span className="arrow"><svg width="14" height="14"><use href="#arrow" /></svg></span>
-              </Link>
+              {blogsList.map((item, idx) => (
+                <Link href={item.slug} className="post" key={item.id || idx}>
+                  <span className="n">{item.num || String(idx + 1).padStart(2, '0')}</span>
+                  <div>
+                    <span className="cat">{item.cat}</span>
+                    <h4>{item.title}</h4>
+                    <p>{item.desc}</p>
+                    <div className="by"><b>{item.author}</b> · {item.date} · {item.read}</div>
+                  </div>
+                  <span className="arrow"><svg width="14" height="14"><use href="#arrow" /></svg></span>
+                </Link>
+              ))}
             </div>
           </div>
         </div>

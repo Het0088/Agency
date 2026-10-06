@@ -42,15 +42,54 @@ const homeFaqs = [
   },
 ]
 
-export default function Home() {
+import { getAllPublishedPosts } from '@/lib/posts'
+
+export default async function Home() {
   const faqSchema = buildFaqSchema(homeFaqs)
+
+  let articles: any[] = []
+  let blogs: any[] = []
+
+  try {
+    const allPosts = await getAllPublishedPosts(20)
+    articles = allPosts
+      .filter(p => p.type === 'article')
+      .slice(0, 3)
+      .map((p, i) => ({
+        id: p.id,
+        num: String(i + 1).padStart(2, '0'),
+        cat: p.tag || 'AI Search',
+        title: p.title,
+        desc: p.description,
+        author: p.author || 'Tomas Beltran',
+        date: new Date(p.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        read: p.read_time || '10 min',
+        slug: p.slug.startsWith('/') ? p.slug : `/insights/${p.slug}`,
+      }))
+
+    blogs = allPosts
+      .filter(p => p.type === 'blog' || p.type === 'news')
+      .slice(0, 3)
+      .map((p, i) => ({
+        id: p.id,
+        num: String(i + 1).padStart(2, '0'),
+        cat: p.tag || 'Editorial',
+        title: p.title,
+        desc: p.description,
+        author: p.author || 'Marisol Acevedo',
+        date: new Date(p.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        read: p.read_time || '12 min',
+        slug: p.slug.startsWith('/') ? p.slug : `/insights/${p.slug}`,
+      }))
+  } catch {}
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <HomeClient />
+      <HomeClient articles={articles} blogs={blogs} />
     </>
   )
 }
