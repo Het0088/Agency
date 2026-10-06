@@ -524,6 +524,18 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
   const [contentUploadingKey, setContentUploadingKey] = useState<string | null>(null)
   const [pageRevisions, setPageRevisions] = useState<Record<string, { id: string; savedAt: string; blocks: Record<string, string> }[]>>({})
   const [fieldEditorMode, setFieldEditorMode] = useState<Record<string, 'plain' | 'rich'>>({})
+  const [linkModal, setLinkModal] = useState<{
+    open: boolean
+    page: string
+    blockKey: string
+    label?: string
+    currentUrl: string
+    newTab: boolean
+    noFollow: boolean
+    selectedText: string
+    isTextInsertion: boolean
+  } | null>(null)
+  const [linkModalSearch, setLinkModalSearch] = useState('')
 
   useEffect(() => {
     try {
@@ -1072,22 +1084,88 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
     }))
   }
 
-  function insertLinkIntoBlock(page: string, key: string) {
-    const url = prompt('Enter link URL (e.g. /services, /contact, or https://...):', '/')
-    if (!url) return
-    const cur = contentBlocks[page]?.[key] || ''
-    const linkText = prompt('Enter link text:', cur || 'Learn more') || 'Learn more'
-    const isNoFollow = confirm('Add nofollow to this link? Click OK for nofollow, Cancel for follow.')
-    const isExternal = url.startsWith('http')
-    const tag = `<a href="${url}"${isExternal ? ' target="_blank" rel="' + (isNoFollow ? 'nofollow noopener' : 'noopener') + '"' : (isNoFollow ? ' rel="nofollow"' : '')}>${linkText}</a>`
-    setContentBlocks(prev => ({
-      ...prev,
-      [page]: {
-        ...(prev[page] || {}),
-        [key]: cur ? `${cur} ${tag}` : tag
-      }
+  const internalLinkTargets = useMemo(() => {
+    const staticPages = [
+      { title: 'Home Page', path: '/', kind: 'Page' },
+      { title: 'About Us', path: '/about', kind: 'Page' },
+      { title: 'Contact Studio', path: '/contact', kind: 'Page' },
+      { title: 'All Services Overview', path: '/services', kind: 'Service' },
+      { title: 'Technical SEO Services', path: '/services/seo/technical-seo', kind: 'Service' },
+      { title: 'Local SEO Services', path: '/services/seo/local-seo', kind: 'Service' },
+      { title: 'E-commerce SEO', path: '/services/seo/ecommerce-seo', kind: 'Service' },
+      { title: 'Enterprise SEO', path: '/services/seo/enterprise-seo', kind: 'Service' },
+      { title: 'AI Search & GEO Optimization', path: '/services/ai-search', kind: 'Service' },
+      { title: 'Content Marketing', path: '/services/content-marketing', kind: 'Service' },
+      { title: 'PPC & Google Ads', path: '/services/ppc', kind: 'Service' },
+      { title: 'Social Media Management', path: '/services/social-media', kind: 'Service' },
+      { title: 'Web Design & Development', path: '/services/web-development', kind: 'Service' },
+      { title: 'Link Building & Digital PR', path: '/services/link-building', kind: 'Service' },
+      { title: 'Analytics & CRO', path: '/services/analytics', kind: 'Service' },
+      { title: 'Hire Dedicated Developers', path: '/hire-resource', kind: 'Service' },
+      { title: 'Insights & Blog Index', path: '/insights', kind: 'Blog' },
+      { title: 'SEO Glossary', path: '/glossary', kind: 'Glossary' },
+      { title: 'Free Audit Section Anchor', path: '#audit', kind: 'Anchor' },
+    ]
+    const blogItems = posts.map(p => ({
+      title: p.title || 'Untitled Post',
+      path: p.slug || `/insights/${p.id}`,
+      kind: 'Post'
     }))
-    notify('Hyperlink inserted ✓')
+    const terms = glossaryTerms.map(t => ({
+      title: `${t.title} (${t.category})`,
+      path: `/glossary/${t.slug || t.id}`,
+      kind: 'Glossary'
+    }))
+    return [...staticPages, ...blogItems, ...terms]
+  }, [posts, glossaryTerms])
+
+  function handleOpenLinkModal(page: string, blockKey: string, isTextInsertion: boolean, label?: string) {
+    const curVal = contentBlocks[page]?.[blockKey] || ''
+    const curUrl = contentBlocks[page]?.[`${blockKey}_url`] || ''
+    const curTarget = contentBlocks[page]?.[`${blockKey}_target`] || ''
+    const curRel = contentBlocks[page]?.[`${blockKey}_rel`] || ''
+    setLinkModalSearch('')
+    setLinkModal({
+      open: true,
+      page,
+      blockKey,
+      label: label || blockKey,
+      currentUrl: curUrl || (isTextInsertion ? '' : '#'),
+      newTab: curTarget === '_blank',
+      noFollow: curRel.includes('nofollow'),
+      selectedText: curVal,
+      isTextInsertion,
+    })
+  }
+
+  function handleApplyLinkModal(url: string, newTab: boolean, noFollow: boolean, displayText: string) {
+    if (!linkModal) return
+    const { page, blockKey, isTextInsertion } = linkModal
+    if (isTextInsertion) {
+      const cur = contentBlocks[page]?.[blockKey] || ''
+      const text = displayText || cur || url
+      const target = newTab ? ' target="_blank" rel="noopener' + (noFollow ? ' nofollow' : '') + '"' : (noFollow ? ' rel="nofollow"' : '')
+      const linkHtml = `<a href="${url}"${target}>${text}</a>`
+      setContentBlocks(prev => ({
+        ...prev,
+        [page]: {
+          ...(prev[page] || {}),
+          [blockKey]: cur ? `${cur} ${linkHtml}` : linkHtml
+        }
+      }))
+    } else {
+      setContentBlocks(prev => ({
+        ...prev,
+        [page]: {
+          ...(prev[page] || {}),
+          [`${blockKey}_url`]: url,
+          [`${blockKey}_target`]: newTab ? '_blank' : '_self',
+          [`${blockKey}_rel`]: noFollow ? 'nofollow' : ''
+        }
+      }))
+    }
+    setLinkModal(null)
+    notify('Link options applied ✓')
   }
 
   // ─── LEADS HANDLERS ──────────────────────────────────────────────
@@ -1250,6 +1328,9 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
 
   return (
     <div className="adm">
+      {mobileMenuOpen && (
+        <div className="menu-backdrop" onClick={() => setMobileMenuOpen(false)} />
+      )}
       <div className={`shell${mobileMenuOpen ? ' menu-open' : ''}`}>
         
         {/* ─── LEFT SIDEBAR (STICKY, DARK #121613) ─── */}
@@ -2522,24 +2603,31 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                   const isModified = val !== savedVal
                                   const isDefault = val === b.value
                                   const fieldKey = `${selectedContentPage}:${b.key}`
-                                  const isRichMode = fieldEditorMode[fieldKey] === 'rich' || b.type === 'textarea'
+                                  const isHeading = b.key.includes('heading') || b.key.includes('title') || b.label.toLowerCase().includes('heading') || b.label.toLowerCase().includes('title')
+                                  const isButton = b.key.includes('button') || b.key.includes('cta') || b.key.includes('btn') || b.label.toLowerCase().includes('button') || b.label.toLowerCase().includes('cta')
+                                  const isBodyText = b.type === 'textarea' || b.key.includes('subtext') || b.key.includes('intro') || b.key.includes('desc') || b.key.includes('content')
+                                  const isRichMode = fieldEditorMode[fieldKey] ? fieldEditorMode[fieldKey] === 'rich' : isBodyText
+                                  const currentLinkUrl = contentBlocks[selectedContentPage]?.[`${b.key}_url`] || ''
+                                  const currentLinkTarget = contentBlocks[selectedContentPage]?.[`${b.key}_target`] || '_self'
+                                  const currentLinkRel = contentBlocks[selectedContentPage]?.[`${b.key}_rel`] || ''
 
                                   return (
                                     <div
                                       key={b.key}
                                       className="field"
                                       style={{
-                                        background: isModified ? '#FFF9F3' : undefined,
-                                        padding: isModified ? '12px 14px' : '4px 0',
-                                        borderRadius: 8,
-                                        border: isModified ? '1px dashed #FFD4BC' : undefined,
-                                        marginBottom: 16
+                                        background: isModified ? '#FFF9F3' : '#fff',
+                                        padding: '14px 16px',
+                                        borderRadius: 12,
+                                        border: isModified ? '1.5px dashed #FF5A1F' : '1px solid var(--a-line)',
+                                        marginBottom: 16,
+                                        boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
                                       }}
                                     >
                                       {/* Field Header / Label Bar */}
-                                      <div className="lbl" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6, marginBottom: 6 }}>
+                                      <div className="lbl" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                          <span style={{ fontWeight: 600 }}>{b.label}</span>
+                                          <span style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--a-ink)' }}>{b.label}</span>
                                           {isModified && <span className="tag" style={{ background: '#FF5A1F', color: '#fff' }}>Modified</span>}
                                           {!isDefault && (
                                             <button
@@ -2547,71 +2635,19 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                               className="b xs"
                                               onClick={() => handleResetSingleBlock(selectedContentPage, b.key, b.value)}
                                               title="Reset this block to original factory default"
-                                              style={{ fontSize: 11, padding: '2px 7px', background: '#F1EEE6', border: '1px solid #DDD7C9' }}
+                                              style={{ fontSize: 11, padding: '2px 8px', background: '#F1EEE6', border: '1px solid #DDD7C9' }}
                                             >
                                               ↺ Reset
                                             </button>
                                           )}
                                         </div>
 
-                                        {/* Formatting Tools & Block Key */}
                                         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                          {b.type !== 'image' && (
-                                            <div style={{ display: 'inline-flex', gap: 3, alignItems: 'center', background: '#F4EFE6', padding: '2px 5px', borderRadius: 6 }}>
-                                              <button
-                                                type="button"
-                                                className="b xs"
-                                                onClick={() => applyTextWrap(selectedContentPage, b.key, '<b>')}
-                                                title="Wrap in <b>bold</b>"
-                                                style={{ fontWeight: 700, padding: '1px 5px', minWidth: 20 }}
-                                              >
-                                                B
-                                              </button>
-                                              <button
-                                                type="button"
-                                                className="b xs"
-                                                onClick={() => applyTextWrap(selectedContentPage, b.key, '<i>')}
-                                                title="Wrap in <i>italic</i>"
-                                                style={{ fontStyle: 'italic', padding: '1px 5px', minWidth: 20 }}
-                                              >
-                                                I
-                                              </button>
-                                              <button
-                                                type="button"
-                                                className="b xs"
-                                                onClick={() => applyAsteriskAccent(selectedContentPage, b.key)}
-                                                title="Wrap in *asterisks* (shows in orange italics accent)"
-                                                style={{ color: 'var(--a-orange)', fontWeight: 700, padding: '1px 6px' }}
-                                              >
-                                                *accent*
-                                              </button>
-                                              <button
-                                                type="button"
-                                                className="b xs"
-                                                onClick={() => insertLinkIntoBlock(selectedContentPage, b.key)}
-                                                title="Insert hyperlink with follow/nofollow options"
-                                                style={{ padding: '1px 5px' }}
-                                              >
-                                                🔗 Link
-                                              </button>
-                                              {b.type !== 'textarea' && (
-                                                <button
-                                                  type="button"
-                                                  className={`b xs${isRichMode ? ' b-primary' : ''}`}
-                                                  onClick={() => setFieldEditorMode(p => ({ ...p, [fieldKey]: isRichMode ? 'plain' : 'rich' }))}
-                                                  title={isRichMode ? 'Switch to compact text input' : 'Open full rich text editor for this block'}
-                                                  style={{ fontSize: 10, padding: '1px 6px' }}
-                                                >
-                                                  {isRichMode ? '🔤 Compact' : '✏ Rich Editor'}
-                                                </button>
-                                              )}
-                                            </div>
-                                          )}
                                           <code style={{ fontSize: 11, color: 'var(--a-muted)' }}>{b.key}</code>
                                         </div>
                                       </div>
 
-                                      {/* Block Content Inputs */}
+                                      {/* CASE 1: IMAGE BLOCK */}
                                       {b.type === 'image' ? (
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                                           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -2685,30 +2721,18 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                             </div>
                                           </div>
                                         </div>
-                                      ) : isRichMode ? (
-                                        <div style={{ background: '#fff', borderRadius: 8 }}>
-                                          <RichTextEditor
-                                            value={val}
-                                            onChange={newVal => {
-                                              setContentBlocks(prev => ({
-                                                ...prev,
-                                                [selectedContentPage]: {
-                                                  ...(prev[selectedContentPage] || {}),
-                                                  [b.key]: newVal
-                                                }
-                                              }))
-                                            }}
-                                            placeholder="Write and format content here... Supports headings, bold, italics, links, and media."
-                                          />
-                                        </div>
-                                      ) : (
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                                          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                                            {(b.key.includes('heading') || b.key.includes('title') || b.label.toLowerCase().includes('heading') || b.label.toLowerCase().includes('title')) && (
+                                      ) : isHeading ? (
+                                        /* CASE 2: HEADING / TITLE WIDGET (Matching Photo 3 & 4) */
+                                        <div style={{ display: 'grid', gap: 10 }}>
+                                          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                                            <div style={{ width: 95, flexShrink: 0 }}>
+                                              <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--a-muted)', display: 'block', marginBottom: 3 }}>
+                                                HTML Tag
+                                              </label>
                                               <select
                                                 className="inp"
-                                                style={{ width: 85, fontWeight: 700, fontFamily: 'monospace', color: 'var(--a-orange)', background: '#FFF9F3', flexShrink: 0 }}
-                                                title="Choose SEO heading tag for this block"
+                                                style={{ fontWeight: 700, fontFamily: 'monospace', color: 'var(--a-orange)', background: '#FFF9F3', padding: '8px 10px' }}
+                                                title="Select heading level or tag"
                                                 value={contentBlocks[selectedContentPage]?.[`${b.key}_tag`] || (b.key.includes('hero_heading') ? 'h1' : b.key.includes('heading') ? 'h2' : 'h3')}
                                                 onChange={e => {
                                                   const tagVal = e.target.value
@@ -2727,10 +2751,250 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                                 <option value="h4">H4</option>
                                                 <option value="h5">H5</option>
                                                 <option value="h6">H6</option>
-                                                <option value="p">p</option>
+                                                <option value="div">div</option>
                                                 <option value="span">span</option>
+                                                <option value="p">p</option>
                                               </select>
+                                            </div>
+
+                                            <div style={{ flex: 1 }}>
+                                              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
+                                                <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--a-muted)' }}>Title / Heading Text</label>
+                                                <div style={{ display: 'inline-flex', gap: 4 }}>
+                                                  <button type="button" className="b xs" onClick={() => applyTextWrap(selectedContentPage, b.key, '<b>')} title="Bold">B</button>
+                                                  <button type="button" className="b xs" onClick={() => applyTextWrap(selectedContentPage, b.key, '<i>')} title="Italic"><i>I</i></button>
+                                                  <button type="button" className="b xs" onClick={() => applyAsteriskAccent(selectedContentPage, b.key)} title="Wrap in *asterisks* (orange accent)">*accent*</button>
+                                                </div>
+                                              </div>
+                                              <input
+                                                className="inp"
+                                                value={val}
+                                                onChange={e => {
+                                                  const newVal = e.target.value
+                                                  setContentBlocks(prev => ({
+                                                    ...prev,
+                                                    [selectedContentPage]: {
+                                                      ...(prev[selectedContentPage] || {}),
+                                                      [b.key]: newVal
+                                                    }
+                                                  }))
+                                                }}
+                                                placeholder="Add your heading text here..."
+                                                style={{ fontWeight: 600, fontSize: 15 }}
+                                              />
+                                            </div>
+                                          </div>
+
+                                          {/* Link Row (Matching Photo 3 & 4) */}
+                                          <div>
+                                            <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--a-muted)', display: 'block', marginBottom: 3 }}>
+                                              Link (optional — wraps heading in clickable hyperlink)
+                                            </label>
+                                            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                                              <input
+                                                className="inp"
+                                                placeholder="Paste URL or type (e.g. /services/seo or #audit)"
+                                                value={currentLinkUrl}
+                                                onChange={e => {
+                                                  const u = e.target.value
+                                                  setContentBlocks(prev => ({
+                                                    ...prev,
+                                                    [selectedContentPage]: {
+                                                      ...(prev[selectedContentPage] || {}),
+                                                      [`${b.key}_url`]: u
+                                                    }
+                                                  }))
+                                                }}
+                                                style={{ flex: 1 }}
+                                              />
+                                              <button
+                                                type="button"
+                                                className="b sm"
+                                                onClick={() => handleOpenLinkModal(selectedContentPage, b.key, false, `${b.label} Link`)}
+                                                title="Open link options: new window, nofollow, internal pages picker"
+                                                style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '8px 12px', background: currentLinkUrl ? '#FFF4ED' : '#F6F4EE', borderColor: currentLinkUrl ? '#FF5A1F' : 'var(--a-line)' }}
+                                              >
+                                                <span>⚙</span>
+                                                <span>Link Options</span>
+                                              </button>
+                                            </div>
+                                            {currentLinkUrl && (
+                                              <div style={{ display: 'flex', gap: 6, marginTop: 4, alignItems: 'center', fontSize: 11.5, color: 'var(--a-muted)' }}>
+                                                <span>Target: <code>{currentLinkTarget}</code></span>
+                                                {currentLinkRel && <span>Rel: <code>{currentLinkRel}</code></span>}
+                                              </div>
                                             )}
+                                          </div>
+
+                                          <div style={{ fontSize: 11.5, color: 'var(--a-muted)' }}>
+                                            Wrap words in *asterisks* to show them in orange italics. HTML tag renders as <code>&lt;{contentBlocks[selectedContentPage]?.[`${b.key}_tag`] || (b.key.includes('hero_heading') ? 'h1' : b.key.includes('heading') ? 'h2' : 'h3')}&gt;</code>.
+                                          </div>
+                                        </div>
+                                      ) : isButton ? (
+                                        /* CASE 3: BUTTON / CTA WIDGET (Matching Photo 1) */
+                                        <div style={{ display: 'grid', gap: 10 }}>
+                                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 10 }}>
+                                            <div>
+                                              <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--a-muted)', display: 'block', marginBottom: 3 }}>
+                                                Button Text
+                                              </label>
+                                              <input
+                                                className="inp"
+                                                value={val}
+                                                onChange={e => {
+                                                  const newVal = e.target.value
+                                                  setContentBlocks(prev => ({
+                                                    ...prev,
+                                                    [selectedContentPage]: {
+                                                      ...(prev[selectedContentPage] || {}),
+                                                      [b.key]: newVal
+                                                    }
+                                                  }))
+                                                }}
+                                                placeholder="e.g. Get a free SEO audit"
+                                                style={{ fontWeight: 600 }}
+                                              />
+                                            </div>
+
+                                            <div>
+                                              <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--a-muted)', display: 'block', marginBottom: 3 }}>
+                                                Link Destination (URL / Anchor)
+                                              </label>
+                                              <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                                                <input
+                                                  className="inp"
+                                                  placeholder="#audit, /contact, https://..."
+                                                  value={currentLinkUrl}
+                                                  onChange={e => {
+                                                    const u = e.target.value
+                                                    setContentBlocks(prev => ({
+                                                      ...prev,
+                                                      [selectedContentPage]: {
+                                                        ...(prev[selectedContentPage] || {}),
+                                                        [`${b.key}_url`]: u
+                                                      }
+                                                    }))
+                                                  }}
+                                                  style={{ flex: 1 }}
+                                                />
+                                                <button
+                                                  type="button"
+                                                  className="b sm"
+                                                  onClick={() => handleOpenLinkModal(selectedContentPage, b.key, false, `${b.label} Link`)}
+                                                  title="Configure button link options (new tab, nofollow, internal pages)"
+                                                  style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '8px 12px', background: currentLinkUrl ? '#FFF4ED' : '#F6F4EE', borderColor: currentLinkUrl ? '#FF5A1F' : 'var(--a-line)' }}
+                                                >
+                                                  <span>⚙</span>
+                                                  <span>Link Options</span>
+                                                </button>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          {currentLinkUrl && (
+                                            <div style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 11.5, color: 'var(--a-muted)' }}>
+                                              <span>Opens in: <strong>{currentLinkTarget === '_blank' ? 'New Window (_blank)' : 'Same Window'}</strong></span>
+                                              {currentLinkRel && <span>· <code>rel=&quot;{currentLinkRel}&quot;</code></span>}
+                                            </div>
+                                          )}
+                                        </div>
+                                      ) : isBodyText || isRichMode ? (
+                                        /* CASE 4: FULL BLOG-LIKE TEXT EDITOR (Matching Photo 2 & Photo 5) */
+                                        <div>
+                                          {/* Visual / Text Tabs Switcher */}
+                                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8, flexWrap: 'wrap', gap: 6 }}>
+                                            <div style={{ display: 'inline-flex', background: '#F1EEE6', padding: 2, borderRadius: 7 }}>
+                                              <button
+                                                type="button"
+                                                onClick={() => setFieldEditorMode(p => ({ ...p, [fieldKey]: 'rich' }))}
+                                                style={{
+                                                  border: 'none',
+                                                  background: isRichMode ? '#fff' : 'transparent',
+                                                  color: isRichMode ? 'var(--a-ink)' : 'var(--a-muted)',
+                                                  fontWeight: 700,
+                                                  fontSize: 12,
+                                                  padding: '3px 12px',
+                                                  borderRadius: 5,
+                                                  cursor: 'pointer',
+                                                  boxShadow: isRichMode ? '0 1px 3px rgba(0,0,0,0.1)' : 'none'
+                                                }}
+                                              >
+                                                Visual
+                                              </button>
+                                              <button
+                                                type="button"
+                                                onClick={() => setFieldEditorMode(p => ({ ...p, [fieldKey]: 'plain' }))}
+                                                style={{
+                                                  border: 'none',
+                                                  background: !isRichMode ? '#fff' : 'transparent',
+                                                  color: !isRichMode ? 'var(--a-ink)' : 'var(--a-muted)',
+                                                  fontWeight: 700,
+                                                  fontSize: 12,
+                                                  padding: '3px 12px',
+                                                  borderRadius: 5,
+                                                  cursor: 'pointer',
+                                                  boxShadow: !isRichMode ? '0 1px 3px rgba(0,0,0,0.1)' : 'none'
+                                                }}
+                                              >
+                                                Text
+                                              </button>
+                                            </div>
+
+                                            <span style={{ fontSize: 11.5, color: 'var(--a-muted)' }}>
+                                              {isRichMode ? 'WYSIWYG editor with heading tags & formatting' : 'Select text and press 🔗 to link it to another page'}
+                                            </span>
+                                          </div>
+
+                                          {isRichMode ? (
+                                            <div style={{ background: '#fff', borderRadius: 8, border: '1px solid var(--a-line)' }}>
+                                              <RichTextEditor
+                                                value={val}
+                                                onChange={newVal => {
+                                                  setContentBlocks(prev => ({
+                                                    ...prev,
+                                                    [selectedContentPage]: {
+                                                      ...(prev[selectedContentPage] || {}),
+                                                      [b.key]: newVal
+                                                    }
+                                                  }))
+                                                }}
+                                                placeholder="Write and format content here... Highlight text to select heading tag or add hyperlinks."
+                                              />
+                                            </div>
+                                          ) : (
+                                            <div>
+                                              <div style={{ display: 'flex', gap: 4, marginBottom: 6, flexWrap: 'wrap' }}>
+                                                <button type="button" className="b xs" onClick={() => applyTextWrap(selectedContentPage, b.key, '<b>')} title="Bold">B</button>
+                                                <button type="button" className="b xs" onClick={() => applyTextWrap(selectedContentPage, b.key, '<i>')} title="Italic"><i>I</i></button>
+                                                <button type="button" className="b xs" onClick={() => applyAsteriskAccent(selectedContentPage, b.key)} title="Wrap in *asterisks* (orange accent)">*accent*</button>
+                                                <button type="button" className="b xs" onClick={() => handleOpenLinkModal(selectedContentPage, b.key, true, b.label)} title="Insert hyperlink">🔗 Link</button>
+                                              </div>
+                                              <textarea
+                                                className="inp"
+                                                rows={4}
+                                                value={val}
+                                                onChange={e => {
+                                                  const newVal = e.target.value
+                                                  setContentBlocks(prev => ({
+                                                    ...prev,
+                                                    [selectedContentPage]: {
+                                                      ...(prev[selectedContentPage] || {}),
+                                                      [b.key]: newVal
+                                                    }
+                                                  }))
+                                                }}
+                                                placeholder="Enter copy text here..."
+                                              />
+                                              <div style={{ fontSize: 11.5, color: 'var(--a-muted)', marginTop: 4 }}>
+                                                Select text and press 🔗 to link it to another page. Wrap words in *asterisks* to show them in orange italics.
+                                              </div>
+                                            </div>
+                                          )}
+                                        </div>
+                                      ) : (
+                                        /* CASE 5: GENERIC SINGLE-LINE TEXT BLOCK */
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                                             <input
                                               className="inp"
                                               value={val}
@@ -2746,12 +3010,24 @@ export default function AdminDashboard({ authenticated }: { authenticated: boole
                                               }}
                                               style={{ flex: 1 }}
                                             />
+                                            <button
+                                              type="button"
+                                              className="b xs"
+                                              onClick={() => handleOpenLinkModal(selectedContentPage, b.key, true, b.label)}
+                                              title="Insert hyperlink into text"
+                                            >
+                                              🔗 Link
+                                            </button>
+                                            <button
+                                              type="button"
+                                              className="b xs"
+                                              onClick={() => setFieldEditorMode(p => ({ ...p, [fieldKey]: 'rich' }))}
+                                              title="Open full rich text editor for this block"
+                                              style={{ fontSize: 10, padding: '2px 7px' }}
+                                            >
+                                              ✏ Rich Editor
+                                            </button>
                                           </div>
-                                          {(b.key.includes('heading') || b.key.includes('title') || b.label.toLowerCase().includes('heading') || b.label.toLowerCase().includes('title')) && (
-                                            <span style={{ fontSize: 11, color: 'var(--a-muted)' }}>
-                                              SEO Tag: renders as <code>&lt;{contentBlocks[selectedContentPage]?.[`${b.key}_tag`] || (b.key.includes('hero_heading') ? 'h1' : b.key.includes('heading') ? 'h2' : 'h3')}&gt;</code> for Google hierarchy. Wrap words in *asterisks* to show orange accent italics.
-                                            </span>
-                                          )}
                                         </div>
                                       )}
                                     </div>
@@ -3888,6 +4164,143 @@ ADMIN_PASSWORD=••••••••••••`}
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ─── LINK OPTIONS MODAL (Elementor & WordPress Style) ──────── */}
+      {linkModal && linkModal.open && (
+        <div className="link-modal-overlay" onClick={() => setLinkModal(null)}>
+          <div className="link-modal-card" onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: 'var(--a-ink)' }}>Link Options</h3>
+                <p style={{ margin: '3px 0 0', fontSize: 12, color: 'var(--a-muted)' }}>
+                  {linkModal.label || 'Configure Hyperlink'}
+                </p>
+              </div>
+              <button
+                type="button"
+                className="b xs"
+                onClick={() => setLinkModal(null)}
+                style={{ fontSize: 16, lineHeight: 1, padding: '4px 8px' }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {linkModal.isTextInsertion && (
+                <div>
+                  <label className="lbl">Text to Display</label>
+                  <input
+                    className="inp"
+                    value={linkModal.selectedText}
+                    onChange={e => setLinkModal(prev => prev ? { ...prev, selectedText: e.target.value } : null)}
+                    placeholder="e.g. Learn more about SEO"
+                  />
+                </div>
+              )}
+
+              <div>
+                <label className="lbl">URL / Destination *</label>
+                <input
+                  className="inp"
+                  value={linkModal.currentUrl}
+                  onChange={e => setLinkModal(prev => prev ? { ...prev, currentUrl: e.target.value } : null)}
+                  placeholder="https://example.com, /services/seo, or #audit"
+                  autoFocus
+                />
+              </div>
+
+              {/* Toggles: Open in New Window & Add nofollow (Matching Photo 1) */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '12px 14px', background: '#F8F6F0', borderRadius: 8, border: '1px solid var(--a-line)' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={linkModal.newTab}
+                    onChange={e => setLinkModal(prev => prev ? { ...prev, newTab: e.target.checked } : null)}
+                  />
+                  <span>Open in new window (<code>target=&quot;_blank&quot;</code>)</span>
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={linkModal.noFollow}
+                    onChange={e => setLinkModal(prev => prev ? { ...prev, noFollow: e.target.checked } : null)}
+                  />
+                  <span>Add nofollow (<code>rel=&quot;nofollow&quot;</code>)</span>
+                </label>
+              </div>
+
+              {/* Internal Link Search / Picker */}
+              <div>
+                <label className="lbl" style={{ marginBottom: 6 }}>
+                  <span>Or link to existing content</span>
+                  <small style={{ color: 'var(--a-muted)', fontWeight: 400 }}>Search pages, services, articles & terms</small>
+                </label>
+                <input
+                  className="inp"
+                  value={linkModalSearch}
+                  onChange={e => setLinkModalSearch(e.target.value)}
+                  placeholder="Search internal site routes..."
+                  style={{ marginBottom: 8 }}
+                />
+                <div style={{ maxHeight: 180, overflowY: 'auto', border: '1px solid var(--a-line)', borderRadius: 8, background: '#fff' }}>
+                  {internalLinkTargets
+                    .filter(t => !linkModalSearch || t.title.toLowerCase().includes(linkModalSearch.toLowerCase()) || t.path.toLowerCase().includes(linkModalSearch.toLowerCase()))
+                    .slice(0, 15)
+                    .map((item, idx) => (
+                      <div
+                        key={idx}
+                        onClick={() => {
+                          setLinkModal(prev => prev ? {
+                            ...prev,
+                            currentUrl: item.path,
+                            selectedText: prev.selectedText || item.title
+                          } : null)
+                        }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '8px 12px',
+                          borderBottom: '1px solid #F1EEE6',
+                          cursor: 'pointer',
+                          background: linkModal.currentUrl === item.path ? '#FFF4ED' : 'transparent',
+                          transition: 'background .15s'
+                        }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#F9F7F2' }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = linkModal.currentUrl === item.path ? '#FFF4ED' : 'transparent' }}
+                      >
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--a-ink)' }}>{item.title}</span>
+                          <span style={{ fontSize: 11, color: 'var(--a-muted)', fontFamily: 'monospace' }}>{item.path}</span>
+                        </div>
+                        <span className="pill sm" style={{ fontSize: 10 }}>{item.kind}</span>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 18 }}>
+              <button
+                type="button"
+                className="b"
+                onClick={() => setLinkModal(null)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="b b-primary"
+                onClick={() => handleApplyLinkModal(linkModal.currentUrl, linkModal.newTab, linkModal.noFollow, linkModal.selectedText)}
+                disabled={!linkModal.currentUrl}
+              >
+                Apply Link Options
+              </button>
+            </div>
           </div>
         </div>
       )}

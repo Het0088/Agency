@@ -814,12 +814,32 @@ export default function RichTextEditor({ value, onChange, compact = false, place
   }
 
   function formatBlock(tag: string) {
+    restoreSelection()
     if (tag === 'p') {
       document.execCommand('formatBlock', false, '<p>')
     } else {
       document.execCommand('formatBlock', false, `<${tag}>`)
     }
     handleInput()
+    saveSelection()
+  }
+
+  function formatAccent() {
+    restoreSelection()
+    const sel = window.getSelection()
+    const text = sel?.toString() || ''
+    if (text) {
+      document.execCommand('insertHTML', false, `<span style="color:#FF5A1F;font-style:italic;font-family:'Fraunces',Georgia,serif;">${text}</span>`)
+      handleInput()
+      saveSelection()
+    }
+  }
+
+  function removeLink() {
+    restoreSelection()
+    document.execCommand('unlink')
+    handleInput()
+    saveSelection()
   }
 
   function setFontSize(val: string) {
@@ -1028,25 +1048,82 @@ export default function RichTextEditor({ value, onChange, compact = false, place
         </div>
       )}
 
+      {/* WordPress / Elementor Style Top Mode Switcher Bar (Photo 2) */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 10px', background: '#F8F6F0', borderBottom: '1px solid var(--border, #E6E0D2)', flexWrap: 'wrap', gap: 6 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <button
+            type="button"
+            className="b xs"
+            onMouseDown={e => {
+              e.preventDefault()
+              saveSelection()
+              setShowImageDialog(true)
+            }}
+            style={{ fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 4, background: '#fff', border: '1px solid #D5CEBE', padding: '3px 8px', borderRadius: 6, fontWeight: 600, cursor: 'pointer' }}
+          >
+            📷 Add Media
+          </button>
+        </div>
+        <div style={{ display: 'inline-flex', background: '#EAE5D9', padding: 2, borderRadius: 6, gap: 2 }}>
+          <button
+            type="button"
+            onClick={() => { if (sourceMode) toggleSource() }}
+            style={{
+              border: 'none',
+              background: !sourceMode ? '#fff' : 'transparent',
+              color: !sourceMode ? 'var(--a-ink, #121613)' : '#6B6F6A',
+              fontWeight: 700,
+              fontSize: 11.5,
+              padding: '3px 10px',
+              borderRadius: 5,
+              cursor: 'pointer',
+              boxShadow: !sourceMode ? '0 1px 2px rgba(0,0,0,0.08)' : 'none'
+            }}
+          >
+            Visual
+          </button>
+          <button
+            type="button"
+            onClick={() => { if (!sourceMode) toggleSource() }}
+            style={{
+              border: 'none',
+              background: sourceMode ? '#fff' : 'transparent',
+              color: sourceMode ? 'var(--a-ink, #121613)' : '#6B6F6A',
+              fontWeight: 700,
+              fontSize: 11.5,
+              padding: '3px 10px',
+              borderRadius: 5,
+              cursor: 'pointer',
+              boxShadow: sourceMode ? '0 1px 2px rgba(0,0,0,0.08)' : 'none'
+            }}
+          >
+            Text
+          </button>
+        </div>
+      </div>
+
       {!sourceMode && (
         <div className={`rte-toolbar ${toolbarHeight}`}>
           <div className="rte-toolbar-row">
-            {!compact && (
-              <select
-                className="rte-select"
-                onChange={e => formatBlock(e.target.value)}
-                defaultValue="p"
-                title="Text style"
-              >
-                {HEADING_OPTIONS.map(o => (
-                  <option key={o.tag} value={o.tag}>{o.label}</option>
-                ))}
-              </select>
-            )}
+            {/* Heading Dropdown (Always visible to adjust heading tag of selected text) */}
+            <select
+              className="rte-select"
+              onMouseDown={saveSelection}
+              onFocus={saveSelection}
+              onChange={e => formatBlock(e.target.value)}
+              defaultValue="p"
+              title="Select text and choose heading tag to format"
+              style={{ fontWeight: 600 }}
+            >
+              {HEADING_OPTIONS.map(o => (
+                <option key={o.tag} value={o.tag}>{o.label}</option>
+              ))}
+            </select>
 
             {!compact && (
               <select
                 className="rte-select rte-select-sm"
+                onMouseDown={saveSelection}
                 onChange={e => setFontSize(e.target.value)}
                 defaultValue=""
                 title="Font size"
@@ -1062,6 +1139,15 @@ export default function RichTextEditor({ value, onChange, compact = false, place
             <ToolbarButton cmd="bold" icon="B" title="Bold (Ctrl+B)" />
             <ToolbarButton cmd="italic" icon="I" title="Italic (Ctrl+I)" />
             <ToolbarButton cmd="underline" icon="U" title="Underline (Ctrl+U)" />
+            <button
+              type="button"
+              className="rte-btn"
+              onMouseDown={e => { e.preventDefault(); formatAccent() }}
+              title="Wrap selected text in orange italic accent"
+              style={{ color: '#FF5A1F', fontWeight: 700, fontStyle: 'italic', padding: '0 6px', width: 'auto', fontSize: 13 }}
+            >
+              *accent*
+            </button>
             <ToolbarButton cmd="strikeThrough" icon="S" title="Strikethrough" />
 
             <div className="rte-sep" />
@@ -1086,10 +1172,22 @@ export default function RichTextEditor({ value, onChange, compact = false, place
 
             <div className="rte-sep" />
 
+            {/* Hyperlink Tool with dialog */}
             <ToolbarButton
               icon={<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>}
-              title="Insert link (Ctrl+K)"
-              onClick={() => { saveSelection(); setShowLinkDialog(true) }}
+              title="Insert hyperlink with options (select text first)"
+              onClick={() => {
+                saveSelection()
+                const sel = window.getSelection()?.toString().trim() || ''
+                if (sel) setSelectedText(sel)
+                setShowLinkDialog(true)
+              }}
+            />
+            {/* Remove Link Button */}
+            <ToolbarButton
+              icon={<span style={{ textDecoration: 'line-through', fontSize: 13 }}>🔗</span>}
+              title="Remove link (Unlink)"
+              onClick={removeLink}
             />
             <ToolbarButton
               icon={<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>}
