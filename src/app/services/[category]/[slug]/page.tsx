@@ -6,7 +6,7 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import BigCta from '@/components/BigCta'
 import { ArrowRight } from '@/components/Icons'
-import { getSubService, getSubServiceSlugs, getSubServicesByCategory } from '@/lib/services-data'
+import { getSubService, getSubServiceSlugs, getSubServicesByCategory, getAllSubServices } from '@/lib/services-data'
 import OldVsNewSeo from '@/app/sections/OldVsNewSeo'
 import { buildFaqSchema } from '@/lib/schema'
 
@@ -41,7 +41,9 @@ export default async function SubServicePage({ params }: { params: Promise<{ cat
   if (!svc) notFound()
 
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://genranq.com'
-  const siblings = getSubServicesByCategory(category).filter(s => s.slug !== slug)
+  const sameCategory = getSubServicesByCategory(category).filter(s => s.slug !== slug)
+  const fallback = getAllSubServices().filter(s => s.slug !== slug && !sameCategory.some(sub => sub.slug === s.slug))
+  const siblings = (sameCategory.length < 6 ? [...sameCategory, ...fallback] : sameCategory).slice(0, 6)
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -186,7 +188,7 @@ export default async function SubServicePage({ params }: { params: Promise<{ cat
               <h2>More from <em>{svc.parentTitle}.</em></h2>
               <p className="sub">Related services you might need alongside {svc.title.toLowerCase()}.</p>
             </div>
-            <div className="services-grid" style={{ borderLeft: '1px solid var(--border)' }}>
+            <div className="services-grid">
               {siblings.map((s, i) => (
                 <Link key={s.slug} href={`/services/${s.category}/${s.slug}`} className="service reveal">
                   <div className="service-num">{String(i + 1).padStart(2, '0')}</div>

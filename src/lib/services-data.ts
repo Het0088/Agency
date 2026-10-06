@@ -176,6 +176,70 @@ const allSubServices: SubService[] = [
     ],
   },
   {
+    slug: 'ai-seo', category: 'seo', parentTitle: 'SEO Services', title: 'AI Search & GEO',
+    desc: 'Traditional search is evolving into answer engines. We optimize your website to rank on Google while getting directly cited in ChatGPT, Perplexity, Gemini, and Google AI Overviews.',
+    features: [
+      'Generative Engine Optimization (GEO) for ChatGPT, Gemini, and Perplexity',
+      'Brand entity structuring across Wikipedia, Wikidata, and knowledge graphs',
+      'AI Overviews citation tracking and prompt coverage audits',
+      'Answer-first content structure engineered for LLM context windows',
+      'Deep schema graph modeling (Organization, Author, TechArticle, Product)',
+      'Digital PR and digital editorial citations to establish factual consensus',
+      'Continuous AI mention benchmarking against top competitors',
+      'Zero-click search and citation visibility analytics',
+    ],
+    result: 'Average 340% increase in generative engine brand citations within 120 days.',
+    stats: [
+      { value: '340%', label: 'Avg. AI citation lift' },
+      { value: '50+', label: 'Prompts monitored daily' },
+      { value: '100%', label: 'Attributable AI visibility' },
+      { value: '94%', label: 'Client retention' },
+    ],
+    process: [
+      { title: 'Citation audit', desc: 'We benchmark how ChatGPT, Perplexity, and Gemini cite your brand across high-intent queries.' },
+      { title: 'Knowledge graph modeling', desc: 'We establish structured brand entity consensus across trusted authorities and schemas.' },
+      { title: 'Answer architecture', desc: 'We reformat site content to directly feed LLM retrieval-augmented generation (RAG) loops.' },
+      { title: 'Track & defend', desc: 'Continuous prompt testing, sentiment tracking, and competitor displacement monitoring.' },
+    ],
+    faqs: [
+      { q: 'What is GEO (Generative Engine Optimization)?', a: 'GEO is the practice of optimizing your digital presence so AI engines like ChatGPT, Perplexity, and Google AI Overviews discover, trust, and quote your website as an authoritative source.' },
+      { q: 'Does AI SEO replace traditional Google SEO?', a: 'No, they compound together. Strong traditional SEO provides the crawlability and topical authority that AI systems rely on for source citations.' },
+      { q: 'How do you measure success in AI search?', a: 'We track prompt share of voice, direct citation frequency, LLM sentiment, and referral traffic originating from conversational AI engines.' },
+    ],
+  },
+  {
+    slug: 'programmatic-seo', category: 'seo', parentTitle: 'SEO Services', title: 'Programmatic SEO',
+    desc: 'Capture thousands of high-intent long-tail keywords by building scalable, data-driven landing pages with automated schema, dynamic content, and strict indexation guardrails.',
+    features: [
+      'Database-driven landing page architecture for transactional search intent',
+      'Dynamic content templates with zero thin-content or duplicate penalty risk',
+      'Automated internal linking silos and breadcrumb graph structures',
+      'Crawl budget and indexation guardrails for 10k+ dynamic URLs',
+      'Real-time schema markup injection and dynamic XML sitemap generation',
+      'Proprietary dataset integration to deliver unique, value-add page insights',
+      'Automated canonicalization and orphaned URL detection systems',
+      'Conversion rate optimization modules tailored to each query cluster',
+    ],
+    result: 'Generated 140,000+ monthly organic visits from programmatic landing page clusters.',
+    stats: [
+      { value: '140k+', label: 'Monthly organic visits generated' },
+      { value: '10k+', label: 'Indexed pages managed' },
+      { value: '99.8%', label: 'Google indexation rate' },
+      { value: '7.8x', label: 'Average return on retainer' },
+    ],
+    process: [
+      { title: 'Query pattern modeling', desc: 'We uncover high-intent repeatable keyword modifiers and map user search demand.' },
+      { title: 'Data pipeline architecture', desc: 'We structure clean proprietary datasets and construct rich programmatic templates.' },
+      { title: 'Staging & crawl QA', desc: 'We validate indexation rules, page speed, canonicals, and duplicate content guardrails.' },
+      { title: 'Staged deployment & indexation', desc: 'We roll out page batches strategically, monitoring search console indexing velocity.' },
+    ],
+    faqs: [
+      { q: 'What is Programmatic SEO?', a: 'Programmatic SEO involves creating hundreds or thousands of high-quality, template-driven landing pages based on structured database inputs to capture long-tail search intent.' },
+      { q: 'Will Google penalize programmatic pages for duplicate content?', a: 'Not when done correctly. We ensure every page includes unique data points, distinct user utility, and specialized internal linking rather than generic spun text.' },
+      { q: 'How fast do programmatic pages get indexed?', a: 'With optimized XML sitemaps, clean internal architecture, and strong topical signals, pages typically begin indexing within 14 to 30 days.' },
+    ],
+  },
+  {
     slug: 'chatgpt', category: 'ai-search', parentTitle: 'AI Search & GEO', title: 'ChatGPT Optimization',
     desc: 'ChatGPT Search processes millions of queries daily. When someone asks "best SEO agency for e-commerce," does your brand appear? We engineer the conditions that make ChatGPT cite you consistently.',
     features: [
@@ -715,4 +779,8 @@ export function getSubServiceSlugs(): [string, string][] {
 
 export function getSubServicesByCategory(category: string): SubService[] {
   return allSubServices.filter(s => s.category === category)
+}
+
+export function getAllSubServices(): SubService[] {
+  return allSubServices
 }

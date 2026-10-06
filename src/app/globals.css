@@ -1848,99 +1848,109 @@ samp {
 }
 
 /* ============================================
-   Service cards
+   Service cards (home-page styled card grid)
    ============================================ */
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  border-top: 1px solid var(--border);
-  border-left: 1px solid var(--border);
+  gap: 24px;
 }
 
 .service {
-  padding: 36px 32px 32px;
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
+  padding: 34px 30px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   position: relative;
-  transition: background 0.3s, color 0.3s;
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out), border-color 0.25s, background 0.25s;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  min-height: 320px;
+  min-height: 310px;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(18, 22, 19, 0.04);
 }
 
 .service:hover {
-  background: var(--ink);
-  color: var(--dark-ink);
-}
-
-.service:hover .service-arrow {
-  background: var(--accent);
-  color: var(--accent-ink);
-  transform: rotate(-45deg);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: #DDD4C2;
 }
 
 .service:hover .service-num {
-  color: var(--accent);
+  color: var(--orange);
 }
 
-.service:hover p {
-  color: var(--dark-ink-soft);
+.service:hover h3 {
+  color: var(--orange);
+}
+
+.service:hover .service-arrow {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #fff;
+  transform: translateX(4px);
 }
 
 .service-num {
   font-family: var(--f-mono);
   font-size: 12px;
-  color: var(--ink-mute);
-  margin-bottom: 32px;
-  transition: color 0.3s;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+  transition: color 0.25s;
 }
 
 .service h3 {
-  font-family: var(--f-display);
-  font-size: 30px;
-  line-height: 1.05;
+  font-family: var(--f-display) !important;
+  font-size: 24px;
+  line-height: 1.2;
   margin-bottom: 12px;
-  font-weight: 400;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  transition: color 0.2s;
 }
 
 .service p {
-  font-size: 14px;
-  color: var(--ink-soft);
-  line-height: 1.5;
-  margin: 0 0 28px;
+  font-family: var(--f-body);
+  font-size: 14.5px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 24px;
   flex: 1;
-  transition: color 0.3s;
 }
 
 .service-arrow {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: var(--surface);
+  background: var(--cream);
+  border: 1px solid var(--line);
   display: grid;
   place-items: center;
-  transition: background 0.3s, transform 0.3s var(--ease-out), color 0.3s;
+  transition: all 0.25s var(--ease-out);
   align-self: flex-start;
   color: var(--ink);
+  margin-top: auto;
 }
 
 .service-arrow svg {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
 }
 
-@media (max-width: 920px) {
+@media (max-width: 960px) {
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .services-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 
