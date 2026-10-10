@@ -236,7 +236,7 @@ export default async function SeoServicesPage() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section" style={{ background: 'var(--surface)' }}>
         <div className="wrap">
           <div className="ref-features-header reveal">
             <span className="eyebrow">{c.adv_eyebrow}</span>
@@ -246,9 +246,12 @@ export default async function SeoServicesPage() {
             <p className="sub">{c.adv_sub}</p>
           </div>
           <div className="ref-features-grid">
-            {advantages.map(a => (
+            {advantages.map((a, i) => (
               <div className="ref-adv-card reveal" key={a.title}>
-                <div className="ref-feature-icon">{a.icon}</div>
+                <div className="ref-adv-top">
+                  <div className="ref-feature-icon">{a.icon}</div>
+                  <span className="ref-adv-num">{String(i + 1).padStart(2, '0')}</span>
+                </div>
                 <h3>{a.title}</h3>
                 <p>{a.desc}</p>
               </div>

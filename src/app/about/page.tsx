@@ -241,37 +241,82 @@ export default async function AboutPage() {
       <Nav active="about" />
 
       {/* ===== HERO SECTION ===== */}
-      <header className="page-hero">
+      <header className="page-hero about-hero-sec">
         <div className="wrap">
-          <div className="crumbs" style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 20 }}>
-            <Link href="/" style={{ color: 'inherit' }}>Home</Link> / <b style={{ color: 'var(--ink)' }}>About Us</b>
-          </div>
-          <span className="eyebrow" style={{ marginBottom: 18 }}>About GENRANQ</span>
-          <h1 style={{ fontSize: 'clamp(40px, 5.5vw, 68px)', margin: '16px 0 24px' }}>
-            SEO experts who <em className="accent">also build software.</em>
-          </h1>
-          <p className="lead" style={{ maxWidth: 720, fontSize: 18, lineHeight: 1.65, color: 'var(--muted)', marginBottom: 36 }}>
-            GENRANQ Software LLP is a Vadodara-based software and search growth company founded in 2014. We started as a four-person SEO studio for local businesses and today run SEO, AI search (GEO), website design and development, and dedicated developer teams for 600+ businesses across 42 countries.
-          </p>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14, maxWidth: 960, marginBottom: 36 }}>
-            {['Founded 2014 in Vadodara', '120+ in-house team', '600+ clients, 42 countries', '94% client retention'].map((check) => (
-              <div key={check} style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'var(--cream)', padding: '12px 18px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--line)', fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>
-                <span style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--orange-soft)', color: 'var(--orange)', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
-                  <CheckIcon />
-                </span>
-                {check}
+          <div className="about-hero-grid">
+            <div className="about-hero-left">
+              <div className="crumbs" style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 18 }}>
+                <Link href="/" style={{ color: 'inherit' }}>Home</Link> <span style={{ margin: '0 6px', opacity: 0.5 }}>/</span> <b style={{ color: 'var(--ink)' }}>About Us</b>
               </div>
-            ))}
-          </div>
+              <span className="eyebrow" style={{ marginBottom: 16 }}>
+                About GENRANQ · Est. 2014
+              </span>
+              <h1 className="about-hero-title">
+                SEO experts who <em className="accent">also build software.</em>
+              </h1>
+              <p className="lead about-hero-lead">
+                GENRANQ Software LLP is a Vadodara-based software and search growth company founded in 2014. We started as a four-person studio and today deliver forensic SEO, AI search (GEO), and dedicated engineering pods for 600+ businesses across 42 countries.
+              </p>
 
-          <div className="hero-ctas" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-            <a href="#team" className="btn btn-primary">
-              Meet our team <span style={{ marginLeft: 6 }}>↓</span>
-            </a>
-            <Link href="/contact" className="btn btn-ghost">
-              Talk to a strategist <span className="arr"><ArrowRight /></span>
-            </Link>
+              <div className="about-hero-chips">
+                {['Founded 2014 in Vadodara', '120+ in-house team', '600+ clients, 42 countries', '94% client retention'].map((check) => (
+                  <div key={check} className="about-chip">
+                    <span className="about-chip-icon">
+                      <CheckIcon />
+                    </span>
+                    <span>{check}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="hero-ctas" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+                <a href="#team" className="btn btn-primary">
+                  Meet our team <span style={{ marginLeft: 6 }}>↓</span>
+                </a>
+                <Link href="/contact" className="btn btn-ghost">
+                  Talk to a strategist <span className="arr"><ArrowRight /></span>
+                </Link>
+              </div>
+            </div>
+
+            <div className="about-hero-right">
+              <div className="about-badge-card">
+                <div className="about-badge-header">
+                  <div className="about-badge-live">
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#10B981', display: 'inline-block' }} />
+                    <span>Vadodara HQ · Active in 42 Countries</span>
+                  </div>
+                  <span className="about-badge-year">EST. 2014</span>
+                </div>
+
+                <div className="about-badge-kpi-grid">
+                  <div className="about-badge-kpi">
+                    <b>12<small>+</small></b>
+                    <span>Years in Search</span>
+                  </div>
+                  <div className="about-badge-kpi">
+                    <b>120<small>+</small></b>
+                    <span>In-House Experts</span>
+                  </div>
+                  <div className="about-badge-kpi">
+                    <b>600<small>+</small></b>
+                    <span>Global Clients</span>
+                  </div>
+                  <div className="about-badge-kpi">
+                    <b>94<small>%</small></b>
+                    <span>Client Retention</span>
+                  </div>
+                </div>
+
+                <div className="about-badge-footer">
+                  <div className="about-badge-stars">
+                    <span style={{ color: '#F59E0B', letterSpacing: 2 }}>★★★★★</span>
+                    <b>4.9 / 5.0 Rating</b>
+                  </div>
+                  <p>Senior-only practitioners. 100% code, schema, and data ownership.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </header>
@@ -509,27 +554,41 @@ export default async function AboutPage() {
       </section>
 
       {/* ===== 7. FAQ SECTION ===== */}
-      <section className="pad" id="faq">
-        <div className="wrap" style={{ maxWidth: 900 }}>
-          <div className="sec-head reveal">
-            <span className="eyebrow">Agency FAQs</span>
-            <h2>Frequently asked questions about <em className="accent">GENRANQ.</em></h2>
-            <p className="lead" style={{ marginTop: 12 }}>
-              Everything you need to know about our corporate registration, team composition, timezone workflows, and contract terms.
-            </p>
-          </div>
-          <div className="faq-list reveal">
-            {aboutFaqs.map((item, i) => (
-              <details className="faq" key={item.q} open={i === 0}>
-                <summary>
-                  <span>{item.q}</span>
-                  <span className="faq-icon">
-                    <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
-                  </span>
-                </summary>
-                <div className="faq-body">{item.a}</div>
-              </details>
-            ))}
+      <section className="pad" id="faq" style={{ background: 'var(--surface)' }}>
+        <div className="wrap">
+          <div className="faq-layout">
+            <div className="faq-layout-head reveal">
+              <span className="eyebrow">Agency FAQs</span>
+              <h2>Frequently asked questions about <em className="accent">GENRANQ.</em></h2>
+              <p className="lead" style={{ marginTop: 16 }}>
+                Everything you need to know about our corporate registration, team composition, timezone workflows, and contract terms.
+              </p>
+
+              <div className="faq-ask-card">
+                <div className="faq-ask-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                </div>
+                <h4>Have a specific question?</h4>
+                <p>Talk directly with our senior strategy leadership — no junior account managers.</p>
+                <Link href="/contact" className="btn btn-primary" style={{ padding: '10px 18px', fontSize: 13.5 }}>
+                  Ask our team <span className="arr"><ArrowRight /></span>
+                </Link>
+              </div>
+            </div>
+
+            <div className="faq-list reveal">
+              {aboutFaqs.map((item, i) => (
+                <details className="faq" key={item.q} open={i === 0}>
+                  <summary>
+                    <span>{item.q}</span>
+                    <span className="faq-icon">
+                      <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
+                    </span>
+                  </summary>
+                  <div className="faq-body">{item.a}</div>
+                </details>
+              ))}
+            </div>
           </div>
         </div>
       </section>
