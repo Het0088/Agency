@@ -4,6 +4,7 @@ type MetaRow = {
   title: string
   description: string
   canonical: string
+  keywords?: string
   og_title: string
   og_description: string
   og_image: string
@@ -15,6 +16,7 @@ export async function getPageMeta(route: string): Promise<MetaRow> {
     title: defaults?.fields.title || 'GENRANQ Software LLP',
     description: defaults?.fields.description || '',
     canonical: defaults?.fields.canonical || 'https://genranq.com',
+    keywords: defaults?.fields.keywords || 'SEO, AI Search, GEO, Web Development, Digital Marketing, GENRANQ',
     og_title: defaults?.fields.ogTitle || defaults?.fields.title || 'GENRANQ Software LLP',
     og_description: defaults?.fields.ogDescription || defaults?.fields.description || '',
     og_image: defaults?.fields.ogImage || '',
@@ -28,6 +30,7 @@ export async function getPageMeta(route: string): Promise<MetaRow> {
         title: row.title || fallback.title,
         description: row.description || fallback.description,
         canonical: row.canonical || fallback.canonical,
+        keywords: row.keywords || fallback.keywords,
         og_title: row.og_title || fallback.og_title,
         og_description: row.og_description || fallback.og_description,
         og_image: row.og_image || fallback.og_image,

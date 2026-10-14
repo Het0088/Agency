@@ -31,6 +31,7 @@ const CREATE_TABLE = `
     title VARCHAR(500) NOT NULL DEFAULT '',
     description TEXT,
     canonical VARCHAR(500),
+    keywords TEXT,
     og_title VARCHAR(500),
     og_description TEXT,
     og_image VARCHAR(500),
@@ -49,6 +50,7 @@ function staticPages(map: Record<string, Record<string, string>> = {}) {
       title: map[p.route]?.title || p.fields.title,
       description: map[p.route]?.description || p.fields.description,
       canonical: map[p.route]?.canonical || p.fields.canonical,
+      keywords: map[p.route]?.keywords || p.fields.keywords || 'SEO, AI Search, GEO, Web Development, Digital Marketing',
       og_title: map[p.route]?.og_title || p.fields.ogTitle || p.fields.title,
       og_description: map[p.route]?.og_description || p.fields.ogDescription || p.fields.description,
       og_image: map[p.route]?.og_image || '',
@@ -86,19 +88,23 @@ export async function PUT(req: NextRequest) {
   try { body = await req.json() }
   catch { return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 }) }
 
-  const { route, title, description, canonical, og_title, og_description, og_image } = body
+  const { route, title, description, canonical, keywords, og_title, og_description, og_image } = body
   if (!route || !title) return NextResponse.json({ error: 'route and title required' }, { status: 422 })
 
   try {
     await query(CREATE_TABLE, [])
+    try {
+      await query('ALTER TABLE page_meta ADD COLUMN IF NOT EXISTS keywords TEXT', [])
+    } catch {}
     await query(
-      `INSERT INTO page_meta (route, title, description, canonical, og_title, og_description, og_image)
-       VALUES (?, ?, ?, ?, ?, ?, ?)
+      `INSERT INTO page_meta (route, title, description, canonical, keywords, og_title, og_description, og_image)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
        ON DUPLICATE KEY UPDATE
          title=VALUES(title), description=VALUES(description), canonical=VALUES(canonical),
+         keywords=VALUES(keywords),
          og_title=VALUES(og_title), og_description=VALUES(og_description), og_image=VALUES(og_image),
          updated_at=CURRENT_TIMESTAMP`,
-      [route, title, description || '', canonical || '', og_title || title, og_description || description || '', og_image || '']
+      [route, title, description || '', canonical || '', keywords || '', og_title || title, og_description || description || '', og_image || '']
     )
   } catch {
     // Local fallback
@@ -108,6 +114,7 @@ export async function PUT(req: NextRequest) {
       title,
       description: description || '',
       canonical: canonical || '',
+      keywords: keywords || '',
       og_title: og_title || title,
       og_description: og_description || description || '',
       og_image: og_image || '',

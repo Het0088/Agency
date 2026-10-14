@@ -30,7 +30,7 @@ const publications: Publication[] = [
     pages: '44 pages',
     summary: 'A forensic audit of 12,000 queries across ChatGPT Search, Perplexity Pro, Google AI Overviews, and Claude 3.5 Sonnet to map which brand citations LLMs surface and why.',
     keyTakeaway: '87% of LLM citations originate from third-party consensus sources (Wikidata, Crunchbase, tier-1 trade media) rather than brand-owned landing pages.',
-    downloadUrl: '#download-geo-report',
+    downloadUrl: '/downloads/the-2026-ai-search-visibility-report.pdf',
     gradient: 'linear-gradient(135deg, #ff5a1f 0%, #ff8c42 100%)',
     featured: true,
   },
@@ -44,7 +44,7 @@ const publications: Publication[] = [
     pages: '32 pages',
     summary: 'How leading enterprise brands eliminate main-thread blocking, optimize long tasks in Next.js/React applications, and maintain a 99th percentile INP under 120ms.',
     keyTakeaway: 'Yielding to the main thread using scheduler.yield() and optimizing React 19 hydration reduced bounce rates by 24% across 8 tested e-commerce clients.',
-    downloadUrl: '#download-inp-handbook',
+    downloadUrl: '/downloads/inp-technical-whitepaper-2026.pdf',
     gradient: 'linear-gradient(135deg, #0e1410 0%, #1f2d24 100%)',
   },
   {
@@ -57,7 +57,7 @@ const publications: Publication[] = [
     pages: '38 pages',
     summary: 'The technical database schema, dynamic token generation rules, and localized entity schema required to rank #1 in multi-location service markets.',
     keyTakeaway: 'Unique first-party review aggregations and local geo-coordinate schema prevents 99.4% of Google unindexed duplicate page classifications.',
-    downloadUrl: '#download-pseo-playbook',
+    downloadUrl: '/downloads/the-2026-ai-search-visibility-report.pdf',
     gradient: 'linear-gradient(135deg, #2b3a4a 0%, #486581 100%)',
   },
   {
@@ -70,7 +70,7 @@ const publications: Publication[] = [
     pages: '26 pages',
     summary: 'A step-by-step implementation guide on establishing unambiguous brand entity authority so Google Search and AI models treat your brand as an undisputed primary authority.',
     keyTakeaway: 'Establishing matching sameAs schema across Wikidata, Crunchbase, and government registry databases accelerates Knowledge Panel generation by 3.4x.',
-    downloadUrl: '#download-entity-blueprint',
+    downloadUrl: '/downloads/brand-entity-seo-blueprint.pdf',
     gradient: 'linear-gradient(135deg, #1b3b36 0%, #2f6f63 100%)',
   },
   {
@@ -83,7 +83,7 @@ const publications: Publication[] = [
     pages: '18 pages',
     summary: 'Data analysis of 450 domains hit by recent Google quality algorithms, detailing exact crawl budget cutoffs, programmatic de-indexation triggers, and recovery protocols.',
     keyTakeaway: 'Sites with unedited AI copy suffered an average 68% organic visibility collapse, while human-edited technical analyses experienced a +42% traffic lift.',
-    downloadUrl: '#download-algo-teardown',
+    downloadUrl: '/downloads/the-2026-ai-search-visibility-report.pdf',
     gradient: 'linear-gradient(135deg, #3d1c1a 0%, #632d29 100%)',
   },
   {
@@ -96,7 +96,7 @@ const publications: Publication[] = [
     pages: '36 pages',
     summary: 'How Shopify Plus and custom headless stores manage millions of filter combinations without creating spider traps, index bloat, or canonical dilution.',
     keyTakeaway: 'AJAX-driven multi-select attributes combined with selective canonicalization recovered over 2.4 million crawled-not-indexed URLs for our retail clients.',
-    downloadUrl: '#download-facets-handbook',
+    downloadUrl: '/downloads/the-2026-ai-search-visibility-report.pdf',
     gradient: 'linear-gradient(135deg, #4a284e 0%, #76427d 100%)',
   },
 ]
@@ -110,6 +110,14 @@ const categories = ['All', 'Research Reports', 'White Papers', 'Search Playbooks
 export default function PublicationsClient({ content = {} }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<string>('All')
   const [search, setSearch] = useState<string>('')
+  const [downloadToast, setDownloadToast] = useState<string | null>(null)
+
+  const triggerDownload = (pub: Publication) => {
+    setDownloadToast(`Downloading "${pub.title.slice(0, 42)}..." (PDF ✓)`)
+    setTimeout(() => {
+      setDownloadToast(null)
+    }, 4500)
+  }
 
   const filtered = publications.filter(p => {
     const matchesCat = selectedCategory === 'All' || p.category === selectedCategory
@@ -219,11 +227,21 @@ export default function PublicationsClient({ content = {} }: Props) {
                 </div>
 
                 <div className="pub-action-row">
-                  <Link href="/contact?ref=publications" className="btn btn-primary">
+                  <a
+                    href={featured.downloadUrl || '/downloads/the-2026-ai-search-visibility-report.pdf'}
+                    download="the-2026-ai-search-visibility-report.pdf"
+                    className="btn btn-primary"
+                    onClick={() => triggerDownload(featured)}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 6 }}>
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
                     {content.featured_btn || 'Download Full PDF (Free)'} <span className="arr"><ArrowRight /></span>
-                  </Link>
+                  </a>
                   <span className="pub-free-note">
-                    <IconLock /> {content.featured_note || 'No credit card required • Instant access'}
+                    <IconLock /> {content.featured_note || 'Instant PDF download • No credit card required'}
                   </span>
                 </div>
               </div>
@@ -273,9 +291,19 @@ export default function PublicationsClient({ content = {} }: Props) {
 
                     <div className="pub-card-foot">
                       <span className="pub-card-date">{pub.date}</span>
-                      <Link href="/contact?ref=publications" className="pub-download-link">
+                      <a
+                        href={pub.downloadUrl || '/downloads/the-2026-ai-search-visibility-report.pdf'}
+                        download={pub.downloadUrl ? pub.downloadUrl.split('/').pop() : 'whitepaper.pdf'}
+                        className="pub-download-link"
+                        onClick={() => triggerDownload(pub)}
+                      >
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 4 }}>
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                          <polyline points="7 10 12 15 17 10"></polyline>
+                          <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
                         Download PDF <span className="arr"><ArrowRight /></span>
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 </article>
@@ -303,6 +331,32 @@ export default function PublicationsClient({ content = {} }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Download Feedback Toast */}
+      {downloadToast && (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: 24,
+            right: 24,
+            background: '#111412',
+            color: '#fff',
+            padding: '14px 22px',
+            borderRadius: 14,
+            boxShadow: '0 12px 36px rgba(0,0,0,0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            zIndex: 99999,
+            border: '1.5px solid var(--orange)',
+            fontFamily: 'var(--f-body)',
+            fontSize: 14,
+          }}
+        >
+          <span style={{ color: '#1f9d55', fontSize: 18, fontWeight: 'bold' }}>✓</span>
+          <span>{downloadToast}</span>
+        </div>
+      )}
     </div>
   )
 }

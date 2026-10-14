@@ -9968,10 +9968,74 @@ function MediaPicker({ open, onClose, onPick, accept }) {
     ${!s.media.length ? html`<${Empty}>No uploads yet.<//>` : null}
   <//>`;
 }
-function ImageField({ label, value, onChange, hint }) {
+function ImageField({ label = 'Picture', value, onChange, hint, altValue = '', onAltChange = null }) {
   const [open, setOpen] = useState(false);
-  return html`<${Field} label=${label} hint=${hint}><div class="imgf">${value ? html`<img src=${value} alt="" />` : html`<div class="ph">No image</div>`}<div class="col"><div class="row"><${Btn} small onClick=${() => setOpen(true)}>Choose / upload<//>${value ? html`<${Btn} small onClick=${() => onChange('')}>Remove<//>` : null}</div><small class="muted">${value ? (value.startsWith('data:') ? 'Uploaded image' : value) : ''}</small></div></div><${MediaPicker} open=${open} onClose=${() => setOpen(false)} onPick=${(u, m) => { onChange(u, m); setOpen(false); }} /><//>`;
+  const [copied, setCopied] = useState(false);
+  const [localAlt, setLocalAlt] = useState(altValue);
+
+  const copyUrl = () => {
+    if (value && typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  return html`<div class="card inner pic-editor-card" style="margin-bottom: 14px; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; background: #fafaf9;">
+    <div style="font-size: 13.5px; font-weight: 700; color: var(--ink); margin-bottom: 12px;">${label || 'Picture'}</div>
+    <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px;">
+      <div style="width: 80px; height: 80px; border-radius: 8px; border: 1px solid var(--line); overflow: hidden; background: #000; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+        ${value ? html`<img src=${value} alt="" style="width: 100%; height: 100%; object-fit: cover;" />` : html`<div style="font-size: 11px; color: #888;">No image</div>`}
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center; padding-top: 8px;">
+        <${Btn} small onClick=${() => setOpen(true)}>Choose…<//>
+        ${value ? html`<${Btn} small kind="ghost" onClick=${() => { onChange(''); if (onAltChange) onAltChange(''); setLocalAlt(''); }}>Clear<//>` : null}
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: start; margin-bottom: 16px;">
+      <label style="font-size: 13px; font-weight: 600; color: var(--ink); padding-top: 6px;">Alternative Text</label>
+      <div>
+        <textarea
+          class="inp"
+          rows="3"
+          placeholder="Describe the purpose of the image..."
+          value=${localAlt || altValue}
+          onInput=${(e) => {
+            const v = e.target.value;
+            setLocalAlt(v);
+            if (onAltChange) onAltChange(v);
+          }}
+          style="width: 100%; font-size: 13px; line-height: 1.45; resize: vertical;"
+        ></textarea>
+        <div style="font-size: 11.5px; color: var(--muted); margin-top: 6px; line-height: 1.4;">
+          <a href="https://www.w3.org/WAI/tutorials/images/decision-tree/" target="_blank" rel="noopener" style="color: var(--orange); text-decoration: underline;">Learn how to describe the purpose of the image.</a><br />
+          <span>Leave empty if the image is purely decorative.</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: center;">
+      <label style="font-size: 13px; font-weight: 600; color: var(--ink);">File URL</label>
+      <div>
+        <input class="inp" value=${value || ''} onInput=${(e) => onChange(e.target.value)} placeholder="/img/... or https://..." style="width: 100%; font-size: 12.5px; font-family: var(--f-mono);" />
+        <div style="margin-top: 8px;">
+          <${Btn} xs kind="ghost" onClick=${copyUrl} disabled=${!value}>${copied ? 'Copied ✓' : 'Copy URL to clipboard'}<//>
+        </div>
+      </div>
+    </div>
+
+    <${MediaPicker} open=${open} onClose=${() => setOpen(false)} onPick=${(u, m) => {
+      onChange(u, m);
+      if (m?.alt) {
+        setLocalAlt(m.alt);
+        if (onAltChange) onAltChange(m.alt);
+      }
+      setOpen(false);
+    }} />
+  </div>`;
 }
+
 function linkTargets(s) {
   return [...s.pages.map((p) => ({ label: p.title, url: docPath(p), kind: pageTypeLabel(p.pageType), status: p.status })), ...s.posts.map((p) => ({ label: p.title, url: docPath(p), kind: secConf(p.section || 'blog', s).label, status: p.status })), ...enabledSections(s).map((c) => ({ label: `${c.label} index`, url: '/' + c.base, kind: 'Section' })), ...(s.popups || []).map((p) => ({ label: `Open popup: ${p.name}`, url: '#popup-' + p.id, kind: 'Popup (on click)' }))];
 }
@@ -10338,6 +10402,7 @@ function DocEditor({ kind, id, go, section: sec0, preset }) {
         <div class="row wrap-row ai-row"><${AiBtn} label="✨ Write meta title & description" run=${async () => { const t = await aiComplete(`You are an SEO copywriter. For this page write a meta title (max 60 characters, include the focus keyword near the start, end with "${s.settings.site.titleSuffix.trim()}") and a meta description (130-155 characters, include the keyword once, clear benefit, call to action). Reply as JSON {"title":"...","description":"..."} only.\n\n${pageBrief(doc)}`); const j = JSON.parse(t.slice(t.indexOf('{'), t.lastIndexOf('}') + 1)); setDoc({ ...doc, seo: { ...doc.seo, metaTitle: j.title, metaDescription: j.description } }); }} />${kind === 'posts' ? html`<${AiBtn} label="✨ Write excerpt" run=${async () => up('excerpt')(await aiComplete(`Write a 1-2 sentence excerpt (max 180 characters) for this article. Reply with the excerpt only.\n\n${pageBrief(doc)}`))} />` : null}<${AiBtn} label="✨ Suggest focus keyword" run=${async () => upSeo('focusKeyword')((await aiComplete(`Suggest the single best focus keyword (2-4 words) this page should rank for. Reply with the keyword only.\n\n${pageBrief(doc)}`)).replace(/^"|"$/g, ''))} /></div>
         <${Field} label="Meta title" count=${metaTitle.length} max=${60} hint=${`Empty = page title + "${s.settings.site.titleSuffix}"`}><${Input} value=${doc.seo.metaTitle} onChange=${upSeo('metaTitle')} placeholder=${metaTitle} /><//>
         <${Field} label="Meta description" count=${(doc.seo.metaDescription || '').length} max=${160}><${Textarea} value=${doc.seo.metaDescription} onChange=${upSeo('metaDescription')} /><//>
+        <${Field} label="Meta keywords" hint="Comma-separated keywords (e.g. SEO, AI search, digital marketing)"><${Input} value=${doc.seo.metaKeywords} onChange=${upSeo('metaKeywords')} placeholder="e.g. SEO, AI Search, Google GEO" /><//>
         ${!isTpl ? html`<${Field} label="Canonical URL" hint="Leave empty to use this page's own URL."><${Input} value=${doc.seo.canonical} onChange=${upSeo('canonical')} placeholder=${site + docPath(doc)} /><//>
           <${ImageField} label="Social share image (Open Graph)" value=${doc.seo.ogImage} onChange=${upSeo('ogImage')} hint="1200 × 630 px recommended." />
           <div class="row wrap-row"><${Toggle} checked=${doc.seo.noindex} onChange=${upSeo('noindex')} label="noindex (hide from Google)" /><${Toggle} checked=${doc.seo.nofollow} onChange=${upSeo('nofollow')} label="nofollow links" /><${Toggle} checked=${!doc.excludeFromLlms} onChange=${(v) => up('excludeFromLlms')(!v)} label="Include in llms.txt" /></div>` : null}</div></div>` : null}
@@ -10545,7 +10610,11 @@ function SettingsPage() {
       <${Card} title="Favicon & images"><${ImageField} label="Favicon" value=${st.favicon} onChange=${up('favicon')} hint="Square PNG, SVG or ICO. Shows in this browser tab after saving." /><${ImageField} label="Logo (for schema & social)" value=${st.logo} onChange=${up('logo')} /><${ImageField} label="Default social share image" value=${st.ogImage} onChange=${up('ogImage')} /><//>
       <${Card} title="Default SEO"><${Field} label="Title suffix" hint='Added after page titles, e.g. " | GENRANQ"'><${Input} value=${st.titleSuffix} onChange=${up('titleSuffix')} /><//><${Field} label="Default meta description"><${Textarea} value=${st.defaultDescription} onChange=${up('defaultDescription')} /><//><${Toggle} checked=${st.organizationSchema} onChange=${up('organizationSchema')} label="Add Organization schema to every page" /><//>
       <${Card} title="Contact details"><${Field} label="Email"><${Input} value=${st.email} onChange=${up('email')} /><//><${Field} label="Phone"><${Input} value=${st.phone} onChange=${up('phone')} /><//><${Field} label="Address"><${Input} value=${st.address} onChange=${up('address')} /><//><//></div>
-    <${Card} title="Tracking & custom code"><${Field} label="Head code" hint="Google Analytics, Tag Manager, Search Console verification…"><${Textarea} code rows=${5} value=${st.headScripts} onChange=${up('headScripts')} /><//><${Field} label="Footer code"><${Textarea} code rows=${4} value=${st.bodyScripts} onChange=${up('bodyScripts')} /><//><//></div>`;
+    <${Card} title="Tracking & custom code">
+      <${Field} label="Head code" hint="Google Analytics, Tag Manager, Search Console verification…"><${Textarea} code rows=${5} value=${st.headScripts} onChange=${up('headScripts')} /><//>
+      <${Field} label="Body code — right after the opening <body> — e.g. Tag Manager’s second snippet" hint="Essential — loads before the visitor answers (only for what the site cannot work without)"><${Textarea} code rows=${4} value=${st.bodyCode || st.bodyOpenScripts} onChange=${(v) => { up('bodyCode')(v); up('bodyOpenScripts')(v); fetch('/api/admin/scripts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ body_code: v }) }).catch(() => {}); }} /><//>
+      <${Field} label="Footer code — at the end of the page, before </body>"><${Textarea} code rows=${4} value=${st.bodyScripts} onChange=${up('bodyScripts')} /><//>
+    <//></div>`;
 }
 
 /* ================= SEO tools ================= */

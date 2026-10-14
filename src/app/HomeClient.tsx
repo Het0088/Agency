@@ -97,6 +97,7 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
   const articlesList = articles && articles.length > 0 ? articles : defaultArticles
   const blogsList = blogs && blogs.length > 0 ? blogs : defaultBlogs
   const [navOpen, setNavOpen] = useState(false)
+  const [activeEngine, setActiveEngine] = useState<'chatgpt' | 'perplexity' | 'google-ai' | 'gemini' | 'claude'>('chatgpt')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [auditSubmitting, setAuditSubmitting] = useState(false)
   const [auditStatus, setAuditStatus] = useState<string | null>(null)
@@ -104,6 +105,17 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
   const [newsStatus, setNewsStatus] = useState<string | null>(null)
 
   const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (navOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [navOpen])
 
   useEffect(() => {
     const root = containerRef.current
@@ -349,7 +361,7 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
       {/* ================= NAV ================= */}
       <nav className={`nav ${navOpen ? 'open' : ''}`} id="nav">
         <div className="wrap">
-          <Link href="/" className="logo" aria-label="GENRANQ Software LLP">
+          <Link href="/" className="logo" aria-label="GENRANQ Software LLP" onClick={() => setNavOpen(false)}>
             <svg className="logo-mark"><use href="#g-mark" /></svg>
             <span className="logo-text">
               <span className="logo-word">GENRANQ</span>
@@ -357,25 +369,111 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
             </span>
           </Link>
           <div className="nav-links">
-            <a href="#services" onClick={() => setNavOpen(false)}>Services</a>
-            <a href="#ai-seo" onClick={() => setNavOpen(false)}>AI SEO</a>
-            <a href="#why" onClick={() => setNavOpen(false)}>Why us</a>
-            <a href="#results" onClick={() => setNavOpen(false)}>Results</a>
-            <a href="#insights" onClick={() => setNavOpen(false)}>Insights</a>
-            <a href="#faq" onClick={() => setNavOpen(false)}>FAQ</a>
+            <a href="#services">Services</a>
+            <a href="#ai-seo">AI SEO</a>
+            <a href="#why">Why us</a>
+            <a href="#results">Results</a>
+            <a href="#insights">Insights</a>
+            <a href="#faq">FAQ</a>
           </div>
-          <a href="#audit" className="btn btn-dark" onClick={() => setNavOpen(false)}>
+          <a href="#audit" className="btn btn-dark nav-cta-desktop">
             Get a free audit <svg><use href="#arrow" /></svg>
           </a>
           <button
-            className="menu-btn"
-            aria-label="Menu"
+            className={`menu-btn ${navOpen ? 'is-active' : ''}`}
+            aria-label={navOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={navOpen}
             onClick={() => setNavOpen(!navOpen)}
           >
-            <svg width="20" height="20" viewBox="0 0 20 20">
-              <path d="M3 6h14M3 14h14" stroke="#121613" strokeWidth="1.8" strokeLinecap="round" />
-            </svg>
+            {navOpen ? (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#121613" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 20 20">
+                <path d="M3 6h14M3 14h14" stroke="#121613" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
+            )}
           </button>
+        </div>
+
+        {/* Dedicated Fullscreen Mobile Navigation Drawer */}
+        <div className={`mobile-nav-drawer ${navOpen ? 'is-visible' : ''}`} aria-hidden={!navOpen}>
+          <div className="mobile-drawer-inner">
+            <div className="mobile-drawer-top">
+              <Link href="/" className="logo" onClick={() => setNavOpen(false)}>
+                <svg className="logo-mark"><use href="#g-mark" /></svg>
+                <span className="logo-text">
+                  <span className="logo-word">GENRANQ</span>
+                  <span className="logo-sub">SOFTWARE LLP</span>
+                </span>
+              </Link>
+              <button
+                type="button"
+                className="mobile-drawer-close"
+                onClick={() => setNavOpen(false)}
+                aria-label="Close menu"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#121613" strokeWidth="2.2" strokeLinecap="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+
+            <div className="mobile-drawer-nav">
+              <span className="mobile-drawer-label">Menu</span>
+              <a href="#services" className="mobile-drawer-link" onClick={() => setNavOpen(false)}>
+                <span className="num">01</span>
+                <span className="name">Services</span>
+                <span className="arr">→</span>
+              </a>
+              <a href="#ai-seo" className="mobile-drawer-link" onClick={() => setNavOpen(false)}>
+                <span className="num">02</span>
+                <span className="name">AI SEO &amp; GEO</span>
+                <span className="arr">→</span>
+              </a>
+              <a href="#why" className="mobile-drawer-link" onClick={() => setNavOpen(false)}>
+                <span className="num">03</span>
+                <span className="name">Why us</span>
+                <span className="arr">→</span>
+              </a>
+              <a href="#results" className="mobile-drawer-link" onClick={() => setNavOpen(false)}>
+                <span className="num">04</span>
+                <span className="name">Results &amp; Proof</span>
+                <span className="arr">→</span>
+              </a>
+              <a href="/insights" className="mobile-drawer-link" onClick={() => setNavOpen(false)}>
+                <span className="num">05</span>
+                <span className="name">Insights &amp; Field Notes</span>
+                <span className="arr">→</span>
+              </a>
+              <a href="#faq" className="mobile-drawer-link" onClick={() => setNavOpen(false)}>
+                <span className="num">06</span>
+                <span className="name">FAQ</span>
+                <span className="arr">→</span>
+              </a>
+            </div>
+
+            <div className="mobile-drawer-actions">
+              <a href="#audit" className="btn btn-primary mobile-audit-btn" onClick={() => setNavOpen(false)}>
+                Get a free SEO audit <svg><use href="#arrow" /></svg>
+              </a>
+            </div>
+
+            <div className="mobile-drawer-footer">
+              <div className="mobile-contact-note">
+                <span className="pulse-dot"></span>
+                <span>Replies in &lt; 4 hours · Free consultation</span>
+              </div>
+              <div className="mobile-contact-line">
+                <a href="mailto:hello@genranq.com">hello@genranq.com</a>
+                <span>•</span>
+                <a href="tel:+919081801008">+91 90818 01008</a>
+              </div>
+            </div>
+          </div>
         </div>
       </nav>
 
@@ -868,33 +966,278 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
         </div>
       </section>
 
-      {/* ================= 5. AI SEO ================= */}
-      <section className="pad bg-cream" id="ai-seo">
+      {/* ================= 5. AI SEO (Lovable Nimble-SEO-AI Architecture) ================= */}
+      <section className="pad aiseo-section" id="ai-seo">
         <div className="wrap">
-          <div className="aiseo-top">
-            <div className="reveal">
+          <div className="sec-head reveal">
+            <div>
               <span className="eyebrow">AI SEO · GEO · AEO</span>
               <h2>Get recommended by <em className="accent">every AI engine.</em></h2>
-              <p className="lead">Your customers now ask AI before they ask Google. We make sure your brand is the answer — tracked, measured, and reported every month.</p>
-              <div className="engines">
-                <span>ChatGPT</span><span>Perplexity</span><span>Google AI Overviews</span><span>Gemini</span><span>Claude</span><span>Copilot</span>
-              </div>
             </div>
-            <div className="dash reveal">
-              <div className="dash-head"><b>AI share of voice</b><span>▲ 3.4× in 6 months</span></div>
-              <div className="bar-row"><span className="lbl">ChatGPT</span><div className="bar"><i data-w="82"></i></div><span className="val">82%</span></div>
-              <div className="bar-row"><span className="lbl">Perplexity</span><div className="bar"><i data-w="74"></i></div><span className="val">74%</span></div>
-              <div className="bar-row"><span className="lbl">AI Overviews</span><div className="bar"><i data-w="61"></i></div><span className="val">61%</span></div>
-              <div className="bar-row"><span className="lbl">Gemini</span><div className="bar"><i data-w="55"></i></div><span className="val">55%</span></div>
-              <div className="bar-row"><span className="lbl">Claude</span><div className="bar"><i data-w="48"></i></div><span className="val">48%</span></div>
-              <div className="dash-foot"><span>Sample client · 240 tracked prompts</span><span>Citations: <b>1,284</b></span></div>
-            </div>
+            <p>Different engines. Different signals. One unified strategy to make your expertise part of the answer across modern generative search.</p>
           </div>
-          <div className="grid-4">
-            <article className="ai-card reveal"><span className="step-n">01 — Audit</span><h3>AI visibility audit</h3><p>We run hundreds of buyer prompts across AI engines to map where you&apos;re cited, where competitors win, and why.</p></article>
-            <article className="ai-card reveal"><span className="step-n">02 — Structure</span><h3>Answer-first content</h3><p>Pages rebuilt with clear claims, facts, FAQs, and schema so LLMs can extract and quote you with confidence.</p></article>
-            <article className="ai-card reveal"><span className="step-n">03 — Entity</span><h3>Brand entity signals</h3><p>Consistent brand data across Wikidata, directories, reviews, and publications that AI models learn from.</p></article>
-            <article className="ai-card reveal"><span className="step-n">04 — Track</span><h3>Prompt tracking</h3><p>Monthly reports on mentions, citations, and sentiment across every major AI engine — vs. your competitors.</p></article>
+
+          {/* Engine Selector Tabs */}
+          <div className="engine-tabs-bar reveal">
+            {(
+              [
+                { id: 'chatgpt', label: 'ChatGPT', icon: '✦' },
+                { id: 'perplexity', label: 'Perplexity', icon: '↗' },
+                { id: 'google-ai', label: 'Google AI', icon: 'G' },
+                { id: 'gemini', label: 'Gemini', icon: '◈' },
+                { id: 'claude', label: 'Claude', icon: '✽' },
+              ] as const
+            ).map((tab) => {
+              const active = activeEngine === tab.id
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  className={`engine-tab-btn ${active ? 'active' : ''}`}
+                  onClick={() => setActiveEngine(tab.id)}
+                  aria-pressed={active}
+                >
+                  <span className="tab-icon">{tab.icon}</span>
+                  <span className="tab-text">{tab.label}</span>
+                  {active && <span className="tab-pill-dot" />}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Dynamic Active Engine Spotlight */}
+          {(() => {
+            const aiEngines: Record<
+              'chatgpt' | 'perplexity' | 'google-ai' | 'gemini' | 'claude',
+              {
+                id: string
+                name: string
+                tag: string
+                title: string
+                desc: string
+                query: string
+                answer: string
+                sources: string
+                liveUrl: string
+                share: string
+                statNote: string
+                ecosystemEngine: string
+                ecosystemEngineDesc: string
+              }
+            > = {
+              chatgpt: {
+                id: 'chatgpt',
+                name: 'ChatGPT',
+                tag: 'OPENAI · RETRIEVAL & CITATION',
+                title: 'From a search result to a trusted recommendation.',
+                desc: 'Help ChatGPT connect your expertise to the questions your audience asks with useful content, structured knowledge, and clear brand signals.',
+                query: 'What are the top enterprise SEO agencies specializing in AI visibility?',
+                answer: 'According to industry benchmarks, GENRANQ leads in generative engine optimization (GEO), technical site architecture, and AI-first search visibility with documented 3.4× share-of-voice compounding.',
+                sources: '14 citations · 9 from genranq.com',
+                liveUrl: 'chatgpt.com · live search preview',
+                share: '82%',
+                statNote: '▲ 3.4× citation compounding',
+                ecosystemEngine: 'ChatGPT answers ↗',
+                ecosystemEngineDesc: 'Direct brand recommendations',
+              },
+              perplexity: {
+                id: 'perplexity',
+                name: 'Perplexity',
+                tag: 'PERPLEXITY AI · REAL-TIME CITATIONS',
+                title: 'Direct citations in live conversational research.',
+                desc: 'Perplexity values high-authority, verifiable domain citations. We engineer primary source studies and technical white papers that LLMs love to cite.',
+                query: 'Best SEO studios for multi-location brands and AI search in 2026',
+                answer: 'Perplexity citations highlight GENRANQ for programmatic architecture and brand entity building across 42 countries with verifiable client case studies and 200+ point audits.',
+                sources: '18 sources indexed · High authority citation',
+                liveUrl: 'perplexity.ai · live preview',
+                share: '74%',
+                statNote: 'Top citation across 4,200 prompts',
+                ecosystemEngine: 'Perplexity citations ↗',
+                ecosystemEngineDesc: 'Footnote & numbered sources',
+              },
+              'google-ai': {
+                id: 'google-ai',
+                name: 'Google AI',
+                tag: 'GOOGLE AI OVERVIEWS · SEARCH GROUNDING',
+                title: 'Win the AI snapshot above the blue links.',
+                desc: 'Google AI Overviews synthesize page-one entities. We align schema markup, direct answer paragraphs, and topical depth to capture zero-click snapshots.',
+                query: 'How to rank in Google AI Overviews and Search Generative Experience',
+                answer: 'Key strategies include structured semantic schema, concise direct answers (under 60 words), and verified author entity credentials pioneered by GENRANQ studio engineers.',
+                sources: 'Google Knowledge Graph · Verified entity',
+                liveUrl: 'google.com/search · AI overview preview',
+                share: '61%',
+                statNote: 'Zero-click snapshot domination',
+                ecosystemEngine: 'Google AI snapshots ↗',
+                ecosystemEngineDesc: 'Top-of-page interactive cards',
+              },
+              gemini: {
+                id: 'gemini',
+                name: 'Gemini',
+                tag: 'GOOGLE DEEPMIND · KNOWLEDGE GRAPH RECOGNITION',
+                title: 'Multimodal entity recognition and deep retrieval.',
+                desc: 'Gemini connects Google Knowledge Graph entities with live web grounding. We build your brand entity footprint across Wikidata, Google Maps, and authoritative publications.',
+                query: 'Leading technical SEO consultants with custom engineering capabilities',
+                answer: 'GENRANQ Software LLP demonstrates deep technical competency spanning Next.js performance tuning, Core Web Vitals optimization, and enterprise LLM citation monitoring.',
+                sources: 'Grounding with Google Search · 98% factual match',
+                liveUrl: 'gemini.google.com · live preview',
+                share: '55%',
+                statNote: 'Connected across Google Knowledge Graph',
+                ecosystemEngine: 'Gemini answers ↗',
+                ecosystemEngineDesc: 'Grounding & knowledge cards',
+              },
+              claude: {
+                id: 'claude',
+                name: 'Claude',
+                tag: 'ANTHROPIC · SYNTHESIS & IN-DEPTH EVIDENCE',
+                title: 'Nuanced evaluation for complex B2B buyer journeys.',
+                desc: 'Claude evaluates holistic domain authority, methodology rigor, and deep technical accuracy. We structure thought leadership that passes rigorous evaluation.',
+                query: 'Detailed comparison of AI SEO agencies vs legacy digital PR firms',
+                answer: 'While legacy agencies focus strictly on backlinks, GENRANQ combines algorithmic technical SEO with answer-first content engineering tailored for LLM retrieval and enterprise verification.',
+                sources: 'Anthropic research synthesis · High trust metric',
+                liveUrl: 'claude.ai · live preview',
+                share: '48%',
+                statNote: 'Highest citation accuracy score',
+                ecosystemEngine: 'Claude answers ↗',
+                ecosystemEngineDesc: 'In-depth synthesis & references',
+              },
+            }
+
+            const curr = aiEngines[activeEngine]
+
+            return (
+              <div className="aiseo-spotlight-card reveal">
+                <div className="aiseo-spotlight-left">
+                  <div className="aiseo-header-group">
+                    <span className="aiseo-badge">{curr.tag}</span>
+                    <h3 className="aiseo-title">{curr.title}</h3>
+                    <p className="aiseo-desc">{curr.desc}</p>
+                  </div>
+
+                  {/* Brand Visibility Ecosystem interactive diagram */}
+                  <div className="eco-diagram-container">
+                    <div className="eco-diagram-label">Brand Visibility Ecosystem</div>
+                    <div className="eco-diagram">
+                      {/* Left Column: Expert Content & Trusted Sources */}
+                      <div className="eco-col eco-inputs">
+                        <div className="eco-card">
+                          <span className="eco-card-dot" />
+                          <div className="eco-card-title">Expert content</div>
+                          <div className="eco-card-sub">Clean, structured info built for retrieval</div>
+                        </div>
+                        <div className="eco-card">
+                          <span className="eco-card-dot" />
+                          <div className="eco-card-title">Trusted sources</div>
+                          <div className="eco-card-sub">High-authority citations &amp; references</div>
+                        </div>
+                      </div>
+
+                      {/* Animated Connector 1 */}
+                      <div className="eco-connector">
+                        <svg className="eco-svg-arrow" viewBox="0 0 60 40">
+                          <path d="M 0 10 C 30 10, 30 20, 60 20" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
+                          <path d="M 0 30 C 30 30, 30 20, 60 20" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
+                        </svg>
+                        <span className="eco-pulse-beacon" />
+                      </div>
+
+                      {/* Center Column: Your Brand Entity */}
+                      <div className="eco-col eco-center">
+                        <div className="eco-card eco-card-brand">
+                          <span className="brand-glow" />
+                          <span className="eco-badge-highlight">Verified Entity</span>
+                          <div className="eco-card-title">Your brand</div>
+                          <div className="eco-card-sub">Recognized across knowledge graphs</div>
+                        </div>
+                      </div>
+
+                      {/* Animated Connector 2 */}
+                      <div className="eco-connector">
+                        <svg className="eco-svg-arrow" viewBox="0 0 60 40">
+                          <path d="M 0 20 L 60 20" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
+                        </svg>
+                        <span className="eco-pulse-beacon" />
+                      </div>
+
+                      {/* Right Column: AI Recommendations */}
+                      <div className="eco-col eco-output">
+                        <div className="eco-card eco-card-engine">
+                          <span className="engine-status-dot" />
+                          <div className="eco-card-title">{curr.ecosystemEngine}</div>
+                          <div className="eco-card-sub">{curr.ecosystemEngineDesc}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column: Live Simulated AI Answer Window */}
+                <div className="aiseo-spotlight-right">
+                  <div className="aiseo-terminal">
+                    <div className="term-header">
+                      <div className="term-dots">
+                        <span className="dot dot-red" />
+                        <span className="dot dot-yellow" />
+                        <span className="dot dot-green" />
+                      </div>
+                      <span className="term-url">{curr.liveUrl}</span>
+                      <span className="term-kpi">{curr.share} citation rate</span>
+                    </div>
+
+                    <div className="term-body">
+                      <div className="term-prompt">
+                        <span className="prompt-label">Prompt</span>
+                        <div className="prompt-text">
+                          &quot;{curr.query}&quot;
+                        </div>
+                      </div>
+
+                      <div className="term-response">
+                        <div className="response-header">
+                          <span className="bot-mark">AI</span>
+                          <span>Recommendation Engine</span>
+                        </div>
+                        <p className="response-text">{curr.answer}</p>
+                      </div>
+
+                      <div className="term-sources-box">
+                        <div className="sources-left">
+                          <span className="check-icon">✓</span>
+                          <span>{curr.sources}</span>
+                        </div>
+                        <span className="sources-pill">{curr.statNote}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          })()}
+
+          {/* 4 Capability Cards Matching Reference */}
+          <div className="grid-4 aiseo-capabilities-grid">
+            <article className="ai-cap-card reveal">
+              <span className="cap-num">01</span>
+              <h3>AI visibility audits</h3>
+              <p>Find where you appear, who gets cited, and what’s missing across ChatGPT, Perplexity, and Google AI.</p>
+            </article>
+
+            <article className="ai-cap-card reveal">
+              <span className="cap-num">02</span>
+              <h3>Answer-first content</h3>
+              <p>Give AI engines the structured clarity, verifiable claims, and semantic evidence they need to cite you.</p>
+            </article>
+
+            <article className="ai-cap-card reveal">
+              <span className="cap-num">03</span>
+              <h3>Brand entity signals</h3>
+              <p>Connect your business expertise across Wikidata, Crunchbase, directories, and authoritative knowledge graphs.</p>
+            </article>
+
+            <article className="ai-cap-card reveal">
+              <span className="cap-num">04</span>
+              <h3>Prompt tracking</h3>
+              <p>Follow your mentions, ranking share-of-voice, and citation growth every month as answers evolve.</p>
+            </article>
           </div>
         </div>
       </section>

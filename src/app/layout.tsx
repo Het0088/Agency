@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import RevealProvider from '@/components/RevealProvider'
 import SitePopup from '@/components/SitePopup'
+import { getSiteScripts } from '@/lib/site-scripts'
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://genranq.com'
 
@@ -18,6 +19,21 @@ export const metadata: Metadata = {
     template: '%s | GENRANQ',
   },
   description: 'A global SEO and web development studio for ambitious small businesses. We design and build fast, SEO-ready websites and growth systems.',
+  keywords: [
+    'SEO services',
+    'AI search optimization',
+    'GEO',
+    'generative engine optimization',
+    'website development',
+    'technical SEO',
+    'local SEO',
+    'Next.js web design',
+    'Google AI Overviews',
+    'ChatGPT citations',
+    'Perplexity SEO',
+    'digital marketing studio',
+    'GENRANQ',
+  ],
   icons: {
     icon: '/logo-icon.png',
     apple: '/logo-icon.png',
@@ -43,7 +59,9 @@ export const metadata: Metadata = {
   alternates: { canonical: BASE },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const scripts = await getSiteScripts()
+
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
@@ -53,11 +71,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
         />
+        {/* Head code snippet (e.g. Google Analytics, Tag Manager head, Search Console verification) */}
+        {scripts.head_code ? (
+          <div id="head-code-snippet" dangerouslySetInnerHTML={{ __html: scripts.head_code }} />
+        ) : null}
       </head>
       <body suppressHydrationWarning>
+        {/* Body code snippet — right after the opening <body> — e.g. Tag Manager’s second snippet */}
+        {scripts.body_code ? (
+          <div id="body-code-snippet" dangerouslySetInnerHTML={{ __html: scripts.body_code }} />
+        ) : null}
         <RevealProvider />
         {children}
         <SitePopup />
+        {/* Footer code snippet — at the end of the page, before </body> */}
+        {scripts.footer_code ? (
+          <div id="footer-code-snippet" dangerouslySetInnerHTML={{ __html: scripts.footer_code }} />
+        ) : null}
       </body>
     </html>
   )

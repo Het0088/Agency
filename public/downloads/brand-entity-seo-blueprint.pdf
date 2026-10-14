@@ -1,0 +1,96 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [7 0 R 9 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Length 2429 >>
+stream
+BT
+/F2 9 Tf 0.5 0.5 0.5 rg 50 750 Td (GENRANQ SOFTWARE LLP  |  RESEARCH & WHITE PAPERS 2026) Tj ET
+0.85 0.85 0.85 RG 1 w 50 740 m 562 740 l S
+BT /F2 18 Tf 1 0.35 0.12 rg 50 700 Td (THE 2026 AI SEARCH & GEO VISIBILITY REPORT) Tj ET
+BT /F2 12 Tf 0.15 0.15 0.15 rg 50 672 Td (A Forensic Teardown of 12,000 Prompts Across ChatGPT, Perplexity & Gemini) Tj ET
+BT /F1 10 Tf 0.4 0.4 0.4 rg 50 640 Td (Authored by: Tomas Beltran & The GENRANQ Research Studio) Tj ET
+BT /F1 10 Tf 0.4 0.4 0.4 rg 50 620 Td (Published: August 2026  |  Scope: Global Enterprise & Challenger Brands) Tj ET
+BT /F2 14 Tf 0.1 0.1 0.1 rg 50 584 Td (EXECUTIVE SUMMARY) Tj ET
+BT /F1 10 Tf 0.1 0.1 0.1 rg 50 564 Td (Search behaviour has experienced the most radical paradigm shift since Google introduced PageRank.) Tj ET
+BT /F1 10 Tf 0.1 0.1 0.1 rg 50 548 Td (Over 54% of complex B2B and e-commerce buyer queries now begin or finalize inside generative engines.) Tj ET
+BT /F1 10 Tf 0.1 0.1 0.1 rg 50 532 Td (Rather than browsing through ten blue hyperlinks, users receive synthesized, definitive answers.) Tj ET
+BT /F1 10 Tf 0.1 0.1 0.1 rg 50 516 Td (Our research team crawled 12,000 high-intent search prompts across ChatGPT, Perplexity Pro, Google AI) Tj ET
+BT /F1 10 Tf 0.1 0.1 0.1 rg 50 500 Td (Overviews, and Claude 3.5 Sonnet to map which brand entities are recommended, who is cited, and why.) Tj ET
+BT /F2 12 Tf 1 0.35 0.12 rg 50 472 Td (KEY FORENSIC FINDINGS) Tj ET
+BT /F2 10 Tf 0.1 0.1 0.1 rg 50 454 Td (1. 87% of LLM citations originate from third-party consensus sources rather than owned websites.) Tj ET
+BT /F1 9.5 Tf 0.35 0.35 0.35 rg 50 439 Td (   Wikidata, Crunchbase, tier-1 trade media, and peer review platforms form the core grounding layer.) Tj ET
+BT /F2 10 Tf 0.1 0.1 0.1 rg 50 423 Td (2. "Answer-First" copy structure increases citation probability by 340%.) Tj ET
+BT /F1 9.5 Tf 0.35 0.35 0.35 rg 50 408 Td (   Pages providing a 40-60 word factual summary directly under the H1/H2 are 3.4x more likely to be quoted.) Tj ET
+BT /F2 10 Tf 0.1 0.1 0.1 rg 50 392 Td (3. Entity ambiguity is the #1 reason brands remain invisible to AI models.) Tj ET
+BT /F1 9.5 Tf 0.35 0.35 0.35 rg 50 377 Td (   Without consistent Schema.org entity disambiguation, LLMs hallucinate competitors or omit the brand.) Tj ET
+0.85 0.85 0.85 RG 1 w 50 45 m 562 45 l S
+BT /F1 9 Tf 0.5 0.5 0.5 rg 50 32 Td (Confidential & Proprietary  |  Page 1 of 2  |  genranq.com) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 2426 >>
+stream
+BT
+/F2 9 Tf 0.5 0.5 0.5 rg 50 750 Td (GENRANQ SOFTWARE LLP  |  RESEARCH & WHITE PAPERS 2026) Tj ET
+0.85 0.85 0.85 RG 1 w 50 740 m 562 740 l S
+BT /F2 14 Tf 0.1 0.1 0.1 rg 50 700 Td (METHODOLOGY & DATASET BREAKDOWN) Tj ET
+BT /F1 10 Tf 0.1 0.1 0.1 rg 50 678 Td (To ensure statistical rigor, queries were distributed across six commercial sectors:) Tj ET
+BT /F3 9.5 Tf 0.1 0.1 0.1 rg 50 662 Td (  - Enterprise Software & SaaS: 3,000 queries) Tj ET
+BT /F3 9.5 Tf 0.1 0.1 0.1 rg 50 648 Td (  - Professional Services & Legal: 2,500 queries) Tj ET
+BT /F3 9.5 Tf 0.1 0.1 0.1 rg 50 634 Td (  - High-Value E-Commerce & Retail: 2,500 queries) Tj ET
+BT /F3 9.5 Tf 0.1 0.1 0.1 rg 50 620 Td (  - Healthcare & Clinical Practice: 2,000 queries) Tj ET
+BT /F3 9.5 Tf 0.1 0.1 0.1 rg 50 606 Td (  - Multi-Location Hospitality & Fitness: 2,000 queries) Tj ET
+BT /F2 12 Tf 1 0.35 0.12 rg 50 580 Td (THE 4-STEP AI CITATION PLAYBOOK \(GEO FRAMEWORK\)) Tj ET
+BT /F2 10 Tf 0.1 0.1 0.1 rg 50 562 Td (Step 1: Entity Disambiguation on the Knowledge Graph) Tj ET
+BT /F1 9.5 Tf 0.3 0.3 0.3 rg 50 548 Td (Establish reciprocal sameAs schema linking Wikidata, registered government records, and Google Business.) Tj ET
+BT /F2 10 Tf 0.1 0.1 0.1 rg 50 530 Td (Step 2: Answer-First Content Engineering) Tj ET
+BT /F1 9.5 Tf 0.3 0.3 0.3 rg 50 516 Td (Structure every page with clear claim-evidence pairs, concise answers, and semantic JSON-LD microdata.) Tj ET
+BT /F2 10 Tf 0.1 0.1 0.1 rg 50 498 Td (Step 3: Third-Party Editorial Consensus) Tj ET
+BT /F1 9.5 Tf 0.3 0.3 0.3 rg 50 484 Td (Earn coverage in publications with verifiable domain authority and high crawl frequencies by OpenAI/Googlebot.) Tj ET
+BT /F2 10 Tf 0.1 0.1 0.1 rg 50 466 Td (Step 4: Monthly Share-of-Voice Prompt Tracking) Tj ET
+BT /F1 9.5 Tf 0.3 0.3 0.3 rg 50 452 Td (Measure mention frequency, citation URLs, and sentiment across 200+ buyer prompts on a rolling 30-day cadence.) Tj ET
+BT /F2 11 Tf 0.1 0.1 0.1 rg 50 422 Td (NEED ASSISTANCE IMPLEMENTING THIS FRAMEWORK?) Tj ET
+BT /F1 9.5 Tf 0.1 0.1 0.1 rg 50 408 Td (GENRANQ Software LLP engineers custom AI Search & GEO campaigns for ambitious brands.) Tj ET
+BT /F2 9.5 Tf 1 0.35 0.12 rg 50 394 Td (Visit https://genranq.com or email hello@genranq.com to commission a 200-point forensic audit.) Tj ET
+0.85 0.85 0.85 RG 1 w 50 45 m 562 45 l S
+BT /F1 9 Tf 0.5 0.5 0.5 rg 50 32 Td (Confidential & Proprietary  |  Page 2 of 2  |  genranq.com) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 8 0 R >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000127 00000 n 
+0000000224 00000 n 
+0000000326 00000 n 
+0000000421 00000 n 
+0000002901 00000 n 
+0000003047 00000 n 
+0000005524 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+5670
+%%EOF

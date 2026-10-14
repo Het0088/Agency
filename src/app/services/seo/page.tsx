@@ -132,10 +132,10 @@ export default async function SeoServicesPage() {
             </div>
             <div className="ref-hero-visual">
               <div className="ref-hero-img-main">
-                <Image src={c.hero_img_main || '/images/hero-seo-main.jpg'} alt="AI SEO Strategy & Analysis" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
+                <Image src={c.hero_img_main || '/images/hero-seo-main.jpg'} alt="GENRANQ AI SEO Strategy and Search Engine Analysis Dashboard" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
               </div>
               <div className="ref-hero-img-sub">
-                <Image src={c.hero_img_sub || '/images/hero-seo-team.jpg'} alt="Team & Collaboration" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
+                <Image src={c.hero_img_sub || '/images/hero-seo-team.jpg'} alt="GENRANQ SEO Specialists and Technical Engineering Team" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
               </div>
               <div className="ref-hero-badge"><IconTarget /></div>
             </div>
@@ -171,10 +171,10 @@ export default async function SeoServicesPage() {
           <div className="ref-intro-grid">
             <div className="ref-intro-images">
               <div className="ref-intro-img-lg">
-                <Image src={c.intro_img_main || '/images/intro-strategy.jpg'} alt="AI Strategy & Team" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
+                <Image src={c.intro_img_main || '/images/intro-strategy.jpg'} alt="Organic Growth Strategy and AI Search Visibility Planning Session" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
               </div>
               <div className="ref-intro-img-sm">
-                <Image src={c.intro_img_sub || '/images/intro-office.jpg'} alt="Office & Work" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
+                <Image src={c.intro_img_sub || '/images/intro-office.jpg'} alt="GENRANQ Digital Marketing and Web Development Workspace" fill style={{ objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} />
               </div>
               <div className="ref-intro-float" style={{ top: '205px', left: '58%' }}><IconSearch /></div>
               <div className="ref-intro-float" style={{ bottom: '140px', left: '18px' }}><IconZap /></div>

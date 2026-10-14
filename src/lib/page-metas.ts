@@ -7,6 +7,7 @@ export type PageMeta = {
     title: string
     description: string
     canonical: string
+    keywords?: string
     ogTitle?: string
     ogDescription?: string
     ogImage?: string
@@ -22,6 +23,7 @@ export const pageMetas: PageMeta[] = [
       title: 'GENRANQ Software LLP — Website Design & Development Studio',
       description: 'GENRANQ designs and builds fast, SEO-ready websites that turn visitors into customers on WordPress, Shopify, Next.js, or fully custom.',
       canonical: 'https://genranq.com',
+      keywords: 'SEO services, AI search optimization, GEO, generative engine optimization, website development, technical SEO, local SEO, Next.js web design, Google AI Overviews, digital marketing studio',
     },
   },
   {
