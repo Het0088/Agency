@@ -49,14 +49,6 @@ export default async function InsightsPage() {
       <Topbar text="New insights published weekly." linkText="Subscribe →" linkHref="#newsletter" />
       <Nav active="insights" />
 
-      <header className="page-hero">
-        <div className="wrap">
-          <div className="crumb">Home / Insights</div>
-          <h1>Field notes from <em>the search era.</em></h1>
-          <p>Long-form essays, playbooks, and teardowns from our strategists. Written for operators who want to understand how search actually works in 2026 &mdash; not for ranking on &quot;what is SEO.&quot;</p>
-        </div>
-      </header>
-
       <InsightsContent posts={mapped} featured={feat} />
       <Footer />
     </>

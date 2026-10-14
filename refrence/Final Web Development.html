@@ -10,7 +10,7 @@
   Headings: Fraunces · Body: Plus Jakarta Sans · Labels: JetBrains Mono · Logo: Chakra Petch -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet" />
 
 <style>
 /* ===== COLOR TOKENS (unchanged) ===== */
@@ -238,17 +238,19 @@ em.accent{font-style:italic;color:var(--orange)}
 .ind a{margin-top:14px;font-size:13.5px;font-weight:600;color:var(--orange);display:inline-flex;gap:6px;align-items:center}
 
 /* ===== WORKFLOW ===== */
-.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;position:relative}
-.flow::before{content:"";position:absolute;top:32px;left:8%;right:8%;height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 16px)}
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:20px;position:relative;margin-top:44px}
+.flow::before{content:"";position:absolute;top:31px;left:calc(100% / 12);right:calc(100% / 12);height:2px;background:repeating-linear-gradient(90deg,#D4CCC0 0 7px,transparent 7px 15px);z-index:0}
 .fstep{text-align:center;position:relative}
-.fdot{width:64px;height:64px;margin:0 auto 20px;border-radius:50%;background:#fff;border:1px solid var(--line);display:grid;place-items:center;color:var(--orange);position:relative;z-index:1;transition:all .25s}
-.fdot svg{width:24px;height:24px}
-.fstep:hover .fdot{background:var(--orange);color:#fff;border-color:var(--orange);transform:translateY(-4px)}
-.fbox{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px 18px;min-height:200px;transition:border-color .25s}
-.fstep:hover .fbox{border-color:var(--orange)}
-.fbox .n{font-family:var(--f-mono);font-size:11px;color:var(--orange)}
-.fbox h3{font-size:19px;margin:8px 0 8px}
-.fbox p{font-size:13.5px;color:var(--muted)}
+.fdot{width:62px;height:62px;margin:0 auto 22px;border-radius:50%;background:#ffffff;border:1.5px solid var(--line);display:grid;place-items:center;color:var(--orange);position:relative;z-index:1;box-shadow:0 4px 14px rgba(18,22,19,0.04);transition:all .28s cubic-bezier(0.16,1,0.3,1)}
+.fdot svg{width:22px;height:22px}
+.fstep:hover .fdot{background:var(--orange);color:#ffffff;border-color:var(--orange);transform:translateY(-4px);box-shadow:0 10px 24px -6px rgba(255,90,31,0.45)}
+.fbox{background:#ffffff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 20px 24px;min-height:216px;display:flex;flex-direction:column;text-align:center;box-shadow:0 2px 8px rgba(18,22,19,0.03);transition:all .28s cubic-bezier(0.16,1,0.3,1)}
+.fstep:hover .fbox{border-color:var(--orange);transform:translateY(-3px);box-shadow:0 14px 34px -10px rgba(255,90,31,0.16)}
+.fbox .n{font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;display:block}
+.fbox h3{font-family:var(--f-display)!important;font-size:20px!important;font-weight:600!important;line-height:1.24!important;letter-spacing:-.015em!important;color:var(--ink)!important;margin:0 0 10px!important;font-variation-settings:"opsz" 36!important}
+.fbox p{font-family:var(--f-body);font-size:13.5px;line-height:1.55;color:#6B6F6A;font-weight:400;margin:0}
+@media(max-width:1100px){.flow{grid-template-columns:repeat(3,1fr);gap:20px}.flow::before{display:none}}
+@media(max-width:640px){.flow{grid-template-columns:1fr;gap:18px}.fbox{min-height:auto;padding:22px 18px}}
 
 /* ===== TECH TABS ===== */
 .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
