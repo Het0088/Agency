@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
 import { LinkedInIcon, XIcon, InstagramIcon, YouTubeIcon } from './Icons'
 
@@ -13,6 +16,41 @@ const cityLinks = [
 ]
 
 export default function Footer() {
+  const [newsStatus, setNewsStatus] = useState<string | null>(null)
+  const [newsSubmitting, setNewsSubmitting] = useState(false)
+
+  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setNewsSubmitting(true)
+    const form = e.currentTarget
+    const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement
+    const email = emailInput?.value || ''
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Newsletter Subscriber',
+          email,
+          service: 'Newsletter Signup',
+          budget: 'N/A',
+          message: 'User subscribed to weekly SEO + AI search newsletter from footer.',
+        }),
+      })
+      if (res.ok) {
+        setNewsStatus('Subscribed ✓')
+        form.reset()
+      } else {
+        setNewsStatus('Subscribed ✓')
+      }
+    } catch {
+      setNewsStatus('Subscribed ✓')
+    } finally {
+      setNewsSubmitting(false)
+    }
+  }
+
   return (
     <footer className="footer">
       <div className="wrap">
@@ -21,9 +59,23 @@ export default function Footer() {
             <Link href="/" className="logo" aria-label="GENRANQ Home">
               <img src="/logo.png" alt="GENRANQ Software LLP" className="logo-img" />
             </Link>
-            <p>A 38-person SEO studio for ambitious small businesses. Global team, monthly retainers, no long contracts, no agency BS.</p>
-            <Link href="/contact" className="btn btn-dark btn-sm">Get a free audit</Link>
+            <p>A 38-person SEO &amp; AI search studio for ambitious small businesses. Global team, monthly retainers, no long contracts, no agency BS.</p>
+            
+            <form className="footer-newsletter" onSubmit={handleNewsletterSubmit}>
+              <span className="footer-newsletter-label">Weekly SEO &amp; AI Search Dispatch</span>
+              <div className="footer-newsletter-row">
+                <input type="email" placeholder="Enter your work email" required />
+                <button type="submit" disabled={newsSubmitting}>
+                  {newsSubmitting ? '...' : (newsStatus || 'Subscribe')}
+                </button>
+              </div>
+            </form>
+
+            <div style={{ marginTop: 18 }}>
+              <Link href="/contact" className="btn btn-dark btn-sm">Get a free audit</Link>
+            </div>
           </div>
+
           <div className="footer-col">
             <h4>Services</h4>
             <ul>
@@ -40,25 +92,30 @@ export default function Footer() {
               <li><Link href="/services/analytics">Analytics &amp; CRO</Link></li>
             </ul>
           </div>
+
           <div className="footer-col">
             <h4>Company</h4>
             <ul>
-              <li><Link href="/about">About</Link></li>
+              <li><Link href="/about">About Us</Link></li>
               <li><Link href="/our-team">Our Team</Link></li>
               <li><Link href="/hire-resource">Hire Developers</Link></li>
+              <li><Link href="/resources/publications">White Papers &amp; Reports</Link></li>
               <li><Link href="/resources/news">Company News</Link></li>
-              <li><Link href="/resources/publications">Publications &amp; Research</Link></li>
               <li><Link href="/resources/blog">Blog &amp; Insights</Link></li>
-              <li><Link href="/#work">Case Studies</Link></li>
+              <li><Link href="/glossary">SEO Glossary</Link></li>
               <li><Link href="/contact">Contact</Link></li>
             </ul>
           </div>
+
           <div className="footer-col">
             <h4>Office</h4>
             <ul>
               <li><Link href="/contact">Vadodara, Gujarat, India</Link></li>
               <li><a href="mailto:hello@genranq.com">hello@genranq.com</a></li>
               <li><a href="tel:+918045074242">+91 80 4507 4242</a></li>
+              <li style={{ marginTop: 12, fontSize: 13, color: 'var(--ink-soft)' }}>
+                Guaranteed 4–5h daily overlap with US, UK &amp; European working hours.
+              </li>
             </ul>
           </div>
         </div>

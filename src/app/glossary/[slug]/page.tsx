@@ -96,11 +96,11 @@ export default async function GlossaryDetailPage({ params }: Props) {
           </div>
 
           <h1 style={{
-            fontFamily: "'Fraunces', Georgia, serif",
+            fontFamily: "var(--f-display)",
             fontSize: 'clamp(32px, 4.5vw, 52px)',
-            fontWeight: 400,
+            fontWeight: 700,
             lineHeight: 1.15,
-            letterSpacing: '-0.02em',
+            letterSpacing: '-0.025em',
             color: '#121613',
             margin: '0 0 24px',
             maxWidth: 820
@@ -189,9 +189,9 @@ export default async function GlossaryDetailPage({ params }: Props) {
             {relatedTerms.length > 0 && (
               <div style={{ marginTop: 56, paddingTop: 36, borderTop: '1px solid var(--border)' }}>
                 <h3 style={{
-                  fontFamily: "'Fraunces', Georgia, serif",
+                  fontFamily: "var(--f-display)",
                   fontSize: 26,
-                  fontWeight: 400,
+                  fontWeight: 600,
                   color: '#121613',
                   marginBottom: 20
                 }}>
@@ -376,9 +376,9 @@ export default async function GlossaryDetailPage({ params }: Props) {
                 Implementation
               </span>
               <h3 style={{
-                fontFamily: "'Fraunces', Georgia, serif",
+                fontFamily: "var(--f-display)",
                 fontSize: 22,
-                fontWeight: 400,
+                fontWeight: 600,
                 lineHeight: 1.25,
                 color: '#fff',
                 margin: '0 0 10px'

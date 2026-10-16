@@ -195,10 +195,9 @@ export default function GlossaryClient({ terms }: { terms: GlossaryTerm[] }) {
               >
                 {/* Big Letter Heading */}
                 <h2 style={{
-                  fontFamily: "'Fraunces', Georgia, serif",
+                  fontFamily: "var(--f-display)",
                   fontSize: 64,
-                  fontStyle: 'italic',
-                  fontWeight: 400,
+                  fontWeight: 800,
                   color: '#FF5A1F',
                   lineHeight: 1,
                   margin: 0,
@@ -256,9 +255,9 @@ export default function GlossaryClient({ terms }: { terms: GlossaryTerm[] }) {
                       </div>
 
                       <b style={{
-                        fontFamily: "'Fraunces', Georgia, serif",
+                        fontFamily: "var(--f-display)",
                         fontSize: 20,
-                        fontWeight: 500,
+                        fontWeight: 600,
                         color: '#121613',
                         lineHeight: 1.25,
                         marginBottom: 10

@@ -829,7 +829,7 @@ export default function RichTextEditor({ value, onChange, compact = false, place
     const sel = window.getSelection()
     const text = sel?.toString() || ''
     if (text) {
-      document.execCommand('insertHTML', false, `<span style="color:#FF5A1F;font-style:italic;font-family:'Fraunces',Georgia,serif;">${text}</span>`)
+      document.execCommand('insertHTML', false, `<span style="color:#FF5A1F;font-style:italic;font-family:inherit;">${text}</span>`)
       handleInput()
       saveSelection()
     }

@@ -149,9 +149,9 @@ export default function InsightsContent({ posts, featured }: { posts: Post[]; fe
 
                 <h3
                   style={{
-                    fontFamily: "'Fraunces', Georgia, serif",
+                    fontFamily: "var(--f-display)",
                     fontSize: 22,
-                    fontWeight: 400,
+                    fontWeight: 600,
                     lineHeight: 1.25,
                     color: '#121613',
                     margin: '0 0 10px',

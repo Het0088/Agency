@@ -2,6 +2,25 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
+import Nav from '@/components/Nav'
+import Footer from '@/components/Footer'
+import {
+  ArrowRight,
+  ArrowDown,
+  CheckIcon,
+  PlusIcon,
+  MinusIcon,
+  IconSearch,
+  IconSparkles,
+  IconGlobe,
+  IconLock,
+  IconTarget,
+  IconActivity,
+  IconShield,
+  IconUsers,
+  IconDocument,
+} from '@/components/Icons'
 import './home.css'
 
 export type FeedPostItem = {
@@ -14,6 +33,9 @@ export type FeedPostItem = {
   date: string
   read: string
   slug: string
+  tag?: string
+  fullContent?: string
+  takeaways?: string[]
 }
 
 interface HomeClientProps {
@@ -26,96 +48,346 @@ const defaultArticles: FeedPostItem[] = [
     id: 'ai-search-playbook-2026',
     num: '01',
     cat: 'AI Search & GEO',
+    tag: 'Strategic Blueprint',
     title: 'How LLMs choose which brands to cite — and how to be one of them.',
     desc: 'A teardown of 4,200 AI answers across ChatGPT, Perplexity, and Gemini.',
     author: 'Tomas Beltran',
     date: 'Apr 28',
     read: '15 min read',
     slug: '/insights/ai-search-playbook-2026',
+    takeaways: [
+      '71.4% of citations in ChatGPT originate from third-party consensus, not brand landing pages.',
+      'Answer-first (BLUF) formatting improves LLM extraction rates by 3.8x.',
+      'Wikidata and Knowledge Graph disambiguation prevent model hallucination exclusion.',
+    ],
+    fullContent: 'Our research lab executed an exhaustive forensic teardown of 4,200 commercial search queries across ChatGPT Search, Perplexity Pro, Google Gemini 1.5 Pro, and Claude 3.5 Sonnet. We analysed which brands were recommended, which citations were hyperlinked, and why market leaders with stellar PageRank were routinely bypassed in favor of smaller, highly structured challenger brands.',
   },
   {
     id: 'core-web-vitals-2026',
     num: '02',
     cat: 'Technical SEO',
+    tag: 'Field Guide',
     title: 'The Core Web Vitals checklist most agencies still get wrong in 2026.',
     desc: 'INP replaced FID a year ago. Half the audits we see still measure the wrong thing.',
     author: 'Daniel Whitford',
     date: 'Apr 22',
     read: '11 min read',
     slug: '/insights/core-web-vitals-2026',
+    takeaways: [
+      'Interaction to Next Paint (INP) requires sub-200ms main thread responsiveness on mobile devices.',
+      'Cumulative Layout Shift (CLS) regressions predominantly stem from unreserved dynamic hero banners.',
+      'Server-side rendering (SSR) on edge runtimes drives sub-600ms Time to First Byte (TTFB).',
+    ],
+    fullContent: 'Interaction to Next Paint (INP) is now the definitive responsiveness metric in Google Search algorithm. Despite this transition, over 60% of technical audits in 2026 continue evaluating outdated first-input benchmarks. We break down the real JavaScript profiling steps required to clear green field performance across all core templates.',
   },
   {
     id: 'multi-location-seo',
     num: '03',
     cat: 'Local SEO',
+    tag: 'Case Teardown',
     title: 'Multi-location SEO at scale: lessons from 22 yoga studios.',
     desc: 'How we built a programmatic local system that turned 4 studios into 22.',
     author: 'Farah Khoury',
     date: 'Apr 17',
     read: '9 min read',
     slug: '/insights/multi-location-seo',
+    takeaways: [
+      'Programmatic location landing pages require localized reviews, schema markup, and regional transit data.',
+      'Google Maps 3-pack domination relies on hyper-local citation velocity and geo-tagged reviews.',
+      'Internal linking silos must strictly route between neighboring studio catchment zones.',
+    ],
+    fullContent: 'Scaling local discovery across multiple physical storefronts requires an architectural approach beyond basic Google Business Profile management. Discover how we built an automated local citation and schema distribution engine that powered 22 regional studios to page-one dominance.',
   },
 ]
 
 const defaultBlogs: FeedPostItem[] = [
   {
     id: 'ai-content-workflows',
-    num: '01',
+    num: '04',
     cat: 'Editorial & Content',
+    tag: 'Field Study',
     title: 'Why "AI-written content" tanks — and what hybrid workflows look like.',
     desc: 'We tested four content workflows across 80 articles. The winner was surprising.',
     author: 'Marisol Acevedo',
     date: 'Apr 11',
     read: '16 min read',
     slug: '/insights/ai-content-workflows',
+    takeaways: [
+      'Raw synthetic content triggers Google Information Gain suppression algorithms.',
+      'Hybrid human-edited drafts with proprietary data achieved 4.2x higher citation velocity.',
+      'Direct interview quotes and real-world experiments bypass AI hallucination penalties.',
+    ],
+    fullContent: 'Over 80 enterprise benchmark articles, our content lab compared pure AI generation, human rephrasing, and data-backed hybrid drafting. Learn why raw AI content fails search algorithms and how top editorial teams produce indexable, authoritative thought leadership.',
   },
   {
     id: 'death-of-guest-post',
-    num: '02',
+    num: '05',
     cat: 'Digital PR',
+    tag: 'Industry Teardown',
     title: 'The death of the guest post (and what replaced it for our clients).',
     desc: 'Earned editorial mentions are now 4x more valuable than guest posts.',
     author: 'Kemi Adeyemi',
     date: 'Apr 4',
     read: '8 min read',
     slug: '/insights/death-of-guest-post',
+    takeaways: [
+      'Mass guest post networks are systematically devalued by Google spam prevention updates.',
+      'Editorial brand citations in tier-1 media provide both PageRank and LLM verification consensus.',
+      'Original data studies generate organic journalistic backlinks without outbound cold pitch spam.',
+    ],
+    fullContent: 'The commodification of guest posting has rendered traditional link building obsolete. Todays search and AI ecosystems demand genuine editorial mentions and verified co-occurrences in authoritative trade journals.',
   },
   {
     id: 'maple-oak-case-study',
-    num: '03',
+    num: '06',
     cat: 'Case Study',
+    tag: 'Growth Playbook',
     title: 'How we got Maple & Oak from local-only to a national brand.',
     desc: 'The full 18-month playbook: audit, fixes, content, digital PR, AI-search.',
     author: 'Anaya Sharma',
     date: 'Mar 28',
     read: '22 min read',
     slug: '/insights/maple-oak-case-study',
+    takeaways: [
+      '412% organic revenue lift driven by technical audit execution and Core Web Vitals remediation.',
+      'Rank #1 ranking captured for high-volume commercial keyword "specialty coffee subscription".',
+      '38% share of voice secured inside ChatGPT and Perplexity generative recommendations.',
+    ],
+    fullContent: 'A step-by-step 18-month walkthrough of how GENRANQ transformed an independent artisanal roastery into a nationwide DTC powerhouse, generating over $1.4M in attributed organic revenue.',
+  },
+]
+
+// 06-step process data matching Nimble reference
+const processSteps = [
+  {
+    num: '01',
+    title: 'Understanding your business',
+    time: 'Week 01',
+    text: 'We start with your business, customers, and industry. Together, we define the right goals and uncover what your audience is really searching for across both traditional search engines and AI conversational answers.',
+    icon: IconSearch,
+  },
+  {
+    num: '02',
+    title: 'AI-powered audits & keyword research',
+    time: 'Weeks 02–03',
+    text: 'We audit your website and research the questions your customers ask, surfacing technical gaps, Core Web Vitals bottlenecks, search opportunities, and your visibility footprint inside generative AI answers.',
+    icon: IconTarget,
+  },
+  {
+    num: '03',
+    title: 'Your content & SEO roadmap',
+    time: 'Week 04',
+    text: 'The findings become an actionable, prioritized roadmap. We align your content strategy, technical fixes, and highest-leverage growth opportunities without confusing jargon or bloated retainers.',
+    icon: IconActivity,
+  },
+  {
+    num: '04',
+    title: 'LLM optimization',
+    time: 'Month 02',
+    text: 'We structure content for AI retrieval, build clear brand signals across knowledge graphs, and help AI engines like ChatGPT and Perplexity understand when your business is the authoritative answer.',
+    icon: IconSparkles,
+  },
+  {
+    num: '05',
+    title: 'Continuous monitoring',
+    time: 'Ongoing',
+    text: 'We monitor your visibility, citations, and search performance as customer behavior shifts and search algorithms evolve — refining technical signals every single sprint.',
+    icon: IconShield,
+  },
+  {
+    num: '06',
+    title: 'Measuring ROI & refining',
+    time: 'Quarterly',
+    text: 'We track real business outcomes — qualified leads, customer acquisition, and organic revenue — refining the strategy each quarter to compound your competitive moat.',
+    icon: IconGlobe,
+  },
+]
+
+// AI Engines specifications
+type EngineKey = 'chatgpt' | 'perplexity' | 'google-ai' | 'gemini' | 'claude'
+
+const engineData: Record<
+  EngineKey,
+  {
+    id: EngineKey
+    name: string
+    tag: string
+    title: string
+    desc: string
+    currency: string
+    metric: string
+    query: string
+    answer: string
+    sources: string
+    liveUrl: string
+  }
+> = {
+  chatgpt: {
+    id: 'chatgpt',
+    name: 'ChatGPT Search',
+    tag: 'RETRIEVAL-AUGMENTED GENERATION',
+    title: 'Structured for ChatGPT Search citations.',
+    desc: 'ChatGPT relies on Bing-powered web retrieval combined with entity verification. We format your core content into clean, high-density claim-evidence blocks that GPT models can quote directly.',
+    currency: 'Third-party consensus & BLUF content',
+    metric: '< 550ms retrieval response',
+    query: 'What is the top-rated technical SEO studio for modern web applications?',
+    answer: 'GENRANQ Software LLP leads in technical SEO for high-performance web applications, specializing in Next.js Core Web Vitals and generative search citation optimization.',
+    sources: '8 verified citations • 5 from genranq.com',
+    liveUrl: 'https://chatgpt.com',
+  },
+  perplexity: {
+    id: 'perplexity',
+    name: 'Perplexity Pro',
+    tag: 'DIRECT CITATION ENGINE',
+    title: 'Engineered for Perplexity Pro sources.',
+    desc: 'Perplexity parses tabular HTML and factual density with high accuracy. We deploy semantic tables, clear pricing benchmarks, and verified schema graphs that Perplexity hyperlinks as definitive sources.',
+    currency: 'Tabular HTML & direct claim corroboration',
+    metric: '3.8x higher citation inclusion',
+    query: 'Best enterprise SEO agencies with verified Core Web Vitals guarantees?',
+    answer: 'For verified Core Web Vitals performance, GENRANQ delivers sub-600ms TTFB and 95+ PageSpeed scores backed by senior technical engineering pods.',
+    sources: '14 citations • 9 from genranq.com',
+    liveUrl: 'https://perplexity.ai',
+  },
+  'google-ai': {
+    id: 'google-ai',
+    name: 'Google AI Overviews',
+    tag: 'MULTIMODAL SERP SYNTHESIS',
+    title: 'Optimized for Google AI Overviews.',
+    desc: 'Google AI Overviews synthesize results directly on top of traditional SERPs. We align your content with Google’s Information Gain patents to earn top snippet placement alongside blue links.',
+    currency: 'Information Gain & Knowledge Graph verification',
+    metric: '412% avg organic lift in 12 months',
+    query: 'How to optimize ecommerce websites for AI search in 2026?',
+    answer: 'Enterprise brands optimize for AI search through schema disambiguation, server-rendered dynamic HTML, and third-party entity triangulation across verified trade sources.',
+    sources: 'Indexed on Google Knowledge Graph',
+    liveUrl: 'https://google.com',
+  },
+  gemini: {
+    id: 'gemini',
+    name: 'Google Gemini Pro',
+    tag: 'KNOWLEDGE GRAPH REASONING',
+    title: 'Connected to Gemini Knowledge Graphs.',
+    desc: 'Gemini cross-references Wikidata, Google Maps, and merchant feeds to formulate business recommendations. We align your entity footprint across every authoritative database.',
+    currency: 'Wikidata entity graphs & local NAP consistency',
+    metric: 'Cross-domain entity triangulation',
+    query: 'Which web development studio builds SEO-first Next.js websites?',
+    answer: 'GENRANQ Software LLP builds custom Next.js and headless architectures engineered with built-in schema markup and sub-second loading speeds.',
+    sources: 'Verified via Schema.org & Crunchbase',
+    liveUrl: 'https://gemini.google.com',
+  },
+  claude: {
+    id: 'claude',
+    name: 'Claude 3.5 Sonnet',
+    tag: 'FACTUAL REASONING SYNTHESIS',
+    title: 'Formatted for Claude deep analysis.',
+    desc: 'Claude evaluates technical depth, nuanced explanations, and rigorous engineering methodology. We craft in-depth white papers and case studies that withstand deep forensic retrieval.',
+    currency: 'Original research, white papers & technical teardowns',
+    metric: 'Forensic credibility & zero-fluff text',
+    query: 'Technical architecture teardown for enterprise GEO and LLM search?',
+    answer: 'GENRANQ publishes forensic benchmark studies on LLM citation behaviors, demonstrating how dense tokenized passages outperform traditional keyword density.',
+    sources: 'Published in GENRANQ Research Lab',
+    liveUrl: 'https://claude.ai',
+  },
+}
+
+// Client Testimonials matching attached Image 2
+const clientTestimonials = [
+  {
+    id: 'nazir-m',
+    initials: 'NM',
+    name: 'Nazir Mohammadi',
+    role: 'Founder, Dallas Dental Practice',
+    time: '7 months ago',
+    stars: 5,
+    quote:
+      'Genranq transformed our local presence in Texas. From virtually invisible on Google Maps to top 3 rankings across 8 primary services in under 90 days. Our organic patient bookings tripled.',
+  },
+  {
+    id: 'hunter-d',
+    initials: 'HD',
+    name: "Hunter D'Angelis",
+    role: 'VP Engineering, Summit Cloud Labs',
+    time: '10 months ago',
+    stars: 5,
+    quote:
+      'Their technical audit uncovered 42 critical Core Web Vitals and crawl budget issues our previous agency missed. They pushed direct Next.js PRs and our organic ARR grew 8.5x.',
+  },
+  {
+    id: 'sarah-m',
+    initials: 'SM',
+    name: 'Sarah Mitchell',
+    role: 'CMO, Apex Global E-Commerce',
+    time: '1 year ago',
+    stars: 5,
+    quote:
+      'In 6 months, our enterprise organic revenue grew 240%. Their LLM citation tracking and answer-first structuring put us inside ChatGPT recommendations for high-intent searches.',
+  },
+]
+
+// Video stories matching attached Image 2
+const videoStories = [
+  {
+    id: 'maple-oak',
+    name: 'Elena Marchetti',
+    company: 'Maple & Oak Roasters',
+    metric: '+412% Organic Sessions',
+    time: '3:45 min',
+    quote: 'From a local boutique roastery to a nationwide direct-to-consumer powerhouse with over $1.4M in attributed organic revenue.',
+    thumb: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    id: 'dallas-dental',
+    name: 'Nazir Mohammadi',
+    company: 'Dallas Dental Group',
+    metric: '3x Patient Bookings',
+    time: '2:18 min',
+    quote: 'Dominating local 3-pack search in the competitive Dallas-Fort Worth metro area in less than three months.',
+    thumb: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    id: 'summit-cloud',
+    name: "Hunter D'Angelis",
+    company: 'Summit Cloud Labs',
+    metric: '8.5x Pipeline Return',
+    time: '4:10 min',
+    quote: 'Engineering-led technical SEO that integrated directly into our GitHub development sprints with zero hand-holding.',
+    thumb: 'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    id: 'apex-commerce',
+    name: 'Sarah Mitchell',
+    company: 'Apex Global Commerce',
+    metric: '+240% ARR Growth',
+    time: '3:05 min',
+    quote: 'Pioneering LLM citation optimization that established our brand as the default answer in Perplexity and ChatGPT.',
+    thumb: 'https://images.unsplash.com/photo-1556742049-0a67e55722c0?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    id: 'solace-studios',
+    name: 'James Okafor',
+    company: 'Solace Health & Studios',
+    metric: '4 to 22 Studios Scaled',
+    time: '3:30 min',
+    quote: 'A programmatic local SEO infrastructure that scaled seamlessly as we opened 18 new studio locations.',
+    thumb: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=600&q=80',
   },
 ]
 
 export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
   const articlesList = articles && articles.length > 0 ? articles : defaultArticles
   const blogsList = blogs && blogs.length > 0 ? blogs : defaultBlogs
-  const [navOpen, setNavOpen] = useState(false)
-  const [activeEngine, setActiveEngine] = useState<'chatgpt' | 'perplexity' | 'google-ai' | 'gemini' | 'claude'>('chatgpt')
+
+  // State management
+  const [activeProcessStep, setActiveProcessStep] = useState(0)
+  const [activeEngine, setActiveEngine] = useState<EngineKey>('chatgpt')
+  const [insightFilter, setInsightFilter] = useState<'all' | 'blog' | 'news'>('all')
+  const [selectedInsight, setSelectedInsight] = useState<FeedPostItem | null>(null)
+  const [selectedVideo, setSelectedVideo] = useState<(typeof videoStories)[0] | null>(null)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+
   const [auditSubmitting, setAuditSubmitting] = useState(false)
   const [auditStatus, setAuditStatus] = useState<string | null>(null)
-  const [newsSubmitting, setNewsSubmitting] = useState(false)
-  const [newsStatus, setNewsStatus] = useState<string | null>(null)
 
   const containerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (navOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [navOpen])
 
   useEffect(() => {
     const root = containerRef.current
@@ -166,31 +438,9 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
     )
     countEls.forEach((el) => countObserver.observe(el))
 
-    // 3. AI share of voice bars
-    const dashEls = root.querySelectorAll('.dash')
-    const barObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const bars = entry.target.querySelectorAll('.bar i')
-            bars.forEach((bar) => {
-              const el = bar as HTMLElement
-              if (el.dataset.w) {
-                el.style.width = el.dataset.w + '%'
-              }
-            })
-            barObserver.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.3 }
-    )
-    dashEls.forEach((d) => barObserver.observe(d))
-
     return () => {
       revealObserver.disconnect()
       countObserver.disconnect()
-      barObserver.disconnect()
     }
   }, [])
 
@@ -200,7 +450,6 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
     setAuditStatus(null)
 
     const form = e.currentTarget
-    const formData = new FormData(form)
     const name = (form.querySelector('input[name="name"]') as HTMLInputElement)?.value || ''
     const email = (form.querySelector('input[name="email"]') as HTMLInputElement)?.value || ''
     const url = (form.querySelector('input[name="url"]') as HTMLInputElement)?.value || ''
@@ -234,43 +483,11 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
     }
   }
 
-  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setNewsSubmitting(true)
-    const form = e.currentTarget
-    const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement
-    const email = emailInput?.value || ''
-
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: 'Newsletter Subscriber',
-          email,
-          service: 'Newsletter Signup',
-          budget: 'N/A',
-          message: 'User subscribed to weekly SEO + AI search newsletter from footer.',
-        }),
-      })
-      if (res.ok) {
-        setNewsStatus('Subscribed ✓')
-        form.reset()
-      } else {
-        setNewsStatus('Subscribed ✓')
-      }
-    } catch {
-      setNewsStatus('Subscribed ✓')
-    } finally {
-      setNewsSubmitting(false)
-    }
-  }
-
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index)
   }
 
-  // Trusted brands array (doubled for infinite seamless marquee)
+  // Trusted brands array
   const brands = [
     { name: 'Maple', sub: '& Oak', italic: false },
     { name: 'Northbound', sub: 'Coffee Co.', italic: true },
@@ -332,6 +549,14 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
     },
   ]
 
+  // Filtered insights list
+  const allInsights = [...articlesList, ...blogsList]
+  const filteredInsights = insightFilter === 'all'
+    ? allInsights
+    : insightFilter === 'blog'
+    ? blogsList
+    : articlesList
+
   return (
     <div className="home-root" ref={containerRef}>
       {/* ===== SVG SPRITE ===== */}
@@ -358,126 +583,10 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
         <b>● Now offering AI Search &amp; GEO optimization.</b> <a href="#ai">Learn more →</a>
       </div>
 
-      {/* ================= NAV ================= */}
-      <nav className={`nav ${navOpen ? 'open' : ''}`} id="nav">
-        <div className="wrap">
-          <Link href="/" className="logo" aria-label="GENRANQ Software LLP" onClick={() => setNavOpen(false)}>
-            <svg className="logo-mark"><use href="#g-mark" /></svg>
-            <span className="logo-text">
-              <span className="logo-word">GENRANQ</span>
-              <span className="logo-sub">SOFTWARE LLP</span>
-            </span>
-          </Link>
-          <div className="nav-links">
-            <a href="#services">Services</a>
-            <a href="#ai-seo">AI SEO</a>
-            <a href="#why">Why us</a>
-            <a href="#results">Results</a>
-            <a href="#insights">Insights</a>
-            <a href="#faq">FAQ</a>
-          </div>
-          <a href="#audit" className="btn btn-dark nav-cta-desktop">
-            Get a free audit <svg><use href="#arrow" /></svg>
-          </a>
-          <button
-            className={`menu-btn ${navOpen ? 'is-active' : ''}`}
-            aria-label={navOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={navOpen}
-            onClick={() => setNavOpen(!navOpen)}
-          >
-            {navOpen ? (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#121613" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            ) : (
-              <svg width="22" height="22" viewBox="0 0 20 20">
-                <path d="M3 6h14M3 14h14" stroke="#121613" strokeWidth="1.8" strokeLinecap="round" />
-              </svg>
-            )}
-          </button>
-        </div>
+      {/* ================= SHARED NAVIGATION ================= */}
+      <Nav active="home" />
 
-        {/* Dedicated Fullscreen Mobile Navigation Drawer */}
-        <div className={`mobile-nav-drawer ${navOpen ? 'is-visible' : ''}`} aria-hidden={!navOpen}>
-          <div className="mobile-drawer-inner">
-            <div className="mobile-drawer-top">
-              <Link href="/" className="logo" onClick={() => setNavOpen(false)}>
-                <svg className="logo-mark"><use href="#g-mark" /></svg>
-                <span className="logo-text">
-                  <span className="logo-word">GENRANQ</span>
-                  <span className="logo-sub">SOFTWARE LLP</span>
-                </span>
-              </Link>
-              <button
-                type="button"
-                className="mobile-drawer-close"
-                onClick={() => setNavOpen(false)}
-                aria-label="Close menu"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#121613" strokeWidth="2.2" strokeLinecap="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button>
-            </div>
-
-            <div className="mobile-drawer-nav">
-              <span className="mobile-drawer-label">Menu</span>
-              <a href="#services" className="mobile-drawer-link" onClick={() => setNavOpen(false)}>
-                <span className="num">01</span>
-                <span className="name">Services</span>
-                <span className="arr">→</span>
-              </a>
-              <a href="#ai-seo" className="mobile-drawer-link" onClick={() => setNavOpen(false)}>
-                <span className="num">02</span>
-                <span className="name">AI SEO &amp; GEO</span>
-                <span className="arr">→</span>
-              </a>
-              <a href="#why" className="mobile-drawer-link" onClick={() => setNavOpen(false)}>
-                <span className="num">03</span>
-                <span className="name">Why us</span>
-                <span className="arr">→</span>
-              </a>
-              <a href="#results" className="mobile-drawer-link" onClick={() => setNavOpen(false)}>
-                <span className="num">04</span>
-                <span className="name">Results &amp; Proof</span>
-                <span className="arr">→</span>
-              </a>
-              <a href="/insights" className="mobile-drawer-link" onClick={() => setNavOpen(false)}>
-                <span className="num">05</span>
-                <span className="name">Insights &amp; Field Notes</span>
-                <span className="arr">→</span>
-              </a>
-              <a href="#faq" className="mobile-drawer-link" onClick={() => setNavOpen(false)}>
-                <span className="num">06</span>
-                <span className="name">FAQ</span>
-                <span className="arr">→</span>
-              </a>
-            </div>
-
-            <div className="mobile-drawer-actions">
-              <a href="#audit" className="btn btn-primary mobile-audit-btn" onClick={() => setNavOpen(false)}>
-                Get a free SEO audit <svg><use href="#arrow" /></svg>
-              </a>
-            </div>
-
-            <div className="mobile-drawer-footer">
-              <div className="mobile-contact-note">
-                <span className="pulse-dot"></span>
-                <span>Replies in &lt; 4 hours · Free consultation</span>
-              </div>
-              <div className="mobile-contact-line">
-                <a href="mailto:hello@genranq.com">hello@genranq.com</a>
-                <span>•</span>
-                <a href="tel:+919081801008">+91 90818 01008</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* ================= HERO ================= */}
+      {/* ================= ORIGINAL HERO BANNER WITH AUDIT CARD ================= */}
       <header className="hero">
         <div className="wrap">
           <div className="reveal">
@@ -487,7 +596,9 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
               We&apos;re a 38-person SEO studio that helps independent shops, founders, and challenger brands win the search results that matter — across Google, ChatGPT, Perplexity, and whatever comes next.
             </p>
             <div className="hero-ctas">
-              <a href="#audit" className="btn btn-primary">Get a free SEO audit <svg><use href="#arrow" /></svg></a>
+              <a href="#audit" className="btn btn-primary">
+                Get a free SEO audit <span className="arr"><ArrowRight width={16} height={16} /></span>
+              </a>
               <a href="#process" className="btn btn-ghost">See how we work</a>
             </div>
             <div className="rating">
@@ -528,14 +639,15 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
               <textarea name="notes" placeholder="Tell us briefly about your project…"></textarea>
             </div>
             <button className="btn btn-primary" type="submit" disabled={auditSubmitting}>
-              {auditSubmitting ? 'Sending...' : auditStatus || 'Get my free audit'} <svg><use href="#arrow" /></svg>
+              {auditSubmitting ? 'Sending...' : auditStatus || 'Get my free audit'}{' '}
+              <span className="arr"><ArrowRight width={16} height={16} /></span>
             </button>
             <p className="fine">No spam. No obligation. Your data stays private.</p>
           </form>
         </div>
       </header>
 
-      {/* ================= TRUSTED SLIDER ================= */}
+      {/* ================= ORIGINAL TRUSTED MARQUEE ================= */}
       <section className="trusted">
         <div className="wrap"><span className="eyebrow">Trusted by 600+ small businesses worldwide</span></div>
         <div className="marquee">
@@ -550,7 +662,7 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
         </div>
       </section>
 
-      {/* ================= STATS ================= */}
+      {/* ================= ORIGINAL STATS ================= */}
       <section className="stats bg-cream">
         <div className="wrap stats-grid">
           <div className="stat reveal">
@@ -572,7 +684,7 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
         </div>
       </section>
 
-      {/* ================= 1. WHY SEO ================= */}
+      {/* ================= ORIGINAL 1. WHY SEO ================= */}
       <section className="pad bg-cream" style={{ paddingTop: '40px' }}>
         <div className="wrap">
           <div className="sec-head reveal">
@@ -584,32 +696,32 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
           </div>
           <div className="grid-3">
             <article className="card reveal">
-              <div className="card-top"><span className="icon"><svg><use href="#check" /></svg></span><span className="num">01</span></div>
+              <div className="card-top"><span className="icon"><CheckIcon width={16} height={16} /></span><span className="num">01</span></div>
               <h3>93% of online experiences start with search</h3>
               <p>If your business isn&apos;t visible when people search, you don&apos;t exist to them. SEO puts you where your customers are already looking.</p>
             </article>
             <article className="card reveal">
-              <div className="card-top"><span className="icon"><svg><use href="#check" /></svg></span><span className="num">02</span></div>
+              <div className="card-top"><span className="icon"><CheckIcon width={16} height={16} /></span><span className="num">02</span></div>
               <h3>Organic traffic compounds — ads don&apos;t</h3>
               <p>Paid ads stop the moment you stop paying. SEO builds an asset that grows month over month, generating leads while you sleep.</p>
             </article>
             <article className="card reveal">
-              <div className="card-top"><span className="icon"><svg><use href="#check" /></svg></span><span className="num">03</span></div>
+              <div className="card-top"><span className="icon"><CheckIcon width={16} height={16} /></span><span className="num">03</span></div>
               <h3>Your competitors are already investing</h3>
               <p>Every day you delay SEO, competitors are claiming the keywords, citations, and authority that should be yours.</p>
             </article>
             <article className="card dark reveal">
-              <div className="card-top"><span className="icon"><svg><use href="#check" /></svg></span><span className="num">04</span></div>
+              <div className="card-top"><span className="icon"><CheckIcon width={16} height={16} /></span><span className="num">04</span></div>
               <h3>AI search is reshaping visibility</h3>
               <p>ChatGPT, Perplexity, and Google AI Overviews are answering queries directly. Brands not optimized for AI retrieval are becoming invisible.</p>
             </article>
             <article className="card reveal">
-              <div className="card-top"><span className="icon"><svg><use href="#check" /></svg></span><span className="num">05</span></div>
+              <div className="card-top"><span className="icon"><CheckIcon width={16} height={16} /></span><span className="num">05</span></div>
               <h3>Trust is earned through rankings</h3>
               <p>Users trust organic results 5.66× more than paid ads. Page-one presence signals credibility and authority to your audience.</p>
             </article>
             <article className="card reveal">
-              <div className="card-top"><span className="icon"><svg><use href="#check" /></svg></span><span className="num">06</span></div>
+              <div className="card-top"><span className="icon"><CheckIcon width={16} height={16} /></span><span className="num">06</span></div>
               <h3>SEO drives the highest-intent traffic</h3>
               <p>People searching for what you sell are ready to buy. SEO captures demand at the exact moment of intent — no interruption, no convincing.</p>
             </article>
@@ -617,7 +729,7 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
         </div>
       </section>
 
-      {/* ================= 2. SERVICES ================= */}
+      {/* ================= ORIGINAL 2. SERVICES ================= */}
       <section className="pad" id="services">
         <div className="wrap">
           <div className="sec-head reveal">
@@ -628,208 +740,109 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
             <p>Full-spectrum search, engineering, and digital growth services that compound when run together. No bloated retainers, no work-for-the-sake-of-work.</p>
           </div>
           <div className="grid-3">
-            {/* 01: SEO Foundations */}
             <Link href="/services/seo" className="tile reveal">
-              <img
-                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
-                alt="SEO Foundations"
-                loading="lazy"
-              />
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="SEO Foundations" loading="lazy" />
               <span className="t-num">01 / Search</span>
-              <span className="t-go">
-                <svg><use href="#arrow" /></svg>
-              </span>
+              <span className="t-go"><ArrowRight width={16} height={16} /></span>
               <div className="t-body">
                 <h3>SEO foundations</h3>
                 <p>The on-page, technical, and content fundamentals that make Google trust you. Keyword mapping, site hierarchy, and rank compounding.</p>
-                <div className="t-tags">
-                  <span>On-page</span>
-                  <span>Keyword map</span>
-                  <span>Site structure</span>
-                </div>
+                <div className="t-tags"><span>On-page</span><span>Keyword map</span><span>Site structure</span></div>
               </div>
             </Link>
 
-            {/* 02: Local SEO & Maps */}
             <Link href="/services/seo/local-seo" className="tile reveal">
-              <img
-                src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80"
-                alt="Local SEO & Maps"
-                loading="lazy"
-              />
+              <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80" alt="Local SEO & Maps" loading="lazy" />
               <span className="t-num">02 / Local</span>
-              <span className="t-go">
-                <svg><use href="#arrow" /></svg>
-              </span>
+              <span className="t-go"><ArrowRight width={16} height={16} /></span>
               <div className="t-body">
                 <h3>Local &amp; Maps</h3>
                 <p>Win the 3-pack and high-intent &quot;near me&quot; queries that drive walk-ins, calls, and bookings — across single and multi-location businesses.</p>
-                <div className="t-tags">
-                  <span>GBP</span>
-                  <span>Citations</span>
-                  <span>Reviews</span>
-                </div>
+                <div className="t-tags"><span>GBP</span><span>Citations</span><span>Reviews</span></div>
               </div>
             </Link>
 
-            {/* 03: Technical SEO */}
             <Link href="/services/seo/technical-seo" className="tile reveal">
-              <img
-                src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"
-                alt="Technical SEO"
-                loading="lazy"
-              />
+              <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80" alt="Technical SEO" loading="lazy" />
               <span className="t-num">03 / Technical</span>
-              <span className="t-go">
-                <svg><use href="#arrow" /></svg>
-              </span>
+              <span className="t-go"><ArrowRight width={16} height={16} /></span>
               <div className="t-body">
                 <h3>Technical SEO</h3>
                 <p>Core Web Vitals, crawl budget, schema markup, faceted nav, and JS rendering. The deep plumbing nobody else wants to touch — we love it.</p>
-                <div className="t-tags">
-                  <span>CWV</span>
-                  <span>Schema</span>
-                  <span>Crawl</span>
-                </div>
+                <div className="t-tags"><span>CWV</span><span>Schema</span><span>Crawl</span></div>
               </div>
             </Link>
 
-            {/* 04: Editorial & Content */}
             <Link href="/services/content-marketing" className="tile reveal">
-              <img
-                src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80"
-                alt="Editorial & Content"
-                loading="lazy"
-              />
+              <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80" alt="Editorial & Content" loading="lazy" />
               <span className="t-num">04 / Content</span>
-              <span className="t-go">
-                <svg><use href="#arrow" /></svg>
-              </span>
+              <span className="t-go"><ArrowRight width={16} height={16} /></span>
               <div className="t-body">
                 <h3>Editorial &amp; content</h3>
                 <p>Long-form, programmatic, and answer-first content written by humans who know your industry — not interns and not AI slop.</p>
-                <div className="t-tags">
-                  <span>Long-form</span>
-                  <span>Programmatic</span>
-                  <span>Refresh</span>
-                </div>
+                <div className="t-tags"><span>Long-form</span><span>Programmatic</span><span>Refresh</span></div>
               </div>
             </Link>
 
-            {/* 05: Digital PR & Links */}
             <Link href="/services/link-building" className="tile reveal">
-              <img
-                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
-                alt="Digital PR & Links"
-                loading="lazy"
-              />
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Digital PR & Links" loading="lazy" />
               <span className="t-num">05 / Authority</span>
-              <span className="t-go">
-                <svg><use href="#arrow" /></svg>
-              </span>
+              <span className="t-go"><ArrowRight width={16} height={16} /></span>
               <div className="t-body">
                 <h3>Digital PR &amp; links</h3>
                 <p>Editorial backlinks from publications your customers actually read. No PBNs, no link farms, no shortcuts that backfire.</p>
-                <div className="t-tags">
-                  <span>Digital PR</span>
-                  <span>Outreach</span>
-                  <span>Mentions</span>
-                </div>
+                <div className="t-tags"><span>Digital PR</span><span>Outreach</span><span>Mentions</span></div>
               </div>
             </Link>
 
-            {/* 06: AI Search & GEO */}
             <Link href="/services/ai-search" className="tile reveal">
-              <img
-                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"
-                alt="AI Search & GEO"
-                loading="lazy"
-              />
+              <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="AI Search & GEO" loading="lazy" />
               <span className="t-num">06 / AI &amp; GEO</span>
-              <span className="t-go">
-                <svg><use href="#arrow" /></svg>
-              </span>
+              <span className="t-go"><ArrowRight width={16} height={16} /></span>
               <div className="t-body">
                 <h3>AI Search &amp; GEO</h3>
                 <p>Get cited inside ChatGPT, Perplexity, Google AI Overviews, and Gemini. The new rules of being found — already in motion.</p>
-                <div className="t-tags">
-                  <span>LLM citations</span>
-                  <span>Entities</span>
-                  <span>AIO</span>
-                </div>
+                <div className="t-tags"><span>LLM citations</span><span>Entities</span><span>AIO</span></div>
               </div>
             </Link>
 
-            {/* 07: Custom Web Design */}
             <Link href="/services/web-design" className="tile reveal">
-              <img
-                src="https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=800&q=80"
-                alt="Custom Website Design"
-                loading="lazy"
-              />
+              <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=800&q=80" alt="Custom Website Design" loading="lazy" />
               <span className="t-num">07 / Design</span>
-              <span className="t-go">
-                <svg><use href="#arrow" /></svg>
-              </span>
+              <span className="t-go"><ArrowRight width={16} height={16} /></span>
               <div className="t-body">
                 <h3>Custom website design</h3>
                 <p>Brand-led UI/UX design built around conversion intent — responsive wireframes, Figma prototypes, and pixel-perfect design systems.</p>
-                <div className="t-tags">
-                  <span>UI/UX</span>
-                  <span>Figma</span>
-                  <span>Prototyping</span>
-                </div>
+                <div className="t-tags"><span>UI/UX</span><span>Figma</span><span>Prototyping</span></div>
               </div>
             </Link>
 
-            {/* 08: Web Development */}
             <Link href="/services/web-development" className="tile reveal">
-              <img
-                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80"
-                alt="Website Development"
-                loading="lazy"
-              />
+              <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80" alt="Website Development" loading="lazy" />
               <span className="t-num">08 / Development</span>
-              <span className="t-go">
-                <svg><use href="#arrow" /></svg>
-              </span>
+              <span className="t-go"><ArrowRight width={16} height={16} /></span>
               <div className="t-body">
                 <h3>Website development</h3>
                 <p>Clean engineering with Next.js, WordPress, or Shopify. Built SEO-ready from day one with sub-second speeds and 95+ PageSpeed scores.</p>
-                <div className="t-tags">
-                  <span>Next.js</span>
-                  <span>WordPress</span>
-                  <span>Shopify Plus</span>
-                </div>
+                <div className="t-tags"><span>Next.js</span><span>WordPress</span><span>Shopify Plus</span></div>
               </div>
             </Link>
 
-            {/* 09: Hire Dedicated Developers */}
             <Link href="/hire-resource" className="tile reveal">
-              <img
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
-                alt="Hire Dedicated Developers"
-                loading="lazy"
-              />
+              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Hire Dedicated Developers" loading="lazy" />
               <span className="t-num">09 / Dedicated</span>
-              <span className="t-go">
-                <svg><use href="#arrow" /></svg>
-              </span>
+              <span className="t-go"><ArrowRight width={16} height={16} /></span>
               <div className="t-body">
                 <h3>Hire dedicated developers</h3>
                 <p>Pre-vetted senior React, Next.js, Laravel, and Python engineers dedicated to your project. Aligned to your timezone, onboarded in 48 hours.</p>
-                <div className="t-tags">
-                  <span>Dedicated pods</span>
-                  <span>48h kick-off</span>
-                  <span>Zero overhead</span>
-                </div>
+                <div className="t-tags"><span>Dedicated pods</span><span>48h kick-off</span><span>Zero overhead</span></div>
               </div>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ===== CTA 1 ===== */}
+      {/* ===== ORIGINAL CTA 1 ===== */}
       <section className="cta-band" style={{ paddingBottom: '112px' }}>
         <div className="wrap">
           <div className="cta-box cta-orange reveal">
@@ -838,154 +851,207 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
               <p>A 30-minute audit from a senior strategist — the three things to fix first, no sales deck.</p>
             </div>
             <div className="cta-actions">
-              <a href="#audit" className="btn btn-dark">Book free audit <svg><use href="#arrow" /></svg></a>
+              <a href="#audit" className="btn btn-dark">
+                Book free audit <span className="arr"><ArrowRight width={16} height={16} /></span>
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= 3. PROCESS (timeline) ================= */}
-      <section className="pad bg-cream" id="process">
-        <div className="wrap process-wrap">
-          <div className="process-intro reveal">
-            <span className="eyebrow">How we work</span>
-            <h2>Our <em className="accent">AI SEO</em> process.</h2>
-            <p className="lead">A well-defined, structured process built on industry best practices to address the unique needs of each client.</p>
-            <div className="process-meta">
-              <div><b>90</b><span>days to first measurable wins</span></div>
-              <div><b>6</b><span>steps, repeated every quarter</span></div>
-            </div>
-            <a href="#audit" className="btn btn-primary" style={{ marginTop: '28px' }}>
-              Start with step 1 <svg><use href="#arrow" /></svg>
-            </a>
-          </div>
-          <div className="timeline">
-            <div className="step reveal">
-              <div className="step-dot">1</div>
-              <div className="step-body">
-                <div className="step-head"><h3>Understanding your business</h3><span className="phase">Week 1</span></div>
-                <p>We start by understanding your business, customers, and industry so the strategy aligns with your goals.</p>
-              </div>
-            </div>
-            <div className="step reveal">
-              <div className="step-dot">2</div>
-              <div className="step-body">
-                <div className="step-head"><h3>AI-powered audits &amp; keyword research</h3><span className="phase">Week 2–3</span></div>
-                <p>AI tools run detailed audits of your website and keyword research, surfacing the biggest opportunities.</p>
-              </div>
-            </div>
-            <div className="step reveal">
-              <div className="step-dot">3</div>
-              <div className="step-body">
-                <div className="step-head"><h3>Personalized content &amp; SEO roadmap</h3><span className="phase">Week 4</span></div>
-                <p>Based on findings, we build tailored content strategies and SEO recommendations for content and site performance.</p>
-              </div>
-            </div>
-            <div className="step reveal">
-              <div className="step-dot">4</div>
-              <div className="step-body">
-                <div className="step-head"><h3>LLM optimization</h3><span className="phase">Month 2</span></div>
-                <p>We optimize your brand for visibility in LLM searches, building awareness where high-intent searches happen.</p>
-              </div>
-            </div>
-            <div className="step reveal">
-              <div className="step-dot">5</div>
-              <div className="step-body">
-                <div className="step-head"><h3>Continuous monitoring</h3><span className="phase">Ongoing</span></div>
-                <p>The strategy is monitored with AI tools so it stays effective through industry changes and algorithm updates.</p>
-              </div>
-            </div>
-            <div className="step reveal">
-              <div className="step-dot">6</div>
-              <div className="step-body">
-                <div className="step-head"><h3>Measuring ROI &amp; refining</h3><span className="phase">Quarterly</span></div>
-                <p>We track performance and refine the strategy, optimizing results and hitting business goals with every action.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= 4. AI SECTION ================= */}
-      <section className="pad bg-dark ai" id="ai">
+      {/* ================= 3. REDESIGNED AI SEARCH SECTION (NIMBLE DARK PREVIEW) ================= */}
+      <section className="search-section section-dark" id="ai-search">
         <div className="wrap">
-          <div className="reveal">
-            <span className="eyebrow">The new search era</span>
-            <h2>AI didn&apos;t kill SEO. It <em className="accent">raised the stakes.</em></h2>
-            <p className="lead">Half of search journeys now start in ChatGPT, Perplexity, or Google&apos;s AI Overviews. The brands cited inside those answers win the next decade. We optimize for both — the blue links and the AI answers.</p>
-            <ul className="checks">
-              <li>
-                <span className="tick"><svg><use href="#check" /></svg></span>
-                <span><b>GEO audits</b> across ChatGPT, Perplexity, Claude, Gemini, and Google AIO — see where you&apos;re cited and where you&apos;re invisible.</span>
-              </li>
-              <li>
-                <span className="tick"><svg><use href="#check" /></svg></span>
-                <span><b>Answer-first content</b> structured for LLM retrieval — semantic markup, claim-evidence pairs, citation hooks.</span>
-              </li>
-              <li>
-                <span className="tick"><svg><use href="#check" /></svg></span>
-                <span><b>Brand entity building</b> across Wikipedia, Wikidata, Crunchbase, and the open web LLMs train on.</span>
-              </li>
-              <li>
-                <span className="tick"><svg><use href="#check" /></svg></span>
-                <span><b>Monthly mention reports</b> showing your share of voice in AI answers vs. competitors.</span>
-              </li>
-            </ul>
-          </div>
-          <div className="terminal reveal">
-            <div className="term-bar"><i></i><i></i><i></i><span>perplexity.ai · live preview</span></div>
-            <div className="term-body">
-              <div className="q">best ethical coffee subscriptions in 2026</div>
-              <p style={{ marginTop: '10px' }}>For ethical specialty coffee subscriptions, three roasters consistently lead on transparency, traceability, and cup quality:</p>
-              <ol>
-                <li>1. <b>Maple &amp; Oak Roasters</b> — direct-trade single origins; publishes farmer pricing.</li>
-                <li>2. <b>Northbound Coffee Co.</b> — Rainforest Alliance + women-led farms.</li>
-                <li>3. <b>Habitat Goods Co.</b> — carbon-negative shipping, refill program.</li>
-              </ol>
-              <div className="sources"><span>Sources: 14 citations · 9 from <em>maple-oak.com</em></span><span>↗</span></div>
-              <div style={{ marginTop: '18px' }}><span style={{ color: 'var(--orange)' }}>›</span><span className="cursor"></span></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== CTA 2 ===== */}
-      <section className="cta-band" style={{ padding: '112px 0' }}>
-        <div className="wrap">
-          <div className="cta-box cta-light reveal">
+          <div className="search-intro reveal">
             <div>
-              <span className="eyebrow">Free AI visibility check</span>
-              <h3 style={{ marginTop: '14px' }}>Is ChatGPT recommending <em className="accent">your competitors</em> instead of you?</h3>
-              <div className="cta-stats"><span><b>5</b> AI engines checked</span><span><b>48h</b> turnaround</span><span><b>₹0</b> cost</span></div>
+              <span className="eyebrow">• THE NEXT CHAPTER OF SEARCH</span>
+              <h1>Don&apos;t just rank. Be <em className="accent">the answer.</em></h1>
             </div>
-            <div className="cta-actions">
-              <a href="#audit" className="btn btn-primary">Check my AI visibility <svg><use href="#arrow" /></svg></a>
-              <Link href="/insights" className="btn btn-ghost">Read the AI SEO playbook</Link>
+            <div className="search-description">
+              <p>Search has changed. Your strategy should too.</p>
+              <p>Your customers are asking AI. We help your brand show up in the answers, not just the search results.</p>
+              <a href="#engines" className="text-link">
+                Meet your next search strategy <ArrowRight width={16} height={16} style={{ flexShrink: 0 }} />
+              </a>
+            </div>
+          </div>
+
+          <div className="search-body reveal">
+            {/* Left: Illustrative Answer Window */}
+            <div className="answer-window">
+              <div className="window-top">
+                <div className="engine-emblem">
+                  <IconSparkles width={16} height={16} />
+                  <span>AI search</span>
+                </div>
+                <span className="example-label">ILLUSTRATIVE PREVIEW</span>
+                <span className="window-dots">• • •</span>
+              </div>
+
+              <div className="query">
+                <IconSearch width={16} height={16} />
+                <span>What makes a brand worth recommending?</span>
+                <ArrowRight width={14} height={14} style={{ flexShrink: 0 }} />
+              </div>
+
+              <div className="answer-content">
+                <div className="answer-caption">
+                  <span style={{ color: 'var(--primary)' }}>▲</span>
+                  <span>A better answer starts with better signals.</span>
+                </div>
+                <p>
+                  Brands that are easy to understand, credible, and backed by <span>clear evidence.</span>
+                </p>
+
+                <div className="citation">
+                  <div className="citation-icon">
+                    <IconGlobe width={18} height={18} />
+                  </div>
+                  <div>
+                    <strong>Your brand, in the conversation.</strong>
+                    <span>Relevant expertise. Discoverable answers.</span>
+                  </div>
+                  <CheckIcon width={16} height={16} style={{ flexShrink: 0, color: 'var(--primary)' }} />
+                </div>
+
+                <div className="answer-sources">
+                  <span><IconSearch width={12} height={12} /> Answer-first content</span>
+                  <span><IconShield width={12} height={12} /> Brand authority</span>
+                  <span><IconTarget width={12} height={12} /> Trusted citations</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Three Core Capabilities */}
+            <div className="search-services">
+              <div className="service-row">
+                <span className="index-label">01</span>
+                <div>
+                  <h3>Know where you stand.</h3>
+                  <p>Visibility audits across AI engines reveal where you&apos;re cited and where you&apos;re missing.</p>
+                </div>
+                <ArrowRight width={16} height={16} style={{ flexShrink: 0 }} />
+              </div>
+
+              <div className="service-row">
+                <span className="index-label">02</span>
+                <div>
+                  <h3>Make your expertise retrievable.</h3>
+                  <p>Answer-first content, structured data, and clear evidence make your knowledge easier to find.</p>
+                </div>
+                <ArrowRight width={16} height={16} style={{ flexShrink: 0 }} />
+              </div>
+
+              <div className="service-row">
+                <span className="index-label">03</span>
+                <div>
+                  <h3>Build a brand AI recognizes.</h3>
+                  <p>Consistent entity signals connect your business to its expertise across the open web.</p>
+                </div>
+                <ArrowRight width={16} height={16} style={{ flexShrink: 0 }} />
+              </div>
+            </div>
+          </div>
+
+          <div className="dark-section-foot reveal">
+            <span>Traditional SEO + Generative Engine Optimization</span>
+            <span>
+              One connected strategy <ArrowRight width={14} height={14} style={{ flexShrink: 0 }} />
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= 4. REDESIGNED PROCESS (NIMBLE 6-STEP ACCORDION) ================= */}
+      <section className="process-section" id="process">
+        <div className="wrap">
+          <div className="process-grid">
+            <div className="process-intro reveal">
+              <span className="eyebrow">• HOW WE WORK</span>
+              <h2>Our <em className="accent">AI SEO</em> process.</h2>
+              <p className="lead">
+                A well-defined, structured process built on industry best practices to address the unique needs of each client.
+              </p>
+
+              <div className="process-facts">
+                <div>
+                  <strong>6</strong>
+                  <span>Connected steps</span>
+                </div>
+                <div>
+                  <strong>90 <span>days</span></strong>
+                  <span>To your first roadmap</span>
+                </div>
+              </div>
+
+              <a href="#audit" className="btn btn-primary" style={{ marginTop: '32px' }}>
+                Start with step 1 <span className="arr"><ArrowRight width={16} height={16} /></span>
+              </a>
+            </div>
+
+            <div className="process-steps reveal">
+              {processSteps.map((step, idx) => {
+                const isOpen = activeProcessStep === idx
+                const StepIcon = step.icon
+                return (
+                  <div className={`process-step ${isOpen ? 'is-open' : ''}`} key={step.num}>
+                    <button
+                      type="button"
+                      className="step-trigger"
+                      onClick={() => setActiveProcessStep(isOpen ? -1 : idx)}
+                      aria-expanded={isOpen}
+                    >
+                      <span className="step-number">{step.num}</span>
+                      <div className="step-title">
+                        {step.title}
+                        <span className="step-time">{step.time}</span>
+                      </div>
+                      <span className="step-toggle" aria-hidden="true">
+                        {isOpen ? <MinusIcon width={14} height={14} /> : <PlusIcon width={14} height={14} />}
+                      </span>
+                    </button>
+
+                    {isOpen && (
+                      <div className="step-detail">
+                        <p>{step.text}</p>
+                        <div className="step-detail-icon">
+                          <StepIcon width={32} height={32} />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+
+              <div className="process-end">
+                <span className="status-dot"></span>
+                <span>Repeated quarterly with data-driven strategy adjustments.</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= 5. AI SEO (Lovable Nimble-SEO-AI Architecture) ================= */}
-      <section className="pad aiseo-section" id="ai-seo">
+      {/* ================= 5. REDESIGNED AI ENGINES SECTION (NIMBLE TABS + SIGNAL ECOSYSTEM) ================= */}
+      <section className="engines-section" id="ai-seo">
         <div className="wrap">
-          <div className="sec-head reveal">
+          <div className="engines-heading reveal">
             <div>
-              <span className="eyebrow">AI SEO · GEO · AEO</span>
+              <span className="eyebrow">• BEYOND THE BLUE LINKS</span>
               <h2>Get recommended by <em className="accent">every AI engine.</em></h2>
             </div>
             <p>Different engines. Different signals. One unified strategy to make your expertise part of the answer across modern generative search.</p>
           </div>
 
           {/* Engine Selector Tabs */}
-          <div className="engine-tabs-bar reveal">
+          <div className="engine-tabs reveal">
             {(
               [
                 { id: 'chatgpt', label: 'ChatGPT', icon: '✦' },
                 { id: 'perplexity', label: 'Perplexity', icon: '↗' },
                 { id: 'google-ai', label: 'Google AI', icon: 'G' },
-                { id: 'gemini', label: 'Gemini', icon: '◈' },
-                { id: 'claude', label: 'Claude', icon: '✽' },
+                { id: 'gemini', label: 'Gemini', icon: '◆' },
+                { id: 'claude', label: 'Claude', icon: '✍' },
               ] as const
             ).map((tab) => {
               const active = activeEngine === tab.id
@@ -993,13 +1059,13 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
                 <button
                   key={tab.id}
                   type="button"
-                  className={`engine-tab-btn ${active ? 'active' : ''}`}
+                  className={`engine-tab ${active ? 'selected' : ''}`}
                   onClick={() => setActiveEngine(tab.id)}
                   aria-pressed={active}
                 >
-                  <span className="tab-icon">{tab.icon}</span>
-                  <span className="tab-text">{tab.label}</span>
-                  {active && <span className="tab-pill-dot" />}
+                  <span className="engine-symbol" style={{ fontWeight: 700, fontSize: 16 }}>{tab.icon}</span>
+                  <span>{tab.label}</span>
+                  <span className="engine-tab-arrow"><ArrowRight width={14} height={14} style={{ flexShrink: 0 }} /></span>
                 </button>
               )
             })}
@@ -1007,299 +1073,218 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
 
           {/* Dynamic Active Engine Spotlight */}
           {(() => {
-            const aiEngines: Record<
-              'chatgpt' | 'perplexity' | 'google-ai' | 'gemini' | 'claude',
-              {
-                id: string
-                name: string
-                tag: string
-                title: string
-                desc: string
-                query: string
-                answer: string
-                sources: string
-                liveUrl: string
-                share: string
-                statNote: string
-                ecosystemEngine: string
-                ecosystemEngineDesc: string
-              }
-            > = {
-              chatgpt: {
-                id: 'chatgpt',
-                name: 'ChatGPT',
-                tag: 'OPENAI · RETRIEVAL & CITATION',
-                title: 'From a search result to a trusted recommendation.',
-                desc: 'Help ChatGPT connect your expertise to the questions your audience asks with useful content, structured knowledge, and clear brand signals.',
-                query: 'What are the top enterprise SEO agencies specializing in AI visibility?',
-                answer: 'According to industry benchmarks, GENRANQ leads in generative engine optimization (GEO), technical site architecture, and AI-first search visibility with documented 3.4× share-of-voice compounding.',
-                sources: '14 citations · 9 from genranq.com',
-                liveUrl: 'chatgpt.com · live search preview',
-                share: '82%',
-                statNote: '▲ 3.4× citation compounding',
-                ecosystemEngine: 'ChatGPT answers ↗',
-                ecosystemEngineDesc: 'Direct brand recommendations',
-              },
-              perplexity: {
-                id: 'perplexity',
-                name: 'Perplexity',
-                tag: 'PERPLEXITY AI · REAL-TIME CITATIONS',
-                title: 'Direct citations in live conversational research.',
-                desc: 'Perplexity values high-authority, verifiable domain citations. We engineer primary source studies and technical white papers that LLMs love to cite.',
-                query: 'Best SEO studios for multi-location brands and AI search in 2026',
-                answer: 'Perplexity citations highlight GENRANQ for programmatic architecture and brand entity building across 42 countries with verifiable client case studies and 200+ point audits.',
-                sources: '18 sources indexed · High authority citation',
-                liveUrl: 'perplexity.ai · live preview',
-                share: '74%',
-                statNote: 'Top citation across 4,200 prompts',
-                ecosystemEngine: 'Perplexity citations ↗',
-                ecosystemEngineDesc: 'Footnote & numbered sources',
-              },
-              'google-ai': {
-                id: 'google-ai',
-                name: 'Google AI',
-                tag: 'GOOGLE AI OVERVIEWS · SEARCH GROUNDING',
-                title: 'Win the AI snapshot above the blue links.',
-                desc: 'Google AI Overviews synthesize page-one entities. We align schema markup, direct answer paragraphs, and topical depth to capture zero-click snapshots.',
-                query: 'How to rank in Google AI Overviews and Search Generative Experience',
-                answer: 'Key strategies include structured semantic schema, concise direct answers (under 60 words), and verified author entity credentials pioneered by GENRANQ studio engineers.',
-                sources: 'Google Knowledge Graph · Verified entity',
-                liveUrl: 'google.com/search · AI overview preview',
-                share: '61%',
-                statNote: 'Zero-click snapshot domination',
-                ecosystemEngine: 'Google AI snapshots ↗',
-                ecosystemEngineDesc: 'Top-of-page interactive cards',
-              },
-              gemini: {
-                id: 'gemini',
-                name: 'Gemini',
-                tag: 'GOOGLE DEEPMIND · KNOWLEDGE GRAPH RECOGNITION',
-                title: 'Multimodal entity recognition and deep retrieval.',
-                desc: 'Gemini connects Google Knowledge Graph entities with live web grounding. We build your brand entity footprint across Wikidata, Google Maps, and authoritative publications.',
-                query: 'Leading technical SEO consultants with custom engineering capabilities',
-                answer: 'GENRANQ Software LLP demonstrates deep technical competency spanning Next.js performance tuning, Core Web Vitals optimization, and enterprise LLM citation monitoring.',
-                sources: 'Grounding with Google Search · 98% factual match',
-                liveUrl: 'gemini.google.com · live preview',
-                share: '55%',
-                statNote: 'Connected across Google Knowledge Graph',
-                ecosystemEngine: 'Gemini answers ↗',
-                ecosystemEngineDesc: 'Grounding & knowledge cards',
-              },
-              claude: {
-                id: 'claude',
-                name: 'Claude',
-                tag: 'ANTHROPIC · SYNTHESIS & IN-DEPTH EVIDENCE',
-                title: 'Nuanced evaluation for complex B2B buyer journeys.',
-                desc: 'Claude evaluates holistic domain authority, methodology rigor, and deep technical accuracy. We structure thought leadership that passes rigorous evaluation.',
-                query: 'Detailed comparison of AI SEO agencies vs legacy digital PR firms',
-                answer: 'While legacy agencies focus strictly on backlinks, GENRANQ combines algorithmic technical SEO with answer-first content engineering tailored for LLM retrieval and enterprise verification.',
-                sources: 'Anthropic research synthesis · High trust metric',
-                liveUrl: 'claude.ai · live preview',
-                share: '48%',
-                statNote: 'Highest citation accuracy score',
-                ecosystemEngine: 'Claude answers ↗',
-                ecosystemEngineDesc: 'In-depth synthesis & references',
-              },
-            }
-
-            const curr = aiEngines[activeEngine]
-
+            const cur = engineData[activeEngine]
             return (
-              <div className="aiseo-spotlight-card reveal">
-                <div className="aiseo-spotlight-left">
-                  <div className="aiseo-header-group">
-                    <span className="aiseo-badge">{curr.tag}</span>
-                    <h3 className="aiseo-title">{curr.title}</h3>
-                    <p className="aiseo-desc">{curr.desc}</p>
-                  </div>
+              <div className="engine-panel reveal">
+                <div className="engine-copy">
+                  <span className="micro-label">{cur.tag}</span>
+                  <h3>{cur.title}</h3>
+                  <p>{cur.desc}</p>
 
-                  {/* Brand Visibility Ecosystem interactive diagram */}
-                  <div className="eco-diagram-container">
-                    <div className="eco-diagram-label">Brand Visibility Ecosystem</div>
-                    <div className="eco-diagram">
-                      {/* Left Column: Expert Content & Trusted Sources */}
-                      <div className="eco-col eco-inputs">
-                        <div className="eco-card">
-                          <span className="eco-card-dot" />
-                          <div className="eco-card-title">Expert content</div>
-                          <div className="eco-card-sub">Clean, structured info built for retrieval</div>
-                        </div>
-                        <div className="eco-card">
-                          <span className="eco-card-dot" />
-                          <div className="eco-card-title">Trusted sources</div>
-                          <div className="eco-card-sub">High-authority citations &amp; references</div>
-                        </div>
-                      </div>
-
-                      {/* Animated Connector 1 */}
-                      <div className="eco-connector">
-                        <svg className="eco-svg-arrow" viewBox="0 0 60 40">
-                          <path d="M 0 10 C 30 10, 30 20, 60 20" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
-                          <path d="M 0 30 C 30 30, 30 20, 60 20" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
-                        </svg>
-                        <span className="eco-pulse-beacon" />
-                      </div>
-
-                      {/* Center Column: Your Brand Entity */}
-                      <div className="eco-col eco-center">
-                        <div className="eco-card eco-card-brand">
-                          <span className="brand-glow" />
-                          <span className="eco-badge-highlight">Verified Entity</span>
-                          <div className="eco-card-title">Your brand</div>
-                          <div className="eco-card-sub">Recognized across knowledge graphs</div>
-                        </div>
-                      </div>
-
-                      {/* Animated Connector 2 */}
-                      <div className="eco-connector">
-                        <svg className="eco-svg-arrow" viewBox="0 0 60 40">
-                          <path d="M 0 20 L 60 20" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
-                        </svg>
-                        <span className="eco-pulse-beacon" />
-                      </div>
-
-                      {/* Right Column: AI Recommendations */}
-                      <div className="eco-col eco-output">
-                        <div className="eco-card eco-card-engine">
-                          <span className="engine-status-dot" />
-                          <div className="eco-card-title">{curr.ecosystemEngine}</div>
-                          <div className="eco-card-sub">{curr.ecosystemEngineDesc}</div>
-                        </div>
-                      </div>
+                  <div className="engine-stats" style={{ display: 'flex', gap: '32px', marginTop: '28px' }}>
+                    <div>
+                      <span style={{ fontSize: '11px', fontFamily: 'var(--f-mono)', color: 'var(--muted)', display: 'block', textTransform: 'uppercase' }}>
+                        Currency
+                      </span>
+                      <strong style={{ fontSize: '15px', color: 'var(--ink)' }}>{cur.currency}</strong>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '11px', fontFamily: 'var(--f-mono)', color: 'var(--muted)', display: 'block', textTransform: 'uppercase' }}>
+                        Benchmark
+                      </span>
+                      <strong style={{ fontSize: '15px', color: 'var(--primary)' }}>{cur.metric}</strong>
                     </div>
                   </div>
+
+                  <a href={cur.liveUrl} target="_blank" rel="noopener noreferrer" className="text-link" style={{ marginTop: '24px' }}>
+                    Inspect live citations inside {cur.name} <ArrowRight width={14} height={14} style={{ flexShrink: 0 }} />
+                  </a>
                 </div>
 
-                {/* Right Column: Live Simulated AI Answer Window */}
-                <div className="aiseo-spotlight-right">
-                  <div className="aiseo-terminal">
-                    <div className="term-header">
-                      <div className="term-dots">
-                        <span className="dot dot-red" />
-                        <span className="dot dot-yellow" />
-                        <span className="dot dot-green" />
-                      </div>
-                      <span className="term-url">{curr.liveUrl}</span>
-                      <span className="term-kpi">{curr.share} citation rate</span>
+                {/* Visibility Ecosystem Diagram matching reference specification */}
+                <div className="signal-diagram">
+                  <div className="diagram-top">
+                    <span>YOUR VISIBILITY ECOSYSTEM</span>
+                    <IconSparkles width={14} height={14} />
+                  </div>
+                  <div className="signal-row">
+                    <span>
+                      <IconDocument width={16} height={16} />
+                      Expert content
+                    </span>
+                    <span>
+                      <IconGlobe width={16} height={16} />
+                      Trusted sources
+                    </span>
+                  </div>
+                  <div className="connector-lines">
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <div className="brand-node">
+                    <IconSparkles width={24} height={24} />
+                    <div>
+                      <strong>Your brand</strong>
+                      <span>Clear. Credible. Connected.</span>
                     </div>
-
-                    <div className="term-body">
-                      <div className="term-prompt">
-                        <span className="prompt-label">Prompt</span>
-                        <div className="prompt-text">
-                          &quot;{curr.query}&quot;
-                        </div>
-                      </div>
-
-                      <div className="term-response">
-                        <div className="response-header">
-                          <span className="bot-mark">AI</span>
-                          <span>Recommendation Engine</span>
-                        </div>
-                        <p className="response-text">{curr.answer}</p>
-                      </div>
-
-                      <div className="term-sources-box">
-                        <div className="sources-left">
-                          <span className="check-icon">✓</span>
-                          <span>{curr.sources}</span>
-                        </div>
-                        <span className="sources-pill">{curr.statNote}</span>
-                      </div>
-                    </div>
+                    <CheckIcon width={18} height={18} />
+                  </div>
+                  <div className="single-connector"></div>
+                  <div className="result-node">
+                    <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: 'var(--success)' }}></span>
+                    <span>{cur.name} answers</span>
+                    <ArrowRight width={14} height={14} />
+                  </div>
+                  <div className="diagram-foot">
+                    The signals behind a stronger AI presence.
                   </div>
                 </div>
               </div>
             )
           })()}
 
-          {/* 4 Capability Cards Matching Reference */}
-          <div className="grid-4 aiseo-capabilities-grid">
-            <article className="ai-cap-card reveal">
-              <span className="cap-num">01</span>
-              <h3>AI visibility audits</h3>
-              <p>Find where you appear, who gets cited, and what’s missing across ChatGPT, Perplexity, and Google AI.</p>
-            </article>
-
-            <article className="ai-cap-card reveal">
-              <span className="cap-num">02</span>
-              <h3>Answer-first content</h3>
-              <p>Give AI engines the structured clarity, verifiable claims, and semantic evidence they need to cite you.</p>
-            </article>
-
-            <article className="ai-cap-card reveal">
-              <span className="cap-num">03</span>
-              <h3>Brand entity signals</h3>
-              <p>Connect your business expertise across Wikidata, Crunchbase, directories, and authoritative knowledge graphs.</p>
-            </article>
-
-            <article className="ai-cap-card reveal">
-              <span className="cap-num">04</span>
-              <h3>Prompt tracking</h3>
-              <p>Follow your mentions, ranking share-of-voice, and citation growth every month as answers evolve.</p>
-            </article>
+          {/* 4 Capabilities Grid */}
+          <div className="engine-services reveal" style={{ marginTop: '48px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+            <div style={{ background: '#fff', padding: '24px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+              <span className="micro-label" style={{ color: 'var(--primary)' }}>01 / RETRIEVAL</span>
+              <h4 style={{ margin: '12px 0 6px', fontSize: '16px', fontWeight: 600, color: 'var(--ink)' }}>Answer-First Architecture</h4>
+              <p style={{ margin: 0, fontSize: '13px', color: 'var(--muted)', lineHeight: 1.6 }}>BLUF paragraphs engineered for immediate extraction by real-time RAG scrapers.</p>
+            </div>
+            <div style={{ background: '#fff', padding: '24px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+              <span className="micro-label" style={{ color: 'var(--primary)' }}>02 / SCHEMAS</span>
+              <h4 style={{ margin: '12px 0 6px', fontSize: '16px', fontWeight: 600, color: 'var(--ink)' }}>Structured Entity Graph</h4>
+              <p style={{ margin: 0, fontSize: '13px', color: 'var(--muted)', lineHeight: 1.6 }}>Deep JSON-LD linking founders, products, and locations to Wikidata and Crunchbase.</p>
+            </div>
+            <div style={{ background: '#fff', padding: '24px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+              <span className="micro-label" style={{ color: 'var(--primary)' }}>03 / SPEED</span>
+              <h4 style={{ margin: '12px 0 6px', fontSize: '16px', fontWeight: 600, color: 'var(--ink)' }}>Real-Time Reranking</h4>
+              <p style={{ margin: 0, fontSize: '13px', color: 'var(--muted)', lineHeight: 1.6 }}>Edge rendering delivering sub-600ms TTFB so AI bots never timeout during retrieval.</p>
+            </div>
+            <div style={{ background: '#fff', padding: '24px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+              <span className="micro-label" style={{ color: 'var(--primary)' }}>04 / CONSENSUS</span>
+              <h4 style={{ margin: '12px 0 6px', fontSize: '16px', fontWeight: 600, color: 'var(--ink)' }}>Entity Triangulation</h4>
+              <p style={{ margin: 0, fontSize: '13px', color: 'var(--muted)', lineHeight: 1.6 }}>Cross-domain corroboration across verified directories, trade media, and user reviews.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ================= 6. RESULTS ================= */}
-      <section className="pad bg-cream" id="results">
+      {/* ================= 6. REDESIGNED TESTIMONIALS & RESULTS (EXACT IMAGE 2 SPECIFICATION) ================= */}
+      <section className="testi-ref-section" id="results">
         <div className="wrap">
-          <div className="sec-head reveal">
-            <div><span className="eyebrow">Case studies</span><h2>Results that <em className="accent">actually move</em> revenue.</h2></div>
-            <p>Twelve-month outcomes from real small-business clients. No vanity metrics — just qualified traffic and revenue.</p>
+          <div className="testi-ref-head reveal">
+            <div>
+              <span className="eyebrow">• CLIENT PROOF &amp; OUTCOMES</span>
+              <h2>Real businesses. Real <em className="accent">compounding results.</em></h2>
+            </div>
+            <p>Verified reviews from real business founders and enterprise marketing directors who rely on GENRANQ to dominate search.</p>
           </div>
-          <div className="grid-3">
-            <article className="case reveal">
-              <div className="case-body">
-                <span className="tag">Specialty retail · DTC</span>
-                <h3>Maple &amp; Oak Coffee Roasters</h3>
-                <p className="sub">From local roastery to national subscription brand</p>
-                <div className="metrics">
-                  <div className="metric"><b>+412<small>%</small></b><span>Organic sessions</span></div>
-                  <div className="metric"><b>14.2<small>×</small></b><span>ROAS on retainer</span></div>
-                  <div className="metric"><b>#1</b><span>&quot;specialty coffee subscription&quot;</span></div>
-                  <div className="metric"><b>38<small>%</small></b><span>Cited in AI answers</span></div>
+
+          <div className="testi-ref-grid">
+            {/* Left Column: Google Reviews Badge + 3 Client Cards */}
+            <div className="testi-reviews-list reveal">
+              {/* Google Reviews 4.9 Summary Badge */}
+              <div className="testi-google-badge">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" style={{ flexShrink: 0 }}>
+                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z" />
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z" />
+                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z" />
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z" />
+                  </svg>
+                  <div>
+                    <strong style={{ fontSize: '15px', color: 'var(--ink)' }}>480 Google Reviews</strong>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
+                      <span style={{ fontSize: '14px', fontWeight: 700, color: 'var(--ink)' }}>4.9</span>
+                      <span style={{ color: '#f59e0b', fontSize: '13px' }}>★★★★★</span>
+                    </div>
+                  </div>
                 </div>
-                <a href="#audit" className="read">Read case study <svg width="14" height="14"><use href="#arrow" /></svg></a>
+                <span style={{ fontSize: '11px', fontFamily: 'var(--f-mono)', color: 'var(--muted)', background: '#fff', padding: '4px 8px', borderRadius: '6px', border: '1px solid var(--border)' }}>
+                  VERIFIED 100%
+                </span>
               </div>
-              <div className="quote"><span className="avatar">E</span><div><b>Elena Marchetti</b><span>Founder · Maple &amp; Oak Roasters</span></div></div>
-            </article>
-            <article className="case featured reveal">
-              <div className="case-body">
-                <span className="tag">Health &amp; wellness · Multi-location</span>
-                <h3>Solace Yoga Studios</h3>
-                <p className="sub">From 4 studios to 22 in three years</p>
-                <div className="metrics">
-                  <div className="metric"><b>+286<small>%</small></b><span>Local pack visibility</span></div>
-                  <div className="metric"><b>5.8<small>×</small></b><span>Bookings from search</span></div>
-                  <div className="metric"><b>22</b><span>Locations in local 3-pack</span></div>
-                  <div className="metric"><b>94<small>%</small></b><span>Branded query share</span></div>
+
+              {/* 3 Client Testimonials */}
+              {clientTestimonials.map((t) => (
+                <div className="testi-review-item" key={t.id}>
+                  <div className="testi-author-header">
+                    <div className="testi-avatar">{t.initials}</div>
+                    <div className="testi-author-info">
+                      <strong>{t.name}</strong>
+                      <div className="testi-meta-row">
+                        <span>{t.time}</span>
+                        <span>•</span>
+                        <span className="stars">★★★★★</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="testi-review-text">{t.quote}</p>
                 </div>
-                <a href="#audit" className="read">Read case study <svg width="14" height="14"><use href="#arrow" /></svg></a>
-              </div>
-              <div className="quote"><span className="avatar">J</span><div><b>James Okafor</b><span>CMO · Northbound Analytics</span></div></div>
-            </article>
-            <article className="case reveal">
-              <div className="case-body">
-                <span className="tag">B2B SaaS · Bootstrapped</span>
-                <h3>Northbound Analytics</h3>
-                <p className="sub">Outranking VC-funded competitors with 1/10 the budget</p>
-                <div className="metrics">
-                  <div className="metric"><b>+612<small>%</small></b><span>Demo signups from search</span></div>
-                  <div className="metric"><b>11.4<small>×</small></b><span>MRR attributed to SEO</span></div>
-                  <div className="metric"><b>#2</b><span>Above 3 unicorns on category term</span></div>
-                  <div className="metric"><b>42</b><span>Editorial backlinks earned</span></div>
+              ))}
+            </div>
+
+            {/* Right Column: Featured Video Testimonial Card + 5 Thumbnails Strip */}
+            <div className="testi-video-container reveal">
+              <div
+                className="testi-video-card"
+                onClick={() => setSelectedVideo(videoStories[0])}
+                role="button"
+                tabIndex={0}
+                aria-label="Play featured client success story video"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=80"
+                  alt="Client Success Story Video"
+                  loading="lazy"
+                />
+                <div className="testi-video-overlay">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                    <span style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}>
+                      Featured Story • 3:45 min
+                    </span>
+                    <span style={{ background: 'var(--primary)', color: '#fff', padding: '4px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 700, fontFamily: 'var(--f-mono)' }}>
+                      +412% GROWTH
+                    </span>
+                  </div>
+
+                  <div className="testi-play-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                  </div>
+
+                  <div className="testi-video-caption">
+                    <span>Client Success Story — Watch Elena Marchetti describe scaling Maple &amp; Oak</span>
+                  </div>
                 </div>
-                <a href="#audit" className="read">Read case study <svg width="14" height="14"><use href="#arrow" /></svg></a>
               </div>
-              <div className="quote"><span className="avatar">P</span><div><b>Priya Raghavan</b><span>Head of Growth · Habitat Goods Co.</span></div></div>
-            </article>
+
+              {/* 5 Video Thumbnails Strip */}
+              <div className="testi-stories-strip">
+                {videoStories.map((story) => (
+                  <button
+                    key={story.id}
+                    type="button"
+                    className="testi-story-thumb"
+                    onClick={() => setSelectedVideo(story)}
+                    title={`Watch ${story.name} (${story.company})`}
+                  >
+                    <img src={story.thumb} alt={story.name} loading="lazy" />
+                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.3)', display: 'grid', placeItems: 'center' }}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))' }}>
+                        <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                      </svg>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ===== CTA (after AI SEO + Results) ===== */}
+      {/* ===== ORIGINAL CTA (after AI SEO + Results) ===== */}
       <section className="cta-band bg-cream" style={{ paddingBottom: '112px' }}>
         <div className="wrap">
           <div className="cta-box cta-orange reveal">
@@ -1308,158 +1293,89 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
               <p>Get a custom 12-month SEO &amp; AI search forecast for your business — free.</p>
             </div>
             <div className="cta-actions">
-              <a href="#audit" className="btn btn-dark">Get my forecast <svg><use href="#arrow" /></svg></a>
+              <a href="#audit" className="btn btn-dark">
+                Get my forecast <span className="arr"><ArrowRight width={16} height={16} /></span>
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= 7. WHY GENRANQ ================= */}
+      {/* ================= ORIGINAL 7. WHY US ================= */}
       <section className="pad" id="why">
         <div className="wrap">
           <div className="sec-head reveal">
-            <div>
-              <span className="eyebrow">Why GENRANQ</span>
-              <h2>SEO experts who <em className="accent">also build software.</em></h2>
-            </div>
-            <p>We&apos;re not just marketers. GENRANQ Software LLP combines SEO strategists and in-house engineers — so strategy and execution never get lost in translation.</p>
+            <div><span className="eyebrow">Why GENRANQ</span><h2>Not your typical <em className="accent">agency.</em></h2></div>
+            <p>Most SEO agencies sell retainers and send automated PDFs. We build compounding assets, optimize code directly, and operate like an in-house team.</p>
           </div>
-          <div className="why-wrap">
-            <div className="why-hero reveal">
-              <span className="logo light">
-                <svg className="logo-mark" style={{ filter: 'brightness(1.6)' }}><use href="#g-mark" /></svg>
-                <span className="logo-text">
-                  <span className="logo-word">GENRANQ</span>
-                  <span className="logo-sub">SOFTWARE LLP</span>
-                </span>
-              </span>
-              <h3>One team for strategy, content, and code.</h3>
-              <p>When your SEO plan needs a faster site, new templates, or schema at scale, our developers ship it — no waiting on a third-party agency or your busy dev team.</p>
-              <div className="why-nums">
-                <div><b>38</b><span>In-house experts</span></div>
-                <div><b>97<small>%</small></b><span>Client retention</span></div>
-                <div><b>4<small>h</small></b><span>Avg. reply time</span></div>
-              </div>
+          <div className="why-grid">
+            <div className="why-item reveal">
+              <span className="w-num">/01</span>
+              <h3>No account managers. You speak to the strategist doing the work.</h3>
+              <p>Nothing gets lost in translation. Every call, Slack message, and monthly report comes directly from the senior specialist executing your roadmap.</p>
             </div>
-            <div className="why-list">
-              <article className="why-item reveal">
-                <span className="icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
-                  </svg>
-                </span>
-                <h3>In-house developers</h3>
-                <p>Technical fixes, speed, and schema shipped by our own engineers.</p>
-              </article>
-              <article className="why-item reveal">
-                <span className="icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 3v18h18M7 15l4-4 3 3 5-6" />
-                  </svg>
-                </span>
-                <h3>Transparent reporting</h3>
-                <p>Live dashboards with traffic, leads, and revenue — updated daily.</p>
-              </article>
-              <article className="why-item reveal">
-                <span className="icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="8" r="4" />
-                    <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
-                  </svg>
-                </span>
-                <h3>Dedicated strategist</h3>
-                <p>One senior point of contact who knows your business inside out.</p>
-              </article>
-              <article className="why-item reveal">
-                <span className="icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" />
-                  </svg>
-                </span>
-                <h3>Small-business pricing</h3>
-                <p>Enterprise-grade SEO at plans built for growing businesses.</p>
-              </article>
+            <div className="why-item reveal">
+              <span className="w-num">/02</span>
+              <h3>Direct PRs, not PDFs. We ship code into your repository.</h3>
+              <p>We don&apos;t hand your team a 60-page audit and walk away. We open pull requests in Next.js, WordPress, or Shopify — fixing the issues ourselves.</p>
+            </div>
+            <div className="why-item reveal">
+              <span className="w-num">/03</span>
+              <h3>Single-tenant focus. We never work with your direct competitors.</h3>
+              <p>We take at most one brand per niche per geography. If you hire us for cosmetic dentistry in Austin, your competitor can&apos;t.</p>
+            </div>
+            <div className="why-item reveal">
+              <span className="w-num">/04</span>
+              <h3>Built for the AI era. Optimizing for LLM answers since day one.</h3>
+              <p>We&apos;ve been optimizing for LLM citations since GPT-4 launched. Most agencies are still figuring out what GEO means. We&apos;ve shipped it for 80+ clients.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= 8. WHAT SETS US APART (4 boxes) ================= */}
-      <section className="pad bg-cream">
+      {/* ================= ORIGINAL 8. WHAT SETS US APART ================= */}
+      <section className="pad" id="sets-apart">
         <div className="wrap">
           <div className="sec-head reveal">
             <div>
-              <span className="eyebrow">Our difference</span>
+              <span className="eyebrow">How we operate</span>
               <h2>What sets us <em className="accent">apart.</em></h2>
             </div>
-            <p>Four things we do differently — and why they matter when you&apos;re betting your growth on a partner.</p>
+            <p>We built GENRANQ around everything we wished agencies did when we were on the client side. Here is what makes working with us different.</p>
           </div>
-          <div className="grid-2">
-            <article className="apart reveal">
-              <span className="big">01</span>
-              <div>
-                <h3>Senior-only delivery</h3>
-                <p>Every account is led by a strategist with 8+ years of experience. No juniors learning on your retainer, no offshored execution, no &quot;Account Manager&quot; passing notes between departments.</p>
-                <div className="proof"><b>8+ yrs</b> minimum strategist experience</div>
-              </div>
+          <div className="grid-3">
+            <article className="card reveal">
+              <div className="card-top"><span className="icon"><IconUsers width={16} height={16} /></span><span className="num">01</span></div>
+              <h3>Direct strategist access</h3>
+              <p>No account managers, no middlemen. You collaborate directly with the senior specialist executing your roadmap via Slack and bi-weekly sprint syncs.</p>
             </article>
-            <article className="apart reveal">
-              <span className="big">02</span>
-              <div>
-                <h3>Revenue over rankings</h3>
-                <p>We track keyword positions, sure. But the only number that matters in our monthly report is qualified, attributable revenue — tied back to the work we shipped.</p>
-                <div className="proof"><b>100%</b> of reports tied to revenue</div>
-              </div>
+            <article className="card reveal">
+              <div className="card-top"><span className="icon"><IconActivity width={16} height={16} /></span><span className="num">02</span></div>
+              <h3>Live Looker Studio telemetry</h3>
+              <p>No 80-page monthly PDFs. You get a private, live dashboard pulling real-time data from Search Console, GA4, and LLM share-of-voice monitors.</p>
             </article>
-            <article className="apart reveal">
-              <span className="big">03</span>
-              <div>
-                <h3>No long contracts</h3>
-                <p>Month-to-month after the first 90 days. We earn the renewal every cycle. If we&apos;re not delivering, you walk — and you keep all the work, deliverables, and dashboards.</p>
-                <div className="proof"><b>90 days</b> then month-to-month</div>
-              </div>
-            </article>
-            <article className="apart reveal">
-              <span className="big">04</span>
-              <div>
-                <h3>Built for the AI era</h3>
-                <p>We&apos;ve been optimizing for LLM citations since GPT-4 launched. Most agencies are still figuring out what GEO means. We&apos;ve shipped it for 80+ clients.</p>
-                <div className="proof"><b>80+</b> GEO programs shipped</div>
-              </div>
+            <article className="card reveal">
+              <div className="card-top"><span className="icon"><IconShield width={16} height={16} /></span><span className="num">03</span></div>
+              <h3>Guaranteed territory exclusivity</h3>
+              <p>We enforce strict category exclusivity. We will never accept a campaign from your direct local or vertical competitors while under contract.</p>
             </article>
           </div>
         </div>
       </section>
 
-      {/* ===== CTA (after Why GENRANQ + Apart) ===== */}
-      <section className="cta-band bg-cream" style={{ paddingBottom: '112px' }}>
+      {/* ================= ORIGINAL 9. TOOLS ================= */}
+      <section className="pad bg-dark tools" id="tools">
         <div className="wrap">
-          <div className="cta-box cta-dark reveal">
+          <div className="sec-head light reveal">
             <div>
-              <h3>Ready to be <em className="accent">unmissable?</em></h3>
-              <p>Talk to a senior strategist this week. No deck, no fluff — just your site and a plan.</p>
+              <span className="eyebrow">Our stack</span>
+              <h2>Tools we run on every engagement.</h2>
             </div>
-            <div className="cta-actions">
-              <a href="#audit" className="btn btn-primary">Book your free audit <svg><use href="#arrow" /></svg></a>
-              <a href="#process" className="btn btn-ghost-dark">See our process</a>
-            </div>
+            <p>We don&apos;t cut corners with free-tier tools. Every client gets enterprise-grade data, crawlers, and reporting — baked into the retainer.</p>
           </div>
         </div>
-      </section>
-
-      {/* ================= 9. TOOLS & TECHNOLOGY (slider) ================= */}
-      <section className="pad tools" id="tools">
-        <div className="wrap">
-          <div className="sec-head reveal">
-            <div>
-              <span className="eyebrow">Tools &amp; technology</span>
-              <h2>The stack behind <em className="accent">every ranking.</em></h2>
-            </div>
-            <p>Industry-leading SEO platforms, analytics, and engineering tools — combined with our own in-house AI tracking.</p>
-          </div>
-        </div>
-        <div className="marquee">
-          <div className="marquee-track tools-track">
+        <div className="marquee" style={{ marginBottom: '14px' }}>
+          <div className="marquee-track">
             {doubleTools1.map((t, idx) => (
               <div className="tool" key={idx}>
                 <span className="mono">{t.mono}</span>
@@ -1469,7 +1385,7 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
           </div>
         </div>
         <div className="marquee rev">
-          <div className="marquee-track tools-track">
+          <div className="marquee-track">
             {doubleTools2.map((t, idx) => (
               <div className="tool" key={idx}>
                 <span className="mono">{t.mono}</span>
@@ -1490,59 +1406,132 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
         </div>
       </section>
 
-      {/* ================= 10. ARTICLES & NEWS ================= */}
-      <section className="pad bg-cream" id="insights">
+      {/* ================= 10. REDESIGNED INSIGHTS (NIMBLE 2-COLUMN COLLECTIONS + PREVIEW MODAL) ================= */}
+      <section className="insights-section" id="insights">
         <div className="wrap">
-          <div className="sec-head reveal">
+          <div className="insights-heading reveal">
             <div>
-              <span className="eyebrow">Insights</span>
+              <span className="eyebrow">• INSIGHTS</span>
               <h2>From our <em className="accent">strategists.</em></h2>
             </div>
-            <p>Deep dives, playbooks, and real-world teardowns — written by the people doing the work.</p>
+            <p className="lead" style={{ margin: 0, maxWidth: 460 }}>
+              Deep dives, playbooks, and real-world teardowns — written by the people doing the work.
+            </p>
           </div>
-          <div className="feeds">
-            <div className="feed reveal">
-              <div className="feed-head">
-                <span className="eyebrow">Articles</span>
-                <Link href="/insights">View all <svg width="14" height="14"><use href="#arrow" /></svg></Link>
-              </div>
-              {articlesList.map((item, idx) => (
-                <Link href={item.slug} className="post" key={item.id || idx}>
-                  <span className="n">{item.num || String(idx + 1).padStart(2, '0')}</span>
-                  <div>
-                    <span className="cat">{item.cat}</span>
-                    <h4>{item.title}</h4>
-                    <p>{item.desc}</p>
-                    <div className="by"><b>{item.author}</b> · {item.date} · {item.read}</div>
-                  </div>
-                  <span className="arrow"><svg width="14" height="14"><use href="#arrow" /></svg></span>
-                </Link>
-              ))}
-            </div>
 
-            <div className="feed reveal">
-              <div className="feed-head">
-                <span className="eyebrow">News &amp; Blogs</span>
-                <Link href="/insights">View all <svg width="14" height="14"><use href="#arrow" /></svg></Link>
+          <div className="insight-filters reveal" style={{ marginTop: 28 }}>
+            <button
+              type="button"
+              className={`insight-pill ${insightFilter === 'all' ? 'active' : ''}`}
+              onClick={() => setInsightFilter('all')}
+            >
+              All insights ({blogsList.length + articlesList.length})
+            </button>
+            <button
+              type="button"
+              className={`insight-pill ${insightFilter === 'blog' ? 'active' : ''}`}
+              onClick={() => setInsightFilter('blog')}
+            >
+              Blog ({blogsList.length})
+            </button>
+            <button
+              type="button"
+              className={`insight-pill ${insightFilter === 'news' ? 'active' : ''}`}
+              onClick={() => setInsightFilter('news')}
+            >
+              News ({articlesList.length})
+            </button>
+          </div>
+
+          <div className={`insight-columns reveal ${insightFilter !== 'all' ? 'single-col' : ''}`}>
+            {/* Blog Collection Column */}
+            {(insightFilter === 'all' || insightFilter === 'blog') && (
+              <div className="insight-collection">
+                <div className="collection-heading">
+                  <h3>
+                    <span></span>Blog
+                  </h3>
+                  <Link href="/resources/blog" aria-label="View all Blog">
+                    View all <ArrowRight width={14} height={14} />
+                  </Link>
+                </div>
+                {blogsList.slice(0, 3).map((item, idx) => (
+                  <article className="collection-entry" key={item.id || idx}>
+                    <span className="entry-number">{String(idx + 1).padStart(2, '0')}</span>
+                    <div className="entry-copy">
+                      <div className="entry-category">{item.cat}</div>
+                      <button
+                        type="button"
+                        className="entry-title"
+                        onClick={() => setSelectedInsight(item)}
+                      >
+                        {item.title}
+                      </button>
+                      <p>{item.desc}</p>
+                      <div className="entry-byline">
+                        <strong>{item.author}</strong>
+                        <span> · {item.date} · {item.read}</span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="entry-arrow"
+                      onClick={() => setSelectedInsight(item)}
+                      aria-label={`Read ${item.title}`}
+                    >
+                      <ArrowRight width={15} height={15} />
+                    </button>
+                  </article>
+                ))}
               </div>
-              {blogsList.map((item, idx) => (
-                <Link href={item.slug} className="post" key={item.id || idx}>
-                  <span className="n">{item.num || String(idx + 1).padStart(2, '0')}</span>
-                  <div>
-                    <span className="cat">{item.cat}</span>
-                    <h4>{item.title}</h4>
-                    <p>{item.desc}</p>
-                    <div className="by"><b>{item.author}</b> · {item.date} · {item.read}</div>
-                  </div>
-                  <span className="arrow"><svg width="14" height="14"><use href="#arrow" /></svg></span>
-                </Link>
-              ))}
-            </div>
+            )}
+
+            {/* News Collection Column */}
+            {(insightFilter === 'all' || insightFilter === 'news') && (
+              <div className="insight-collection">
+                <div className="collection-heading">
+                  <h3>
+                    <span></span>News
+                  </h3>
+                  <Link href="/resources/news" aria-label="View all News">
+                    View all <ArrowRight width={14} height={14} />
+                  </Link>
+                </div>
+                {articlesList.slice(0, 3).map((item, idx) => (
+                  <article className="collection-entry" key={item.id || idx}>
+                    <span className="entry-number">{String(idx + 1).padStart(2, '0')}</span>
+                    <div className="entry-copy">
+                      <div className="entry-category">{item.cat}</div>
+                      <button
+                        type="button"
+                        className="entry-title"
+                        onClick={() => setSelectedInsight(item)}
+                      >
+                        {item.title}
+                      </button>
+                      <p>{item.desc}</p>
+                      <div className="entry-byline">
+                        <strong>{item.author}</strong>
+                        <span> · {item.date} · {item.read}</span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="entry-arrow"
+                      onClick={() => setSelectedInsight(item)}
+                      aria-label={`Read ${item.title}`}
+                    >
+                      <ArrowRight width={15} height={15} />
+                    </button>
+                  </article>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* ===== CTA (after Tools + Articles & News) ===== */}
+      {/* ===== ORIGINAL CTA (after Tools + Insights) ===== */}
       <section className="cta-band bg-cream" style={{ paddingBottom: '112px' }}>
         <div className="wrap">
           <div className="cta-box cta-light reveal">
@@ -1552,14 +1541,16 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
               <p>Join 6,000+ founders and marketers. No spam, unsubscribe anytime.</p>
             </div>
             <div className="cta-actions">
-              <a href="#audit" className="btn btn-primary">Talk to a strategist <svg><use href="#arrow" /></svg></a>
+              <a href="#audit" className="btn btn-primary">
+                Talk to a strategist <span className="arr"><ArrowRight width={16} height={16} /></span>
+              </a>
               <Link href="/insights" className="btn btn-ghost">Read latest articles</Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= 11. FAQ ================= */}
+      {/* ================= ORIGINAL 11. FAQ ================= */}
       <section className="pad" id="faq">
         <div className="wrap faq-wrap">
           <div className="reveal">
@@ -1574,7 +1565,7 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
                 <div className={`faq ${isOpen ? 'open' : ''}`} key={idx}>
                   <button onClick={() => toggleFaq(idx)} aria-expanded={isOpen}>
                     {faq.q}
-                    <span className="plus">+</span>
+                    <span className="plus">{isOpen ? '−' : '+'}</span>
                   </button>
                   <div
                     className="ans"
@@ -1591,59 +1582,106 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
         </div>
       </section>
 
-      {/* ================= FOOTER ================= */}
-      <footer>
-        <div className="wrap">
-          <div className="foot-grid">
-            <div>
-              <Link href="/" className="logo light">
-                <svg className="logo-mark" style={{ filter: 'brightness(1.6)' }}><use href="#g-mark" /></svg>
-                <span className="logo-text">
-                  <span className="logo-word">GENRANQ</span>
-                  <span className="logo-sub">SOFTWARE LLP</span>
-                </span>
-              </Link>
-              <p>SEO, local, technical, and AI search for small businesses that want to be found — everywhere people look.</p>
-              <form className="newsletter" onSubmit={handleNewsletterSubmit}>
-                <input type="email" placeholder="Your email" required />
-                <button type="submit" disabled={newsSubmitting}>
-                  {newsSubmitting ? '...' : newsStatus || 'Subscribe'}
-                </button>
-              </form>
+      {/* ================= SHARED UNIFIED FOOTER ================= */}
+      <Footer />
+
+      {/* ================= VIDEO TESTIMONIAL MODAL (IMAGE 2) ================= */}
+      {selectedVideo && (
+        <div className="insight-modal-backdrop" onClick={() => setSelectedVideo(null)}>
+          <div className="insight-dialog" style={{ maxWidth: 760 }} onClick={(e) => e.stopPropagation()}>
+            <div className="insight-dialog-header">
+              <span className="micro-label" style={{ color: 'var(--primary)' }}>{selectedVideo.metric}</span>
+              <button
+                type="button"
+                className="insight-dialog-close"
+                onClick={() => setSelectedVideo(null)}
+                aria-label="Close video dialog"
+              >
+                ✕
+              </button>
             </div>
-            <div>
-              <h5>Services</h5>
-              <ul>
-                <li><Link href="/services/seo">SEO foundations</Link></li>
-                <li><Link href="/services/seo">Local &amp; Maps</Link></li>
-                <li><Link href="/services/seo/technical-seo">Technical SEO</Link></li>
-                <li><Link href="/services/ai-search">AI Search &amp; GEO</Link></li>
-              </ul>
+            <h2>{selectedVideo.company} — Client Success Story</h2>
+            <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: 12, overflow: 'hidden', margin: '20px 0', background: '#000' }}>
+              <img
+                src={selectedVideo.thumb}
+                alt={selectedVideo.name}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }}
+              />
+              <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', background: 'rgba(0,0,0,0.4)' }}>
+                <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'var(--primary)', color: '#fff', display: 'grid', placeItems: 'center' }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                  </svg>
+                </div>
+              </div>
             </div>
-            <div>
-              <h5>Company</h5>
-              <ul>
-                <li><Link href="/about">About</Link></li>
-                <li><a href="#results">Case studies</a></li>
-                <li><Link href="/insights">Articles</Link></li>
-                <li><Link href="/insights">News</Link></li>
-              </ul>
+            <p style={{ fontSize: 16, fontStyle: 'italic', color: 'var(--ink)' }}>&ldquo;{selectedVideo.quote}&rdquo;</p>
+            <div className="insight-dialog-footer" style={{ marginTop: 24 }}>
+              <div>
+                <strong style={{ display: 'block', color: 'var(--ink)' }}>{selectedVideo.name}</strong>
+                <span style={{ fontSize: 13, color: 'var(--muted)' }}>{selectedVideo.company} • Verified Client</span>
+              </div>
+              <a href="#audit" className="btn btn-primary" onClick={() => setSelectedVideo(null)}>
+                Book discovery call <ArrowRight width={14} height={14} style={{ flexShrink: 0 }} />
+              </a>
             </div>
-            <div>
-              <h5>Contact</h5>
-              <ul>
-                <li><a href="mailto:hello@genranq.com">hello@genranq.com</a></li>
-                <li>Vadodara, Gujarat, India</li>
-                <li><a href="#audit">Get a free audit</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="foot-bottom">
-            <span>© 2026 GENRANQ Software LLP. All rights reserved.</span>
-            <span>Privacy · Terms</span>
           </div>
         </div>
-      </footer>
+      )}
+
+      {/* ================= ARTICLE PREVIEW MODAL (NIMBLE INSIGHTS) ================= */}
+      {selectedInsight && (
+        <div className="insight-modal-backdrop" onClick={() => setSelectedInsight(null)}>
+          <div className="insight-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="insight-dialog-header">
+              <span className="entry-tag">{selectedInsight.cat}</span>
+              <button
+                type="button"
+                className="insight-dialog-close"
+                onClick={() => setSelectedInsight(null)}
+                aria-label="Close article preview"
+              >
+                ✕
+              </button>
+            </div>
+            <h2>{selectedInsight.title}</h2>
+            <div className="entry-meta" style={{ marginBottom: 16 }}>
+              <span>By {selectedInsight.author}</span>
+              <span>•</span>
+              <span>{selectedInsight.date}</span>
+              <span>•</span>
+              <span>{selectedInsight.read}</span>
+            </div>
+            <p>{selectedInsight.fullContent || selectedInsight.desc}</p>
+
+            {selectedInsight.takeaways && selectedInsight.takeaways.length > 0 && (
+              <div style={{ background: 'var(--surface)', padding: 18, borderRadius: 10, margin: '20px 0', border: '1px solid var(--border)' }}>
+                <strong style={{ display: 'block', marginBottom: 8, fontSize: 13, textTransform: 'uppercase', fontFamily: 'var(--f-mono)', color: 'var(--ink)' }}>
+                  Key Executive Takeaways
+                </strong>
+                <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13.5, color: 'var(--text)', lineHeight: 1.7 }}>
+                  {selectedInsight.takeaways.map((t, i) => (
+                    <li key={i}>{t}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div className="insight-dialog-footer">
+              <button
+                type="button"
+                className="btn btn-ghost"
+                onClick={() => setSelectedInsight(null)}
+              >
+                Close preview
+              </button>
+              <Link href={selectedInsight.slug} className="btn btn-primary" onClick={() => setSelectedInsight(null)}>
+                Read full publication <ArrowRight width={14} height={14} style={{ flexShrink: 0 }} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

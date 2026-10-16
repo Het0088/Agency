@@ -75,9 +75,9 @@ export default function NeuralRankNewsPage() {
             </div>
 
             <h1 style={{
-              fontFamily: "'Fraunces', Georgia, serif",
+              fontFamily: "var(--f-display)",
               fontSize: 'clamp(32px, 4.5vw, 48px)',
-              fontWeight: 400,
+              fontWeight: 700,
               lineHeight: 1.2,
               color: '#121613',
               marginBottom: 20
@@ -141,7 +141,7 @@ export default function NeuralRankNewsPage() {
               Neural-Rank directly resolves this challenge by systematically sampling hundreds of commercial prompt variations every 24 hours. The platform queries OpenAI ChatGPT-4o, Perplexity Pro, Google Gemini 1.5 Pro, and Claude 3.5 Sonnet, recording not only whether a brand is cited, but also evaluating the exact citation link, the sentiment of the recommendation, and the specific third-party consensus sources that influenced the model.
             </p>
 
-            <h2 style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 28, color: '#121613', margin: '40px 0 16px', lineHeight: 1.25 }}>
+            <h2 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 28, color: '#121613', margin: '40px 0 16px', lineHeight: 1.25 }}>
               Closing the Visibility Gap in the Generative Era
             </h2>
 
@@ -164,7 +164,7 @@ export default function NeuralRankNewsPage() {
               </div>
             </div>
 
-            <h2 style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 28, color: '#121613', margin: '40px 0 16px', lineHeight: 1.25 }}>
+            <h2 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 28, color: '#121613', margin: '40px 0 16px', lineHeight: 1.25 }}>
               Core Architectural Highlights of Neural-Rank
             </h2>
 
@@ -184,7 +184,7 @@ export default function NeuralRankNewsPage() {
               </li>
             </ul>
 
-            <h2 style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 28, color: '#121613', margin: '40px 0 16px', lineHeight: 1.25 }}>
+            <h2 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 28, color: '#121613', margin: '40px 0 16px', lineHeight: 1.25 }}>
               Proven Real-World Beta Performance
             </h2>
 
@@ -196,7 +196,7 @@ export default function NeuralRankNewsPage() {
               Furthermore, referral traffic originating directly from conversational assistants grew by 184%, demonstrating that AI answer citations drive highly qualified prospects with superior conversion rates compared to conventional organic search clicks.
             </p>
 
-            <h2 style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 28, color: '#121613', margin: '40px 0 16px', lineHeight: 1.25 }}>
+            <h2 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 28, color: '#121613', margin: '40px 0 16px', lineHeight: 1.25 }}>
               Availability and Enterprise Onboarding
             </h2>
 
@@ -217,7 +217,7 @@ export default function NeuralRankNewsPage() {
               <span style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: 11, color: '#FF5A1F', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 600 }}>
                 Request a Live Demonstration
               </span>
-              <h3 style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 24, fontWeight: 400, color: '#fff', margin: 0 }}>
+              <h3 style={{ fontFamily: "var(--f-display)", fontSize: 24, fontWeight: 600, color: '#fff', margin: 0 }}>
                 Discover where your brand stands inside ChatGPT &amp; Perplexity today.
               </h3>
               <p style={{ color: '#A0A49F', fontSize: 14.5, margin: 0, lineHeight: 1.6 }}>

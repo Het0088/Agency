@@ -4,7 +4,7 @@
   --orange:#FF5A1F; --orange-600:#E94A10; --orange-soft:#FFE8DC;
   --ink:#121613; --ink-2:#1B211D; --text:#2A2F2B; --muted:#6B6F6A;
   --cream:#F9F6EF; --white:#FFFFFF; --line:#E9E3D6; --line-dark:#2C332E;
-  --f-display:'Fraunces',Georgia,serif; --f-body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --f-display:'Plus Jakarta Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif; --f-body:'Plus Jakarta Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
   --f-mono:'JetBrains Mono',ui-monospace,monospace; --f-logo:'Chakra Petch',sans-serif;
   --wrap:1180px; --shadow:0 1px 2px rgba(18,22,19,.04),0 14px 34px -14px rgba(18,22,19,.16);
 }
@@ -14,8 +14,8 @@ body{font-family:var(--f-body);color:var(--text);background:#fff;font-size:16px;
 a{color:inherit;text-decoration:none}
 button,input,textarea{font:inherit}
 svg{display:block}
-h1,h2,h3,h4,h5,h6{font-family:var(--f-display);color:var(--ink);letter-spacing:-.015em;line-height:1.2}
-h1 em,h2 em,h3 em,h4 em,h5 em,h6 em,em.accent,.accent{font-family:var(--f-display);font-style:italic;color:var(--orange)}
+h1,h2,h3,h4,h5,h6{font-family:var(--f-display);font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.2}
+h1 em,h2 em,h3 em,h4 em,h5 em,h6 em,em.accent,.accent{font-family:inherit;font-style:italic;color:var(--orange);font-weight:inherit}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 22px;border-radius:999px;font-weight:600;font-size:15px;border:1px solid transparent;cursor:pointer;transition:all .2s}
 .btn svg{width:16px;height:16px;transition:transform .2s}
 .btn:hover svg{transform:translateX(3px)}

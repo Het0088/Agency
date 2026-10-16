@@ -86,7 +86,9 @@ const serviceCategories = [
 ]
 
 const mobileNavLinks = [
+  { label: 'Home', href: '/' },
   { label: 'Services', href: '/services' },
+  { label: 'Hire Developers', href: '/hire-resource' },
   { label: 'About', href: '/about' },
   { label: 'Our Team', href: '/our-team' },
   { label: 'Work', href: '/#work' },
@@ -139,6 +141,7 @@ export default function Nav({ active }: { active?: string }) {
         </Link>
 
         <ul className="nav-links">
+          <li><Link href="/" className={active === 'home' ? 'active' : ''}>Home</Link></li>
           <li
             className="nav-has-mega"
             onMouseEnter={enter}
@@ -238,11 +241,19 @@ export default function Nav({ active }: { active?: string }) {
                     <span className="nav-dropdown-desc">Original research, white papers &amp; teardowns</span>
                   </div>
                 </Link>
-                <Link href="/our-team" className="nav-dropdown-item" onClick={() => setResourcesOpen(false)}>
-                  <div className="nav-dropdown-icon"><IconUsers /></div>
+                <Link href="/resources/publications" className="nav-dropdown-item" onClick={() => setResourcesOpen(false)}>
+                  <div className="nav-dropdown-icon">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                      <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                  </div>
                   <div className="nav-dropdown-text">
-                    <strong>Our Team</strong>
-                    <span className="nav-dropdown-desc">Meet the senior strategists and engineers</span>
+                    <strong>White Papers</strong>
+                    <span className="nav-dropdown-desc">In-depth industry playbooks, reports &amp; blueprints</span>
                   </div>
                 </Link>
                 <div className="nav-dropdown-footer">
@@ -352,11 +363,11 @@ export default function Nav({ active }: { active?: string }) {
                         Publications &amp; Research
                       </Link>
                       <Link
-                        href="/our-team"
+                        href="/resources/publications"
                         className="mobile-cat-title"
                         onClick={() => setMobileOpen(false)}
                       >
-                        Our Team
+                        White Papers
                       </Link>
                     </div>
                   </div>
