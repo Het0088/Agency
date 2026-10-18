@@ -134,7 +134,7 @@ export default function Nav({ active }: { active?: string }) {
   }, [])
 
   return (
-    <nav className="nav" role="navigation" aria-label="Main navigation">
+    <nav className={`nav${mobileOpen ? ' mobile-open' : ''}`} role="navigation" aria-label="Main navigation">
       <div className="nav-inner">
         <Link href="/" className="logo" aria-label="GENRANQ Home">
           <img src="/logo.png" alt="GENRANQ Software LLP" className="logo-img" />
@@ -161,7 +161,7 @@ export default function Nav({ active }: { active?: string }) {
               <div className="mega-sidebar">
                 <div className="mega-sidebar-head">
                   <span className="mega-sidebar-tag">Our Services</span>
-                  <h3>Grow your <em>brand</em> with data-driven strategy.</h3>
+                  <h3 style={{ color: '#FFFFFF' }}>Grow your <em>brand</em> with data-driven strategy.</h3>
                 </div>
                 <div className="mega-sidebar-stats">
                   <div className="mega-stat">

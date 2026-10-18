@@ -2,29 +2,16 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { LinkedInIcon, XIcon, InstagramIcon, YouTubeIcon } from './Icons'
-
-const cityLinks = [
-  { label: 'SEO Services Mumbai', href: '/seo-services-mumbai' },
-  { label: 'SEO Services Delhi', href: '/seo-services-delhi' },
-  { label: 'SEO Services Ahmedabad', href: '/seo-services-ahmedabad' },
-  { label: 'SEO Services Vadodara', href: '/seo-services-vadodara' },
-  { label: 'SEO Services Surat', href: '/seo-services-surat' },
-  { label: 'SEO Services Melbourne', href: '/seo-services-melbourne' },
-  { label: 'SEO Services London', href: '/seo-services-london' },
-  { label: 'SEO Services Dubai', href: '/seo-services-dubai' },
-]
 
 export default function Footer() {
   const [newsStatus, setNewsStatus] = useState<string | null>(null)
   const [newsSubmitting, setNewsSubmitting] = useState(false)
+  const [email, setEmail] = useState('')
 
   const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (!email) return
     setNewsSubmitting(true)
-    const form = e.currentTarget
-    const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement
-    const email = emailInput?.value || ''
 
     try {
       const res = await fetch('/api/contact', {
@@ -35,12 +22,12 @@ export default function Footer() {
           email,
           service: 'Newsletter Signup',
           budget: 'N/A',
-          message: 'User subscribed to weekly SEO + AI search newsletter from footer.',
+          message: 'User subscribed to newsletter from footer.',
         }),
       })
       if (res.ok) {
         setNewsStatus('Subscribed ✓')
-        form.reset()
+        setEmail('')
       } else {
         setNewsStatus('Subscribed ✓')
       }
@@ -52,91 +39,67 @@ export default function Footer() {
   }
 
   return (
-    <footer className="footer">
+    <footer>
       <div className="wrap">
-        <div className="footer-top">
-          <div className="footer-brand">
-            <Link href="/" className="logo" aria-label="GENRANQ Home">
-              <img src="/logo.png" alt="GENRANQ Software LLP" className="logo-img" />
+        <div className="foot-grid">
+          <div>
+            <Link href="/" className="logo light" aria-label="GENRANQ Home">
+              <svg className="logo-mark" viewBox="0 0 64 64" width="46" height="46" style={{ filter: 'brightness(1.6)' }}>
+                <path d="M40 12 A24 24 0 1 0 50 44" fill="none" stroke="#FFFFFF" strokeWidth="7" strokeLinecap="butt" />
+                <path d="M38 23 A13 13 0 1 0 44 42" fill="none" stroke="#FF5A1F" strokeWidth="6" />
+                <path d="M30 34 H46 V40 H36" fill="none" stroke="#FFFFFF" strokeWidth="5" />
+                <path d="M36 24 L54 11" stroke="#FF5A1F" strokeWidth="5" strokeLinecap="square" />
+                <path d="M47 7 L60 6 L56 18 Z" fill="#FF5A1F" />
+              </svg>
+              <span className="logo-text">
+                <span className="logo-word">GENRANQ</span>
+                <span className="logo-sub">SOFTWARE LLP</span>
+              </span>
             </Link>
-            <p>A 38-person SEO &amp; AI search studio for ambitious small businesses. Global team, monthly retainers, no long contracts, no agency BS.</p>
-            
-            <form className="footer-newsletter" onSubmit={handleNewsletterSubmit}>
-              <span className="footer-newsletter-label">Weekly SEO &amp; AI Search Dispatch</span>
-              <div className="footer-newsletter-row">
-                <input type="email" placeholder="Enter your work email" required />
-                <button type="submit" disabled={newsSubmitting}>
-                  {newsSubmitting ? '...' : (newsStatus || 'Subscribe')}
-                </button>
-              </div>
+            <p>SEO, local, technical, and AI search for small businesses that want to be found — everywhere people look.</p>
+            <form className="newsletter" onSubmit={handleNewsletterSubmit}>
+              <input
+                type="email"
+                placeholder="Your email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button type="submit" disabled={newsSubmitting}>
+                {newsSubmitting ? '...' : (newsStatus || 'Subscribe')}
+              </button>
             </form>
-
-            <div style={{ marginTop: 18 }}>
-              <Link href="/contact" className="btn btn-dark btn-sm">Get a free audit</Link>
-            </div>
           </div>
-
-          <div className="footer-col">
-            <h4>Services</h4>
+          <div>
+            <h5>Services</h5>
             <ul>
-              <li><Link href="/services/seo">SEO Services</Link></li>
+              <li><Link href="/services/seo">SEO foundations</Link></li>
+              <li><Link href="/services/seo/local-seo">Local &amp; Maps</Link></li>
               <li><Link href="/services/seo/technical-seo">Technical SEO</Link></li>
               <li><Link href="/services/ai-search">AI Search &amp; GEO</Link></li>
-              <li><Link href="/services/web-development">Web Development</Link></li>
-              <li><Link href="/hire-resource">Hire Dedicated Developers</Link></li>
-              <li><Link href="/services/content-marketing">Content Marketing</Link></li>
-              <li><Link href="/services/web-design">Web Design</Link></li>
-              <li><Link href="/services/ppc">PPC &amp; Paid Ads</Link></li>
-              <li><Link href="/services/social-media">Social Media</Link></li>
-              <li><Link href="/services/link-building">Link Building</Link></li>
-              <li><Link href="/services/analytics">Analytics &amp; CRO</Link></li>
             </ul>
           </div>
-
-          <div className="footer-col">
-            <h4>Company</h4>
+          <div>
+            <h5>Company</h5>
             <ul>
-              <li><Link href="/about">About Us</Link></li>
-              <li><Link href="/our-team">Our Team</Link></li>
-              <li><Link href="/hire-resource">Hire Developers</Link></li>
-              <li><Link href="/resources/publications">White Papers &amp; Reports</Link></li>
-              <li><Link href="/resources/news">Company News</Link></li>
-              <li><Link href="/resources/blog">Blog &amp; Insights</Link></li>
-              <li><Link href="/glossary">SEO Glossary</Link></li>
-              <li><Link href="/contact">Contact</Link></li>
+              <li><Link href="/about">About</Link></li>
+              <li><Link href="/#work">Case studies</Link></li>
+              <li><Link href="/resources/blog">Articles</Link></li>
+              <li><Link href="/resources/news">News</Link></li>
             </ul>
           </div>
-
-          <div className="footer-col">
-            <h4>Office</h4>
+          <div>
+            <h5>Contact</h5>
             <ul>
-              <li><Link href="/contact">Vadodara, Gujarat, India</Link></li>
               <li><a href="mailto:hello@genranq.com">hello@genranq.com</a></li>
-              <li><a href="tel:+918045074242">+91 80 4507 4242</a></li>
-              <li style={{ marginTop: 12, fontSize: 13, color: 'var(--ink-soft)' }}>
-                Guaranteed 4–5h daily overlap with US, UK &amp; European working hours.
-              </li>
+              <li>Vadodara, Gujarat, India</li>
+              <li><Link href="/contact">Get a free audit</Link></li>
             </ul>
           </div>
         </div>
-
-        <div className="footer-cities">
-          <h4>SEO Services by City</h4>
-          <div className="footer-city-grid">
-            {cityLinks.map(c => (
-              <Link key={c.href} href={c.href}>{c.label}</Link>
-            ))}
-          </div>
-        </div>
-
-        <div className="footer-bottom">
-          <div>&copy; 2026 GENRANQ Software LLP &middot; All rights reserved</div>
-          <div className="socials">
-            <a href="https://linkedin.com/company/genranq" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><LinkedInIcon /></a>
-            <a href="https://x.com/genranq" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><XIcon /></a>
-            <a href="https://instagram.com/genranq" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
-            <a href="https://youtube.com/@genranq" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><YouTubeIcon /></a>
-          </div>
+        <div className="foot-bottom">
+          <span>© 2026 GENRANQ Software LLP. All rights reserved.</span>
+          <span>Privacy · Terms</span>
         </div>
       </div>
     </footer>

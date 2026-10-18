@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Nav from '@/components/Nav'
+import Topbar from '@/components/Topbar'
 import Footer from '@/components/Footer'
 import {
   ArrowRight,
@@ -579,9 +580,7 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
       </svg>
 
       {/* ================= TOP BAR ================= */}
-      <div className="topbar">
-        <b>● Now offering AI Search &amp; GEO optimization.</b> <a href="#ai">Learn more →</a>
-      </div>
+      <Topbar text="Now offering AI Search & GEO optimization." linkText="Learn more →" linkHref="#ai" />
 
       {/* ================= SHARED NAVIGATION ================= */}
       <Nav active="home" />

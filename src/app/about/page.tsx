@@ -237,7 +237,7 @@ export default async function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <Topbar text="● Now offering AI Search & GEO optimisation." linkText="Learn more →" linkHref="/services/ai-search" />
+      <Topbar text="Now offering AI Search & GEO optimisation." linkText="Learn more →" linkHref="/services/ai-search" />
       <Nav active="about" />
 
       {/* ===== HERO SECTION ===== */}

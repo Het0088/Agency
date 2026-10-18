@@ -74,7 +74,7 @@ export default async function ContactPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <Topbar text="● Most enquiries answered within 4 business hours." linkText="Direct call →" linkHref="tel:+918045074242" />
+      <Topbar text="Most enquiries answered within 4 business hours." linkText="Direct call →" linkHref="tel:+918045074242" />
       <Nav active="contact" />
 
       {/* ===== HERO & CONTACT SECTION ===== */}
