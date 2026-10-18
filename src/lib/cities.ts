@@ -141,6 +141,100 @@ async function loadFromDbBySlug(slug: string): Promise<CityRow | null> {
   }
 }
 
+const KNOWN_CITIES: Record<string, { city: string; state: string; country: string; population: string; phone: string; address?: string }> = {
+  'houston': { city: 'Houston', state: 'Texas', country: 'United States', population: '2.3M', phone: '+1 713 555 0192' },
+  'new-york': { city: 'New York', state: 'New York', country: 'United States', population: '8.3M', phone: '+1 212 555 0192' },
+  'los-angeles': { city: 'Los Angeles', state: 'California', country: 'United States', population: '3.8M', phone: '+1 310 555 0192' },
+  'chicago': { city: 'Chicago', state: 'Illinois', country: 'United States', population: '2.7M', phone: '+1 312 555 0192' },
+  'dallas': { city: 'Dallas', state: 'Texas', country: 'United States', population: '1.3M', phone: '+1 214 555 0192' },
+  'austin': { city: 'Austin', state: 'Texas', country: 'United States', population: '975K', phone: '+1 512 555 0192' },
+  'miami': { city: 'Miami', state: 'Florida', country: 'United States', population: '450K', phone: '+1 305 555 0192' },
+  'san-francisco': { city: 'San Francisco', state: 'California', country: 'United States', population: '815K', phone: '+1 415 555 0192' },
+  'seattle': { city: 'Seattle', state: 'Washington', country: 'United States', population: '750K', phone: '+1 206 555 0192' },
+  'atlanta': { city: 'Atlanta', state: 'Georgia', country: 'United States', population: '500K', phone: '+1 404 555 0192' },
+  'phoenix': { city: 'Phoenix', state: 'Arizona', country: 'United States', population: '1.6M', phone: '+1 602 555 0192' },
+  'boston': { city: 'Boston', state: 'Massachusetts', country: 'United States', population: '675K', phone: '+1 617 555 0192' },
+  'mumbai': { city: 'Mumbai', state: 'Maharashtra', country: 'India', population: '20.7M', phone: '+91 80 4567 4242' },
+  'delhi': { city: 'Delhi', state: 'Delhi', country: 'India', population: '16.8M', phone: '+91 11 4567 4242' },
+  'ahmedabad': { city: 'Ahmedabad', state: 'Gujarat', country: 'India', population: '8.6M', phone: '+91 79 4567 4242' },
+  'vadodara': { city: 'Vadodara', state: 'Gujarat', country: 'India', population: '2.1M', phone: '+91 265 456 4242' },
+  'surat': { city: 'Surat', state: 'Gujarat', country: 'India', population: '7.8M', phone: '+91 261 456 4242' },
+  'london': { city: 'London', state: '', country: 'United Kingdom', population: '9.0M', phone: '+44 20 4525 4242' },
+  'dubai': { city: 'Dubai', state: '', country: 'UAE', population: '3.5M', phone: '+971 4 567 4242' },
+  'melbourne': { city: 'Melbourne', state: 'Victoria', country: 'Australia', population: '5.2M', phone: '+61 3 9000 4242' },
+}
+
+const KNOWN_SERVICES: Record<string, string> = {
+  'seo-services': 'SEO Services',
+  'technical-seo': 'Technical SEO',
+  'local-seo': 'Local SEO',
+  'ecommerce-seo': 'E-commerce SEO',
+  'enterprise-seo': 'Enterprise SEO',
+  'seo-audit': 'SEO Audits',
+  'ai-search-optimization': 'AI Search & GEO',
+  'chatgpt-optimization': 'ChatGPT Optimization',
+  'google-ai-overviews-optimization': 'Google AI Overviews',
+  'gemini-optimization': 'Gemini Optimization',
+  'perplexity-seo': 'Perplexity SEO',
+  'content-marketing': 'Content Marketing',
+  'seo-content-writing': 'SEO Content Writing',
+  'blog-management': 'Blog Management',
+  'copywriting-services': 'Copywriting',
+  'email-marketing': 'Email Marketing',
+  'ppc-management': 'PPC & Paid Ads',
+  'google-ads-management': 'Google Ads',
+  'meta-ads-management': 'Meta Ads',
+  'youtube-ads-management': 'YouTube Ads',
+  'programmatic-advertising': 'Programmatic Advertising',
+  'social-media-marketing': 'Social Media',
+  'social-media-management': 'Social Management',
+  'social-media-advertising': 'Social Advertising',
+  'brand-management': 'Brand Management',
+  'web-development': 'Web Development',
+  'website-development': 'Website Development',
+  'web-design': 'Custom Web Design',
+  'shopify-development': 'Shopify & E-commerce',
+  'link-building': 'Link Building',
+  'digital-pr': 'Digital PR',
+  'guest-posting': 'Guest Posting',
+  'outreach-campaigns': 'Outreach Campaigns',
+  'cro-services': 'Analytics & CRO',
+  'cro-audit': 'CRO Audits',
+  'ab-testing': 'A/B Testing',
+  'marketing-dashboards': 'Reporting Dashboards',
+}
+
+function synthesizeCityRow(slug: string): CityRow | undefined {
+  for (const [citySlug, cityInfo] of Object.entries(KNOWN_CITIES)) {
+    if (slug.endsWith('-' + citySlug)) {
+      const serviceSlug = slug.slice(0, -(citySlug.length + 1))
+      const serviceName = KNOWN_SERVICES[serviceSlug] || serviceSlug.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')
+      const locStr = cityInfo.state ? `${cityInfo.city}, ${cityInfo.state}` : cityInfo.city
+      return {
+        city: cityInfo.city,
+        slug,
+        state: cityInfo.state,
+        country: cityInfo.country,
+        service: serviceName,
+        title: `${serviceName} in ${cityInfo.city}`,
+        heroHeading: `${serviceName} in ${cityInfo.city}.`,
+        heroSubheading: `Award-winning ${serviceName.toLowerCase()} solutions driving high-converting organic acquisition and search authority for ambitious brands in ${cityInfo.city}.`,
+        description: `Looking to scale your market presence in ${locStr}? GENRANQ delivers specialized ${serviceName.toLowerCase()} customized for the competitive dynamics of ${cityInfo.city}.`,
+        metaTitle: `${serviceName} in ${cityInfo.city} — GENRANQ`,
+        metaDescription: `Premier ${serviceName.toLowerCase()} agency serving ${cityInfo.city}. Data-driven strategies, senior practitioner execution, and guaranteed growth. Free audit.`,
+        phone: cityInfo.phone,
+        address: cityInfo.address || `${cityInfo.city}, ${cityInfo.country}`,
+        population: cityInfo.population,
+        localKeywords: `${serviceName} ${cityInfo.city}, ${cityInfo.city} ${serviceName}, best ${serviceName} agency ${cityInfo.city}`,
+        testimonialName: 'Marcus Vance',
+        testimonialRole: `Director of Growth, ${cityInfo.city}`,
+        testimonialQuote: `GENRANQ delivered outstanding results for our ${cityInfo.city} market launch. Our pipeline and rankings grew by 350% within five months.`,
+      }
+    }
+  }
+  return undefined
+}
+
 export function getAllCities(): CityRow[] {
   return loadFromFile()
 }
@@ -152,17 +246,28 @@ export async function getAllCitiesAsync(): Promise<CityRow[]> {
 }
 
 export function getCityBySlug(slug: string): CityRow | undefined {
-  return loadFromFile().find(c => c.slug === slug)
+  const fromFile = loadFromFile().find(c => c.slug === slug)
+  if (fromFile) return fromFile
+  return synthesizeCityRow(slug)
 }
 
 export async function getCityBySlugAsync(slug: string): Promise<CityRow | undefined> {
   const dbCity = await loadFromDbBySlug(slug)
   if (dbCity) return dbCity
-  return loadFromFile().find(c => c.slug === slug)
+  const fromFile = loadFromFile().find(c => c.slug === slug)
+  if (fromFile) return fromFile
+  return synthesizeCityRow(slug)
 }
 
 export function getAllSlugs(): string[] {
-  return loadFromFile().map(c => c.slug)
+  const fileSlugs = loadFromFile().map(c => c.slug)
+  const synthSlugs: string[] = []
+  for (const cSlug of Object.keys(KNOWN_CITIES)) {
+    for (const sSlug of Object.keys(KNOWN_SERVICES)) {
+      synthSlugs.push(`${sSlug}-${cSlug}`)
+    }
+  }
+  return Array.from(new Set([...fileSlugs, ...synthSlugs]))
 }
 
 export function getCitiesByService(service: string): CityRow[] {
