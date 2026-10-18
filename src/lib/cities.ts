@@ -115,7 +115,10 @@ function dbRowToCityRow(r: Record<string, string>): CityRow {
   }
 }
 
+let dbUnavailable = false
+
 async function loadFromDb(): Promise<CityRow[]> {
+  if (dbUnavailable) return []
   try {
     const { query } = await import('./db')
     const rows = await query<Record<string, string>>(
@@ -124,11 +127,13 @@ async function loadFromDb(): Promise<CityRow[]> {
     )
     return rows.map(dbRowToCityRow)
   } catch {
+    dbUnavailable = true
     return []
   }
 }
 
 async function loadFromDbBySlug(slug: string): Promise<CityRow | null> {
+  if (dbUnavailable) return null
   try {
     const { queryOne } = await import('./db')
     const row = await queryOne<Record<string, string>>(
@@ -137,6 +142,7 @@ async function loadFromDbBySlug(slug: string): Promise<CityRow | null> {
     )
     return row ? dbRowToCityRow(row) : null
   } catch {
+    dbUnavailable = true
     return null
   }
 }
@@ -261,13 +267,8 @@ export async function getCityBySlugAsync(slug: string): Promise<CityRow | undefi
 
 export function getAllSlugs(): string[] {
   const fileSlugs = loadFromFile().map(c => c.slug)
-  const synthSlugs: string[] = []
-  for (const cSlug of Object.keys(KNOWN_CITIES)) {
-    for (const sSlug of Object.keys(KNOWN_SERVICES)) {
-      synthSlugs.push(`${sSlug}-${cSlug}`)
-    }
-  }
-  return Array.from(new Set([...fileSlugs, ...synthSlugs]))
+  const primarySlugs = Object.keys(KNOWN_CITIES).map(c => `seo-services-${c}`)
+  return Array.from(new Set([...fileSlugs, ...primarySlugs]))
 }
 
 export function getCitiesByService(service: string): CityRow[] {

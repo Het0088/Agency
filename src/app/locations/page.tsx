@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Nav, { CITY_REGIONS, SERVICES, cityHref } from '@/components/Nav'
+import Nav from '@/components/Nav'
+import { CITY_REGIONS, SERVICES, cityHref } from '@/lib/nav-data'
 import Footer from '@/components/Footer'
 import Topbar from '@/components/Topbar'
 import { ArrowRight } from '@/components/Icons'

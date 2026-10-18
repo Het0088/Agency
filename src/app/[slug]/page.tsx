@@ -9,6 +9,8 @@ import Footer from '@/components/Footer'
 import BigCta from '@/components/BigCta'
 import { ArrowRight, CheckIcon } from '@/components/Icons'
 
+export const dynamicParams = true
+
 export function generateStaticParams() {
   return getAllSlugs().map(slug => ({ slug }))
 }

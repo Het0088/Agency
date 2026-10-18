@@ -40,6 +40,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/resources/news', priority: 0.8, freq: 'daily' as const },
     { path: '/resources/news/vadodara-delivery-centre', priority: 0.8, freq: 'monthly' as const },
     { path: '/resources/publications', priority: 0.8, freq: 'weekly' as const },
+    { path: '/resources/white-papers', priority: 0.8, freq: 'monthly' as const },
+    { path: '/glossary', priority: 0.8, freq: 'monthly' as const },
+    { path: '/locations', priority: 0.85, freq: 'weekly' as const },
+    { path: '/our-work', priority: 0.85, freq: 'monthly' as const },
     { path: '/contact', priority: 0.7, freq: 'monthly' as const },
   ].map(p => ({
     url: `${BASE}${p.path}`,
