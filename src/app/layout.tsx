@@ -59,6 +59,36 @@ export const metadata: Metadata = {
   alternates: { canonical: BASE },
 }
 
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'GENRANQ Software LLP',
+  url: BASE,
+  logo: `${BASE}/logo.png`,
+  description: 'Global SEO, AI Search Optimization, and Custom Web Development Studio.',
+  sameAs: [
+    'https://twitter.com/genranq',
+    'https://www.linkedin.com/company/genranq',
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer support',
+    email: 'contact@genranq.com',
+  },
+}
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'GENRANQ',
+  url: BASE,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${BASE}/insights?q={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
+}
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const scripts = await getSiteScripts()
 
@@ -71,9 +101,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap"
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
         {/* Head code snippet (e.g. Google Analytics, Tag Manager head, Search Console verification) */}
         {scripts.head_code ? (
-          <div id="head-code-snippet" dangerouslySetInnerHTML={{ __html: scripts.head_code }} />
+          <script
+            id="head-code-snippet"
+            dangerouslySetInnerHTML={{ __html: scripts.head_code.replace(/<\/?script[^>]*>/gi, '') }}
+          />
         ) : null}
       </head>
       <body suppressHydrationWarning>

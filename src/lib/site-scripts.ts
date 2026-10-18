@@ -9,20 +9,26 @@ export type SiteScripts = {
 
 const SCRIPTS_FILE = path.join(process.cwd(), 'src', 'data', 'site-scripts.json')
 
+let dbScriptsUnavailable = false
+
 export async function getSiteScripts(): Promise<SiteScripts> {
-  try {
-    const { queryOne } = await import('./db')
-    const row = await queryOne<{ head_code: string; body_code: string; footer_code: string }>(
-      'SELECT head_code, body_code, footer_code FROM site_scripts WHERE id = 1'
-    )
-    if (row) {
-      return {
-        head_code: row.head_code || '',
-        body_code: row.body_code || '',
-        footer_code: row.footer_code || '',
+  if (!dbScriptsUnavailable) {
+    try {
+      const { queryOne } = await import('./db')
+      const row = await queryOne<{ head_code: string; body_code: string; footer_code: string }>(
+        'SELECT head_code, body_code, footer_code FROM site_scripts WHERE id = 1'
+      )
+      if (row) {
+        return {
+          head_code: row.head_code || '',
+          body_code: row.body_code || '',
+          footer_code: row.footer_code || '',
+        }
       }
+    } catch {
+      dbScriptsUnavailable = true
     }
-  } catch {}
+  }
 
   try {
     if (fs.existsSync(SCRIPTS_FILE)) {
