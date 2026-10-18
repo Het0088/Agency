@@ -263,10 +263,6 @@ export default function WebDesignClient({ content = {} }: Props) {
       {/* ─── 1. HERO WITH INTEGRATED PROPOSAL FORM ─── */}
       <section className="wd-hero">
         <div className="wrap">
-          <div className="crumb" style={{ marginBottom: 20 }}>
-            <Link href="/">Home</Link> / <Link href="/services">Services</Link> / <span>Web Design</span>
-          </div>
-
           <div className="wd-hero-grid">
             {/* Left Content */}
             <div className="wd-hero-left reveal in">

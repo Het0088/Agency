@@ -56,7 +56,7 @@ export default function InsightsContent({ posts, featured }: { posts: Post[]; fe
                 )}
               </div>
               <div>
-                <span className="feature-tag">Featured &middot; {featured.readTime} read</span>
+                <span className="feature-tag">Featured &middot; {featured.readTime.toLowerCase().endsWith('read') ? featured.readTime : `${featured.readTime} read`}</span>
                 <h2>{featured.title}</h2>
                 <p>{featured.desc}</p>
                 <div className="meta">

@@ -163,10 +163,10 @@ export default function HireResourceClient() {
 
   return (
     <div className="hire-resource-page" ref={containerRef}>
-      <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: SVG_SPRITE }} />
+      <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: SVG_SPRITE }} suppressHydrationWarning />
       <Topbar text="Pre-vetted developers ready to start within 5 days." linkText="Schedule an interview →" linkHref="#contact" />
       <Nav />
-      <div dangerouslySetInnerHTML={{ __html: PAGE_HTML }} />
+      <div dangerouslySetInnerHTML={{ __html: PAGE_HTML }} suppressHydrationWarning />
       <Footer />
     </div>
   )

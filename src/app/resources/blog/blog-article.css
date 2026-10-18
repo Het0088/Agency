@@ -48,7 +48,7 @@ h1 em,h2 em,h3 em,h4 em,h5 em,h6 em,em.accent,.accent{font-family:inherit;font-s
 .hero .tags a{font-size:13px;font-weight:600;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);transition:background .2s}
 .hero .tags a:hover{background:rgba(255,255,255,.3)}
 .hero h1{color:#fff;font-size:clamp(32px,3.8vw,48px);font-weight:600;line-height:1.14;letter-spacing:-.02em}
-.hero h1 em{font-style:italic;font-weight:500;color:var(--ink)}
+.hero h1 em{font-style:italic;font-weight:600;color:#121613 !important;text-decoration:underline;text-decoration-color:rgba(18,22,19,0.35);text-underline-offset:4px}
 .author-row{display:flex;align-items:center;gap:14px;margin-top:28px}
 .author-row .av{width:52px;height:52px;border-radius:50%;background:var(--ink);border:3px solid rgba(255,255,255,.6);display:grid;place-items:center;font-family:var(--f-display);font-style:italic;font-size:22px;color:#fff}
 .author-row b{display:block;font-size:15.5px}

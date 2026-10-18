@@ -113,9 +113,20 @@ export default async function SeoServicesPage() {
               {(() => {
                 const HeroTag = (c.hero_heading_tag || 'h1') as any
                 return (
-                  <HeroTag>{c.hero_heading?.split(/artificial intelligence/i).map((part, i, arr) =>
-                    i < arr.length - 1 ? <span key={i}>{part}<em>artificial intelligence.</em></span> : part
-                  ) || c.hero_heading}</HeroTag>
+                  <HeroTag>{(() => {
+                    const heading = c.hero_heading || 'Search rankings driven by artificial intelligence.'
+                    const parts = heading.split(/artificial intelligence\.?/i)
+                    if (parts.length > 1) {
+                      return (
+                        <>
+                          {parts[0]}
+                          <em>artificial intelligence.</em>
+                          {parts.slice(1).join('')}
+                        </>
+                      )
+                    }
+                    return heading
+                  })()}</HeroTag>
                 )
               })()}
               <p className="ref-hero-sub">{c.hero_subtext}</p>

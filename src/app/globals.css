@@ -301,10 +301,28 @@ samp {
   margin-left: 6px;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s;
+  white-space: nowrap;
 }
 
 .topbar a:hover {
   border-color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    padding: 8px 14px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .topbar .pill {
+    display: inline;
+    text-align: center;
+  }
+  .topbar a {
+    display: inline-block;
+    white-space: nowrap;
+    margin-left: 6px;
+  }
 }
 
 /* ============================================
@@ -315,10 +333,19 @@ samp {
   top: 0;
   z-index: 1000;
   width: 100%;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: saturate(180%) blur(14px);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  background: #ffffff;
   border-bottom: 1px solid var(--border-soft);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+@supports (backdrop-filter: blur(14px)) {
+  @media (min-width: 901px) {
+    .nav {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+    }
+  }
 }
 
 .nav-inner {
@@ -1170,6 +1197,32 @@ samp {
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .hero-ctas,
+  .ref-hero-actions,
+  .svc-page-hero-actions,
+  .about-hero-actions,
+  .tseo-hero-actions,
+  .wd-hero-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    gap: 12px !important;
+  }
+  .hero-ctas .btn,
+  .ref-hero-actions .btn,
+  .svc-page-hero-actions .btn,
+  .about-hero-actions .btn,
+  .tseo-hero-actions .btn,
+  .wd-hero-actions .btn {
+    width: 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
 }
 
 .hero-rating {
@@ -9032,6 +9085,11 @@ footer .wrap {
   .ref-contact-form { grid-template-columns: 1fr; }
   .ref-rules-header { gap: 24px; }
   .ref-video-thumbs-row { grid-template-columns: repeat(2, 1fr); }
+  .ref-hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
 }
 
 @media (max-width: 480px) {

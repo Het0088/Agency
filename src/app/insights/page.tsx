@@ -59,5 +59,6 @@ function formatReadable(dateStr: string, readTime: string): string {
   const d = new Date(dateStr)
   const month = d.toLocaleDateString('en-US', { month: 'short' })
   const day = d.getDate()
-  return `${month} ${day} · ${readTime} read`
+  const cleanRead = readTime ? (readTime.toLowerCase().endsWith('read') ? readTime : `${readTime} read`) : ''
+  return cleanRead ? `${month} ${day} · ${cleanRead}` : `${month} ${day}`
 }

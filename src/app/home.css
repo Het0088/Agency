@@ -2230,6 +2230,18 @@
     padding: 0 16px;
   }
 
+  .home-root .hero-ctas {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 12px;
+  }
+  .home-root .hero-ctas .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
   .home-root .sec-head {
     grid-template-columns: 1fr;
     gap: 20px;

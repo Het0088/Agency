@@ -461,4 +461,10 @@ footer{background:var(--ink);color:#9C9F98;padding:88px 0 36px;border-top:1px so
   .cform,.hire-card{padding:24px}
   .why-hero{padding:34px 26px}
   .rev-quote{padding:32px 26px}
+  .hero-ctas{flex-direction:column;align-items:stretch;width:100%;gap:12px}
+  .hero-ctas .btn{width:100%;justify-content:center;text-align:center}
+}
+
+.hire-resource-page, .adv, .why-hero, .marquee, .cta-box {
+  overflow-x: clip;
 }

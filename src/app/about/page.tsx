@@ -269,7 +269,7 @@ export default async function AboutPage() {
                 ))}
               </div>
 
-              <div className="hero-ctas" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+              <div className="hero-ctas">
                 <a href="#team" className="btn btn-primary">
                   Meet our team <span style={{ marginLeft: 6 }}>↓</span>
                 </a>

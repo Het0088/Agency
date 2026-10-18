@@ -405,9 +405,16 @@ export default function HomeClient({ articles, blogs }: HomeClientProps = {}) {
           }
         })
       },
-      { threshold: 0.12 }
+      { threshold: 0.02, rootMargin: '0px 0px 120px 0px' }
     )
-    reveals.forEach((el) => revealObserver.observe(el))
+    reveals.forEach((el) => {
+      const rect = el.getBoundingClientRect()
+      if (rect.top < window.innerHeight + 120) {
+        el.classList.add('in')
+      } else {
+        revealObserver.observe(el)
+      }
+    })
 
     // 2. Count-up stats
     const countEls = root.querySelectorAll('[data-count]')
